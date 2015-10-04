@@ -18,15 +18,36 @@ module.exports = {
     },
 
     module: {
-        loaders: [{
-            test: /\.sass$/,
-            loader: 'style!css!sass'
-        },
-        {
+
+        // preloaders
+        preLoaders: [{
             test: /\.js$/,
-            loader: 'ng-annotate!babel!jshint',
-            exclude: /node_modules|bower_components/
-        }]
+            exclude: /node_modules/,
+            loader: 'jshint-loader'
+        }],
+
+        loaders: [{
+                test: /\.sass$/,
+                loader: 'style!css!sass'
+            }, {
+                test: /\.js$/,
+                loader: 'ng-annotate!babel!jshint',
+                exclude: /node_modules|bower_components/
+            }, {
+                test: /\.html$/,
+                loader: 'html-loader'
+            },
+            {
+                test: /\.jsx?$/,
+                loader: 'babel',
+                exclude: /(node_modules|bower_components)/
+            }
+
+        ]
+    },
+
+    resolve: {
+        extensions: ["", ".js", ".jsx", ".node"]
     }
 
 }
