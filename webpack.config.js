@@ -10,7 +10,10 @@ module.exports = {
 
     context: APP,
     entry: {
-        app: ['./core/bootstrap.js', 'webpack/hot/dev-server']
+        app: ['./core/bootstrap.js',
+            'webpack-dev-server/client?http://0.0.0.0:3001',
+            'webpack/hot/only-dev-server'
+        ]
     },
     output: {
         path: BUILD,
@@ -38,8 +41,7 @@ module.exports = {
             }, {
                 test: /\.html$/,
                 loader: 'html-loader'
-            },
-            {
+            }, {
                 test: /\.jsx?$/,
                 loader: 'babel',
                 exclude: /(node_modules|bower_components)/
