@@ -74,7 +74,6 @@
 	'use strict';
 
 	module.exports = function () {
-
 	    __webpack_require__(3);
 	    __webpack_require__(5);
 	};
@@ -31689,7 +31688,7 @@
 
 	var _coreBootstrap2 = _interopRequireDefault(_coreBootstrap);
 
-	module.exports = angular.module('rgApp', [_uiRouter2['default'], _sharedShared2['default'].name, _componentsComponents2['default'].name]).directive('app', _appComponent2['default']);
+	module.exports = angular.module('rgApp', [_uiRouter2['default'], _sharedShared2['default'].name, _componentsComponents2['default'].name]).directive('rgApp', _appComponent2['default']);
 
 /***/ },
 /* 7 */
@@ -31791,7 +31790,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<ul>\n  <li>This</li>\n  <li><a ui-sref=\"work\">That</a></li>\n  <li>Jagdamba</li>\n</ul>\n";
+	module.exports = "<ul>\n  <li>This</li>\n  <li><a ui-sref=\"work\">That</a></li>\n  <li><a ui-sref=\"post\">Jagdamba</a></li>\n</ul>\n";
 
 /***/ },
 /* 11 */

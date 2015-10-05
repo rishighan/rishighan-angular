@@ -18,6 +18,8 @@ module.exports = {
     },
 
     module: {
+        // devtool
+        devtool: 'eval',
 
         // preloaders
         preLoaders: [{
