@@ -5,7 +5,9 @@ class PostService {
     }
 
     read() {
-        return this._$http.get('http://localhost:3001/db/jugaad').then(result => result.data);
+        return this._$http.get('http://localhost:3001/db/jugaad').then(function(result) {
+            return result.data;
+        });
 
     }
 }

@@ -1,10 +1,13 @@
 import PostService from './post.service';
-// const ps = new PostService();
 
 class PostController {
-  constructor(PostService) {
-    this.foo = PostService.read();
-  }
+    constructor(PostService, $scope) {
+        $scope.shoo = '';
+        PostService.read().then(function(test2) {
+            $scope.shoo = test2;
+        })
+    }
 }
 
-export default PostController;
+export
+default PostController;

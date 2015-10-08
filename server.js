@@ -62,7 +62,7 @@ app.listen(3000, function() {
 });
 
 app.get('/db/jugaad', function(req, res, next){
-    res.send({'here': 'I am '})
+    res.send(PostSchema)
 });
 
 new webpackDevServer(webpack(config), {
