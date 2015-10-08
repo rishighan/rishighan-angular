@@ -12,7 +12,7 @@ module.exports = {
     context: APP,
     entry: {
         app: ['./core/bootstrap.js',
-            'webpack-dev-server/client?http://0.0.0.0:3001',
+            'webpack-dev-server/app?http://0.0.0.0:3001',
             'webpack/hot/only-dev-server'
         ]
     },

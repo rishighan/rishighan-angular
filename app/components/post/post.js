@@ -1,7 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'ui-router';
 import postComponent from './post.component';
-
+import postService from './post.service';
 
 let postModule = angular.module('post', [
     uiRouter
@@ -15,6 +15,7 @@ let postModule = angular.module('post', [
         });
 })
 
-.directive('post', postComponent);
+.directive('post', postComponent)
+.service('PostService', postService);
 
 export default postModule;

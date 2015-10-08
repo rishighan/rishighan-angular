@@ -1,9 +1,9 @@
-import postService from './post.service';
-const ps = new postService();
+import PostService from './post.service';
+// const ps = new PostService();
 
 class PostController {
-  constructor() {
-    this.foo = ps.read();
+  constructor(PostService) {
+    this.foo = PostService.read();
   }
 }
 

@@ -1,12 +1,13 @@
-import postModel from '../../schemas/postSchema';
-
 class PostService {
-    constructor(postModel) {}
+    /*@ngInject*/
+  constructor($http) {
+    this._$http = $http;
+  }
 
-    read() {
-        console.log(postModel);
-        return "rhapsody in black and blue";
-    }
+  read(){
+    return this._$http.get('http://localhost:3000/db/jugaad').then(result => result.data);
+
+  }
 }
 
 export default PostService;
