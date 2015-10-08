@@ -48,15 +48,21 @@ connect();
 
 // The path to static assets
 var publicPath = path.resolve(__dirname, 'public');
-app.use(express.static(publicPath));
+//app.use(express.static(publicPath));
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Start Server on 3000
 app.listen(3000, function() {
     console.log("Server listening on port 3000");
 });
 
-app.get('/db/jugaad', function(req,res){
-    res.send('Janmashtami ka raajdulara')
+app.get('/db/jugaad', function(req, res, next){
+    res.send({'here': 'I am '})
 });
 
 new webpackDevServer(webpack(config), {

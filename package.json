@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "hot-dev-server": "webpack-dev-server --content-base app/ --hot"
+    "hot-dev-server": "webpack-dev-server --content-base app/ --hot",
+    "local-dev": "node server.js"
   },
   "repository": {
     "type": "git",
