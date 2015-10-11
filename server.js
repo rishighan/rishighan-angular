@@ -76,7 +76,16 @@ app.listen(3000, function() {
 });
 
 app.get('/db/getposts', function(req, res, next) {
-    res.send("jagdish");
+    postModel.findOne({
+        title: "This shit right here"
+    }, function(error, post) {
+        if (error) {
+            res.send(error);
+        } else {
+            res.send(post);
+        }
+    });
+
 });
 
 app.get('/db/createtestpost', function(req, res, next) {
