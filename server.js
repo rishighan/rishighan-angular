@@ -1,3 +1,5 @@
+// Server config
+// TODO:  remove all db-related stuff
 var path = require('path');
 var express = require('express');
 var fs = require('fs');

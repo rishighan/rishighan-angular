@@ -4,6 +4,7 @@ class PostService {
         this._$http = $http;
     }
 
+    // TODO: make actual calls to API
     read() {
         return this._$http.get('http://localhost:3001/db/getposts').then(function(result) {
             return result.data;
