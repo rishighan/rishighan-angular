@@ -1,5 +1,3 @@
-<ul>
-  <li>This</li>
-  <li><a ui-sref="work">That</a></li>
-  <li><a ui-sref="post">Jagdamba</a></li>
+<ul ng-repeat="item in nv.menuItems">
+ <li><a ui-sref="{{item.stateReference}}">{{item.displayName}}</a></li>
 </ul>

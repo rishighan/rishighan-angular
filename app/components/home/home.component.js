@@ -3,7 +3,7 @@ import controller from './home.controller.js';
 
 let homeComponent = function(){
   return{
-    restrict: 'AE',
+    restrict: 'E',
     scope:{},
     template,
     controller,

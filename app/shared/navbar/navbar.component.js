@@ -5,7 +5,9 @@ let navbarComponent = function(){
   return{
     restrict: 'AE',
     scope:{
-      horizontal: '@'
+      horizontal: '@',
+      vertical: '@',
+      menuItems: '='
     },
     template,
     controller,
