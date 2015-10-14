@@ -1,3 +1,5 @@
+var flexboxGrid = require('flexboxgrid');
+
 class HomeController {
     constructor() {
         this.cuckoo = "shoomla";
