@@ -1,4 +1,4 @@
-var flexboxGrid = require('flexboxgrid');
+require('./flexboxgrid.css');
 
 class HomeController {
     constructor() {
@@ -12,7 +12,7 @@ class HomeController {
         }, {
             displayName: "Post",
             stateReference: "post"
-        }]
+        }];
     }
 }
 
