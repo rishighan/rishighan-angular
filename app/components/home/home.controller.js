@@ -1,4 +1,4 @@
-require('./flexboxgrid.css');
+require('../../../node_modules/flexboxgrid/dist/flexboxgrid.css');
 
 class HomeController {
     constructor() {

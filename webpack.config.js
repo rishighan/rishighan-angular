@@ -34,7 +34,7 @@ module.exports = {
 
         loaders: [{
                 test: /\.css$/,
-                loader: 'style-loader!css-loader!sass-loader'
+                loader: 'css-loader!sass-loader'
             }, {
                 test: /\.js$/,
                 loader: 'ng-annotate!babel!jshint',
