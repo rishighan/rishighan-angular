@@ -31908,11 +31908,11 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = "YOLO {{hc.cuckoo}}\n<navbar menu-items = \"hc.navItems\"></navbar>\n";
+	module.exports = "\n<div class=\"row\">\n    <div class=\"col-md-4\">\n        <div class=\"box\">\n            YOLO {{hc.cuckoo}}\n            <navbar menu-items = \"hc.navItems\"></navbar>\n        </div>\n    </div>\n\n    <div class=\"col-md-6\">\n        <div class=\"box\">\n            Another YOLO column\n\n        </div>\n    </div>\n</div>\n";
 
 /***/ },
 /* 15 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
@@ -31925,6 +31925,8 @@
 	        throw new TypeError("Cannot call a class as a function");
 	    }
 	}
+
+	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./flexboxgrid.css\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	var HomeController = function HomeController() {
 	    _classCallCheck(this, HomeController);

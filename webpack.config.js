@@ -4,8 +4,10 @@
 var webpack = require('webpack');
 var path = require('path');
 
-var APP = __dirname + '/app';
-var BUILD = __dirname + '/build';
+var APP = path.resolve(__dirname + '/app');
+var BUILD = path.resolve(__dirname + '/build');
+
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
 
@@ -34,7 +36,7 @@ module.exports = {
 
         loaders: [{
                 test: /\.css$/,
-                loader: 'css-loader!sass-loader'
+                loader: 'css-loader'
             }, {
                 test: /\.js$/,
                 loader: 'ng-annotate!babel!jshint',
@@ -50,9 +52,14 @@ module.exports = {
 
         ]
     },
-
+    resolveLoader: {
+        fallback: __dirname + "/node_modules"
+    },
     resolve: {
-        extensions: ["", ".js", ".jsx", ".node"]
+        extensions: ["", ".js", ".jsx", ".node"],
+        alias: {
+            'flexboxgrid.css': __dirname + "/node_modules/flexboxgrid/dist/flexboxgrid.css"
+        }
     }
 
 }
