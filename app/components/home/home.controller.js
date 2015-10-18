@@ -1,4 +1,4 @@
-
+require('flexboxgrid.css');
 
 class HomeController {
     constructor() {
