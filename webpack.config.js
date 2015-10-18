@@ -4,7 +4,7 @@
 var webpack = require('webpack');
 var path = require('path');
 
-var APP = path.resolve(__dirname + '/app');
+var APP = path.resolve(__dirname + '/app/');
 var BUILD = path.resolve(__dirname + '/build');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -14,7 +14,7 @@ module.exports = {
     context: APP,
     entry: {
         app: ['./core/bootstrap.js',
-            'webpack-dev-server/app?http://0.0.0.0:3001',
+            // 'webpack-dev-server/app/home?http://0.0.0.0:3001',
             'webpack/hot/only-dev-server'
         ]
     },
@@ -36,7 +36,7 @@ module.exports = {
 
         loaders: [{
                 test: /\.css$/,
-                loader: 'css-loader'
+                loader: ExtractTextPlugin.extract("css-loader")
             }, {
                 test: /\.js$/,
                 loader: 'ng-annotate!babel!jshint',
@@ -57,9 +57,14 @@ module.exports = {
     },
     resolve: {
         extensions: ["", ".js", ".jsx", ".node"],
-        alias: {
-            'flexboxgrid.css': __dirname + "/node_modules/flexboxgrid/dist/flexboxgrid.css"
+        alias:{
+            "flexboxgrid.css" : BUILD + '/flexboxgrid.css'
         }
-    }
+    },
+    plugins: [
+        new ExtractTextPlugin("flexboxgrid.css", {
+            allChunks: true
+        })
+    ]
 
 }

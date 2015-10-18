@@ -45,8 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	(function webpackMissingModule() { throw new Error("Cannot find module \"webpack-dev-server/app?http://0.0.0.0:3001\""); }());
-	module.exports = __webpack_require__(27);
+	module.exports = __webpack_require__(28);
 
 
 /***/ },
@@ -31689,6 +31688,11 @@
 
 	var _coreBootstrap2 = _interopRequireDefault(_coreBootstrap);
 
+	__webpack_require__(27);
+
+	var foo = __webpack_require__(27);
+	console.log(foo);
+
 	module.exports = angular.module('rgApp', [_uiRouter2['default'], _sharedShared2['default'].name, _componentsComponents2['default'].name]).directive('rgApp', _appComponent2['default']);
 
 /***/ },
@@ -31912,7 +31916,7 @@
 
 /***/ },
 /* 15 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
 
@@ -31925,8 +31929,6 @@
 	        throw new TypeError("Cannot call a class as a function");
 	    }
 	}
-
-	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./flexboxgrid.css\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	var HomeController = function HomeController() {
 	    _classCallCheck(this, HomeController);
@@ -32274,6 +32276,12 @@
 
 /***/ },
 /* 27 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
