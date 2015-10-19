@@ -38,6 +38,9 @@ module.exports = {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract("css-loader")
             }, {
+                test: /\.scss$/,
+                loaders: ["style", "css", "sass"]
+            }, {
                 test: /\.js$/,
                 loader: 'ng-annotate!babel!jshint',
                 exclude: /node_modules|bower_components/
@@ -57,8 +60,8 @@ module.exports = {
     },
     resolve: {
         extensions: ["", ".js", ".jsx", ".node"],
-        alias:{
-            "flexboxgrid.css" : BUILD + '/flexboxgrid.css'
+        alias: {
+            "flexboxgrid.css": BUILD + '/flexboxgrid.css'
         }
     },
     plugins: [

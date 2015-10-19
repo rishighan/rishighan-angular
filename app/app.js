@@ -4,6 +4,7 @@ import Shared from './shared/shared';
 import Components from './components/components';
 import AppComponent from './app.component';
 import appModule from './core/bootstrap';
+require('./app.scss');
 
 module.exports = angular.module('rgApp',[
   uiRouter,
