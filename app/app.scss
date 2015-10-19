@@ -1,0 +1,28 @@
+// Rishi Ghan
+// October 18, 2015
+
+
+// Colors
+
+// Typography
+$bodycopy-regular: 'Montserrat-Regular', sans-serif;
+$bodycopy-bold: 'Montserrat-Bold', sans-serif;
+
+@font-face {
+    font-family: $bodycopy-regular;
+    src: url('/assets/fonts/Montserrat-Regular.ttf') format('ttf');
+}
+
+// Normal Post container
+.container{
+    .body{
+        font-family: $bodycopy-regular;
+        a{
+            text-decoration: none;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+
+    }
+}
