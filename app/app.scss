@@ -3,23 +3,28 @@
 
 
 // Colors
+$link: #FFAE00;
+$link-hover: #FF8000;
+
 
 // Typography
-$bodycopy-regular: 'Montserrat-Regular', sans-serif;
-$bodycopy-bold: 'Montserrat-Bold', sans-serif;
-
 @font-face {
-    font-family: $bodycopy-regular;
-    src: url('/assets/fonts/Montserrat-Regular.ttf') format('ttf');
+     font-family: 'proxima_nova_ltregular';
+     src: url('/assets/fonts/proximanova-light-webfont.ttf') format('truetype');
+     font-weight: normal;
+     font-style: normal;
 }
 
 // Normal Post container
 .container{
     .body{
-        font-family: $bodycopy-regular;
+
+        font-family: 'proxima_nova_ltregular';
         a{
+            color: $link;
             text-decoration: none;
             &:hover{
+                color: $link-hover;
                 text-decoration: underline;
             }
         }
