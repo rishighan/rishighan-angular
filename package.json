@@ -25,6 +25,7 @@
   "homepage": "https://github.com/rishighan/rishighan-angular#readme",
   "devDependencies": {
     "extract-text-webpack-plugin": "^0.8.2",
+    "file-loader": "^0.8.4",
     "webpack": "^1.12.2"
   },
   "dependencies": {

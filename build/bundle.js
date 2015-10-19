@@ -32314,7 +32314,7 @@
 
 
 	// module
-	exports.push([module.id, "@font-face {\n  font-family: 'proxima_nova_ltregular';\n  src: url(\"/assets/fonts/proximanova-light-webfont.eot\");\n  src: url(\"/assets/fonts/proximanova-light-webfont.eot?#iefix\") format(\"embedded-opentype\"), url(\"/assets/fonts/proximanova-light-webfont.woff\") format(\"woff\"), url(\"/assets/fonts/proximanova-light-webfont.ttf\") format(\"truetype\"), url(\"/assets/fonts/proximanova-light-webfont.svg#proxima_nova_ltregular\") format(\"svg\");\n  font-weight: normal;\n  font-style: normal; }\n\n.container .body {\n  font-family: 'proxima_nova_ltregular'; }\n  .container .body a {\n    color: #FFAE00;\n    text-decoration: none; }\n    .container .body a:hover {\n      color: #FF8000;\n      text-decoration: underline; }\n", ""]);
+	exports.push([module.id, "@font-face {\n  font-family: 'proxima_nova_ltregular';\n  src: url(\"/assets/fonts/proximanova-light-webfont.woff\") format(\"woff2\");\n  font-weight: normal;\n  font-style: normal; }\n\n.container .body {\n  font-family: 'proxima_nova_ltregular'; }\n  .container .body a {\n    color: #FFAE00;\n    text-decoration: none; }\n    .container .body a:hover {\n      color: #FF8000;\n      text-decoration: underline; }\n", ""]);
 
 	// exports
 
