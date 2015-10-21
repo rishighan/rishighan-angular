@@ -5,7 +5,9 @@ var webpack = require('webpack');
 var path = require('path');
 
 var APP = path.resolve(__dirname + '/app/');
-var BUILD = path.resolve(__dirname + '/build');
+var BUILD = path.resolve(__dirname + '/public/');
+
+var NODE_MODULES_PATH = path.resolve(__dirname + '/node_modules/');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
@@ -34,47 +36,36 @@ module.exports = {
             loader: 'jshint-loader'
         }],
 
-        loaders: [//{
-                //     test: /\.css$/,
-                //     loader: ExtractTextPlugin.extract("css-loader")
-                // }
-                {
-                    test: /\.css$/,
-                    loader: 'style-loader!css-loader'
-                }, {
-                    test: /\.scss$/,
-                    loaders: ["style", "css", "sass"]
-                }, {
-                    test: /\.js$/,
-                    loader: 'ng-annotate!babel!jshint',
-                    exclude: /node_modules|bower_components/
-                }, {
-                    test: /\.html$/,
-                    loader: 'html-loader'
-                }, {
-                    test: /\.jsx?$/,
-                    loader: 'babel',
-                    exclude: /node_modules|bower_components/
-                }, {
-                    test: /\.(png|woff)$/,
-                    loader: 'url-loader?limit=100000'
-                }
-
-            ]
-        },
-        resolveLoader: {
-            fallback: __dirname + "/node_modules"
-        },
-        resolve: {
-            extensions: ["", ".js", ".jsx", ".node"],
-            alias: {
-                "flexboxgrid.css": BUILD + '/flexboxgrid.css'
-            }
-        },
-        plugins: [
-            new ExtractTextPlugin("flexboxgrid.css", {
-                allChunks: true
-            })
-        ]
-
+        loaders: [{
+            test: /\.css$/,
+            loader: "style-loader!css-loader"
+        }, {
+            test: /\.scss$/,
+            loaders: ["style", "css", "resolve-url", "sass?sourceMap"]
+        }, {
+            test: /\.js$/,
+            loader: 'ng-annotate!babel!jshint',
+            exclude: /node_modules|bower_components/
+        }, {
+            test: /\.html$/,
+            loader: 'html-loader'
+        }, {
+            test: /\.jsx?$/,
+            loader: 'babel',
+            exclude: /node_modules|bower_components/
+        }, {
+            test: /\.(png|woff)$/,
+            loader: 'url-loader?limit=100000'
+        }]
+    },
+    resolveLoader: {
+        fallback: __dirname + "/node_modules"
+    },
+    resolve: {
+        extensions: ["", ".js", ".jsx", ".node"],
+        alias:{
+            "flexboxgrid.css": NODE_MODULES_PATH + "/flexboxgrid/dist/flexboxgrid.css"
+        }
     }
+
+}

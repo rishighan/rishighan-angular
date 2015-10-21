@@ -10,7 +10,7 @@ $link-hover: #FF8000;
 // Typography
 @font-face {
      font-family: 'proxima_nova_ltregular';
-     src: url('/assets/fonts/proximanova-light-webfont.ttf') format('truetype');
+     src: url('./proximanova-light-webfont.woff') format('woff2');
      font-weight: normal;
      font-style: normal;
 }
