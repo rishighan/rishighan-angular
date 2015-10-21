@@ -1,24 +1,32 @@
 // Rishi Ghan
 // October 18, 2015
 
-
 // Colors
 $link: #FFAE00;
 $link-hover: #FF8000;
 
 
 // Typography
+$proximaLightRegular: 'proxima_nova_ltregular';
+$proximaRegular: 'proxima_nova_regular';
+$proximaSemiBold: 'proxima_nova_semibold';
+
 @font-face {
-     font-family: 'proxima_nova_ltregular';
-     src: url('./proximanova-light-webfont.woff') format('woff2');
+     font-family: $proximaRegular;
+     src: url('./proximanova-regular-webfont.woff') format('woff2');
      font-weight: normal;
      font-style: normal;
 }
 
+// Navigation
+// Styles should apply to both the horizontal and vertical nav.
+
+
+
 // Normal Post container
 .container{
     .body{
-        font-family: 'proxima_nova_ltregular';
+        font-family: $proximaRegular;
         a{
             color: $link;
             text-decoration: none;

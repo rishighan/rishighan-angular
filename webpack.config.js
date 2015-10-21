@@ -6,7 +6,6 @@ var path = require('path');
 
 var APP = path.resolve(__dirname + '/app/');
 var BUILD = path.resolve(__dirname + '/public/');
-
 var NODE_MODULES_PATH = path.resolve(__dirname + '/node_modules/');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");

@@ -1,12 +1,13 @@
 import template from './navbar.html';
 import controller from './navbar.component.js';
+import navbarStyles from './navbar.scss';
 
 let navbarComponent = function(){
   return{
     restrict: 'AE',
     scope:{
-      horizontal: '@',
-      vertical: '@',
+      horizontal: '&',
+      vertical: '&',
       menuItems: '='
     },
     template,
