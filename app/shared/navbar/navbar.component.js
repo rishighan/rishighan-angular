@@ -6,8 +6,7 @@ let navbarComponent = function(){
   return{
     restrict: 'AE',
     scope:{
-      horizontal: '&',
-      vertical: '&',
+      orientation: '@',
       menuItems: '='
     },
     template,

@@ -53,7 +53,7 @@ module.exports = {
             loader: 'babel',
             exclude: /node_modules|bower_components/
         }, {
-            test: /\.(png|woff)$/,
+            test: /\.(png|woff|ttf)$/,
             loader: 'url-loader?limit=100000'
         }]
     },
