@@ -1,40 +1,77 @@
 // Rishi Ghan
 // October 18, 2015
 
+// Eric Meyer's Resety Reset
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote {
+    &:before, &:after {
+        content: '';
+        content: none;
+    }
+}
+q {
+    &:before, &:after {
+        content: '';
+        content: none;
+    }
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
 // Colors
 $link: #FFAE00;
 $link-hover: #FF8000;
-
-
 // Typography
 $proximaLightRegular: 'proxima_nova_ltregular';
 $proximaRegular: 'proxima_nova_regular';
 $proximaSemiBold: 'proxima_nova_semibold';
 
 @font-face {
-     font-family: $proximaRegular;
-     src: url('./proximanova-regular-webfont.ttf') format('truetype');
-     font-weight: normal;
-     font-style: normal;
+    font-family: $proximaRegular;
+    src: url('./proximanova-regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
-
 // Navigation
 // Styles should apply to both the horizontal and vertical nav.
 
 
 
 // Normal Post container
-.container{
-    .body{
+.container {
+    .body {
         font-family: $proximaRegular;
-        a{
+
+        a {
             color: $link;
             text-decoration: none;
-            &:hover{
+
+            &:hover {
                 color: $link-hover;
                 text-decoration: underline;
             }
         }
-
     }
 }
