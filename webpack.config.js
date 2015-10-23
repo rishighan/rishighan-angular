@@ -26,7 +26,7 @@ module.exports = {
 
     module: {
         // devtool
-        devtool: 'eval',
+        devtool: 'source-map',
 
         // preloaders
         preLoaders: [{
@@ -39,8 +39,12 @@ module.exports = {
             test: /\.css$/,
             loader: "style-loader!css-loader"
         }, {
-            test: /\.scss$/,
-            loaders: ["style", "css", "resolve-url", "sass?sourceMap"]
+            test: /\.s[ac]ss$/,
+            loaders: ["style",
+                "css",
+                "resolve-url",
+                "sass?includePaths[]=" + BUILD + '/assets/css/typeplate-sk'
+            ]
         }, {
             test: /\.js$/,
             loader: 'ng-annotate!babel!jshint',
@@ -62,9 +66,11 @@ module.exports = {
     },
     resolve: {
         extensions: ["", ".js", ".jsx", ".node"],
-        alias:{
+        alias: {
             "flexboxgrid.css": NODE_MODULES_PATH + "/flexboxgrid/dist/flexboxgrid.css"
-        }
+        },
+        modulesDirectories: ['assets', 'node_modules']
+
     }
 
 }
