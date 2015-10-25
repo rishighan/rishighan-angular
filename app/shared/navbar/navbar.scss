@@ -1,16 +1,17 @@
 // Navbar component styles
 @import "typography";
 $uppercase: uppercase;
-$baseFontSize : 1em; // = 16px
-$ratio: .75; // 3:4
+$navBaseFontSize: 0.55em;
 
 .nav {
     list-style: none;
     margin: 0;
     text-transform: $uppercase;
-    @include pointSize($baseFontSize, $ratio);
+    @include setPointSize($navBaseFontSize);
 }
 .vertical {
+    line-height: 1.3rem;
+    letter-spacing: 0.04rem;
 }
 .horizontal {
     li:first-child {

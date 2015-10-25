@@ -10,7 +10,7 @@ class HomeController {
             displayName: "Work",
             stateReference: "work"
         }, {
-            displayName: "Post",
+            displayName: "Trampoline",
             stateReference: "post"
         }];
     }
