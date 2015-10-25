@@ -1,11 +1,14 @@
 // Navbar component styles
-
+@import "typography";
 $uppercase: uppercase;
+$baseFontSize : 1em; // = 16px
+$ratio: .75; // 3:4
 
 .nav {
     list-style: none;
     margin: 0;
     text-transform: $uppercase;
+    @include pointSize($baseFontSize, $ratio);
 }
 .vertical {
 }

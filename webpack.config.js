@@ -40,7 +40,11 @@ module.exports = {
             loader: "style-loader!css-loader"
         }, {
             test: /\.s[ac]ss$/,
-            loaders: ["style", "css", "resolve-url", "sass"]
+            loaders: ["style",
+                "css",
+                "resolve-url",
+                "sass?includePaths[]=" + BUILD + '/assets/css/'
+            ]
         }, {
             test: /\.js$/,
             loader: 'ng-annotate!babel!jshint',
