@@ -43,8 +43,10 @@
   },
   "dependencies": {
     "angular": "^1.4.7",
-    "ng-file-upload": "^9.0.9",
+    "angular-formly": "^7.2.3",
+    "api-check": "^7.5.3",
     "flexboxgrid": "^6.3.0",
+    "ng-file-upload": "^9.0.9",
     "ui-router": "0.0.1"
   }
 }

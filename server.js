@@ -10,11 +10,10 @@ var config = require('./webpack.config.js');
 
 var mongoose = require('mongoose');
 var dbConfig = require('./config/development.config.js');
-var schema = require('./config/post.schema.js');
 var db = require('./config/database.connection.js');
+var schema = require('./config/post.schema.js');
 
 var app = express();
-
 
 // connect to db
 db.connect();

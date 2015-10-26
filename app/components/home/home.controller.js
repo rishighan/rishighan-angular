@@ -12,6 +12,9 @@ class HomeController {
         }, {
             displayName: "Trampoline",
             stateReference: "post"
+        }, {
+            displayName: "Admin",
+            stateReference: "admin"
         }];
     }
 }
