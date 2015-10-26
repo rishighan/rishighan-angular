@@ -1,9 +1,16 @@
 class AdminController {
     constructor($scope) {
         this.gatirodhak = 'Ibn Batuta';
-        $scope.PostModel = {
 
-        };
+
+        this.postFormModel = {};
+        this.postFormFields = [{
+            type: 'input',
+            key: 'postTitle',
+            templateOptions: {
+                label: 'Title'
+            }
+        }];
     }
 }
 

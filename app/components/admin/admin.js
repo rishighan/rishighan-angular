@@ -17,6 +17,14 @@ let adminModule = angular.module('admin', [
         });
 })
 
+// formly config
+.run(function(formlyConfig) {
+    formlyConfig.setType({
+        name: 'input',
+        template: '<input ng-model="model[options.key]" />'
+    });
+})
+
 .directive('admin', adminComponent);
 
 export
