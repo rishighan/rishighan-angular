@@ -7,60 +7,20 @@ var fs = require('fs');
 var webpack = require('webpack');
 var webpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.js');
-var dbConfig = require('./config/development.config.js');
 
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var PostSchema = new Schema({
-    title: String,
-    tags: [{
-        name: String,
-        description: String
-    }],
-    date_created: Date,
-    date_updated: Date,
-    attachment: [{
-        url: String,
-        size: Number,
-        date_created: Date,
-        date_updated: Date
-    }],
-    is_draft: Boolean,
-    content: String,
-    excerpt: String,
-    citation: [{
-        url: String,
-        description: String
-    }]
-});
-
-
+var dbConfig = require('./config/development.config.js');
+var schema = require('./config/post.schema.js');
+var db = require('./config/database.connection.js');
 
 var app = express();
 
-// connect to the database
-var connect = function() {
-    var options = {
-        server: {
-            socketOptions: {
-                keepAlive: 1
-            }
-        }
-    };
-    // var shoo = mongoose.createConnection(dbConfig.db);
-    mongoose.connect('mongodb://localhost/rishighan');
-    var db = mongoose.connection;
-    db.on('error', function(err) {
-        console.log('connection error', err);
-    });
-    db.once('open', function() {
-        console.log('connected.');
-    });
-}
-connect();
+
+// connect to db
+db.connect();
 
 // create a model using this Schema
-var postModel = mongoose.model('Post', PostSchema);
+var postModel = mongoose.model('Post', schema.PostSchema);
 
 // The path to static assets
 var publicPath = path.resolve(__dirname, 'public');
