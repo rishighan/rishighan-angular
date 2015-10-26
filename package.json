@@ -1,7 +1,7 @@
 {
   "name": "rishighan",
   "version": "1.0.0",
-  "description": "A simple blog written in AngularJS",
+  "description": "A simple mongodb-driven blog written in AngularJS",
   "main": "index.js",
   "scripts": {
     "test": "test",

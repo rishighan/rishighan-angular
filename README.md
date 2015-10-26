@@ -1,2 +1,2 @@
 # rishighan-angular
-Personal website on AngularJS and Mongo
+Personal website on AngularJS and mongodb
