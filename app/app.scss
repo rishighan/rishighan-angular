@@ -4,7 +4,6 @@
 // Colors
 $link: #FFAE00;
 $link-hover: #FF8000;
-
 // Typography
 @import "typography";
 
@@ -19,7 +18,6 @@ $proximaSemiBold: 'proxima_nova_semibold';
     font-weight: normal;
     font-style: normal;
 }
-
 @font-face {
     font-family: $proximaLightRegular;
     src: url('./proximanova-light-webfont.ttf') format('truetype');
@@ -29,12 +27,11 @@ $proximaSemiBold: 'proxima_nova_semibold';
 
 // Font sizes
 $megaHeadline: 2em;
-$headline: 1.1em;
-$subheading1: 0.8em;
-$subheading2: 0.6em;
+$headline: 1.2em;
+$subheading1:0.8em;
+$subheading2:0.6em;
 $caption: 0.5em;
 $tinyCaption: 0.3em;
-
 $bodyCopy: 0.6em;
 
 // Navigation
@@ -46,6 +43,7 @@ $bodyCopy: 0.6em;
 .container {
     .body {
         font-family: $proximaRegular;
+
         a {
             color: $link;
             text-decoration: none;
@@ -56,11 +54,12 @@ $bodyCopy: 0.6em;
             }
         }
     }
-
-    .post{
+    .post {
+        letter-spacing: 0.01em;
+        line-height: 1.4em;
         @include setPointSize($bodyCopy);
 
-        h2{
+        h2 {
             font-family: $proximaRegular;
             @include setPointSize($headline);
         }
@@ -68,11 +67,11 @@ $bodyCopy: 0.6em;
             font-family: $proximaLightRegular;
             @include setPointSize($subheading1);
         }
-        h4{
+        h4 {
             font-family: $proximaLightRegular;
             @include setPointSize($subheading2);
         }
-        .caption{
+        .caption {
             @include setPointSize($caption);
             font-style: italic;
         }

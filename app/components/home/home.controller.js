@@ -2,7 +2,7 @@ require('flexboxgrid.css');
 
 class HomeController {
     constructor() {
-        this.cuckoo = "shoomla";
+
         this.navItems = [{
             displayName: "Home",
             stateReference: "home"

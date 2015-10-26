@@ -11,7 +11,7 @@ let adminComponent = function(){
         controller,
         controllerAs: 'adminc',
         bindToController: true
-    }
-}
+    };
+};
 
 export default adminComponent;
