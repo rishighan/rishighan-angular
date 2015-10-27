@@ -10,6 +10,12 @@ class AdminController {
             templateOptions: {
                 label: 'Title'
             }
+        }, {
+            type: 'textarea',
+            key: 'content',
+            templateOptions: {
+                label: 'Content'
+            }
         }];
     }
 }

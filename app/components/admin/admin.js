@@ -21,7 +21,11 @@ let adminModule = angular.module('admin', [
 .run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'input',
-        template: '<input ng-model="model[options.key]" />'
+        template: '<label>{{options.templateOptions.label}}</label><input ng-model="model[options.key]" />'
+    });
+    formlyConfig.setType({
+        name: 'textarea',
+        template: '<label>{{options.templateOptions.label}}</label><textarea ng-model="model[options.key]" rows="10" cols="40"/></label>'
     });
 })
 
