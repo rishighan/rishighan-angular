@@ -45,8 +45,8 @@
     "angular": "^1.4.7",
     "angular-formly": "^7.2.3",
     "api-check": "^7.5.3",
+    "dropzone": "^4.2.0",
     "flexboxgrid": "^6.3.0",
-    "ng-file-upload": "^9.0.9",
     "ui-router": "0.0.1"
   }
 }
