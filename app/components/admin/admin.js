@@ -2,13 +2,15 @@ import angular from 'angular';
 import uiRouter from 'ui-router';
 import formly from 'angular-formly';
 import apiCheck from 'api-check';
-import dropzone from 'dropzone';
+import ngMessages from 'angular-messages';
 import adminComponent from './admin.component';
+var dropzone = require('dropzone');
+console.log(dropzone);
 
 let adminModule = angular.module('admin', [
     uiRouter,
     formly,
-
+    ngMessages
 ])
 
 .config(($stateProvider, $urlRouterProvider) => {

@@ -7,6 +7,7 @@ var path = require('path');
 var APP = path.resolve(__dirname + '/app/');
 var BUILD = path.resolve(__dirname + '/public/');
 var NODE_MODULES_PATH = path.resolve(__dirname + '/node_modules/');
+var BOWER_COMPONENTS_PATH = path.resolve(__dirname + '/bower_components/');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
@@ -31,7 +32,7 @@ module.exports = {
         // preloaders
         preLoaders: [{
             test: /\.js$/,
-            exclude: /node_modules/,
+            exclude: /node_modules|bower_components/,
             loader: 'jshint-loader'
         }],
 
@@ -59,15 +60,21 @@ module.exports = {
         }, {
             test: /\.(png|woff|ttf)$/,
             loader: 'url-loader?limit=100000'
+        }, {
+            // Rewrite the file so that it exports the window global.
+            test: BOWER_COMPONENTS_PATH + '/dropzone/dist/min/dropzone.min.js',
+            loader: 'exports?window._dropzone'
         }]
     },
     resolveLoader: {
         fallback: __dirname + "/node_modules"
     },
     resolve: {
+        root: [BOWER_COMPONENTS_PATH],
         extensions: ["", ".js", ".jsx", ".node"],
         alias: {
-            "flexboxgrid.css": NODE_MODULES_PATH + "/flexboxgrid/dist/flexboxgrid.css"
+            "flexboxgrid.css": NODE_MODULES_PATH + "/flexboxgrid/dist/flexboxgrid.css",
+            "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/min/dropzone.min.js"
         },
         modulesDirectories: ['assets', 'node_modules']
 
