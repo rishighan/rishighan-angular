@@ -4,8 +4,7 @@ import formly from 'angular-formly';
 import apiCheck from 'api-check';
 import ngMessages from 'angular-messages';
 import adminComponent from './admin.component';
-var dropzone = require('dropzone');
-console.log(dropzone);
+import Dropzone from 'dropzone';
 
 let adminModule = angular.module('admin', [
     uiRouter,
