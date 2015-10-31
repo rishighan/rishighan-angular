@@ -4,7 +4,7 @@ import formly from 'angular-formly';
 import apiCheck from 'api-check';
 import ngMessages from 'angular-messages';
 import adminComponent from './admin.component';
-import Dropzone from 'dropzone';
+var Dropzone = require('dropzone');
 
 let adminModule = angular.module('admin', [
     uiRouter,
@@ -46,33 +46,27 @@ let adminModule = angular.module('admin', [
             }
         ]
     });
-    formlyConfig.setType({
-        name: 'maskedInput',
-        extends: 'customInput',
-        defaultOptions: {
-            ngModelAttrs: { // this is part of the magic... It's a little complex, but super powerful
-                mask: { // the key "ngMask" must match templateOptions.ngMask
-                    attribute: 'mask' // this the name of the attribute to be applied to the ng-model in the template
-                },
-                // applies the 'clean' attribute with the value of "true"
-                'true': {
-                    value: 'clean'
-                }
-            },
-            // this is how you hook into formly's messages API
-            // however angular-formly doesn't ship with ng-messages.
-            // You have to display these messages yourself.
-            validation: {
-                messages: {
-                    mask: '"Invalid input"'
-                }
-            }
-        }
-    });
+
 })
 
 
-.directive('admin', adminComponent);
+.directive('admin', adminComponent)
+    .directive('dropzone', function() {
+
+        return function(scope, element, attrs) {
+            var config, dropzone;
+            //console.log(scope);
+            config = scope[attrs.dropzone];
+
+            // create a Dropzone for the element with the given options
+            dropzone = new Dropzone(element[0], config.options);
+
+            // bind the given event handlers
+            angular.forEach(config.eventHandlers, function(handler, event) {
+                dropzone.on(event, handler);
+            });
+        };
+    });
 
 export
 default adminModule;

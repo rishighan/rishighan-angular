@@ -70,9 +70,9 @@ module.exports = {
         extensions: ["", ".js", ".jsx", ".node"],
         alias: {
             "flexboxgrid.css": NODE_MODULES_PATH + "/flexboxgrid/dist/flexboxgrid.css",
-            "dropzone": NODE_MODULES_PATH + "/dropzone/index.js"
+            "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js"
         },
-        modulesDirectories: ['assets', 'node_modules']
+        modulesDirectories: ['assets', 'node_modules', 'bower_components']
 
     }
 

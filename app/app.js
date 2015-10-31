@@ -1,4 +1,4 @@
-// import angular from 'angular';
+import angular from 'angular';
 import uiRouter from 'ui-router';
 import Shared from './shared/shared';
 import Components from './components/components';
@@ -11,6 +11,5 @@ module.exports = angular.module('rgApp',[
   Shared.name,
   Components.name
 ])
-
 
 .directive('rgApp', AppComponent);

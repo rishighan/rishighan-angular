@@ -1,6 +1,7 @@
 import template from './admin.html';
 import controller from './admin.controller';
 
+
 let adminComponent = function(){
     return{
         scope:{
