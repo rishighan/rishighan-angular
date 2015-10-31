@@ -2,8 +2,7 @@ class AdminController {
     constructor($scope, formlyValidationMessages) {
         this.gatirodhak = 'Ibn Batuta';
 
-
-        this.postFormModel = {};
+        $scope.postFormModel = { };
         // dropzone config
         $scope.dropzoneConfig = {
             'options': {
@@ -24,8 +23,7 @@ class AdminController {
                 'addedfile': function(file) {
                     //THIS IS WHERE THE MAGIC HAPPENS! we change the model and
                     // tell angular to re-render the form and stuff. NOICE!
-
-                    this.postFormModel.flag = file.name;
+                    $scope.postFormModel.flag = file.name;
                     $scope.$digest();
                 }
             }
@@ -39,7 +37,7 @@ class AdminController {
         formlyValidationMessages.messages.email = '$viewValue + " is not a valid email address"';
 
         // form model
-        this.postFormFields = [{
+        $scope.postFormFields = [{
             type: 'input',
             key: 'postTitle',
             templateOptions: {
