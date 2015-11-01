@@ -5,6 +5,7 @@ import apiCheck from 'api-check';
 import ngMessages from 'angular-messages';
 import adminComponent from './admin.component';
 var Dropzone = require('dropzone');
+var uiSelect  = require('ui-select');
 
 let adminModule = angular.module('admin', [
     uiRouter,

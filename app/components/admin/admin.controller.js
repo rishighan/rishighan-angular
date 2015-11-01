@@ -20,12 +20,9 @@ class AdminController {
                 'sending': function(file, xhr, formData) {},
                 'success': function(file, response) {},
                 'maxfilesexceeded': function(file) {
-                    //alert("No more files please!");
                     this.removeFile(file);
                 },
                 'addedfile': function(file) {
-                    //THIS IS WHERE THE MAGIC HAPPENS! we change the model and
-                    // tell angular to re-render the form and stuff. NOICE!
                     $scope.postFormModel.flag = file.name;
                     $scope.$digest();
                 }
@@ -39,7 +36,7 @@ class AdminController {
         formlyValidationMessages.messages.required = 'to.label + " is required"';
         formlyValidationMessages.messages.email = '$viewValue + " is not a valid email address"';
 
-        // form model
+        // Form Fields
         $scope.postFormFields = [{
             type: 'input',
             key: 'postTitle',

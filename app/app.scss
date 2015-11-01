@@ -90,7 +90,6 @@ pre {
 
     label {
         @include setPointSize($formLabel);
-
         &:after {
             content: ' ';
             display: block;
