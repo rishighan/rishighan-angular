@@ -46,6 +46,11 @@ let adminModule = angular.module('admin', [
             }
         ]
     });
+    formlyConfig.setWrapper({
+        name: 'validation',
+        types: ['input', 'textarea', 'customInput'],
+        templateUrl: 'error-messages.html'
+    });
 
 })
 

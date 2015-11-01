@@ -1,7 +1,17 @@
-<formly-form model = "adminc.postFormModel" fields = "postFormFields">
-    <button dropzone="dropzoneConfig">
+<formly-form model = "postFormModel" fields = "postFormFields" class="admin">
+    <div dropzone="dropzoneConfig">
     Drag and drop files here or click to upload
-    </button>
+    </div>
 </formly-form>
-{{adminc.postFormModel}}
+<pre>
+{{postFormModel}}
 {{adminc.gatirodhak}}
+</pre>
+<script type="text/ng-template" id="error-messages.html">
+<formly-transclude></formly-transclude>
+<div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
+    <div class="some-message" ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages">
+        {{message(fc.$viewValue, fc.$modelValue, this)}}
+    </div>
+</div>
+</script>

@@ -1,8 +1,11 @@
 class AdminController {
     constructor($scope, formlyValidationMessages) {
-        this.gatirodhak = 'Ibn Batuta';
+        this.gatirodhak = 'Jagannath, Bakwaas kam kar.';
 
-        $scope.postFormModel = { };
+        $scope.postFormModel = {
+            flag: "Update Yoself."
+        };
+
         // dropzone config
         $scope.dropzoneConfig = {
             'options': {
@@ -41,13 +44,15 @@ class AdminController {
             type: 'input',
             key: 'postTitle',
             templateOptions: {
-                label: 'Title'
+                label: 'Title',
+                required: true
             }
         }, {
             type: 'textarea',
             key: 'content',
             templateOptions: {
-                label: 'Content'
+                label: 'Content',
+                required: true
             }
         }, {
             key: 'flag',

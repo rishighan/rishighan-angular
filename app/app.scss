@@ -6,11 +6,11 @@ $link: #FFAE00;
 $link-hover: #FF8000;
 // Typography
 @import "typography";
-
 // Fonts
 $proximaLightRegular: 'proxima_nova_ltregular';
 $proximaRegular: 'proxima_nova_regular';
 $proximaSemiBold: 'proxima_nova_semibold';
+$sourceCodeProRegular: 'Source Code Pro';
 
 @font-face {
     font-family: $proximaRegular;
@@ -24,7 +24,12 @@ $proximaSemiBold: 'proxima_nova_semibold';
     font-weight: normal;
     font-style: normal;
 }
-
+@font-face {
+    font-family: $sourceCodeProRegular;
+    src: url('./SourceCodePro-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 // Font sizes
 $megaHeadline: 2em;
 $headline: 1.2em;
@@ -33,12 +38,15 @@ $subheading2:0.6em;
 $caption: 0.5em;
 $tinyCaption: 0.3em;
 $bodyCopy: 0.6em;
+$formLabel: 0.56em;
 
 // Navigation
 // Styles should apply to both the horizontal and vertical nav.
 
-
-
+// Generic Styles
+pre {
+    font-family: $sourceCodeProRegular;
+}
 // Normal Post container
 .container {
     .body {
@@ -74,6 +82,19 @@ $bodyCopy: 0.6em;
         .caption {
             @include setPointSize($caption);
             font-style: italic;
+        }
+    }
+}
+.admin {
+    font-family: $proximaRegular;
+
+    label {
+        @include setPointSize($formLabel);
+
+        &:after {
+            content: ' ';
+            display: block;
+            white-space: wrap;
         }
     }
 }
