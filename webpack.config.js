@@ -40,6 +40,9 @@ module.exports = {
             test: /\.css$/,
             loader: "style-loader!css-loader"
         }, {
+            test: /\.(png|woff|ttf)$/,
+            loader: 'url-loader?limit=100000'
+        }, {
             test: /\.s[ac]ss$/,
             loaders: ["style",
                 "css",
@@ -57,9 +60,6 @@ module.exports = {
             test: /\.jsx?$/,
             loader: 'babel',
             exclude: /node_modules|bower_components/
-        }, {
-            test: /\.(png|woff|ttf)$/,
-            loader: 'url-loader?limit=100000'
         }, {
             test: /ui-select/,
             loader: 'exports?"ui.select"'

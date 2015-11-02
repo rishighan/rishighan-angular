@@ -13,6 +13,15 @@
     {{itemArray | json}}
     {{selectedItem}}
 </pre>
+
+<ui-select ng-model="selectedItem">
+    <ui-select-match>
+        <span ng-bind="$select.selected.name"></span>
+    </ui-select-match>
+    <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id">
+        <span ng-bind="item.name"></span>
+    </ui-select-choices>
+</ui-select>
 <script type="text/ng-template" id="error-messages.html">
     <formly-transclude></formly-transclude>
     <div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
@@ -24,13 +33,5 @@
 
 
 
-<ui-select ng-model="selectedItem" style="border:1px solid red;">
-    <ui-select-match>
-        <span ng-bind="$select.selected.name"></span>
-    </ui-select-match>
-    <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id">
-        <span ng-bind="item.name"></span>
-    </ui-select-choices>
-</ui-select>
 
 
