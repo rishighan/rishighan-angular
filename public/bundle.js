@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	module.exports = __webpack_require__(49);
+	module.exports = __webpack_require__(51);
 
 
 /***/ },
@@ -31683,7 +31683,7 @@
 
 	var _componentsComponents2 = _interopRequireDefault(_componentsComponents);
 
-	var _appComponent = __webpack_require__(42);
+	var _appComponent = __webpack_require__(44);
 
 	var _appComponent2 = _interopRequireDefault(_appComponent);
 
@@ -31691,7 +31691,7 @@
 
 	var _coreBootstrap2 = _interopRequireDefault(_coreBootstrap);
 
-	__webpack_require__(44);
+	__webpack_require__(46);
 
 	module.exports = _angular2['default'].module('rgApp', [_uiRouter2['default'], _sharedShared2['default'].name, _componentsComponents2['default'].name]).directive('rgApp', _appComponent2['default']);
 
@@ -32653,11 +32653,15 @@
 
 	var _adminComponent2 = _interopRequireDefault(_adminComponent);
 
-	var uiSelect = __webpack_require__(39);
+	var _angularSanitize = __webpack_require__(39);
 
-	var Dropzone = __webpack_require__(40);
+	var _angularSanitize2 = _interopRequireDefault(_angularSanitize);
 
-	var adminModule = _angular2['default'].module('admin', [_uiRouter2['default'], _angularFormly2['default'], _angularMessages2['default']]).config(function ($stateProvider, $urlRouterProvider) {
+	var Dropzone = __webpack_require__(41);
+	var uiselect = __webpack_require__(43);
+
+	console.log(uiselect);
+	var adminModule = _angular2['default'].module('admin', [_uiRouter2['default'], _angularFormly2['default'], _angularMessages2['default'], _angularSanitize2['default'], uiselect]).config(function ($stateProvider, $urlRouterProvider) {
 	    $stateProvider.state('admin', {
 	        url: '/admin',
 	        template: '<admin></admin>'
@@ -32688,13 +32692,13 @@
 	            }
 	        }]
 	    });
+
 	    formlyConfig.setWrapper({
 	        name: 'validation',
 	        types: ['input', 'textarea', 'customInput'],
 	        templateUrl: 'error-messages.html'
 	    });
 	}).directive('admin', _adminComponent2['default']).directive('dropzone', function () {
-
 	    return function (scope, element, attrs) {
 	        var config, dropzone;
 	        //console.log(scope);
@@ -37415,21 +37419,21 @@
 /* 37 */
 /***/ function(module, exports) {
 
-	module.exports = "<formly-form model = \"postFormModel\" fields = \"postFormFields\" class=\"admin\">\n    <div dropzone=\"dropzoneConfig\">\n    Drag and drop files here or click to upload\n    </div>\n</formly-form>\n<pre>\n{{postFormModel}}\n{{adminc.gatirodhak}}\n</pre>\n<script type=\"text/ng-template\" id=\"error-messages.html\">\n<formly-transclude></formly-transclude>\n<div class=\"my-messages\" ng-messages=\"fc.$error\" ng-if=\"fc.$touched\">\n    <div class=\"error\" ng-message=\"{{::name}}\" ng-repeat=\"(name, message) in ::options.validation.messages\">\n        {{message(fc.$viewValue, fc.$modelValue, this)}}\n    </div>\n</div>\n</script>";
+	module.exports = "\n<formly-form model = \"postFormModel\" fields = \"postFormFields\" class=\"admin\">\n    <div dropzone=\"dropzoneConfig\">\n        Drag and drop files here or click to upload\n    </div>\n</formly-form>\n\n\n\n<pre>\n    {{postFormModel | json}}\n    {{adminc.gatirodhak}}\n    {{itemArray | json}}\n    {{selectedItem}}\n</pre>\n<script type=\"text/ng-template\" id=\"error-messages.html\">\n    <formly-transclude></formly-transclude>\n    <div class=\"my-messages\" ng-messages=\"fc.$error\" ng-if=\"fc.$touched\">\n    <div class=\"error\" ng-message=\"{{::name}}\" ng-repeat=\"(name, message) in ::options.validation.messages\">\n        {{message(fc.$viewValue, fc.$modelValue, this)}}\n    </div>\n    </div>\n</script>\n\n\n\n<ui-select ng-model=\"selectedItem\" style=\"border:1px solid red;\">\n    <ui-select-match>\n        <span ng-bind=\"$select.selected.name\"></span>\n    </ui-select-match>\n    <ui-select-choices repeat=\"item in (itemArray | filter: $select.search) track by item.id\">\n        <span ng-bind=\"item.name\"></span>\n    </ui-select-choices>\n</ui-select>\n\n\n";
 
 /***/ },
 /* 38 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
 	function _classCallCheck(instance, Constructor) {
 	    if (!(instance instanceof Constructor)) {
-	        throw new TypeError('Cannot call a class as a function');
+	        throw new TypeError("Cannot call a class as a function");
 	    }
 	}
 
@@ -37439,8 +37443,23 @@
 	    this.gatirodhak = 'Jagannath, Bakwaas kam kar.';
 
 	    $scope.postFormModel = {
-	        flag: "Update Yoself."
+	        flag: "Update Yoself.",
+	        singleOption: null
 	    };
+	    var testData = [{
+	        "id": 1,
+	        "label": "Option 1"
+	    }, {
+	        "id": 2,
+	        "label": "Option 2"
+	    }, {
+	        "id": 3,
+	        "label": "Option 3"
+	    }];
+
+	    $scope.itemArray = [{ id: 1, name: 'first' }, { id: 2, name: 'second' }, { id: 3, name: 'third' }, { id: 4, name: 'fourth' }, { id: 5, name: 'fifth' }];
+
+	    $scope.selectedItem = $scope.itemArray[0];
 
 	    // dropzone config
 	    $scope.dropzoneConfig = {
@@ -37499,179 +37518,721 @@
 	    }];
 	};
 
-	exports['default'] = AdminController;
-	module.exports = exports['default'];
+	// }, {
+	//     key: 'singleOption',
+	//     type: 'ui-select-single',
+	//     templateOptions: {
+	//         optionsAttr: 'bs-options',
+	//         ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
+	//         label: 'Single Select',
+	//         valueProp: 'id',
+	//         labelProp: 'label',
+	//         placeholder: 'Select option',
+	//         description: 'Template includes the allow-clear option on the ui-select-match element',
+	//         options: testData
+	//     }
+	exports["default"] = AdminController;
+	module.exports = exports["default"];
 
 /***/ },
 /* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(40);
+	module.exports = 'ngSanitize';
+
+
+/***/ },
+/* 40 */
 /***/ function(module, exports) {
 
 	/**
-	 * Enhanced Select2 Dropmenus
-	 *
-	 * @AJAX Mode - When in this mode, your value will be an object (or array of objects) of the data used by Select2
-	 *     This change is so that you do not have to do an additional query yourself on top of Select2's own query
-	 * @params [options] {object} The configuration options passed to $.fn.select2(). Refer to the documentation
+	 * @license AngularJS v1.4.7
+	 * (c) 2010-2015 Google, Inc. http://angularjs.org
+	 * License: MIT
 	 */
-	angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelect2', ['uiSelect2Config', '$timeout', function (uiSelect2Config, $timeout) {
-	  var options = {};
-	  if (uiSelect2Config) {
-	    angular.extend(options, uiSelect2Config);
+	(function(window, angular, undefined) {'use strict';
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *     Any commits to this file should be reviewed with security in mind.  *
+	 *   Changes to this file can potentially create security vulnerabilities. *
+	 *          An approval from 2 Core members with history of modifying      *
+	 *                         this file is required.                          *
+	 *                                                                         *
+	 *  Does the change somehow allow for arbitrary javascript to be executed? *
+	 *    Or allows for someone to change the prototype of built-in objects?   *
+	 *     Or gives undesired access to variables likes document or window?    *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	var $sanitizeMinErr = angular.$$minErr('$sanitize');
+
+	/**
+	 * @ngdoc module
+	 * @name ngSanitize
+	 * @description
+	 *
+	 * # ngSanitize
+	 *
+	 * The `ngSanitize` module provides functionality to sanitize HTML.
+	 *
+	 *
+	 * <div doc-module-components="ngSanitize"></div>
+	 *
+	 * See {@link ngSanitize.$sanitize `$sanitize`} for usage.
+	 */
+
+	/*
+	 * HTML Parser By Misko Hevery (misko@hevery.com)
+	 * based on:  HTML Parser By John Resig (ejohn.org)
+	 * Original code by Erik Arvidsson, Mozilla Public License
+	 * http://erik.eae.net/simplehtmlparser/simplehtmlparser.js
+	 *
+	 * // Use like so:
+	 * htmlParser(htmlString, {
+	 *     start: function(tag, attrs, unary) {},
+	 *     end: function(tag) {},
+	 *     chars: function(text) {},
+	 *     comment: function(text) {}
+	 * });
+	 *
+	 */
+
+
+	/**
+	 * @ngdoc service
+	 * @name $sanitize
+	 * @kind function
+	 *
+	 * @description
+	 *   The input is sanitized by parsing the HTML into tokens. All safe tokens (from a whitelist) are
+	 *   then serialized back to properly escaped html string. This means that no unsafe input can make
+	 *   it into the returned string, however, since our parser is more strict than a typical browser
+	 *   parser, it's possible that some obscure input, which would be recognized as valid HTML by a
+	 *   browser, won't make it through the sanitizer. The input may also contain SVG markup.
+	 *   The whitelist is configured using the functions `aHrefSanitizationWhitelist` and
+	 *   `imgSrcSanitizationWhitelist` of {@link ng.$compileProvider `$compileProvider`}.
+	 *
+	 * @param {string} html HTML input.
+	 * @returns {string} Sanitized HTML.
+	 *
+	 * @example
+	   <example module="sanitizeExample" deps="angular-sanitize.js">
+	   <file name="index.html">
+	     <script>
+	         angular.module('sanitizeExample', ['ngSanitize'])
+	           .controller('ExampleController', ['$scope', '$sce', function($scope, $sce) {
+	             $scope.snippet =
+	               '<p style="color:blue">an html\n' +
+	               '<em onmouseover="this.textContent=\'PWN3D!\'">click here</em>\n' +
+	               'snippet</p>';
+	             $scope.deliberatelyTrustDangerousSnippet = function() {
+	               return $sce.trustAsHtml($scope.snippet);
+	             };
+	           }]);
+	     </script>
+	     <div ng-controller="ExampleController">
+	        Snippet: <textarea ng-model="snippet" cols="60" rows="3"></textarea>
+	       <table>
+	         <tr>
+	           <td>Directive</td>
+	           <td>How</td>
+	           <td>Source</td>
+	           <td>Rendered</td>
+	         </tr>
+	         <tr id="bind-html-with-sanitize">
+	           <td>ng-bind-html</td>
+	           <td>Automatically uses $sanitize</td>
+	           <td><pre>&lt;div ng-bind-html="snippet"&gt;<br/>&lt;/div&gt;</pre></td>
+	           <td><div ng-bind-html="snippet"></div></td>
+	         </tr>
+	         <tr id="bind-html-with-trust">
+	           <td>ng-bind-html</td>
+	           <td>Bypass $sanitize by explicitly trusting the dangerous value</td>
+	           <td>
+	           <pre>&lt;div ng-bind-html="deliberatelyTrustDangerousSnippet()"&gt;
+	&lt;/div&gt;</pre>
+	           </td>
+	           <td><div ng-bind-html="deliberatelyTrustDangerousSnippet()"></div></td>
+	         </tr>
+	         <tr id="bind-default">
+	           <td>ng-bind</td>
+	           <td>Automatically escapes</td>
+	           <td><pre>&lt;div ng-bind="snippet"&gt;<br/>&lt;/div&gt;</pre></td>
+	           <td><div ng-bind="snippet"></div></td>
+	         </tr>
+	       </table>
+	       </div>
+	   </file>
+	   <file name="protractor.js" type="protractor">
+	     it('should sanitize the html snippet by default', function() {
+	       expect(element(by.css('#bind-html-with-sanitize div')).getInnerHtml()).
+	         toBe('<p>an html\n<em>click here</em>\nsnippet</p>');
+	     });
+
+	     it('should inline raw snippet if bound to a trusted value', function() {
+	       expect(element(by.css('#bind-html-with-trust div')).getInnerHtml()).
+	         toBe("<p style=\"color:blue\">an html\n" +
+	              "<em onmouseover=\"this.textContent='PWN3D!'\">click here</em>\n" +
+	              "snippet</p>");
+	     });
+
+	     it('should escape snippet without any filter', function() {
+	       expect(element(by.css('#bind-default div')).getInnerHtml()).
+	         toBe("&lt;p style=\"color:blue\"&gt;an html\n" +
+	              "&lt;em onmouseover=\"this.textContent='PWN3D!'\"&gt;click here&lt;/em&gt;\n" +
+	              "snippet&lt;/p&gt;");
+	     });
+
+	     it('should update', function() {
+	       element(by.model('snippet')).clear();
+	       element(by.model('snippet')).sendKeys('new <b onclick="alert(1)">text</b>');
+	       expect(element(by.css('#bind-html-with-sanitize div')).getInnerHtml()).
+	         toBe('new <b>text</b>');
+	       expect(element(by.css('#bind-html-with-trust div')).getInnerHtml()).toBe(
+	         'new <b onclick="alert(1)">text</b>');
+	       expect(element(by.css('#bind-default div')).getInnerHtml()).toBe(
+	         "new &lt;b onclick=\"alert(1)\"&gt;text&lt;/b&gt;");
+	     });
+	   </file>
+	   </example>
+	 */
+	function $SanitizeProvider() {
+	  this.$get = ['$$sanitizeUri', function($$sanitizeUri) {
+	    return function(html) {
+	      var buf = [];
+	      htmlParser(html, htmlSanitizeWriter(buf, function(uri, isImage) {
+	        return !/^unsafe/.test($$sanitizeUri(uri, isImage));
+	      }));
+	      return buf.join('');
+	    };
+	  }];
+	}
+
+	function sanitizeText(chars) {
+	  var buf = [];
+	  var writer = htmlSanitizeWriter(buf, angular.noop);
+	  writer.chars(chars);
+	  return buf.join('');
+	}
+
+
+	// Regular Expressions for parsing tags and attributes
+	var START_TAG_REGEXP =
+	       /^<((?:[a-zA-Z])[\w:-]*)((?:\s+[\w:-]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)\s*(>?)/,
+	  END_TAG_REGEXP = /^<\/\s*([\w:-]+)[^>]*>/,
+	  ATTR_REGEXP = /([\w:-]+)(?:\s*=\s*(?:(?:"((?:[^"])*)")|(?:'((?:[^'])*)')|([^>\s]+)))?/g,
+	  BEGIN_TAG_REGEXP = /^</,
+	  BEGING_END_TAGE_REGEXP = /^<\//,
+	  COMMENT_REGEXP = /<!--(.*?)-->/g,
+	  DOCTYPE_REGEXP = /<!DOCTYPE([^>]*?)>/i,
+	  CDATA_REGEXP = /<!\[CDATA\[(.*?)]]>/g,
+	  SURROGATE_PAIR_REGEXP = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
+	  // Match everything outside of normal chars and " (quote character)
+	  NON_ALPHANUMERIC_REGEXP = /([^\#-~| |!])/g;
+
+
+	// Good source of info about elements and attributes
+	// http://dev.w3.org/html5/spec/Overview.html#semantics
+	// http://simon.html5.org/html-elements
+
+	// Safe Void Elements - HTML5
+	// http://dev.w3.org/html5/spec/Overview.html#void-elements
+	var voidElements = makeMap("area,br,col,hr,img,wbr");
+
+	// Elements that you can, intentionally, leave open (and which close themselves)
+	// http://dev.w3.org/html5/spec/Overview.html#optional-tags
+	var optionalEndTagBlockElements = makeMap("colgroup,dd,dt,li,p,tbody,td,tfoot,th,thead,tr"),
+	    optionalEndTagInlineElements = makeMap("rp,rt"),
+	    optionalEndTagElements = angular.extend({},
+	                                            optionalEndTagInlineElements,
+	                                            optionalEndTagBlockElements);
+
+	// Safe Block Elements - HTML5
+	var blockElements = angular.extend({}, optionalEndTagBlockElements, makeMap("address,article," +
+	        "aside,blockquote,caption,center,del,dir,div,dl,figure,figcaption,footer,h1,h2,h3,h4,h5," +
+	        "h6,header,hgroup,hr,ins,map,menu,nav,ol,pre,script,section,table,ul"));
+
+	// Inline Elements - HTML5
+	var inlineElements = angular.extend({}, optionalEndTagInlineElements, makeMap("a,abbr,acronym,b," +
+	        "bdi,bdo,big,br,cite,code,del,dfn,em,font,i,img,ins,kbd,label,map,mark,q,ruby,rp,rt,s," +
+	        "samp,small,span,strike,strong,sub,sup,time,tt,u,var"));
+
+	// SVG Elements
+	// https://wiki.whatwg.org/wiki/Sanitization_rules#svg_Elements
+	// Note: the elements animate,animateColor,animateMotion,animateTransform,set are intentionally omitted.
+	// They can potentially allow for arbitrary javascript to be executed. See #11290
+	var svgElements = makeMap("circle,defs,desc,ellipse,font-face,font-face-name,font-face-src,g,glyph," +
+	        "hkern,image,linearGradient,line,marker,metadata,missing-glyph,mpath,path,polygon,polyline," +
+	        "radialGradient,rect,stop,svg,switch,text,title,tspan,use");
+
+	// Special Elements (can contain anything)
+	var specialElements = makeMap("script,style");
+
+	var validElements = angular.extend({},
+	                                   voidElements,
+	                                   blockElements,
+	                                   inlineElements,
+	                                   optionalEndTagElements,
+	                                   svgElements);
+
+	//Attributes that have href and hence need to be sanitized
+	var uriAttrs = makeMap("background,cite,href,longdesc,src,usemap,xlink:href");
+
+	var htmlAttrs = makeMap('abbr,align,alt,axis,bgcolor,border,cellpadding,cellspacing,class,clear,' +
+	    'color,cols,colspan,compact,coords,dir,face,headers,height,hreflang,hspace,' +
+	    'ismap,lang,language,nohref,nowrap,rel,rev,rows,rowspan,rules,' +
+	    'scope,scrolling,shape,size,span,start,summary,tabindex,target,title,type,' +
+	    'valign,value,vspace,width');
+
+	// SVG attributes (without "id" and "name" attributes)
+	// https://wiki.whatwg.org/wiki/Sanitization_rules#svg_Attributes
+	var svgAttrs = makeMap('accent-height,accumulate,additive,alphabetic,arabic-form,ascent,' +
+	    'baseProfile,bbox,begin,by,calcMode,cap-height,class,color,color-rendering,content,' +
+	    'cx,cy,d,dx,dy,descent,display,dur,end,fill,fill-rule,font-family,font-size,font-stretch,' +
+	    'font-style,font-variant,font-weight,from,fx,fy,g1,g2,glyph-name,gradientUnits,hanging,' +
+	    'height,horiz-adv-x,horiz-origin-x,ideographic,k,keyPoints,keySplines,keyTimes,lang,' +
+	    'marker-end,marker-mid,marker-start,markerHeight,markerUnits,markerWidth,mathematical,' +
+	    'max,min,offset,opacity,orient,origin,overline-position,overline-thickness,panose-1,' +
+	    'path,pathLength,points,preserveAspectRatio,r,refX,refY,repeatCount,repeatDur,' +
+	    'requiredExtensions,requiredFeatures,restart,rotate,rx,ry,slope,stemh,stemv,stop-color,' +
+	    'stop-opacity,strikethrough-position,strikethrough-thickness,stroke,stroke-dasharray,' +
+	    'stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,' +
+	    'stroke-width,systemLanguage,target,text-anchor,to,transform,type,u1,u2,underline-position,' +
+	    'underline-thickness,unicode,unicode-range,units-per-em,values,version,viewBox,visibility,' +
+	    'width,widths,x,x-height,x1,x2,xlink:actuate,xlink:arcrole,xlink:role,xlink:show,xlink:title,' +
+	    'xlink:type,xml:base,xml:lang,xml:space,xmlns,xmlns:xlink,y,y1,y2,zoomAndPan', true);
+
+	var validAttrs = angular.extend({},
+	                                uriAttrs,
+	                                svgAttrs,
+	                                htmlAttrs);
+
+	function makeMap(str, lowercaseKeys) {
+	  var obj = {}, items = str.split(','), i;
+	  for (i = 0; i < items.length; i++) {
+	    obj[lowercaseKeys ? angular.lowercase(items[i]) : items[i]] = true;
 	  }
-	  return {
-	    require: '?ngModel',
-	    compile: function (tElm, tAttrs) {
-	      var watch,
-	        repeatOption,
-	        repeatAttr,
-	        isSelect = tElm.is('select'),
-	        isMultiple = (tAttrs.multiple !== undefined);
+	  return obj;
+	}
 
-	      // Enable watching of the options dataset if in use
-	      if (tElm.is('select')) {
-	        repeatOption = tElm.find('option[ng-repeat], option[data-ng-repeat]');
 
-	        if (repeatOption.length) {
-	          repeatAttr = repeatOption.attr('ng-repeat') || repeatOption.attr('data-ng-repeat');
-	          watch = jQuery.trim(repeatAttr.split('|')[0]).split(' ').pop();
+	/**
+	 * @example
+	 * htmlParser(htmlString, {
+	 *     start: function(tag, attrs, unary) {},
+	 *     end: function(tag) {},
+	 *     chars: function(text) {},
+	 *     comment: function(text) {}
+	 * });
+	 *
+	 * @param {string} html string
+	 * @param {object} handler
+	 */
+	function htmlParser(html, handler) {
+	  if (typeof html !== 'string') {
+	    if (html === null || typeof html === 'undefined') {
+	      html = '';
+	    } else {
+	      html = '' + html;
+	    }
+	  }
+	  var index, chars, match, stack = [], last = html, text;
+	  stack.last = function() { return stack[stack.length - 1]; };
+
+	  while (html) {
+	    text = '';
+	    chars = true;
+
+	    // Make sure we're not in a script or style element
+	    if (!stack.last() || !specialElements[stack.last()]) {
+
+	      // Comment
+	      if (html.indexOf("<!--") === 0) {
+	        // comments containing -- are not allowed unless they terminate the comment
+	        index = html.indexOf("--", 4);
+
+	        if (index >= 0 && html.lastIndexOf("-->", index) === index) {
+	          if (handler.comment) handler.comment(html.substring(4, index));
+	          html = html.substring(index + 3);
+	          chars = false;
+	        }
+	      // DOCTYPE
+	      } else if (DOCTYPE_REGEXP.test(html)) {
+	        match = html.match(DOCTYPE_REGEXP);
+
+	        if (match) {
+	          html = html.replace(match[0], '');
+	          chars = false;
+	        }
+	      // end tag
+	      } else if (BEGING_END_TAGE_REGEXP.test(html)) {
+	        match = html.match(END_TAG_REGEXP);
+
+	        if (match) {
+	          html = html.substring(match[0].length);
+	          match[0].replace(END_TAG_REGEXP, parseEndTag);
+	          chars = false;
+	        }
+
+	      // start tag
+	      } else if (BEGIN_TAG_REGEXP.test(html)) {
+	        match = html.match(START_TAG_REGEXP);
+
+	        if (match) {
+	          // We only have a valid start-tag if there is a '>'.
+	          if (match[4]) {
+	            html = html.substring(match[0].length);
+	            match[0].replace(START_TAG_REGEXP, parseStartTag);
+	          }
+	          chars = false;
+	        } else {
+	          // no ending tag found --- this piece should be encoded as an entity.
+	          text += '<';
+	          html = html.substring(1);
 	        }
 	      }
 
-	      return function (scope, elm, attrs, controller) {
+	      if (chars) {
+	        index = html.indexOf("<");
 
-	        var setPristine = function() {
-	          var form = scope.$eval(elm.closest('form').attr('name'));
-	          form.$dirty          = false;
-	          form.$pristine       = true;
-	          controller.$dirty    = false;
-	          controller.$pristine = true;
-	          elm.removeClass('ng-dirty').addClass('ng-pristine');
-	          elm.closest('form').removeClass('ng-dirty').addClass('ng-pristine');
-	        };
+	        text += index < 0 ? html : html.substring(0, index);
+	        html = index < 0 ? "" : html.substring(index);
 
-	        // instance-specific options
-	        var opts = angular.extend({}, options, scope.$eval(attrs.uiSelect2));
+	        if (handler.chars) handler.chars(decodeEntities(text));
+	      }
 
-	        if (isSelect) {
-	          // Use <select multiple> instead
-	          delete opts.multiple;
-	          delete opts.initSelection;
-	        } else if (isMultiple) {
-	          opts.multiple = true;
-	        }
+	    } else {
+	      // IE versions 9 and 10 do not understand the regex '[^]', so using a workaround with [\W\w].
+	      html = html.replace(new RegExp("([\\W\\w]*)<\\s*\\/\\s*" + stack.last() + "[^>]*>", 'i'),
+	        function(all, text) {
+	          text = text.replace(COMMENT_REGEXP, "$1").replace(CDATA_REGEXP, "$1");
 
-	        if (controller) {
-	          // Watch the model for programmatic changes
-	          controller.$render = function () {
-	            if (isSelect) {
-	              elm.select2('val', controller.$viewValue);
-	            } else {
-	              if (isMultiple) {
-	                if (!controller.$viewValue) {
-	                  elm.select2('data', []);
-	                } else if (angular.isArray(controller.$viewValue)) {
-	                  elm.select2('data', controller.$viewValue);
-	                } else {
-	                  elm.select2('val', controller.$viewValue);
-	                }
-	              } else {
-	                if (angular.isObject(controller.$viewValue)) {
-	                  elm.select2('data', controller.$viewValue);
-	                } else if (!controller.$viewValue) {
-	                  elm.select2('data', null);
-	                } else {
-	                  elm.select2('val', controller.$viewValue);
-	                }
-	              }
-	            }
-	          };
+	          if (handler.chars) handler.chars(decodeEntities(text));
 
-	          // Watch the options dataset for changes
-	          if (watch) {
-	            scope.$watch(watch, function (newVal, oldVal, scope) {
-	              if (!newVal) return;
-	              // Delayed so that the options have time to be rendered
-	              $timeout(function () {
-	                elm.select2('val', controller.$viewValue);
-	                // Refresh angular to remove the superfluous option
-	                elm.trigger('change');
-	              });
-	            });
+	          return "";
+	      });
+
+	      parseEndTag("", stack.last());
+	    }
+
+	    if (html == last) {
+	      throw $sanitizeMinErr('badparse', "The sanitizer was unable to parse the following block " +
+	                                        "of html: {0}", html);
+	    }
+	    last = html;
+	  }
+
+	  // Clean up any remaining tags
+	  parseEndTag();
+
+	  function parseStartTag(tag, tagName, rest, unary) {
+	    tagName = angular.lowercase(tagName);
+	    if (blockElements[tagName]) {
+	      while (stack.last() && inlineElements[stack.last()]) {
+	        parseEndTag("", stack.last());
+	      }
+	    }
+
+	    if (optionalEndTagElements[tagName] && stack.last() == tagName) {
+	      parseEndTag("", tagName);
+	    }
+
+	    unary = voidElements[tagName] || !!unary;
+
+	    if (!unary) {
+	      stack.push(tagName);
+	    }
+
+	    var attrs = {};
+
+	    rest.replace(ATTR_REGEXP,
+	      function(match, name, doubleQuotedValue, singleQuotedValue, unquotedValue) {
+	        var value = doubleQuotedValue
+	          || singleQuotedValue
+	          || unquotedValue
+	          || '';
+
+	        attrs[name] = decodeEntities(value);
+	    });
+	    if (handler.start) handler.start(tagName, attrs, unary);
+	  }
+
+	  function parseEndTag(tag, tagName) {
+	    var pos = 0, i;
+	    tagName = angular.lowercase(tagName);
+	    if (tagName) {
+	      // Find the closest opened tag of the same type
+	      for (pos = stack.length - 1; pos >= 0; pos--) {
+	        if (stack[pos] == tagName) break;
+	      }
+	    }
+
+	    if (pos >= 0) {
+	      // Close all the open elements, up the stack
+	      for (i = stack.length - 1; i >= pos; i--)
+	        if (handler.end) handler.end(stack[i]);
+
+	      // Remove the open elements from the stack
+	      stack.length = pos;
+	    }
+	  }
+	}
+
+	var hiddenPre=document.createElement("pre");
+	/**
+	 * decodes all entities into regular string
+	 * @param value
+	 * @returns {string} A string with decoded entities.
+	 */
+	function decodeEntities(value) {
+	  if (!value) { return ''; }
+
+	  hiddenPre.innerHTML = value.replace(/</g,"&lt;");
+	  // innerText depends on styling as it doesn't display hidden elements.
+	  // Therefore, it's better to use textContent not to cause unnecessary reflows.
+	  return hiddenPre.textContent;
+	}
+
+	/**
+	 * Escapes all potentially dangerous characters, so that the
+	 * resulting string can be safely inserted into attribute or
+	 * element text.
+	 * @param value
+	 * @returns {string} escaped text
+	 */
+	function encodeEntities(value) {
+	  return value.
+	    replace(/&/g, '&amp;').
+	    replace(SURROGATE_PAIR_REGEXP, function(value) {
+	      var hi = value.charCodeAt(0);
+	      var low = value.charCodeAt(1);
+	      return '&#' + (((hi - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000) + ';';
+	    }).
+	    replace(NON_ALPHANUMERIC_REGEXP, function(value) {
+	      return '&#' + value.charCodeAt(0) + ';';
+	    }).
+	    replace(/</g, '&lt;').
+	    replace(/>/g, '&gt;');
+	}
+
+	/**
+	 * create an HTML/XML writer which writes to buffer
+	 * @param {Array} buf use buf.jain('') to get out sanitized html string
+	 * @returns {object} in the form of {
+	 *     start: function(tag, attrs, unary) {},
+	 *     end: function(tag) {},
+	 *     chars: function(text) {},
+	 *     comment: function(text) {}
+	 * }
+	 */
+	function htmlSanitizeWriter(buf, uriValidator) {
+	  var ignore = false;
+	  var out = angular.bind(buf, buf.push);
+	  return {
+	    start: function(tag, attrs, unary) {
+	      tag = angular.lowercase(tag);
+	      if (!ignore && specialElements[tag]) {
+	        ignore = tag;
+	      }
+	      if (!ignore && validElements[tag] === true) {
+	        out('<');
+	        out(tag);
+	        angular.forEach(attrs, function(value, key) {
+	          var lkey=angular.lowercase(key);
+	          var isImage = (tag === 'img' && lkey === 'src') || (lkey === 'background');
+	          if (validAttrs[lkey] === true &&
+	            (uriAttrs[lkey] !== true || uriValidator(value, isImage))) {
+	            out(' ');
+	            out(key);
+	            out('="');
+	            out(encodeEntities(value));
+	            out('"');
 	          }
-
-	          // Update valid and dirty statuses
-	          controller.$parsers.push(function (value) {
-	            var div = elm.prev()
-	            div
-	              .toggleClass('ng-invalid', !controller.$valid)
-	              .toggleClass('ng-valid', controller.$valid)
-	              .toggleClass('ng-invalid-required', !controller.$valid)
-	              .toggleClass('ng-valid-required', controller.$valid)
-	              .toggleClass('ng-dirty', controller.$dirty)
-	              .toggleClass('ng-pristine', controller.$pristine);
-	            return value;
-	          });
-
-	          if (!isSelect) {
-	            // Set the view and model value and update the angular template manually for the ajax/multiple select2.
-	            elm.bind("change", function () {
-	              if (scope.$$phase) return;
-	              scope.$apply(function () {
-	                controller.$setViewValue(elm.select2('data'));
-	              });
-	            });
-	            
-	            if (opts.initSelection) {
-	              var initSelection = opts.initSelection;
-	              opts.initSelection = function (element, callback) {
-	                initSelection(element, function (value) {
-	                  controller.$setViewValue(value);
-	                  setPristine();
-	                  callback(value);
-	                });
-	              };
-	            }
-	          }
+	        });
+	        out(unary ? '/>' : '>');
+	      }
+	    },
+	    end: function(tag) {
+	        tag = angular.lowercase(tag);
+	        if (!ignore && validElements[tag] === true) {
+	          out('</');
+	          out(tag);
+	          out('>');
 	        }
-
-	        attrs.$observe('disabled', function (value) {
-	          elm.select2('enable', !value);
-	        });
-
-	        attrs.$observe('readonly', function (value) {
-	          elm.select2('readonly', !!value);
-	        });
-
-	        if (attrs.ngMultiple) {
-	          scope.$watch(attrs.ngMultiple, function(newVal) {
-	            elm.select2(opts);
-	          });
+	        if (tag == ignore) {
+	          ignore = false;
 	        }
+	      },
+	    chars: function(chars) {
+	        if (!ignore) {
+	          out(encodeEntities(chars));
+	        }
+	      }
+	  };
+	}
 
-	        // Initialize the plugin late so that the injected DOM does not disrupt the template compiler
-	        $timeout(function () {
-	          elm.select2(opts);
 
-	          // Set initial value - I'm not sure about this but it seems to need to be there
-	          elm.val(controller.$viewValue);
-	          // important!
-	          controller.$render();
+	// define ngSanitize module and register $sanitize service
+	angular.module('ngSanitize', []).provider('$sanitize', $SanitizeProvider);
 
-	          // Not sure if I should just check for !isSelect OR if I should check for 'tags' key
-	          if (!opts.initSelection && !isSelect) {
-	            controller.$setViewValue(elm.select2('data'));
-	            setPristine();
-	          }
-	            
-	        });
-	      };
+	/* global sanitizeText: false */
+
+	/**
+	 * @ngdoc filter
+	 * @name linky
+	 * @kind function
+	 *
+	 * @description
+	 * Finds links in text input and turns them into html links. Supports http/https/ftp/mailto and
+	 * plain email address links.
+	 *
+	 * Requires the {@link ngSanitize `ngSanitize`} module to be installed.
+	 *
+	 * @param {string} text Input text.
+	 * @param {string} target Window (_blank|_self|_parent|_top) or named frame to open links in.
+	 * @returns {string} Html-linkified text.
+	 *
+	 * @usage
+	   <span ng-bind-html="linky_expression | linky"></span>
+	 *
+	 * @example
+	   <example module="linkyExample" deps="angular-sanitize.js">
+	     <file name="index.html">
+	       <script>
+	         angular.module('linkyExample', ['ngSanitize'])
+	           .controller('ExampleController', ['$scope', function($scope) {
+	             $scope.snippet =
+	               'Pretty text with some links:\n'+
+	               'http://angularjs.org/,\n'+
+	               'mailto:us@somewhere.org,\n'+
+	               'another@somewhere.org,\n'+
+	               'and one more: ftp://127.0.0.1/.';
+	             $scope.snippetWithTarget = 'http://angularjs.org/';
+	           }]);
+	       </script>
+	       <div ng-controller="ExampleController">
+	       Snippet: <textarea ng-model="snippet" cols="60" rows="3"></textarea>
+	       <table>
+	         <tr>
+	           <td>Filter</td>
+	           <td>Source</td>
+	           <td>Rendered</td>
+	         </tr>
+	         <tr id="linky-filter">
+	           <td>linky filter</td>
+	           <td>
+	             <pre>&lt;div ng-bind-html="snippet | linky"&gt;<br>&lt;/div&gt;</pre>
+	           </td>
+	           <td>
+	             <div ng-bind-html="snippet | linky"></div>
+	           </td>
+	         </tr>
+	         <tr id="linky-target">
+	          <td>linky target</td>
+	          <td>
+	            <pre>&lt;div ng-bind-html="snippetWithTarget | linky:'_blank'"&gt;<br>&lt;/div&gt;</pre>
+	          </td>
+	          <td>
+	            <div ng-bind-html="snippetWithTarget | linky:'_blank'"></div>
+	          </td>
+	         </tr>
+	         <tr id="escaped-html">
+	           <td>no filter</td>
+	           <td><pre>&lt;div ng-bind="snippet"&gt;<br>&lt;/div&gt;</pre></td>
+	           <td><div ng-bind="snippet"></div></td>
+	         </tr>
+	       </table>
+	     </file>
+	     <file name="protractor.js" type="protractor">
+	       it('should linkify the snippet with urls', function() {
+	         expect(element(by.id('linky-filter')).element(by.binding('snippet | linky')).getText()).
+	             toBe('Pretty text with some links: http://angularjs.org/, us@somewhere.org, ' +
+	                  'another@somewhere.org, and one more: ftp://127.0.0.1/.');
+	         expect(element.all(by.css('#linky-filter a')).count()).toEqual(4);
+	       });
+
+	       it('should not linkify snippet without the linky filter', function() {
+	         expect(element(by.id('escaped-html')).element(by.binding('snippet')).getText()).
+	             toBe('Pretty text with some links: http://angularjs.org/, mailto:us@somewhere.org, ' +
+	                  'another@somewhere.org, and one more: ftp://127.0.0.1/.');
+	         expect(element.all(by.css('#escaped-html a')).count()).toEqual(0);
+	       });
+
+	       it('should update', function() {
+	         element(by.model('snippet')).clear();
+	         element(by.model('snippet')).sendKeys('new http://link.');
+	         expect(element(by.id('linky-filter')).element(by.binding('snippet | linky')).getText()).
+	             toBe('new http://link.');
+	         expect(element.all(by.css('#linky-filter a')).count()).toEqual(1);
+	         expect(element(by.id('escaped-html')).element(by.binding('snippet')).getText())
+	             .toBe('new http://link.');
+	       });
+
+	       it('should work with the target property', function() {
+	        expect(element(by.id('linky-target')).
+	            element(by.binding("snippetWithTarget | linky:'_blank'")).getText()).
+	            toBe('http://angularjs.org/');
+	        expect(element(by.css('#linky-target a')).getAttribute('target')).toEqual('_blank');
+	       });
+	     </file>
+	   </example>
+	 */
+	angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
+	  var LINKY_URL_REGEXP =
+	        /((ftp|https?):\/\/|(www\.)|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>"\u201d\u2019]/i,
+	      MAILTO_REGEXP = /^mailto:/i;
+
+	  return function(text, target) {
+	    if (!text) return text;
+	    var match;
+	    var raw = text;
+	    var html = [];
+	    var url;
+	    var i;
+	    while ((match = raw.match(LINKY_URL_REGEXP))) {
+	      // We can not end in these as they are sometimes found at the end of the sentence
+	      url = match[0];
+	      // if we did not match ftp/http/www/mailto then assume mailto
+	      if (!match[2] && !match[4]) {
+	        url = (match[3] ? 'http://' : 'mailto:') + url;
+	      }
+	      i = match.index;
+	      addText(raw.substr(0, i));
+	      addLink(url, match[0].replace(MAILTO_REGEXP, ''));
+	      raw = raw.substring(i + match[0].length);
+	    }
+	    addText(raw);
+	    return $sanitize(html.join(''));
+
+	    function addText(text) {
+	      if (!text) {
+	        return;
+	      }
+	      html.push(sanitizeText(text));
+	    }
+
+	    function addLink(url, text) {
+	      html.push('<a ');
+	      if (angular.isDefined(target)) {
+	        html.push('target="',
+	                  target,
+	                  '" ');
+	      }
+	      html.push('href="',
+	                url.replace(/"/g, '&quot;'),
+	                '">');
+	      addText(text);
+	      html.push('</a>');
 	    }
 	  };
 	}]);
 
 
+	})(window, window.angular);
+
+
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {
@@ -39427,10 +39988,10 @@
 
 	}).call(this);
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)(module)))
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -39446,7 +40007,1941 @@
 
 
 /***/ },
-/* 42 */
+/* 43 */
+/***/ function(module, exports) {
+
+	/*!
+	 * ui-select
+	 * http://github.com/angular-ui/ui-select
+	 * Version: 0.13.2 - 2015-10-09T15:34:24.040Z
+	 * License: MIT
+	 */
+
+
+	(function () { 
+	"use strict";
+
+	var KEY = {
+	    TAB: 9,
+	    ENTER: 13,
+	    ESC: 27,
+	    SPACE: 32,
+	    LEFT: 37,
+	    UP: 38,
+	    RIGHT: 39,
+	    DOWN: 40,
+	    SHIFT: 16,
+	    CTRL: 17,
+	    ALT: 18,
+	    PAGE_UP: 33,
+	    PAGE_DOWN: 34,
+	    HOME: 36,
+	    END: 35,
+	    BACKSPACE: 8,
+	    DELETE: 46,
+	    COMMAND: 91,
+
+	    MAP: { 91 : "COMMAND", 8 : "BACKSPACE" , 9 : "TAB" , 13 : "ENTER" , 16 : "SHIFT" , 17 : "CTRL" , 18 : "ALT" , 19 : "PAUSEBREAK" , 20 : "CAPSLOCK" , 27 : "ESC" , 32 : "SPACE" , 33 : "PAGE_UP", 34 : "PAGE_DOWN" , 35 : "END" , 36 : "HOME" , 37 : "LEFT" , 38 : "UP" , 39 : "RIGHT" , 40 : "DOWN" , 43 : "+" , 44 : "PRINTSCREEN" , 45 : "INSERT" , 46 : "DELETE", 48 : "0" , 49 : "1" , 50 : "2" , 51 : "3" , 52 : "4" , 53 : "5" , 54 : "6" , 55 : "7" , 56 : "8" , 57 : "9" , 59 : ";", 61 : "=" , 65 : "A" , 66 : "B" , 67 : "C" , 68 : "D" , 69 : "E" , 70 : "F" , 71 : "G" , 72 : "H" , 73 : "I" , 74 : "J" , 75 : "K" , 76 : "L", 77 : "M" , 78 : "N" , 79 : "O" , 80 : "P" , 81 : "Q" , 82 : "R" , 83 : "S" , 84 : "T" , 85 : "U" , 86 : "V" , 87 : "W" , 88 : "X" , 89 : "Y" , 90 : "Z", 96 : "0" , 97 : "1" , 98 : "2" , 99 : "3" , 100 : "4" , 101 : "5" , 102 : "6" , 103 : "7" , 104 : "8" , 105 : "9", 106 : "*" , 107 : "+" , 109 : "-" , 110 : "." , 111 : "/", 112 : "F1" , 113 : "F2" , 114 : "F3" , 115 : "F4" , 116 : "F5" , 117 : "F6" , 118 : "F7" , 119 : "F8" , 120 : "F9" , 121 : "F10" , 122 : "F11" , 123 : "F12", 144 : "NUMLOCK" , 145 : "SCROLLLOCK" , 186 : ";" , 187 : "=" , 188 : "," , 189 : "-" , 190 : "." , 191 : "/" , 192 : "`" , 219 : "[" , 220 : "\\" , 221 : "]" , 222 : "'"
+	    },
+
+	    isControl: function (e) {
+	        var k = e.which;
+	        switch (k) {
+	        case KEY.COMMAND:
+	        case KEY.SHIFT:
+	        case KEY.CTRL:
+	        case KEY.ALT:
+	            return true;
+	        }
+
+	        if (e.metaKey) return true;
+
+	        return false;
+	    },
+	    isFunctionKey: function (k) {
+	        k = k.which ? k.which : k;
+	        return k >= 112 && k <= 123;
+	    },
+	    isVerticalMovement: function (k){
+	      return ~[KEY.UP, KEY.DOWN].indexOf(k);
+	    },
+	    isHorizontalMovement: function (k){
+	      return ~[KEY.LEFT,KEY.RIGHT,KEY.BACKSPACE,KEY.DELETE].indexOf(k);
+	    }
+	  };
+
+	/**
+	 * Add querySelectorAll() to jqLite.
+	 *
+	 * jqLite find() is limited to lookups by tag name.
+	 * TODO This will change with future versions of AngularJS, to be removed when this happens
+	 *
+	 * See jqLite.find - why not use querySelectorAll? https://github.com/angular/angular.js/issues/3586
+	 * See feat(jqLite): use querySelectorAll instead of getElementsByTagName in jqLite.find https://github.com/angular/angular.js/pull/3598
+	 */
+	if (angular.element.prototype.querySelectorAll === undefined) {
+	  angular.element.prototype.querySelectorAll = function(selector) {
+	    return angular.element(this[0].querySelectorAll(selector));
+	  };
+	}
+
+	/**
+	 * Add closest() to jqLite.
+	 */
+	if (angular.element.prototype.closest === undefined) {
+	  angular.element.prototype.closest = function( selector) {
+	    var elem = this[0];
+	    var matchesSelector = elem.matches || elem.webkitMatchesSelector || elem.mozMatchesSelector || elem.msMatchesSelector;
+
+	    while (elem) {
+	      if (matchesSelector.bind(elem)(selector)) {
+	        return elem;
+	      } else {
+	        elem = elem.parentElement;
+	      }
+	    }
+	    return false;
+	  };
+	}
+
+	var latestId = 0;
+
+	var uis = angular.module('ui.select', [])
+
+	.constant('uiSelectConfig', {
+	  theme: 'bootstrap',
+	  searchEnabled: true,
+	  sortable: false,
+	  placeholder: '', // Empty by default, like HTML tag <select>
+	  refreshDelay: 1000, // In milliseconds
+	  closeOnSelect: true,
+	  dropdownPosition: 'auto',
+	  generateId: function() {
+	    return latestId++;
+	  },
+	  appendToBody: false
+	})
+
+	// See Rename minErr and make it accessible from outside https://github.com/angular/angular.js/issues/6913
+	.service('uiSelectMinErr', function() {
+	  var minErr = angular.$$minErr('ui.select');
+	  return function() {
+	    var error = minErr.apply(this, arguments);
+	    var message = error.message.replace(new RegExp('\nhttp://errors.angularjs.org/.*'), '');
+	    return new Error(message);
+	  };
+	})
+
+	// Recreates old behavior of ng-transclude. Used internally.
+	.directive('uisTranscludeAppend', function () {
+	  return {
+	    link: function (scope, element, attrs, ctrl, transclude) {
+	        transclude(scope, function (clone) {
+	          element.append(clone);
+	        });
+	      }
+	    };
+	})
+
+	/**
+	 * Highlights text that matches $select.search.
+	 *
+	 * Taken from AngularUI Bootstrap Typeahead
+	 * See https://github.com/angular-ui/bootstrap/blob/0.10.0/src/typeahead/typeahead.js#L340
+	 */
+	.filter('highlight', function() {
+	  function escapeRegexp(queryToEscape) {
+	    return queryToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+	  }
+
+	  return function(matchItem, query) {
+	    return query && matchItem ? matchItem.replace(new RegExp(escapeRegexp(query), 'gi'), '<span class="ui-select-highlight">$&</span>') : matchItem;
+	  };
+	})
+
+	/**
+	 * A read-only equivalent of jQuery's offset function: http://api.jquery.com/offset/
+	 *
+	 * Taken from AngularUI Bootstrap Position:
+	 * See https://github.com/angular-ui/bootstrap/blob/master/src/position/position.js#L70
+	 */
+	.factory('uisOffset',
+	  ['$document', '$window',
+	  function ($document, $window) {
+
+	  return function(element) {
+	    var boundingClientRect = element[0].getBoundingClientRect();
+	    return {
+	      width: boundingClientRect.width || element.prop('offsetWidth'),
+	      height: boundingClientRect.height || element.prop('offsetHeight'),
+	      top: boundingClientRect.top + ($window.pageYOffset || $document[0].documentElement.scrollTop),
+	      left: boundingClientRect.left + ($window.pageXOffset || $document[0].documentElement.scrollLeft)
+	    };
+	  };
+	}]);
+
+	uis.directive('uiSelectChoices',
+	  ['uiSelectConfig', 'uisRepeatParser', 'uiSelectMinErr', '$compile',
+	  function(uiSelectConfig, RepeatParser, uiSelectMinErr, $compile) {
+
+	  return {
+	    restrict: 'EA',
+	    require: '^uiSelect',
+	    replace: true,
+	    transclude: true,
+	    templateUrl: function(tElement) {
+	      // Gets theme attribute from parent (ui-select)
+	      var theme = tElement.parent().attr('theme') || uiSelectConfig.theme;
+	      return theme + '/choices.tpl.html';
+	    },
+
+	    compile: function(tElement, tAttrs) {
+
+	      if (!tAttrs.repeat) throw uiSelectMinErr('repeat', "Expected 'repeat' expression.");
+
+	      return function link(scope, element, attrs, $select, transcludeFn) {
+
+	        // var repeat = RepeatParser.parse(attrs.repeat);
+	        var groupByExp = attrs.groupBy;
+	        var groupFilterExp = attrs.groupFilter;
+
+	        $select.parseRepeatAttr(attrs.repeat, groupByExp, groupFilterExp); //Result ready at $select.parserResult
+
+	        $select.disableChoiceExpression = attrs.uiDisableChoice;
+	        $select.onHighlightCallback = attrs.onHighlight;
+
+	        $select.dropdownPosition = attrs.position ? attrs.position.toLowerCase() : uiSelectConfig.dropdownPosition;
+
+	        if(groupByExp) {
+	          var groups = element.querySelectorAll('.ui-select-choices-group');
+	          if (groups.length !== 1) throw uiSelectMinErr('rows', "Expected 1 .ui-select-choices-group but got '{0}'.", groups.length);
+	          groups.attr('ng-repeat', RepeatParser.getGroupNgRepeatExpression());
+	        }
+
+	        var choices = element.querySelectorAll('.ui-select-choices-row');
+	        if (choices.length !== 1) {
+	          throw uiSelectMinErr('rows', "Expected 1 .ui-select-choices-row but got '{0}'.", choices.length);
+	        }
+
+	        choices.attr('ng-repeat', $select.parserResult.repeatExpression(groupByExp))
+	            .attr('ng-if', '$select.open') //Prevent unnecessary watches when dropdown is closed
+	            .attr('ng-click', '$select.select(' + $select.parserResult.itemName + ',false,$event)');
+
+	        var rowsInner = element.querySelectorAll('.ui-select-choices-row-inner');
+	        if (rowsInner.length !== 1) throw uiSelectMinErr('rows', "Expected 1 .ui-select-choices-row-inner but got '{0}'.", rowsInner.length);
+	        rowsInner.attr('uis-transclude-append', ''); //Adding uisTranscludeAppend directive to row element after choices element has ngRepeat
+
+	        $compile(element, transcludeFn)(scope); //Passing current transcludeFn to be able to append elements correctly from uisTranscludeAppend
+
+	        scope.$watch('$select.search', function(newValue) {
+	          if(newValue && !$select.open && $select.multiple) $select.activate(false, true);
+	          $select.activeIndex = $select.tagging.isActivated ? -1 : 0;
+	          $select.refresh(attrs.refresh);
+	        });
+
+	        attrs.$observe('refreshDelay', function() {
+	          // $eval() is needed otherwise we get a string instead of a number
+	          var refreshDelay = scope.$eval(attrs.refreshDelay);
+	          $select.refreshDelay = refreshDelay !== undefined ? refreshDelay : uiSelectConfig.refreshDelay;
+	        });
+	      };
+	    }
+	  };
+	}]);
+
+	/**
+	 * Contains ui-select "intelligence".
+	 *
+	 * The goal is to limit dependency on the DOM whenever possible and
+	 * put as much logic in the controller (instead of the link functions) as possible so it can be easily tested.
+	 */
+	uis.controller('uiSelectCtrl',
+	  ['$scope', '$element', '$timeout', '$filter', 'uisRepeatParser', 'uiSelectMinErr', 'uiSelectConfig', '$parse',
+	  function($scope, $element, $timeout, $filter, RepeatParser, uiSelectMinErr, uiSelectConfig, $parse) {
+
+	  var ctrl = this;
+
+	  var EMPTY_SEARCH = '';
+
+	  ctrl.placeholder = uiSelectConfig.placeholder;
+	  ctrl.searchEnabled = uiSelectConfig.searchEnabled;
+	  ctrl.sortable = uiSelectConfig.sortable;
+	  ctrl.refreshDelay = uiSelectConfig.refreshDelay;
+
+	  ctrl.removeSelected = false; //If selected item(s) should be removed from dropdown list
+	  ctrl.closeOnSelect = true; //Initialized inside uiSelect directive link function
+	  ctrl.search = EMPTY_SEARCH;
+
+	  ctrl.activeIndex = 0; //Dropdown of choices
+	  ctrl.items = []; //All available choices
+
+	  ctrl.open = false;
+	  ctrl.focus = false;
+	  ctrl.disabled = false;
+	  ctrl.selected = undefined;
+
+	  ctrl.dropdownPosition = 'auto';
+
+	  ctrl.focusser = undefined; //Reference to input element used to handle focus events
+	  ctrl.resetSearchInput = true;
+	  ctrl.multiple = undefined; // Initialized inside uiSelect directive link function
+	  ctrl.disableChoiceExpression = undefined; // Initialized inside uiSelectChoices directive link function
+	  ctrl.tagging = {isActivated: false, fct: undefined};
+	  ctrl.taggingTokens = {isActivated: false, tokens: undefined};
+	  ctrl.lockChoiceExpression = undefined; // Initialized inside uiSelectMatch directive link function
+	  ctrl.clickTriggeredSelect = false;
+	  ctrl.$filter = $filter;
+
+	  ctrl.searchInput = $element.querySelectorAll('input.ui-select-search');
+	  if (ctrl.searchInput.length !== 1) {
+	    throw uiSelectMinErr('searchInput', "Expected 1 input.ui-select-search but got '{0}'.", ctrl.searchInput.length);
+	  }
+	  
+	  ctrl.isEmpty = function() {
+	    return angular.isUndefined(ctrl.selected) || ctrl.selected === null || ctrl.selected === '';
+	  };
+
+	  // Most of the time the user does not want to empty the search input when in typeahead mode
+	  function _resetSearchInput() {
+	    if (ctrl.resetSearchInput || (ctrl.resetSearchInput === undefined && uiSelectConfig.resetSearchInput)) {
+	      ctrl.search = EMPTY_SEARCH;
+	      //reset activeIndex
+	      if (ctrl.selected && ctrl.items.length && !ctrl.multiple) {
+	        ctrl.activeIndex = ctrl.items.indexOf(ctrl.selected);
+	      }
+	    }
+	  }
+
+	    function _groupsFilter(groups, groupNames) {
+	      var i, j, result = [];
+	      for(i = 0; i < groupNames.length ;i++){
+	        for(j = 0; j < groups.length ;j++){
+	          if(groups[j].name == [groupNames[i]]){
+	            result.push(groups[j]);
+	          }
+	        }
+	      }
+	      return result;
+	    }
+
+	  // When the user clicks on ui-select, displays the dropdown list
+	  ctrl.activate = function(initSearchValue, avoidReset) {
+	    if (!ctrl.disabled  && !ctrl.open) {
+	      if(!avoidReset) _resetSearchInput();
+
+	      $scope.$broadcast('uis:activate');
+
+	      ctrl.open = true;
+
+	      ctrl.activeIndex = ctrl.activeIndex >= ctrl.items.length ? 0 : ctrl.activeIndex;
+
+	      // ensure that the index is set to zero for tagging variants
+	      // that where first option is auto-selected
+	      if ( ctrl.activeIndex === -1 && ctrl.taggingLabel !== false ) {
+	        ctrl.activeIndex = 0;
+	      }
+
+	      // Give it time to appear before focus
+	      $timeout(function() {
+	        ctrl.search = initSearchValue || ctrl.search;
+	        ctrl.searchInput[0].focus();
+	        if(!ctrl.tagging.isActivated && ctrl.items.length > 1) {
+	          _ensureHighlightVisible();
+	        }
+	      });
+	    }
+	  };
+
+	  ctrl.findGroupByName = function(name) {
+	    return ctrl.groups && ctrl.groups.filter(function(group) {
+	      return group.name === name;
+	    })[0];
+	  };
+
+	  ctrl.parseRepeatAttr = function(repeatAttr, groupByExp, groupFilterExp) {
+	    function updateGroups(items) {
+	      var groupFn = $scope.$eval(groupByExp);
+	      ctrl.groups = [];
+	      angular.forEach(items, function(item) {
+	        var groupName = angular.isFunction(groupFn) ? groupFn(item) : item[groupFn];
+	        var group = ctrl.findGroupByName(groupName);
+	        if(group) {
+	          group.items.push(item);
+	        }
+	        else {
+	          ctrl.groups.push({name: groupName, items: [item]});
+	        }
+	      });
+	      if(groupFilterExp){
+	        var groupFilterFn = $scope.$eval(groupFilterExp);
+	        if( angular.isFunction(groupFilterFn)){
+	          ctrl.groups = groupFilterFn(ctrl.groups);
+	        } else if(angular.isArray(groupFilterFn)){
+	          ctrl.groups = _groupsFilter(ctrl.groups, groupFilterFn);
+	        }
+	      }
+	      ctrl.items = [];
+	      ctrl.groups.forEach(function(group) {
+	        ctrl.items = ctrl.items.concat(group.items);
+	      });
+	    }
+
+	    function setPlainItems(items) {
+	      ctrl.items = items;
+	    }
+
+	    ctrl.setItemsFn = groupByExp ? updateGroups : setPlainItems;
+
+	    ctrl.parserResult = RepeatParser.parse(repeatAttr);
+
+	    ctrl.isGrouped = !!groupByExp;
+	    ctrl.itemProperty = ctrl.parserResult.itemName;
+
+	    //If collection is an Object, convert it to Array
+
+	    var originalSource = ctrl.parserResult.source;
+	    
+	    //When an object is used as source, we better create an array and use it as 'source'
+	    var createArrayFromObject = function(){
+	      var origSrc = originalSource($scope);
+	      $scope.$uisSource = Object.keys(origSrc).map(function(v){
+	        var result = {};
+	        result[ctrl.parserResult.keyName] = v;
+	        result.value = origSrc[v];
+	        return result;
+	      });
+	    };
+
+	    if (ctrl.parserResult.keyName){ // Check for (key,value) syntax
+	      createArrayFromObject();
+	      ctrl.parserResult.source = $parse('$uisSource' + ctrl.parserResult.filters);
+	      $scope.$watch(originalSource, function(newVal, oldVal){
+	        if (newVal !== oldVal) createArrayFromObject();
+	      }, true);
+	    }
+
+	    ctrl.refreshItems = function (data){
+	      data = data || ctrl.parserResult.source($scope);
+	      var selectedItems = ctrl.selected;
+	      //TODO should implement for single mode removeSelected
+	      if (ctrl.isEmpty() || (angular.isArray(selectedItems) && !selectedItems.length) || !ctrl.removeSelected) {
+	        ctrl.setItemsFn(data);
+	      }else{
+	        if ( data !== undefined ) {
+	          var filteredItems = data.filter(function(i) {return selectedItems && selectedItems.indexOf(i) < 0;});
+	          ctrl.setItemsFn(filteredItems);
+	        }
+	      }
+	      if (ctrl.dropdownPosition === 'auto' || ctrl.dropdownPosition === 'up'){
+	        $scope.calculateDropdownPos();
+	      }
+	    };
+
+	    // See https://github.com/angular/angular.js/blob/v1.2.15/src/ng/directive/ngRepeat.js#L259
+	    $scope.$watchCollection(ctrl.parserResult.source, function(items) {
+	      if (items === undefined || items === null) {
+	        // If the user specifies undefined or null => reset the collection
+	        // Special case: items can be undefined if the user did not initialized the collection on the scope
+	        // i.e $scope.addresses = [] is missing
+	        ctrl.items = [];
+	      } else {
+	        if (!angular.isArray(items)) {
+	          throw uiSelectMinErr('items', "Expected an array but got '{0}'.", items);          
+	        } else {
+	          //Remove already selected items (ex: while searching)
+	          //TODO Should add a test
+	          ctrl.refreshItems(items);
+	          ctrl.ngModel.$modelValue = null; //Force scope model value and ngModel value to be out of sync to re-run formatters
+	        }
+	      }
+	    });
+
+	  };
+
+	  var _refreshDelayPromise;
+
+	  /**
+	   * Typeahead mode: lets the user refresh the collection using his own function.
+	   *
+	   * See Expose $select.search for external / remote filtering https://github.com/angular-ui/ui-select/pull/31
+	   */
+	  ctrl.refresh = function(refreshAttr) {
+	    if (refreshAttr !== undefined) {
+
+	      // Debounce
+	      // See https://github.com/angular-ui/bootstrap/blob/0.10.0/src/typeahead/typeahead.js#L155
+	      // FYI AngularStrap typeahead does not have debouncing: https://github.com/mgcrea/angular-strap/blob/v2.0.0-rc.4/src/typeahead/typeahead.js#L177
+	      if (_refreshDelayPromise) {
+	        $timeout.cancel(_refreshDelayPromise);
+	      }
+	      _refreshDelayPromise = $timeout(function() {
+	        $scope.$eval(refreshAttr);
+	      }, ctrl.refreshDelay);
+	    }
+	  };
+
+	  ctrl.isActive = function(itemScope) {
+	    if ( !ctrl.open ) {
+	      return false;
+	    }
+	    var itemIndex = ctrl.items.indexOf(itemScope[ctrl.itemProperty]);
+	    var isActive =  itemIndex === ctrl.activeIndex;
+
+	    if ( !isActive || ( itemIndex < 0 && ctrl.taggingLabel !== false ) ||( itemIndex < 0 && ctrl.taggingLabel === false) ) {
+	      return false;
+	    }
+
+	    if (isActive && !angular.isUndefined(ctrl.onHighlightCallback)) {
+	      itemScope.$eval(ctrl.onHighlightCallback);
+	    }
+
+	    return isActive;
+	  };
+
+	  ctrl.isDisabled = function(itemScope) {
+
+	    if (!ctrl.open) return;
+
+	    var itemIndex = ctrl.items.indexOf(itemScope[ctrl.itemProperty]);
+	    var isDisabled = false;
+	    var item;
+
+	    if (itemIndex >= 0 && !angular.isUndefined(ctrl.disableChoiceExpression)) {
+	      item = ctrl.items[itemIndex];
+	      isDisabled = !!(itemScope.$eval(ctrl.disableChoiceExpression)); // force the boolean value
+	      item._uiSelectChoiceDisabled = isDisabled; // store this for later reference
+	    }
+
+	    return isDisabled;
+	  };
+
+
+	  // When the user selects an item with ENTER or clicks the dropdown
+	  ctrl.select = function(item, skipFocusser, $event) {
+	    if (item === undefined || !item._uiSelectChoiceDisabled) {
+
+	      if ( ! ctrl.items && ! ctrl.search ) return;
+
+	      if (!item || !item._uiSelectChoiceDisabled) {
+	        if(ctrl.tagging.isActivated) {
+	          // if taggingLabel is disabled, we pull from ctrl.search val
+	          if ( ctrl.taggingLabel === false ) {
+	            if ( ctrl.activeIndex < 0 ) {
+	              item = ctrl.tagging.fct !== undefined ? ctrl.tagging.fct(ctrl.search) : ctrl.search;
+	              if (!item || angular.equals( ctrl.items[0], item ) ) {
+	                return;
+	              }
+	            } else {
+	              // keyboard nav happened first, user selected from dropdown
+	              item = ctrl.items[ctrl.activeIndex];
+	            }
+	          } else {
+	            // tagging always operates at index zero, taggingLabel === false pushes
+	            // the ctrl.search value without having it injected
+	            if ( ctrl.activeIndex === 0 ) {
+	              // ctrl.tagging pushes items to ctrl.items, so we only have empty val
+	              // for `item` if it is a detected duplicate
+	              if ( item === undefined ) return;
+
+	              // create new item on the fly if we don't already have one;
+	              // use tagging function if we have one
+	              if ( ctrl.tagging.fct !== undefined && typeof item === 'string' ) {
+	                item = ctrl.tagging.fct(ctrl.search);
+	                if (!item) return;
+	              // if item type is 'string', apply the tagging label
+	              } else if ( typeof item === 'string' ) {
+	                // trim the trailing space
+	                item = item.replace(ctrl.taggingLabel,'').trim();
+	              }
+	            }
+	          }
+	          // search ctrl.selected for dupes potentially caused by tagging and return early if found
+	          if ( ctrl.selected && angular.isArray(ctrl.selected) && ctrl.selected.filter( function (selection) { return angular.equals(selection, item); }).length > 0 ) {
+	            ctrl.close(skipFocusser);
+	            return;
+	          }
+	        }
+
+	        $scope.$broadcast('uis:select', item);
+
+	        var locals = {};
+	        locals[ctrl.parserResult.itemName] = item;
+
+	        $timeout(function(){
+	          ctrl.onSelectCallback($scope, {
+	            $item: item,
+	            $model: ctrl.parserResult.modelMapper($scope, locals)
+	          });
+	        });
+
+	        if (ctrl.closeOnSelect) {
+	          ctrl.close(skipFocusser);
+	        }
+	        if ($event && $event.type === 'click') {
+	          ctrl.clickTriggeredSelect = true;
+	        }
+	      }
+	    }
+	  };
+
+	  // Closes the dropdown
+	  ctrl.close = function(skipFocusser) {
+	    if (!ctrl.open) return;
+	    if (ctrl.ngModel && ctrl.ngModel.$setTouched) ctrl.ngModel.$setTouched();
+	    _resetSearchInput();
+	    ctrl.open = false;
+
+	    $scope.$broadcast('uis:close', skipFocusser);
+
+	  };
+
+	  ctrl.setFocus = function(){
+	    if (!ctrl.focus) ctrl.focusInput[0].focus();
+	  };
+
+	  ctrl.clear = function($event) {
+	    ctrl.select(undefined);
+	    $event.stopPropagation();
+	    $timeout(function() {
+	      ctrl.focusser[0].focus();
+	    }, 0, false);
+	  };
+
+	  // Toggle dropdown
+	  ctrl.toggle = function(e) {
+	    if (ctrl.open) {
+	      ctrl.close();
+	      e.preventDefault();
+	      e.stopPropagation();
+	    } else {
+	      ctrl.activate();
+	    }
+	  };
+
+	  ctrl.isLocked = function(itemScope, itemIndex) {
+	      var isLocked, item = ctrl.selected[itemIndex];
+
+	      if (item && !angular.isUndefined(ctrl.lockChoiceExpression)) {
+	          isLocked = !!(itemScope.$eval(ctrl.lockChoiceExpression)); // force the boolean value
+	          item._uiSelectChoiceLocked = isLocked; // store this for later reference
+	      }
+
+	      return isLocked;
+	  };
+
+	  var sizeWatch = null;
+	  ctrl.sizeSearchInput = function() {
+
+	    var input = ctrl.searchInput[0],
+	        container = ctrl.searchInput.parent().parent()[0],
+	        calculateContainerWidth = function() {
+	          // Return the container width only if the search input is visible
+	          return container.clientWidth * !!input.offsetParent;
+	        },
+	        updateIfVisible = function(containerWidth) {
+	          if (containerWidth === 0) {
+	            return false;
+	          }
+	          var inputWidth = containerWidth - input.offsetLeft - 10;
+	          if (inputWidth < 50) inputWidth = containerWidth;
+	          ctrl.searchInput.css('width', inputWidth+'px');
+	          return true;
+	        };
+
+	    ctrl.searchInput.css('width', '10px');
+	    $timeout(function() { //Give tags time to render correctly
+	      if (sizeWatch === null && !updateIfVisible(calculateContainerWidth())) {
+	        sizeWatch = $scope.$watch(calculateContainerWidth, function(containerWidth) {
+	          if (updateIfVisible(containerWidth)) {
+	            sizeWatch();
+	            sizeWatch = null;
+	          }
+	        });
+	      }
+	    });
+	  };
+
+	  function _handleDropDownSelection(key) {
+	    var processed = true;
+	    switch (key) {
+	      case KEY.DOWN:
+	        if (!ctrl.open && ctrl.multiple) ctrl.activate(false, true); //In case its the search input in 'multiple' mode
+	        else if (ctrl.activeIndex < ctrl.items.length - 1) { ctrl.activeIndex++; }
+	        break;
+	      case KEY.UP:
+	        if (!ctrl.open && ctrl.multiple) ctrl.activate(false, true); //In case its the search input in 'multiple' mode
+	        else if (ctrl.activeIndex > 0 || (ctrl.search.length === 0 && ctrl.tagging.isActivated && ctrl.activeIndex > -1)) { ctrl.activeIndex--; }
+	        break;
+	      case KEY.TAB:
+	        if (!ctrl.multiple || ctrl.open) ctrl.select(ctrl.items[ctrl.activeIndex], true);
+	        break;
+	      case KEY.ENTER:
+	        if(ctrl.open && (ctrl.tagging.isActivated || ctrl.activeIndex >= 0)){
+	          ctrl.select(ctrl.items[ctrl.activeIndex]); // Make sure at least one dropdown item is highlighted before adding if not in tagging mode
+	        } else {
+	          ctrl.activate(false, true); //In case its the search input in 'multiple' mode
+	        }
+	        break;
+	      case KEY.ESC:
+	        ctrl.close();
+	        break;
+	      default:
+	        processed = false;
+	    }
+	    return processed;
+	  }
+
+	  // Bind to keyboard shortcuts
+	  ctrl.searchInput.on('keydown', function(e) {
+
+	    var key = e.which;
+
+	    // if(~[KEY.ESC,KEY.TAB].indexOf(key)){
+	    //   //TODO: SEGURO?
+	    //   ctrl.close();
+	    // }
+
+	    $scope.$apply(function() {
+
+	      var tagged = false;
+
+	      if (ctrl.items.length > 0 || ctrl.tagging.isActivated) {
+	        _handleDropDownSelection(key);
+	        if ( ctrl.taggingTokens.isActivated ) {
+	          for (var i = 0; i < ctrl.taggingTokens.tokens.length; i++) {
+	            if ( ctrl.taggingTokens.tokens[i] === KEY.MAP[e.keyCode] ) {
+	              // make sure there is a new value to push via tagging
+	              if ( ctrl.search.length > 0 ) {
+	                tagged = true;
+	              }
+	            }
+	          }
+	          if ( tagged ) {
+	            $timeout(function() {
+	              ctrl.searchInput.triggerHandler('tagged');
+	              var newItem = ctrl.search.replace(KEY.MAP[e.keyCode],'').trim();
+	              if ( ctrl.tagging.fct ) {
+	                newItem = ctrl.tagging.fct( newItem );
+	              }
+	              if (newItem) ctrl.select(newItem, true);
+	            });
+	          }
+	        }
+	      }
+
+	    });
+
+	    if(KEY.isVerticalMovement(key) && ctrl.items.length > 0){
+	      _ensureHighlightVisible();
+	    }
+
+	    if (key === KEY.ENTER || key === KEY.ESC) {
+	      e.preventDefault();
+	      e.stopPropagation();
+	    }
+
+	  });
+
+	  // If tagging try to split by tokens and add items
+	  ctrl.searchInput.on('paste', function (e) {
+	    var data = e.originalEvent.clipboardData.getData('text/plain');
+	    if (data && data.length > 0 && ctrl.taggingTokens.isActivated && ctrl.tagging.fct) {
+	      var items = data.split(ctrl.taggingTokens.tokens[0]); // split by first token only
+	      if (items && items.length > 0) {
+	        angular.forEach(items, function (item) {
+	          var newItem = ctrl.tagging.fct(item);
+	          if (newItem) {
+	            ctrl.select(newItem, true);
+	          }
+	        });
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    }
+	  });
+
+	  ctrl.searchInput.on('tagged', function() {
+	    $timeout(function() {
+	      _resetSearchInput();
+	    });
+	  });
+
+	  // See https://github.com/ivaynberg/select2/blob/3.4.6/select2.js#L1431
+	  function _ensureHighlightVisible() {
+	    var container = $element.querySelectorAll('.ui-select-choices-content');
+	    var choices = container.querySelectorAll('.ui-select-choices-row');
+	    if (choices.length < 1) {
+	      throw uiSelectMinErr('choices', "Expected multiple .ui-select-choices-row but got '{0}'.", choices.length);
+	    }
+
+	    if (ctrl.activeIndex < 0) {
+	      return;
+	    }
+
+	    var highlighted = choices[ctrl.activeIndex];
+	    var posY = highlighted.offsetTop + highlighted.clientHeight - container[0].scrollTop;
+	    var height = container[0].offsetHeight;
+
+	    if (posY > height) {
+	      container[0].scrollTop += posY - height;
+	    } else if (posY < highlighted.clientHeight) {
+	      if (ctrl.isGrouped && ctrl.activeIndex === 0)
+	        container[0].scrollTop = 0; //To make group header visible when going all the way up
+	      else
+	        container[0].scrollTop -= highlighted.clientHeight - posY;
+	    }
+	  }
+
+	  $scope.$on('$destroy', function() {
+	    ctrl.searchInput.off('keyup keydown tagged blur paste');
+	  });
+
+	}]);
+
+	uis.directive('uiSelect',
+	  ['$document', 'uiSelectConfig', 'uiSelectMinErr', 'uisOffset', '$compile', '$parse', '$timeout',
+	  function($document, uiSelectConfig, uiSelectMinErr, uisOffset, $compile, $parse, $timeout) {
+
+	  return {
+	    restrict: 'EA',
+	    templateUrl: function(tElement, tAttrs) {
+	      var theme = tAttrs.theme || uiSelectConfig.theme;
+	      return theme + (angular.isDefined(tAttrs.multiple) ? '/select-multiple.tpl.html' : '/select.tpl.html');
+	    },
+	    replace: true,
+	    transclude: true,
+	    require: ['uiSelect', '^ngModel'],
+	    scope: true,
+
+	    controller: 'uiSelectCtrl',
+	    controllerAs: '$select',
+	    compile: function(tElement, tAttrs) {
+
+	      //Multiple or Single depending if multiple attribute presence
+	      if (angular.isDefined(tAttrs.multiple))
+	        tElement.append('<ui-select-multiple/>').removeAttr('multiple');
+	      else
+	        tElement.append('<ui-select-single/>');
+
+	      if (tAttrs.inputId)
+	        tElement.querySelectorAll('input.ui-select-search')[0].id = tAttrs.inputId;
+
+	      return function(scope, element, attrs, ctrls, transcludeFn) {
+
+	        var $select = ctrls[0];
+	        var ngModel = ctrls[1];
+
+	        $select.generatedId = uiSelectConfig.generateId();
+	        $select.baseTitle = attrs.title || 'Select box';
+	        $select.focusserTitle = $select.baseTitle + ' focus';
+	        $select.focusserId = 'focusser-' + $select.generatedId;
+
+	        $select.closeOnSelect = function() {
+	          if (angular.isDefined(attrs.closeOnSelect)) {
+	            return $parse(attrs.closeOnSelect)();
+	          } else {
+	            return uiSelectConfig.closeOnSelect;
+	          }
+	        }();
+
+	        $select.onSelectCallback = $parse(attrs.onSelect);
+	        $select.onRemoveCallback = $parse(attrs.onRemove);
+
+	        //Limit the number of selections allowed
+	        $select.limit = (angular.isDefined(attrs.limit)) ? parseInt(attrs.limit, 10) : undefined;
+
+	        //Set reference to ngModel from uiSelectCtrl
+	        $select.ngModel = ngModel;
+
+	        $select.choiceGrouped = function(group){
+	          return $select.isGrouped && group && group.name;
+	        };
+
+	        if(attrs.tabindex){
+	          attrs.$observe('tabindex', function(value) {
+	            $select.focusInput.attr('tabindex', value);
+	            element.removeAttr('tabindex');
+	          });
+	        }
+
+	        scope.$watch('searchEnabled', function() {
+	            var searchEnabled = scope.$eval(attrs.searchEnabled);
+	            $select.searchEnabled = searchEnabled !== undefined ? searchEnabled : uiSelectConfig.searchEnabled;
+	        });
+
+	        scope.$watch('sortable', function() {
+	            var sortable = scope.$eval(attrs.sortable);
+	            $select.sortable = sortable !== undefined ? sortable : uiSelectConfig.sortable;
+	        });
+
+	        attrs.$observe('disabled', function() {
+	          // No need to use $eval() (thanks to ng-disabled) since we already get a boolean instead of a string
+	          $select.disabled = attrs.disabled !== undefined ? attrs.disabled : false;
+	        });
+
+	        attrs.$observe('resetSearchInput', function() {
+	          // $eval() is needed otherwise we get a string instead of a boolean
+	          var resetSearchInput = scope.$eval(attrs.resetSearchInput);
+	          $select.resetSearchInput = resetSearchInput !== undefined ? resetSearchInput : true;
+	        });
+
+	        attrs.$observe('tagging', function() {
+	          if(attrs.tagging !== undefined)
+	          {
+	            // $eval() is needed otherwise we get a string instead of a boolean
+	            var taggingEval = scope.$eval(attrs.tagging);
+	            $select.tagging = {isActivated: true, fct: taggingEval !== true ? taggingEval : undefined};
+	          }
+	          else
+	          {
+	            $select.tagging = {isActivated: false, fct: undefined};
+	          }
+	        });
+
+	        attrs.$observe('taggingLabel', function() {
+	          if(attrs.tagging !== undefined )
+	          {
+	            // check eval for FALSE, in this case, we disable the labels
+	            // associated with tagging
+	            if ( attrs.taggingLabel === 'false' ) {
+	              $select.taggingLabel = false;
+	            }
+	            else
+	            {
+	              $select.taggingLabel = attrs.taggingLabel !== undefined ? attrs.taggingLabel : '(new)';
+	            }
+	          }
+	        });
+
+	        attrs.$observe('taggingTokens', function() {
+	          if (attrs.tagging !== undefined) {
+	            var tokens = attrs.taggingTokens !== undefined ? attrs.taggingTokens.split('|') : [',','ENTER'];
+	            $select.taggingTokens = {isActivated: true, tokens: tokens };
+	          }
+	        });
+
+	        //Automatically gets focus when loaded
+	        if (angular.isDefined(attrs.autofocus)){
+	          $timeout(function(){
+	            $select.setFocus();
+	          });
+	        }
+
+	        //Gets focus based on scope event name (e.g. focus-on='SomeEventName')
+	        if (angular.isDefined(attrs.focusOn)){
+	          scope.$on(attrs.focusOn, function() {
+	              $timeout(function(){
+	                $select.setFocus();
+	              });
+	          });
+	        }
+
+	        function onDocumentClick(e) {
+	          if (!$select.open) return; //Skip it if dropdown is close
+
+	          var contains = false;
+
+	          if (window.jQuery) {
+	            // Firefox 3.6 does not support element.contains()
+	            // See Node.contains https://developer.mozilla.org/en-US/docs/Web/API/Node.contains
+	            contains = window.jQuery.contains(element[0], e.target);
+	          } else {
+	            contains = element[0].contains(e.target);
+	          }
+
+	          if (!contains && !$select.clickTriggeredSelect) {
+	            //Will lose focus only with certain targets
+	            var focusableControls = ['input','button','textarea'];
+	            var targetController = angular.element(e.target).controller('uiSelect'); //To check if target is other ui-select
+	            var skipFocusser = targetController && targetController !== $select; //To check if target is other ui-select
+	            if (!skipFocusser) skipFocusser =  ~focusableControls.indexOf(e.target.tagName.toLowerCase()); //Check if target is input, button or textarea
+	            $select.close(skipFocusser);
+	            scope.$digest();
+	          }
+	          $select.clickTriggeredSelect = false;
+	        }
+
+	        // See Click everywhere but here event http://stackoverflow.com/questions/12931369
+	        $document.on('click', onDocumentClick);
+
+	        scope.$on('$destroy', function() {
+	          $document.off('click', onDocumentClick);
+	        });
+
+	        // Move transcluded elements to their correct position in main template
+	        transcludeFn(scope, function(clone) {
+	          // See Transclude in AngularJS http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html
+
+	          // One day jqLite will be replaced by jQuery and we will be able to write:
+	          // var transcludedElement = clone.filter('.my-class')
+	          // instead of creating a hackish DOM element:
+	          var transcluded = angular.element('<div>').append(clone);
+
+	          var transcludedMatch = transcluded.querySelectorAll('.ui-select-match');
+	          transcludedMatch.removeAttr('ui-select-match'); //To avoid loop in case directive as attr
+	          transcludedMatch.removeAttr('data-ui-select-match'); // Properly handle HTML5 data-attributes
+	          if (transcludedMatch.length !== 1) {
+	            throw uiSelectMinErr('transcluded', "Expected 1 .ui-select-match but got '{0}'.", transcludedMatch.length);
+	          }
+	          element.querySelectorAll('.ui-select-match').replaceWith(transcludedMatch);
+
+	          var transcludedChoices = transcluded.querySelectorAll('.ui-select-choices');
+	          transcludedChoices.removeAttr('ui-select-choices'); //To avoid loop in case directive as attr
+	          transcludedChoices.removeAttr('data-ui-select-choices'); // Properly handle HTML5 data-attributes
+	          if (transcludedChoices.length !== 1) {
+	            throw uiSelectMinErr('transcluded', "Expected 1 .ui-select-choices but got '{0}'.", transcludedChoices.length);
+	          }
+	          element.querySelectorAll('.ui-select-choices').replaceWith(transcludedChoices);
+	        });
+
+	        // Support for appending the select field to the body when its open
+	        var appendToBody = scope.$eval(attrs.appendToBody);
+	        if (appendToBody !== undefined ? appendToBody : uiSelectConfig.appendToBody) {
+	          scope.$watch('$select.open', function(isOpen) {
+	            if (isOpen) {
+	              positionDropdown();
+	            } else {
+	              resetDropdown();
+	            }
+	          });
+
+	          // Move the dropdown back to its original location when the scope is destroyed. Otherwise
+	          // it might stick around when the user routes away or the select field is otherwise removed
+	          scope.$on('$destroy', function() {
+	            resetDropdown();
+	          });
+	        }
+
+	        // Hold on to a reference to the .ui-select-container element for appendToBody support
+	        var placeholder = null,
+	            originalWidth = '';
+
+	        function positionDropdown() {
+	          // Remember the absolute position of the element
+	          var offset = uisOffset(element);
+
+	          // Clone the element into a placeholder element to take its original place in the DOM
+	          placeholder = angular.element('<div class="ui-select-placeholder"></div>');
+	          placeholder[0].style.width = offset.width + 'px';
+	          placeholder[0].style.height = offset.height + 'px';
+	          element.after(placeholder);
+
+	          // Remember the original value of the element width inline style, so it can be restored
+	          // when the dropdown is closed
+	          originalWidth = element[0].style.width;
+
+	          // Now move the actual dropdown element to the end of the body
+	          $document.find('body').append(element);
+
+	          element[0].style.position = 'absolute';
+	          element[0].style.left = offset.left + 'px';
+	          element[0].style.top = offset.top + 'px';
+	          element[0].style.width = offset.width + 'px';
+	        }
+
+	        function resetDropdown() {
+	          if (placeholder === null) {
+	            // The dropdown has not actually been display yet, so there's nothing to reset
+	            return;
+	          }
+
+	          // Move the dropdown element back to its original location in the DOM
+	          placeholder.replaceWith(element);
+	          placeholder = null;
+
+	          element[0].style.position = '';
+	          element[0].style.left = '';
+	          element[0].style.top = '';
+	          element[0].style.width = originalWidth;
+	        }
+
+	        // Hold on to a reference to the .ui-select-dropdown element for direction support.
+	        var dropdown = null,
+	            directionUpClassName = 'direction-up';
+
+	        // Support changing the direction of the dropdown if there isn't enough space to render it.
+	        scope.$watch('$select.open', function() {
+
+	          if ($select.dropdownPosition === 'auto' || $select.dropdownPosition === 'up'){
+	            scope.calculateDropdownPos();
+	          }
+
+	        });
+
+	        var setDropdownPosUp = function(offset, offsetDropdown){
+
+	          offset = offset || uisOffset(element);
+	          offsetDropdown = offsetDropdown || uisOffset(dropdown);
+
+	          dropdown[0].style.position = 'absolute';
+	          dropdown[0].style.top = (offsetDropdown.height * -1) + 'px';
+	          element.addClass(directionUpClassName);
+
+	        };
+
+	        var setDropdownPosDown = function(offset, offsetDropdown){
+
+	          element.removeClass(directionUpClassName);
+
+	          offset = offset || uisOffset(element);
+	          offsetDropdown = offsetDropdown || uisOffset(dropdown);
+
+	          dropdown[0].style.position = '';
+	          dropdown[0].style.top = '';
+
+	        };
+
+	        scope.calculateDropdownPos = function(){
+
+	          if ($select.open) {
+	            dropdown = angular.element(element).querySelectorAll('.ui-select-dropdown');
+	            if (dropdown.length === 0) {
+	              return;
+	            }
+
+	            // Hide the dropdown so there is no flicker until $timeout is done executing.
+	            dropdown[0].style.opacity = 0;
+
+	            // Delay positioning the dropdown until all choices have been added so its height is correct.
+	            $timeout(function(){
+
+	              if ($select.dropdownPosition === 'up'){
+	                  //Go UP
+	                  setDropdownPosUp(offset, offsetDropdown);
+
+	              }else{ //AUTO
+
+	                element.removeClass(directionUpClassName);
+
+	                var offset = uisOffset(element);
+	                var offsetDropdown = uisOffset(dropdown);
+
+	                //https://code.google.com/p/chromium/issues/detail?id=342307#c4
+	                var scrollTop = $document[0].documentElement.scrollTop || $document[0].body.scrollTop; //To make it cross browser (blink, webkit, IE, Firefox).
+
+	                // Determine if the direction of the dropdown needs to be changed.
+	                if (offset.top + offset.height + offsetDropdown.height > scrollTop + $document[0].documentElement.clientHeight) {
+	                  //Go UP
+	                  setDropdownPosUp(offset, offsetDropdown);
+	                }else{
+	                  //Go DOWN
+	                  setDropdownPosDown(offset, offsetDropdown);
+	                }
+
+	              }
+
+	              // Display the dropdown once it has been positioned.
+	              dropdown[0].style.opacity = 1;
+	            });
+	          } else {
+	              if (dropdown === null || dropdown.length === 0) {
+	                return;
+	              }
+
+	              // Reset the position of the dropdown.
+	              dropdown[0].style.position = '';
+	              dropdown[0].style.top = '';
+	              element.removeClass(directionUpClassName);
+	          }
+	        };
+	      };
+	    }
+	  };
+	}]);
+
+	uis.directive('uiSelectMatch', ['uiSelectConfig', function(uiSelectConfig) {
+	  return {
+	    restrict: 'EA',
+	    require: '^uiSelect',
+	    replace: true,
+	    transclude: true,
+	    templateUrl: function(tElement) {
+	      // Gets theme attribute from parent (ui-select)
+	      var theme = tElement.parent().attr('theme') || uiSelectConfig.theme;
+	      var multi = tElement.parent().attr('multiple');
+	      return theme + (multi ? '/match-multiple.tpl.html' : '/match.tpl.html');
+	    },
+	    link: function(scope, element, attrs, $select) {
+	      $select.lockChoiceExpression = attrs.uiLockChoice;
+	      attrs.$observe('placeholder', function(placeholder) {
+	        $select.placeholder = placeholder !== undefined ? placeholder : uiSelectConfig.placeholder;
+	      });
+
+	      function setAllowClear(allow) {
+	        $select.allowClear = (angular.isDefined(allow)) ? (allow === '') ? true : (allow.toLowerCase() === 'true') : false;
+	      }
+
+	      attrs.$observe('allowClear', setAllowClear);
+	      setAllowClear(attrs.allowClear);
+
+	      if($select.multiple){
+	        $select.sizeSearchInput();
+	      }
+
+	    }
+	  };
+	}]);
+
+	uis.directive('uiSelectMultiple', ['uiSelectMinErr','$timeout', function(uiSelectMinErr, $timeout) {
+	  return {
+	    restrict: 'EA',
+	    require: ['^uiSelect', '^ngModel'],
+
+	    controller: ['$scope','$timeout', function($scope, $timeout){
+
+	      var ctrl = this,
+	          $select = $scope.$select,
+	          ngModel;
+
+	      //Wait for link fn to inject it 
+	      $scope.$evalAsync(function(){ ngModel = $scope.ngModel; });
+
+	      ctrl.activeMatchIndex = -1;
+
+	      ctrl.updateModel = function(){
+	        ngModel.$setViewValue(Date.now()); //Set timestamp as a unique string to force changes
+	        ctrl.refreshComponent();
+	      };
+
+	      ctrl.refreshComponent = function(){
+	        //Remove already selected items
+	        //e.g. When user clicks on a selection, the selected array changes and 
+	        //the dropdown should remove that item
+	        $select.refreshItems();
+	        $select.sizeSearchInput();
+	      };
+
+	      // Remove item from multiple select
+	      ctrl.removeChoice = function(index){
+
+	        var removedChoice = $select.selected[index];
+
+	        // if the choice is locked, can't remove it
+	        if(removedChoice._uiSelectChoiceLocked) return;
+
+	        var locals = {};
+	        locals[$select.parserResult.itemName] = removedChoice;
+
+	        $select.selected.splice(index, 1);
+	        ctrl.activeMatchIndex = -1;
+	        $select.sizeSearchInput();
+
+	        // Give some time for scope propagation.
+	        $timeout(function(){
+	          $select.onRemoveCallback($scope, {
+	            $item: removedChoice,
+	            $model: $select.parserResult.modelMapper($scope, locals)
+	          });
+	        });
+
+	        ctrl.updateModel();
+
+	      };
+
+	      ctrl.getPlaceholder = function(){
+	        //Refactor single?
+	        if($select.selected && $select.selected.length) return;
+	        return $select.placeholder;
+	      };
+
+
+	    }],
+	    controllerAs: '$selectMultiple',
+
+	    link: function(scope, element, attrs, ctrls) {
+
+	      var $select = ctrls[0];
+	      var ngModel = scope.ngModel = ctrls[1];
+	      var $selectMultiple = scope.$selectMultiple;
+
+	      //$select.selected = raw selected objects (ignoring any property binding)
+
+	      $select.multiple = true;
+	      $select.removeSelected = true;
+
+	      //Input that will handle focus
+	      $select.focusInput = $select.searchInput;
+
+	      //From view --> model
+	      ngModel.$parsers.unshift(function () {
+	        var locals = {},
+	            result,
+	            resultMultiple = [];
+	        for (var j = $select.selected.length - 1; j >= 0; j--) {
+	          locals = {};
+	          locals[$select.parserResult.itemName] = $select.selected[j];
+	          result = $select.parserResult.modelMapper(scope, locals);
+	          resultMultiple.unshift(result);
+	        }
+	        return resultMultiple;
+	      });
+
+	      // From model --> view
+	      ngModel.$formatters.unshift(function (inputValue) {
+	        var data = $select.parserResult.source (scope, { $select : {search:''}}), //Overwrite $search
+	            locals = {},
+	            result;
+	        if (!data) return inputValue;
+	        var resultMultiple = [];
+	        var checkFnMultiple = function(list, value){
+	          if (!list || !list.length) return;
+	          for (var p = list.length - 1; p >= 0; p--) {
+	            locals[$select.parserResult.itemName] = list[p];
+	            result = $select.parserResult.modelMapper(scope, locals);
+	            if($select.parserResult.trackByExp){
+	                var matches = /\.(.+)/.exec($select.parserResult.trackByExp);
+	                if(matches.length>0 && result[matches[1]] == value[matches[1]]){
+	                    resultMultiple.unshift(list[p]);
+	                    return true;
+	                }
+	            }
+	            if (angular.equals(result,value)){
+	              resultMultiple.unshift(list[p]);
+	              return true;
+	            }
+	          }
+	          return false;
+	        };
+	        if (!inputValue) return resultMultiple; //If ngModel was undefined
+	        for (var k = inputValue.length - 1; k >= 0; k--) {
+	          //Check model array of currently selected items 
+	          if (!checkFnMultiple($select.selected, inputValue[k])){
+	            //Check model array of all items available
+	            if (!checkFnMultiple(data, inputValue[k])){
+	              //If not found on previous lists, just add it directly to resultMultiple
+	              resultMultiple.unshift(inputValue[k]);
+	            }
+	          }
+	        }
+	        return resultMultiple;
+	      });
+	      
+	      //Watch for external model changes 
+	      scope.$watchCollection(function(){ return ngModel.$modelValue; }, function(newValue, oldValue) {
+	        if (oldValue != newValue){
+	          ngModel.$modelValue = null; //Force scope model value and ngModel value to be out of sync to re-run formatters
+	          $selectMultiple.refreshComponent();
+	        }
+	      });
+
+	      ngModel.$render = function() {
+	        // Make sure that model value is array
+	        if(!angular.isArray(ngModel.$viewValue)){
+	          // Have tolerance for null or undefined values
+	          if(angular.isUndefined(ngModel.$viewValue) || ngModel.$viewValue === null){
+	            $select.selected = [];
+	          } else {
+	            throw uiSelectMinErr('multiarr', "Expected model value to be array but got '{0}'", ngModel.$viewValue);
+	          }
+	        }
+	        $select.selected = ngModel.$viewValue;
+	        scope.$evalAsync(); //To force $digest
+	      };
+
+	      scope.$on('uis:select', function (event, item) {
+	        if($select.selected.length >= $select.limit) {
+	          return;
+	        }
+	        $select.selected.push(item);
+	        $selectMultiple.updateModel();
+	      });
+
+	      scope.$on('uis:activate', function () {
+	        $selectMultiple.activeMatchIndex = -1;
+	      });
+
+	      scope.$watch('$select.disabled', function(newValue, oldValue) {
+	        // As the search input field may now become visible, it may be necessary to recompute its size
+	        if (oldValue && !newValue) $select.sizeSearchInput();
+	      });
+
+	      $select.searchInput.on('keydown', function(e) {
+	        var key = e.which;
+	        scope.$apply(function() {
+	          var processed = false;
+	          // var tagged = false; //Checkme
+	          if(KEY.isHorizontalMovement(key)){
+	            processed = _handleMatchSelection(key);
+	          }
+	          if (processed  && key != KEY.TAB) {
+	            //TODO Check si el tab selecciona aun correctamente
+	            //Crear test
+	            e.preventDefault();
+	            e.stopPropagation();
+	          }
+	        });
+	      });
+	      function _getCaretPosition(el) {
+	        if(angular.isNumber(el.selectionStart)) return el.selectionStart;
+	        // selectionStart is not supported in IE8 and we don't want hacky workarounds so we compromise
+	        else return el.value.length;
+	      }
+	      // Handles selected options in "multiple" mode
+	      function _handleMatchSelection(key){
+	        var caretPosition = _getCaretPosition($select.searchInput[0]),
+	            length = $select.selected.length,
+	            // none  = -1,
+	            first = 0,
+	            last  = length-1,
+	            curr  = $selectMultiple.activeMatchIndex,
+	            next  = $selectMultiple.activeMatchIndex+1,
+	            prev  = $selectMultiple.activeMatchIndex-1,
+	            newIndex = curr;
+
+	        if(caretPosition > 0 || ($select.search.length && key == KEY.RIGHT)) return false;
+
+	        $select.close();
+
+	        function getNewActiveMatchIndex(){
+	          switch(key){
+	            case KEY.LEFT:
+	              // Select previous/first item
+	              if(~$selectMultiple.activeMatchIndex) return prev;
+	              // Select last item
+	              else return last;
+	              break;
+	            case KEY.RIGHT:
+	              // Open drop-down
+	              if(!~$selectMultiple.activeMatchIndex || curr === last){
+	                $select.activate();
+	                return false;
+	              }
+	              // Select next/last item
+	              else return next;
+	              break;
+	            case KEY.BACKSPACE:
+	              // Remove selected item and select previous/first
+	              if(~$selectMultiple.activeMatchIndex){
+	                $selectMultiple.removeChoice(curr);
+	                return prev;
+	              }
+	              // Select last item
+	              else return last;
+	              break;
+	            case KEY.DELETE:
+	              // Remove selected item and select next item
+	              if(~$selectMultiple.activeMatchIndex){
+	                $selectMultiple.removeChoice($selectMultiple.activeMatchIndex);
+	                return curr;
+	              }
+	              else return false;
+	          }
+	        }
+
+	        newIndex = getNewActiveMatchIndex();
+
+	        if(!$select.selected.length || newIndex === false) $selectMultiple.activeMatchIndex = -1;
+	        else $selectMultiple.activeMatchIndex = Math.min(last,Math.max(first,newIndex));
+
+	        return true;
+	      }
+
+	      $select.searchInput.on('keyup', function(e) {
+
+	        if ( ! KEY.isVerticalMovement(e.which) ) {
+	          scope.$evalAsync( function () {
+	            $select.activeIndex = $select.taggingLabel === false ? -1 : 0;
+	          });
+	        }
+	        // Push a "create new" item into array if there is a search string
+	        if ( $select.tagging.isActivated && $select.search.length > 0 ) {
+
+	          // return early with these keys
+	          if (e.which === KEY.TAB || KEY.isControl(e) || KEY.isFunctionKey(e) || e.which === KEY.ESC || KEY.isVerticalMovement(e.which) ) {
+	            return;
+	          }
+	          // always reset the activeIndex to the first item when tagging
+	          $select.activeIndex = $select.taggingLabel === false ? -1 : 0;
+	          // taggingLabel === false bypasses all of this
+	          if ($select.taggingLabel === false) return;
+
+	          var items = angular.copy( $select.items );
+	          var stashArr = angular.copy( $select.items );
+	          var newItem;
+	          var item;
+	          var hasTag = false;
+	          var dupeIndex = -1;
+	          var tagItems;
+	          var tagItem;
+
+	          // case for object tagging via transform `$select.tagging.fct` function
+	          if ( $select.tagging.fct !== undefined) {
+	            tagItems = $select.$filter('filter')(items,{'isTag': true});
+	            if ( tagItems.length > 0 ) {
+	              tagItem = tagItems[0];
+	            }
+	            // remove the first element, if it has the `isTag` prop we generate a new one with each keyup, shaving the previous
+	            if ( items.length > 0 && tagItem ) {
+	              hasTag = true;
+	              items = items.slice(1,items.length);
+	              stashArr = stashArr.slice(1,stashArr.length);
+	            }
+	            newItem = $select.tagging.fct($select.search);
+	            newItem.isTag = true;
+	            // verify the the tag doesn't match the value of an existing item
+	            if ( stashArr.filter( function (origItem) { return angular.equals( origItem, $select.tagging.fct($select.search) ); } ).length > 0 ) {
+	              return;
+	            }
+	            newItem.isTag = true;
+	          // handle newItem string and stripping dupes in tagging string context
+	          } else {
+	            // find any tagging items already in the $select.items array and store them
+	            tagItems = $select.$filter('filter')(items,function (item) {
+	              return item.match($select.taggingLabel);
+	            });
+	            if ( tagItems.length > 0 ) {
+	              tagItem = tagItems[0];
+	            }
+	            item = items[0];
+	            // remove existing tag item if found (should only ever be one tag item)
+	            if ( item !== undefined && items.length > 0 && tagItem ) {
+	              hasTag = true;
+	              items = items.slice(1,items.length);
+	              stashArr = stashArr.slice(1,stashArr.length);
+	            }
+	            newItem = $select.search+' '+$select.taggingLabel;
+	            if ( _findApproxDupe($select.selected, $select.search) > -1 ) {
+	              return;
+	            }
+	            // verify the the tag doesn't match the value of an existing item from
+	            // the searched data set or the items already selected
+	            if ( _findCaseInsensitiveDupe(stashArr.concat($select.selected)) ) {
+	              // if there is a tag from prev iteration, strip it / queue the change
+	              // and return early
+	              if ( hasTag ) {
+	                items = stashArr;
+	                scope.$evalAsync( function () {
+	                  $select.activeIndex = 0;
+	                  $select.items = items;
+	                });
+	              }
+	              return;
+	            }
+	            if ( _findCaseInsensitiveDupe(stashArr) ) {
+	              // if there is a tag from prev iteration, strip it
+	              if ( hasTag ) {
+	                $select.items = stashArr.slice(1,stashArr.length);
+	              }
+	              return;
+	            }
+	          }
+	          if ( hasTag ) dupeIndex = _findApproxDupe($select.selected, newItem);
+	          // dupe found, shave the first item
+	          if ( dupeIndex > -1 ) {
+	            items = items.slice(dupeIndex+1,items.length-1);
+	          } else {
+	            items = [];
+	            items.push(newItem);
+	            items = items.concat(stashArr);
+	          }
+	          scope.$evalAsync( function () {
+	            $select.activeIndex = 0;
+	            $select.items = items;
+	          });
+	        }
+	      });
+	      function _findCaseInsensitiveDupe(arr) {
+	        if ( arr === undefined || $select.search === undefined ) {
+	          return false;
+	        }
+	        var hasDupe = arr.filter( function (origItem) {
+	          if ( $select.search.toUpperCase() === undefined || origItem === undefined ) {
+	            return false;
+	          }
+	          return origItem.toUpperCase() === $select.search.toUpperCase();
+	        }).length > 0;
+
+	        return hasDupe;
+	      }
+	      function _findApproxDupe(haystack, needle) {
+	        var dupeIndex = -1;
+	        if(angular.isArray(haystack)) {
+	          var tempArr = angular.copy(haystack);
+	          for (var i = 0; i <tempArr.length; i++) {
+	            // handle the simple string version of tagging
+	            if ( $select.tagging.fct === undefined ) {
+	              // search the array for the match
+	              if ( tempArr[i]+' '+$select.taggingLabel === needle ) {
+	              dupeIndex = i;
+	              }
+	            // handle the object tagging implementation
+	            } else {
+	              var mockObj = tempArr[i];
+	              mockObj.isTag = true;
+	              if ( angular.equals(mockObj, needle) ) {
+	              dupeIndex = i;
+	              }
+	            }
+	          }
+	        }
+	        return dupeIndex;
+	      }
+
+	      $select.searchInput.on('blur', function() {
+	        $timeout(function() {
+	          $selectMultiple.activeMatchIndex = -1;
+	        });
+	      });
+
+	    }
+	  };
+	}]);
+
+	uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $compile) {
+	  return {
+	    restrict: 'EA',
+	    require: ['^uiSelect', '^ngModel'],
+	    link: function(scope, element, attrs, ctrls) {
+
+	      var $select = ctrls[0];
+	      var ngModel = ctrls[1];
+
+	      //From view --> model
+	      ngModel.$parsers.unshift(function (inputValue) {
+	        var locals = {},
+	            result;
+	        locals[$select.parserResult.itemName] = inputValue;
+	        result = $select.parserResult.modelMapper(scope, locals);
+	        return result;
+	      });
+
+	      //From model --> view
+	      ngModel.$formatters.unshift(function (inputValue) {
+	        var data = $select.parserResult.source (scope, { $select : {search:''}}), //Overwrite $search
+	            locals = {},
+	            result;
+	        if (data){
+	          var checkFnSingle = function(d){
+	            locals[$select.parserResult.itemName] = d;
+	            result = $select.parserResult.modelMapper(scope, locals);
+	            return result == inputValue;
+	          };
+	          //If possible pass same object stored in $select.selected
+	          if ($select.selected && checkFnSingle($select.selected)) {
+	            return $select.selected;
+	          }
+	          for (var i = data.length - 1; i >= 0; i--) {
+	            if (checkFnSingle(data[i])) return data[i];
+	          }
+	        }
+	        return inputValue;
+	      });
+
+	      //Update viewValue if model change
+	      scope.$watch('$select.selected', function(newValue) {
+	        if (ngModel.$viewValue !== newValue) {
+	          ngModel.$setViewValue(newValue);
+	        }
+	      });
+
+	      ngModel.$render = function() {
+	        $select.selected = ngModel.$viewValue;
+	      };
+
+	      scope.$on('uis:select', function (event, item) {
+	        $select.selected = item;
+	      });
+
+	      scope.$on('uis:close', function (event, skipFocusser) {
+	        $timeout(function(){
+	          $select.focusser.prop('disabled', false);
+	          if (!skipFocusser) $select.focusser[0].focus();
+	        },0,false);
+	      });
+
+	      scope.$on('uis:activate', function () {
+	        focusser.prop('disabled', true); //Will reactivate it on .close()
+	      });
+
+	      //Idea from: https://github.com/ivaynberg/select2/blob/79b5bf6db918d7560bdd959109b7bcfb47edaf43/select2.js#L1954
+	      var focusser = angular.element("<input ng-disabled='$select.disabled' class='ui-select-focusser ui-select-offscreen' type='text' id='{{ $select.focusserId }}' aria-label='{{ $select.focusserTitle }}' aria-haspopup='true' role='button' />");
+	      $compile(focusser)(scope);
+	      $select.focusser = focusser;
+
+	      //Input that will handle focus
+	      $select.focusInput = focusser;
+
+	      element.parent().append(focusser);
+	      focusser.bind("focus", function(){
+	        scope.$evalAsync(function(){
+	          $select.focus = true;
+	        });
+	      });
+	      focusser.bind("blur", function(){
+	        scope.$evalAsync(function(){
+	          $select.focus = false;
+	        });
+	      });
+	      focusser.bind("keydown", function(e){
+
+	        if (e.which === KEY.BACKSPACE) {
+	          e.preventDefault();
+	          e.stopPropagation();
+	          $select.select(undefined);
+	          scope.$apply();
+	          return;
+	        }
+
+	        if (e.which === KEY.TAB || KEY.isControl(e) || KEY.isFunctionKey(e) || e.which === KEY.ESC) {
+	          return;
+	        }
+
+	        if (e.which == KEY.DOWN  || e.which == KEY.UP || e.which == KEY.ENTER || e.which == KEY.SPACE){
+	          e.preventDefault();
+	          e.stopPropagation();
+	          $select.activate();
+	        }
+
+	        scope.$digest();
+	      });
+
+	      focusser.bind("keyup input", function(e){
+
+	        if (e.which === KEY.TAB || KEY.isControl(e) || KEY.isFunctionKey(e) || e.which === KEY.ESC || e.which == KEY.ENTER || e.which === KEY.BACKSPACE) {
+	          return;
+	        }
+
+	        $select.activate(focusser.val()); //User pressed some regular key, so we pass it to the search input
+	        focusser.val('');
+	        scope.$digest();
+
+	      });
+
+
+	    }
+	  };
+	}]);
+	// Make multiple matches sortable
+	uis.directive('uiSelectSort', ['$timeout', 'uiSelectConfig', 'uiSelectMinErr', function($timeout, uiSelectConfig, uiSelectMinErr) {
+	  return {
+	    require: '^uiSelect',
+	    link: function(scope, element, attrs, $select) {
+	      if (scope[attrs.uiSelectSort] === null) {
+	        throw uiSelectMinErr('sort', "Expected a list to sort");
+	      }
+
+	      var options = angular.extend({
+	          axis: 'horizontal'
+	        },
+	        scope.$eval(attrs.uiSelectSortOptions));
+
+	      var axis = options.axis,
+	        draggingClassName = 'dragging',
+	        droppingClassName = 'dropping',
+	        droppingBeforeClassName = 'dropping-before',
+	        droppingAfterClassName = 'dropping-after';
+
+	      scope.$watch(function(){
+	        return $select.sortable;
+	      }, function(n){
+	        if (n) {
+	          element.attr('draggable', true);
+	        } else {
+	          element.removeAttr('draggable');
+	        }
+	      });
+
+	      element.on('dragstart', function(e) {
+	        element.addClass(draggingClassName);
+
+	        (e.dataTransfer || e.originalEvent.dataTransfer).setData('text/plain', scope.$index);
+	      });
+
+	      element.on('dragend', function() {
+	        element.removeClass(draggingClassName);
+	      });
+
+	      var move = function(from, to) {
+	        /*jshint validthis: true */
+	        this.splice(to, 0, this.splice(from, 1)[0]);
+	      };
+
+	      var dragOverHandler = function(e) {
+	        e.preventDefault();
+
+	        var offset = axis === 'vertical' ? e.offsetY || e.layerY || (e.originalEvent ? e.originalEvent.offsetY : 0) : e.offsetX || e.layerX || (e.originalEvent ? e.originalEvent.offsetX : 0);
+
+	        if (offset < (this[axis === 'vertical' ? 'offsetHeight' : 'offsetWidth'] / 2)) {
+	          element.removeClass(droppingAfterClassName);
+	          element.addClass(droppingBeforeClassName);
+
+	        } else {
+	          element.removeClass(droppingBeforeClassName);
+	          element.addClass(droppingAfterClassName);
+	        }
+	      };
+
+	      var dropTimeout;
+
+	      var dropHandler = function(e) {
+	        e.preventDefault();
+
+	        var droppedItemIndex = parseInt((e.dataTransfer || e.originalEvent.dataTransfer).getData('text/plain'), 10);
+
+	        // prevent event firing multiple times in firefox
+	        $timeout.cancel(dropTimeout);
+	        dropTimeout = $timeout(function() {
+	          _dropHandler(droppedItemIndex);
+	        }, 20);
+	      };
+
+	      var _dropHandler = function(droppedItemIndex) {
+	        var theList = scope.$eval(attrs.uiSelectSort),
+	          itemToMove = theList[droppedItemIndex],
+	          newIndex = null;
+
+	        if (element.hasClass(droppingBeforeClassName)) {
+	          if (droppedItemIndex < scope.$index) {
+	            newIndex = scope.$index - 1;
+	          } else {
+	            newIndex = scope.$index;
+	          }
+	        } else {
+	          if (droppedItemIndex < scope.$index) {
+	            newIndex = scope.$index;
+	          } else {
+	            newIndex = scope.$index + 1;
+	          }
+	        }
+
+	        move.apply(theList, [droppedItemIndex, newIndex]);
+
+	        scope.$apply(function() {
+	          scope.$emit('uiSelectSort:change', {
+	            array: theList,
+	            item: itemToMove,
+	            from: droppedItemIndex,
+	            to: newIndex
+	          });
+	        });
+
+	        element.removeClass(droppingClassName);
+	        element.removeClass(droppingBeforeClassName);
+	        element.removeClass(droppingAfterClassName);
+
+	        element.off('drop', dropHandler);
+	      };
+
+	      element.on('dragenter', function() {
+	        if (element.hasClass(draggingClassName)) {
+	          return;
+	        }
+
+	        element.addClass(droppingClassName);
+
+	        element.on('dragover', dragOverHandler);
+	        element.on('drop', dropHandler);
+	      });
+
+	      element.on('dragleave', function(e) {
+	        if (e.target != element) {
+	          return;
+	        }
+	        element.removeClass(droppingClassName);
+	        element.removeClass(droppingBeforeClassName);
+	        element.removeClass(droppingAfterClassName);
+
+	        element.off('dragover', dragOverHandler);
+	        element.off('drop', dropHandler);
+	      });
+	    }
+	  };
+	}]);
+
+	/**
+	 * Parses "repeat" attribute.
+	 *
+	 * Taken from AngularJS ngRepeat source code
+	 * See https://github.com/angular/angular.js/blob/v1.2.15/src/ng/directive/ngRepeat.js#L211
+	 *
+	 * Original discussion about parsing "repeat" attribute instead of fully relying on ng-repeat:
+	 * https://github.com/angular-ui/ui-select/commit/5dd63ad#commitcomment-5504697
+	 */
+
+	uis.service('uisRepeatParser', ['uiSelectMinErr','$parse', function(uiSelectMinErr, $parse) {
+	  var self = this;
+
+	  /**
+	   * Example:
+	   * expression = "address in addresses | filter: {street: $select.search} track by $index"
+	   * itemName = "address",
+	   * source = "addresses | filter: {street: $select.search}",
+	   * trackByExp = "$index",
+	   */
+	  self.parse = function(expression) {
+
+
+	    var match;
+	    var isObjectCollection = /\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)/.test(expression);
+	    // If an array is used as collection
+
+	    // if (isObjectCollection){
+	      //00000000000000000000000000000111111111000000000000000222222222222220033333333333333333333330000444444444444444444000000000000000556666660000077777777777755000000000000000000000088888880000000
+	    match = expression.match(/^\s*(?:([\s\S]+?)\s+as\s+)?(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(([\w\.]+)?\s*(|\s*[\s\S]+?))?(?:\s+track\s+by\s+([\s\S]+?))?\s*$/);      
+
+	    // 1 Alias
+	    // 2 Item
+	    // 3 Key on (key,value)
+	    // 4 Value on (key,value)
+	    // 5 Collection expresion (only used when using an array collection)
+	    // 6 Object that will be converted to Array when using (key,value) syntax
+	    // 7 Filters that will be applied to #6 when using (key,value) syntax
+	    // 8 Track by
+
+	    if (!match) {
+	      throw uiSelectMinErr('iexp', "Expected expression in form of '_item_ in _collection_[ track by _id_]' but got '{0}'.",
+	              expression);
+	    }
+	    if (!match[6] && isObjectCollection) {
+	      throw uiSelectMinErr('iexp', "Expected expression in form of '_item_ as (_key_, _item_) in _ObjCollection_ [ track by _id_]' but got '{0}'.",
+	              expression);
+	    }
+
+	    return {
+	      itemName: match[4] || match[2], // (lhs) Left-hand side,
+	      keyName: match[3], //for (key, value) syntax
+	      source: $parse(!match[3] ? match[5] : match[6]),
+	      sourceName: match[6],
+	      filters: match[7],
+	      trackByExp: match[8],
+	      modelMapper: $parse(match[1] || match[4] || match[2]),
+	      repeatExpression: function (grouped) {
+	        var expression = this.itemName + ' in ' + (grouped ? '$group.items' : '$select.items');
+	        if (this.trackByExp) {
+	          expression += ' track by ' + this.trackByExp;
+	        }
+	        return expression;
+	      } 
+	    };
+
+	  };
+
+	  self.getGroupNgRepeatExpression = function() {
+	    return '$group in $select.groups';
+	  };
+
+	}]);
+
+	}());
+	angular.module("ui.select").run(["$templateCache", function($templateCache) {$templateCache.put("bootstrap/choices.tpl.html","<ul class=\"ui-select-choices ui-select-choices-content ui-select-dropdown dropdown-menu\" role=\"listbox\" ng-show=\"$select.items.length > 0\"><li class=\"ui-select-choices-group\" id=\"ui-select-choices-{{ $select.generatedId }}\"><div class=\"divider\" ng-show=\"$select.isGrouped && $index > 0\"></div><div ng-show=\"$select.isGrouped\" class=\"ui-select-choices-group-label dropdown-header\" ng-bind=\"$group.name\"></div><div id=\"ui-select-choices-row-{{ $select.generatedId }}-{{$index}}\" class=\"ui-select-choices-row\" ng-class=\"{active: $select.isActive(this), disabled: $select.isDisabled(this)}\" role=\"option\"><a href=\"javascript:void(0)\" class=\"ui-select-choices-row-inner\"></a></div></li></ul>");
+	$templateCache.put("bootstrap/match-multiple.tpl.html","<span class=\"ui-select-match\"><span ng-repeat=\"$item in $select.selected\"><span class=\"ui-select-match-item btn btn-default btn-xs\" tabindex=\"-1\" type=\"button\" ng-disabled=\"$select.disabled\" ng-click=\"$selectMultiple.activeMatchIndex = $index;\" ng-class=\"{\'btn-primary\':$selectMultiple.activeMatchIndex === $index, \'select-locked\':$select.isLocked(this, $index)}\" ui-select-sort=\"$select.selected\"><span class=\"close ui-select-match-close\" ng-hide=\"$select.disabled\" ng-click=\"$selectMultiple.removeChoice($index)\">&nbsp;&times;</span> <span uis-transclude-append=\"\"></span></span></span></span>");
+	$templateCache.put("bootstrap/match.tpl.html","<div class=\"ui-select-match\" ng-hide=\"$select.open\" ng-disabled=\"$select.disabled\" ng-class=\"{\'btn-default-focus\':$select.focus}\"><span tabindex=\"-1\" class=\"btn btn-default form-control ui-select-toggle\" aria-label=\"{{ $select.baseTitle }} activate\" ng-disabled=\"$select.disabled\" ng-click=\"$select.activate()\" style=\"outline: 0;\"><span ng-show=\"$select.isEmpty()\" class=\"ui-select-placeholder text-muted\">{{$select.placeholder}}</span> <span ng-hide=\"$select.isEmpty()\" class=\"ui-select-match-text pull-left\" ng-class=\"{\'ui-select-allow-clear\': $select.allowClear && !$select.isEmpty()}\" ng-transclude=\"\"></span> <i class=\"caret pull-right\" ng-click=\"$select.toggle($event)\"></i> <a ng-show=\"$select.allowClear && !$select.isEmpty()\" aria-label=\"{{ $select.baseTitle }} clear\" style=\"margin-right: 10px\" ng-click=\"$select.clear($event)\" class=\"btn btn-xs btn-link pull-right\"><i class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></i></a></span></div>");
+	$templateCache.put("bootstrap/select-multiple.tpl.html","<div class=\"ui-select-container ui-select-multiple ui-select-bootstrap dropdown form-control\" ng-class=\"{open: $select.open}\"><div><div class=\"ui-select-match\"></div><input type=\"text\" autocomplete=\"false\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" class=\"ui-select-search input-xs\" placeholder=\"{{$selectMultiple.getPlaceholder()}}\" ng-disabled=\"$select.disabled\" ng-hide=\"$select.disabled\" ng-click=\"$select.activate()\" ng-model=\"$select.search\" role=\"combobox\" aria-label=\"{{ $select.baseTitle }}\" ondrop=\"return false;\"></div><div class=\"ui-select-choices\"></div></div>");
+	$templateCache.put("bootstrap/select.tpl.html","<div class=\"ui-select-container ui-select-bootstrap dropdown\" ng-class=\"{open: $select.open}\"><div class=\"ui-select-match\"></div><input type=\"text\" autocomplete=\"false\" tabindex=\"-1\" aria-expanded=\"true\" aria-label=\"{{ $select.baseTitle }}\" aria-owns=\"ui-select-choices-{{ $select.generatedId }}\" aria-activedescendant=\"ui-select-choices-row-{{ $select.generatedId }}-{{ $select.activeIndex }}\" class=\"form-control ui-select-search\" placeholder=\"{{$select.placeholder}}\" ng-model=\"$select.search\" ng-show=\"$select.searchEnabled && $select.open\"><div class=\"ui-select-choices\"></div></div>");
+	$templateCache.put("selectize/choices.tpl.html","<div ng-show=\"$select.open\" class=\"ui-select-choices ui-select-dropdown selectize-dropdown single\"><div class=\"ui-select-choices-content selectize-dropdown-content\"><div class=\"ui-select-choices-group optgroup\" role=\"listbox\"><div ng-show=\"$select.isGrouped\" class=\"ui-select-choices-group-label optgroup-header\" ng-bind=\"$group.name\"></div><div role=\"option\" class=\"ui-select-choices-row\" ng-class=\"{active: $select.isActive(this), disabled: $select.isDisabled(this)}\"><div class=\"option ui-select-choices-row-inner\" data-selectable=\"\"></div></div></div></div></div>");
+	$templateCache.put("selectize/match.tpl.html","<div ng-hide=\"($select.open || $select.isEmpty())\" class=\"ui-select-match\" ng-transclude=\"\"></div>");
+	$templateCache.put("selectize/select.tpl.html","<div class=\"ui-select-container selectize-control single\" ng-class=\"{\'open\': $select.open}\"><div class=\"selectize-input\" ng-class=\"{\'focus\': $select.open, \'disabled\': $select.disabled, \'selectize-focus\' : $select.focus}\" ng-click=\"$select.activate()\"><div class=\"ui-select-match\"></div><input type=\"text\" autocomplete=\"false\" tabindex=\"-1\" class=\"ui-select-search ui-select-toggle\" ng-click=\"$select.toggle($event)\" placeholder=\"{{$select.placeholder}}\" ng-model=\"$select.search\" ng-hide=\"!$select.searchEnabled || ($select.selected && !$select.open)\" ng-disabled=\"$select.disabled\" aria-label=\"{{ $select.baseTitle }}\"></div><div class=\"ui-select-choices\"></div></div>");
+	$templateCache.put("select2/choices.tpl.html","<ul class=\"ui-select-choices ui-select-choices-content select2-results\"><li class=\"ui-select-choices-group\" ng-class=\"{\'select2-result-with-children\': $select.choiceGrouped($group) }\"><div ng-show=\"$select.choiceGrouped($group)\" class=\"ui-select-choices-group-label select2-result-label\" ng-bind=\"$group.name\"></div><ul role=\"listbox\" id=\"ui-select-choices-{{ $select.generatedId }}\" ng-class=\"{\'select2-result-sub\': $select.choiceGrouped($group), \'select2-result-single\': !$select.choiceGrouped($group) }\"><li role=\"option\" id=\"ui-select-choices-row-{{ $select.generatedId }}-{{$index}}\" class=\"ui-select-choices-row\" ng-class=\"{\'select2-highlighted\': $select.isActive(this), \'select2-disabled\': $select.isDisabled(this)}\"><div class=\"select2-result-label ui-select-choices-row-inner\"></div></li></ul></li></ul>");
+	$templateCache.put("select2/match-multiple.tpl.html","<span class=\"ui-select-match\"><li class=\"ui-select-match-item select2-search-choice\" ng-repeat=\"$item in $select.selected\" ng-class=\"{\'select2-search-choice-focus\':$selectMultiple.activeMatchIndex === $index, \'select2-locked\':$select.isLocked(this, $index)}\" ui-select-sort=\"$select.selected\"><span uis-transclude-append=\"\"></span> <a href=\"javascript:;\" class=\"ui-select-match-close select2-search-choice-close\" ng-click=\"$selectMultiple.removeChoice($index)\" tabindex=\"-1\"></a></li></span>");
+	$templateCache.put("select2/match.tpl.html","<a class=\"select2-choice ui-select-match\" ng-class=\"{\'select2-default\': $select.isEmpty()}\" ng-click=\"$select.toggle($event)\" aria-label=\"{{ $select.baseTitle }} select\"><span ng-show=\"$select.isEmpty()\" class=\"select2-chosen\">{{$select.placeholder}}</span> <span ng-hide=\"$select.isEmpty()\" class=\"select2-chosen\" ng-transclude=\"\"></span> <abbr ng-if=\"$select.allowClear && !$select.isEmpty()\" class=\"select2-search-choice-close\" ng-click=\"$select.clear($event)\"></abbr> <span class=\"select2-arrow ui-select-toggle\"><b></b></span></a>");
+	$templateCache.put("select2/select-multiple.tpl.html","<div class=\"ui-select-container ui-select-multiple select2 select2-container select2-container-multi\" ng-class=\"{\'select2-container-active select2-dropdown-open open\': $select.open, \'select2-container-disabled\': $select.disabled}\"><ul class=\"select2-choices\"><span class=\"ui-select-match\"></span><li class=\"select2-search-field\"><input type=\"text\" autocomplete=\"false\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" role=\"combobox\" aria-expanded=\"true\" aria-owns=\"ui-select-choices-{{ $select.generatedId }}\" aria-label=\"{{ $select.baseTitle }}\" aria-activedescendant=\"ui-select-choices-row-{{ $select.generatedId }}-{{ $select.activeIndex }}\" class=\"select2-input ui-select-search\" placeholder=\"{{$selectMultiple.getPlaceholder()}}\" ng-disabled=\"$select.disabled\" ng-hide=\"$select.disabled\" ng-model=\"$select.search\" ng-click=\"$select.activate()\" style=\"width: 34px;\" ondrop=\"return false;\"></li></ul><div class=\"ui-select-dropdown select2-drop select2-with-searchbox select2-drop-active\" ng-class=\"{\'select2-display-none\': !$select.open}\"><div class=\"ui-select-choices\"></div></div></div>");
+	$templateCache.put("select2/select.tpl.html","<div class=\"ui-select-container select2 select2-container\" ng-class=\"{\'select2-container-active select2-dropdown-open open\': $select.open, \'select2-container-disabled\': $select.disabled, \'select2-container-active\': $select.focus, \'select2-allowclear\': $select.allowClear && !$select.isEmpty()}\"><div class=\"ui-select-match\"></div><div class=\"ui-select-dropdown select2-drop select2-with-searchbox select2-drop-active\" ng-class=\"{\'select2-display-none\': !$select.open}\"><div class=\"select2-search\" ng-show=\"$select.searchEnabled\"><input type=\"text\" autocomplete=\"false\" autocorrect=\"false\" autocapitalize=\"off\" spellcheck=\"false\" role=\"combobox\" aria-expanded=\"true\" aria-owns=\"ui-select-choices-{{ $select.generatedId }}\" aria-label=\"{{ $select.baseTitle }}\" aria-activedescendant=\"ui-select-choices-row-{{ $select.generatedId }}-{{ $select.activeIndex }}\" class=\"ui-select-search select2-input\" ng-model=\"$select.search\"></div><div class=\"ui-select-choices\"></div></div></div>");}]);
+
+	/*** EXPORTS FROM exports-loader ***/
+	module.exports = "ui.select"
+
+/***/ },
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39459,7 +41954,7 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _appHtml = __webpack_require__(43);
+	var _appHtml = __webpack_require__(45);
 
 	var _appHtml2 = _interopRequireDefault(_appHtml);
 
@@ -39475,19 +41970,19 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 43 */
+/* 45 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"app\">\n  <div ui-view></div>\n</div>\n";
 
 /***/ },
-/* 44 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(45);
+	var content = __webpack_require__(47);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -39507,7 +42002,7 @@
 	}
 
 /***/ },
-/* 45 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -39515,31 +42010,31 @@
 
 
 	// module
-	exports.push([module.id, "@font-face {\n  font-family: \"proxima_nova_regular\";\n  src: url(" + __webpack_require__(46) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: \"proxima_nova_ltregular\";\n  src: url(" + __webpack_require__(47) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: \"Source Code Pro\";\n  src: url(" + __webpack_require__(48) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\npre {\n  font-family: \"Source Code Pro\";\n}\n\n.container .body {\n  font-family: \"proxima_nova_regular\";\n}\n\n.container .body a {\n  color: #FFAE00;\n  text-decoration: none;\n}\n\n.container .body a:hover {\n  color: #FF8000;\n  text-decoration: none;\n}\n\n.container .post {\n  letter-spacing: 0.01em;\n  line-height: 1.4em;\n  font-size: 0.9708em;\n  font-size: 0.9708rem;\n}\n\n.container .post h2 {\n  font-family: \"proxima_nova_regular\";\n  font-size: 1.9416em;\n  font-size: 1.9416rem;\n}\n\n.container .post h3 {\n  font-family: \"proxima_nova_ltregular\";\n  font-size: 1.2944em;\n  font-size: 1.2944rem;\n}\n\n.container .post h4 {\n  font-family: \"proxima_nova_ltregular\";\n  font-size: 0.9708em;\n  font-size: 0.9708rem;\n}\n\n.container .post .caption {\n  font-size: 0.809em;\n  font-size: 0.809rem;\n  font-style: italic;\n}\n\n.admin {\n  font-family: \"proxima_nova_regular\";\n}\n\n.admin label {\n  font-size: 0.90608em;\n  font-size: 0.90608rem;\n}\n\n.admin label:after {\n  content: ' ';\n  display: block;\n  white-space: wrap;\n}", ""]);
+	exports.push([module.id, "@font-face {\n  font-family: \"proxima_nova_regular\";\n  src: url(" + __webpack_require__(48) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: \"proxima_nova_ltregular\";\n  src: url(" + __webpack_require__(49) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: \"Source Code Pro\";\n  src: url(" + __webpack_require__(50) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\npre {\n  font-family: \"Source Code Pro\";\n}\n\n.container .body {\n  font-family: \"proxima_nova_regular\";\n}\n\n.container .body a {\n  color: #FFAE00;\n  text-decoration: none;\n}\n\n.container .body a:hover {\n  color: #FF8000;\n  text-decoration: none;\n}\n\n.container .post {\n  letter-spacing: 0.01em;\n  line-height: 1.4em;\n  font-size: 0.9708em;\n  font-size: 0.9708rem;\n}\n\n.container .post h2 {\n  font-family: \"proxima_nova_regular\";\n  font-size: 1.9416em;\n  font-size: 1.9416rem;\n}\n\n.container .post h3 {\n  font-family: \"proxima_nova_ltregular\";\n  font-size: 1.2944em;\n  font-size: 1.2944rem;\n}\n\n.container .post h4 {\n  font-family: \"proxima_nova_ltregular\";\n  font-size: 0.9708em;\n  font-size: 0.9708rem;\n}\n\n.container .post .caption {\n  font-size: 0.809em;\n  font-size: 0.809rem;\n  font-style: italic;\n}\n\n.admin {\n  font-family: \"proxima_nova_regular\";\n}\n\n.admin label {\n  font-size: 0.90608em;\n  font-size: 0.90608rem;\n}\n\n.admin label:after {\n  content: ' ';\n  display: block;\n  white-space: wrap;\n}", ""]);
 
 	// exports
 
 
 /***/ },
-/* 46 */
+/* 48 */
 /***/ function(module, exports) {
 
 	module.exports = "data:application/x-font-ttf;base64,AAEAAAATAQAABAAwRkZUTVVOMpYAAAE8AAAAHEdERUYC9wHpAAABWAAAADJHUE9TbJF0jwAAAYwAAAAgR1NVQuLm9CIAAAGsAAAF5k9TLzJ8/cMpAAAHlAAAAGBjbWFwP0Yz7gAAB/QAAAHyY3Z0IA2JC9YAAAnoAAAAPmZwZ21TtC+nAAAKKAAAAmVnYXNwAAAAEAAADJAAAAAIZ2x5ZmQD3lAAAAyYAACOzGhlYWT+3YEIAACbZAAAADZoaGVhDsEHjgAAm5wAAAAkaG10eJhGQqcAAJvAAAADlmxvY2Hhb72cAACfWAAAAc5tYXhwAgMBgQAAoSgAAAAgbmFtZV8ehrQAAKFIAAADxnBvc3RK8SJgAAClEAAAAtRwcmVwH3+4eAAAp+QAAAD6d2ViZt32T98AAKjgAAAABgAAAAEAAAAAyYlvMQAAAAC/vzTvAAAAAMwFjnUAAQAAAA4AAAAqAAAAAAACAAQAAQB5AAEAegB8AAIAfQDhAAEA4gDlAAIABAAAAAIAAAAAAAEAAAAKABwAHgABbGF0bgAIAAQAAAAA//8AAAAAAAAAAQAAAAoAIgBKAAFsYXRuAAgABAAAAAD//wADAAAAAQACAANmcmFjABRsaWdhABxvcmRuACIAAAACAAAAAQAAAAEAAwAAAAEAAgAGAA4AJgAuAF4AZgBuAAYAAAAJAGgAjgC0ANoBAAEmAUwBcgGYAAYAAAABAaYABgAAABUBwAHiAgQCLgJYAooCugLkAwoDLgNQA24DmAO+A+IEBAQiBEwEcgSWBMYABAAAAAEExAAEAAAAAQTwAAEAAAABBRwAAwAAAAMAFAAaACAAAAABAAAABAABAAEAFAABAAEAEgABAAEAFQADAAAAAwAUABoAIAAAAAEAAAAEAAEAAQAUAAEAAQASAAEAAQAXAAMAAAADABQAGgAgAAAAAQAAAAQAAQABABYAAQABABIAAQABABcAAwAAAAMAFAAaACAAAAABAAAABAABAAEAFAABAAEAEgABAAEAFgADAAAAAwAUABoAIAAAAAEAAAAEAAEAAQAVAAEAAQASAAEAAQAWAAMAAAADABQAGgAgAAAAAQAAAAQAAQABABQAAQABABIAAQABABsAAwAAAAMAFAAaACAAAAABAAAABAABAAEAFgABAAEAEgABAAEAGwADAAAAAwAUABoAIAAAAAEAAAAEAAEAAQAYAAEAAQASAAEAAQAbAAMAAAADABQAGgAgAAAAAQAAAAQAAQABABoAAQABABIAAQABABsAAwABABYAAQASAAAAAQAAAAUAAQAAAAEABAASAHoAewB8AAMAAQAYAAEAEgAAAAEAAAAFAAEAAQBDAAIAAQATABwAAAADAAEAGAABABIAAAABAAAABQABAAEAUQACAAEAEwAcAAAAAwACABoAIAABABQAAAABAAAABQABAAEAQwABAAEAEQACAAEAEwAcAAAAAwACABoAIAABABQAAAABAAAABQABAAEAUQABAAEAEQACAAEAEwAcAAAAAwACABwAJgABABYAAQAsAAEAAAAFAAEAAQBWAAIAAQATABwAAAABAAEAFAABAAEASgADAAMAHAAgACoAAQAWAAAAAQAAAAUAAQABAEoAAQAAAAIAAQATABwAAAABAAEAFAADAAIAGAAeAAEAEgABACQAAAABAAEAVQABAAEAFAABAAEAFAABAAEAVgADAAEAGgABABQAAQAgAAEAAAAFAAEAAQBVAAEAAQAUAAEAAQBWAAMAAgAaAB4AAQAUAAAAAQAAAAUAAQABAFYAAQAAAAEAAQAUAAMAAgAWABwAAQAQAAAAAAABAAEARgABAAEAFQABAAEAFAADAAEAGAABABIAAAABAAAABQABAAEARgABAAEAFQADAAIAGAAeAAEAEgABACQAAAABAAEAUAABAAEAFQABAAEAFAABAAEARgADAAEAGgABABQAAQAgAAEAAAAFAAEAAQBQAAEAAQAVAAEAAQBGAAMAAgAaAB4AAQAUAAAAAQAAAAUAAQABAEYAAQAAAAEAAQAVAAMAAgAWABwAAQAQAAAAAAABAAEARgABAAEAFgABAAEAFAADAAEAGAABABIAAAABAAAABQABAAEARgABAAEAFgADAAIAGAAeAAEAEgABACQAAAABAAEAVAABAAEAFgABAAEAFAABAAEARgADAAEAGgABABQAAQAgAAEAAAAFAAEAAQBUAAEAAQAWAAEAAQBGAAMAAgAaAB4AAQAUAAAAAQAAAAUAAQABAEYAAQAAAAEAAQAWAAMAAQAaAAEAFAABACoAAQAAAAUAAQABAFYAAgACABMAEwAAABcAHAABAAEAAQBKAAMAAgAaAB4AAQAUAAAAAQAAAAUAAQABAEoAAQAA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AeYAAwABBAkACwA2AgAAAwABBAkADAA2AjYAAwABBAkAEAAYAmwAAwABBAkAEQAOAoQAAwABBAkAEgAoApIAAwABBAkAyAAWAroAAwABBAkAyQAwAtAAQwBvAHAAeQByAGkAZwBoAHQAIAAoAGMAKQAgAE0AYQByAGsAIABTAGkAbQBvAG4AcwBvAG4ALAAgADIAMAAwADUALgAgAEEAbABsACAAcgBpAGcAaAB0AHMAIAByAGUAcwBlAHIAdgBlAGQALgBQAHIAbwB4AGkAbQBhACAATgBvAHYAYQAgAFIAZwBSAGUAZwB1AGwAYQByAE0AYQByAGsAUwBpAG0AbwBuAHMAbwBuADoAIABQAHIAbwB4AGkAbQBhACAATgBvAHYAYQAgAFIAZQBnAHUAbABhAHIAOgAgADIAMAAwADUAUAByAG8AeABpAG0AYQAgAE4AbwB2AGEAIABSAGcAIABSAGUAZwB1AGwAYQByAFYAZQByAHMAaQBvAG4AIAAxAC4AMQAwADEAOwBQAFMAIAAwADAAMQAuADAAMAAxADsAaABvAHQAYwBvAG4AdgAgADEALgAwAC4AMwA4AFAAcgBvAHgAaQBtAGEATgBvAHYAYQAtAFIAZQBnAHUAbABhAHIAUAByAG8AeABpAG0AYQAgAE4AbwB2AGEAIABpAHMAIABhACAAdAByAGEAZABlAG0AYQByAGsAIABvAGYAIABNAGEAcgBrACAAUwBpAG0AbwBuAHMAbwBuAC4ATQBhAHIAawAgAFMAaQBtAG8AbgBzAG8AbgBoAHQAdABwADoALwAvAHcAdwB3AC4AbQBhAHIAawBzAGkAbQBvAG4AcwBvAG4ALgBjAG8AbQBoAHQAdABwADoALwAvAHcAdwB3AC4AbQBhAHIAawBzAGkAbQBvAG4AcwBvAG4ALgBjAG8AbQBQAHIAbwB4AGkAbQBhACAATgBvAHYAYQBSAGUAZwB1AGwAYQByAFAAcgBvAHgAaQBtAGEAIABOAG8AdgBhACAAUgBlAGcAdQBsAGEAcgBXAGUAYgBmAG8AbgB0ACAAMQAuADAATQBvAG4AIABKAHUAbgAgADEAOAAgADIAMgA6ADAAMwA6ADMAMwAgADIAMAAxADIAAAACAAAAAAAA/wUAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAOYAAAECAQMAAwAEAAUABgAHAAgACQAKAAsADAANAA4ADwAQABEAEgATABQAFQAWABcAGAAZABoAGwAcAB0AHgAfACAAIQAiACMAJAAlACYAJwAoACkAKgArACwALQAuAC8AMAAxADIAMwA0ADUANgA3ADgAOQA6ADsAPAA9AD4APwBAAEEAQgBEAEUARgBHAEgASQBKAEsATABNAE4ATwBQAFEAUgBTAFQAVQBWAFcAWABZAFoAWwBcAF0AXgBfAGAAYQEEAKMAhACFAL0AlgDoAIYAjgCLAJ0AqQCkAQUAigCDAJMBBgEHAI0AiADeAQgAngCqAPUA9AD2AKIArQDJAMcArgBiAGMAkABkAMsAZQDIAMoAzwDMAM0AzgDpAGYA0wDQANEArwBnAPAAkQDWANQA1QBoAOsA7QCJAGoAaQBrAG0AbABuAKAAbwBxAHAAcgBzAHUAdAB2AHcA6gB4AHoAeQB7AH0AfAC4AKEAfwB+AIAAgQDsAO4AugCwALEAuwDYANkBCQEKAQsBDAENAQ4BDwEQAREBEgETARQBFQEWALIAswC2ALcAxAC0ALUAxQCHAKsBFwC+AL8BGAEZAIwBGgEbARwBHQEeBmdseXBoMQZnbHlwaDIHdW5pMDBBMAd1bmkwMEFEB3VuaTAwQjIHdW5pMDBCMwd1bmkwMEI5B3VuaTIwMDAHdW5pMjAwMQd1bmkyMDAyB3VuaTIwMDMHdW5pMjAwNAd1bmkyMDA1B3VuaTIwMDYHdW5pMjAwNwd1bmkyMDA4B3VuaTIwMDkHdW5pMjAwQQd1bmkyMDEwB3VuaTIwMTEKZmlndXJlZGFzaAd1bmkyMDJGB3VuaTIwNUYERXVybwd1bmlFMDAwB3VuaUZCMDEHdW5pRkIwMgd1bmlGQjAzB3VuaUZCMDS4Af+FsAGNAEuwCFBYsQEBjlmxRgYrWCGwEFlLsBRSWCGwgFkdsAYrXFgAsAMgRbADK0SwCCBFsgNKAiuwAytEsAcgRbIIPQIrsAMrRLAGIEWyBzACK7ADK0SwBSBFsgYiAiuwAytEsAQgRboABQEUAAIrsAMrRLAJIEWyAxQCK7ADK0QBsAogRbADK0SwCyBFsgpJAiuxA0Z2K0SwDCBFsgtqAiuxA0Z2K0SwDSBFsgxyAiuxA0Z2K0SwDiBFsg1SAiuxA0Z2K0SwDyBFsg47AiuxA0Z2K0SwECBFsg8hAiuxA0Z2K0SwESBFshAeAiuxA0Z2K0RZsBQrAAAAAU/f3fUAAA=="
 
 /***/ },
-/* 47 */
+/* 49 */
 /***/ function(module, exports) {
 
 	module.exports = "data:application/x-font-ttf;base64,AAEAAAATAQAABAAwRkZUTVWsvB8AAAE8AAAAHEdERUYDAwHyAAABWAAAADJHUE9TbJF0jwAAAYwAAAAgR1NVQkyedU0AAAGsAAAGFE9TLzJ8hsLOAAAHwAAAAGBjbWFw/+K4pgAACCAAAAHqY3Z0IA8BCL0AAAoMAAAANmZwZ21TtC+nAAAKRAAAAmVnYXNwAAAAEAAADKwAAAAIZ2x5Zv14kFoAAAy0AACPIGhlYWT/pXmdAACb1AAAADZoaGVhDr8HoQAAnAwAAAAkaG10eJJJSjMAAJwwAAADomxvY2EqsE5QAACf1AAAAdRtYXhwAgYBkwAAoagAAAAgbmFtZVbqfTcAAKHIAAADhnBvc3SG+Wh7AAClUAAAAttwcmVwuTW0kgAAqCwAAADMd2ViZmcUUD4AAKj4AAAABgAAAAEAAAAAyYlvMQAAAAC/vzVaAAAAAMxkF5MAAQAAAA4AAAAqAAAAAAACAAQAAQB8AAEAfQB/AAIAgADkAAEA5QDoAAIABAAAAAIAAAAAAAEAAAAKABwAHgABbGF0bgAIAAQAAAAA//8AAAAAAAAAAQAAAAoAJABYAAFsYXRuAAgABAAAAAD//wAEAAAAAQACAAMABGZyYWMAGmxpZ2EAIm9yZG4AKHN1cHMALgAAAAIAAAABAAAAAQAEAAAAAQADAAAAAQACAAcAEAAoADAAOABoAHAAeAAGAAAACQBwAJYAvADiAQgBLgFUAXoBoAAGAAAAAQGuAAEAAAABAcgABgAAABUB1gH4AhoCRAJuAqAC0AL6AyADRANmA4QDrgPUA/gEGgQ4BGIEiASsBNwABAAAAAEE2gAEAAAAAQUGAAEAAAABBTIAAwAAAAMAFAAaACAAAAABAAAABQABAAEAFAABAAEAEgABAAEAFQADAAAAAwAUABoAIAAAAAEAAAAFAAEAAQAUAAEAAQASAAEAAQAXAAMAAAADABQAGgAgAAAAAQAAAAUAAQABABYAAQABABIAAQABABcAAwAAAAMAFAAaACAAAAABAAAABQABAAEAFAABAAEAEgABAAEAFgADAAAAAwAUABoAIAAAAAEAAAAFAAEAAQAVAAEAAQASAAEAAQAWAAMAAAADABQAGgAgAAAAAQAAAAUAAQABABQAAQABABIAAQABABsAAwAAAAMAFAAaACAAAAABAAAABQABAAEAFgABAAEAEgABAAEAGwADAAAAAwAUABoAIAAAAAEAAAAFAAEAAQAYAAEAAQASAAEAAQAbAAMAAAADABQAGgAgAAAAAQAAAAUAAQABABoAAQABABIAAQABABsAAwABABYAAQASAAAAAQAAAAYAAQAAAAEABAASAH0AfgB/AAIADAADAHoAdAB1AAEAAwAUABUAFgADAAEAGAABABIAAAABAAAABgABAAEARAACAAEAEwAcAAAAAwABABgAAQASAAAAAQAAAAYAAQABAFIAAgABABMAHAAAAAMAAgAaACAAAQAUAAAAAQAAAAYAAQABAEQAAQABABEAAgABABMAHAAAAAMAAgAaACAAAQAUAAAAAQAAAAYAAQABAFIAAQABABEAAgABABMAHAAAAAMAAgAcACYAAQAWAAEALAABAAAABgABAAEAVwACAAEAEwAcAAAAAQABABQAAQABAEsAAwADABwAIAAqAAEAFgAAAAEAAAAGAAEAAQBLAAEAAAACAAEAEwAcAAAAAQABABQAAwACABgAHgABABIAAQAkAAAAAQABAFYAAQABABQAAQABABQAAQABAFcAAwABABoAAQAUAAEAIAABAAAABgABAAEAVgABAAEAFAABAAEAVwADAAIAGgAeAAEAFAAAAAEAAAAGAAEAAQBXAAEAAAABAAEAFAADAAIAFgAcAAEAEAAAAAAAAQABAEcAAQABABUAAQABABQAAwABABgAAQASAAAAAQAAAAYAAQABAEcAAQABABUAAwACABgAHgABABIAAQAkAAAAAQABAFEAAQABABUAAQABABQAAQABAEcAAwABABoAAQAUAAEAIAABAAAABgABAAEAUQABAAEAFQABAAEARwADAAIAGgAeAAEAFAAAAAEAAAAGAAEAAQBHAAEAAAABAAEAFQADAAIAFgAcAAEAEAAAAAAAAQABAEcAAQABABYAAQABABQAAwABABgAAQASAAAAAQAAAAYAAQABAEcAAQABABYAAwACABgAHgABABIAAQAkAAAAAQABAFUAAQABABYAAQABABQAAQABAEcAAwABABoAAQAUAAEAIAABAAAABgABAAEAVQABAAEAFgABAAEARwADAAIAGgAeAAEAFAAAAAEAAAAGAAEAAQBHAAEAAAABAAEAFgADAAEAGgABABQAAQAqAAEAAAAGAAEAAQBXAAIAAgAT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sgECACuwCTMBsBEvsADWsQML6bADELEIASuxCwvpsRIBK7EIAxESsA45ADAxExEzERQWIDY1ETMREAAhIACqd9YBjtd3/u/+/P7+/u4CDANK/LjR6+vRA0j8tv7+/t0BJAAAAAABAB8AAAUOBVYABgAhALIGAAArsgACACuwAzMBsAcvsQgBKwCxAAYRErACOTAxEzMJATMBIx+HAfIB74f90ZEFVvstBNP6qgABACcAAAbJBVYADADFALIMAAArsggJCzMzM7IAAgArtAEDBAYHJBczAbANL7AA1rEBDemwARCxBgErsQcN6bEOASuwNhq6wknvDgAVKwqwABCwDMAOsAEQsALAuj2j7sUAFSsKBbADLrEBAgiwAsAOsQoR+QWwC8C6wlbu3gAVKwqwCS6xCwoIsArADrEFEvkFsATAuj237w4AFSsKsQQFCLAGELAFwAWwBxCwCMADALICBQouLi4BQAkCAwQFCAkKCwwuLi4uLi4uLi6wQBoAMDETMwkBMwkBMwEjCQEjJ4MBSgFQagFOAUqD/nuD/rj+uIMFVvtOBLL7TgSy+qoElvtqAAEAJwAABQIFVgALACYAsgAAACuwCDOyAgIAK7AFMwGwDC+xDQErALECABESsQQKOTkwMTMJATMJATMJASMJAScCJf36kwG6Ab2T/foCJZH+Iv4lArwCmv28AkT9aP1CAmj9mAABAB8AAATTBVYACAAwALIHAAArsgACACuwAzMBsAkvsAfWsQYL6bEKASuxBgcRErACOQCxAAcRErACOTAxEzMJATMBESMRH40BzQHNjf3hdwVW/WACoPzy/bgCSAAAAAABAGYAAAQ/BVYACQAuALIAAAArsQcD6bIEAgArsQMD6QGwCi+xCwErALEHABESsAE5sQQDERKwBjkwMTM1ASE1IRUBIRVmAzj8yAPL/MkDRWYEhmpk+3hqAAAAAAEATP57AbAFbQAHADQAsgECACuxBAXpsAAvsQUF6QGwCC+wANa0BQkARAQrsgUACiuzQAUDCSuwBjKxCQErADAxExEhFSERIRVMAWT+9gEK/nsG8ln5v1gAAAAAAQAA/9cCQgV/AAMAFgABsAQvsADWtAIOAAgEK7EFASsAMDERMwEjXAHmXQV/+lgAAQAj/nsBhwVtAAcANACyBAIAK7EDBemwBy+xAAXpAbAIL7AB1rQG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AAEAAgAWAAABAAE+AAAAAAAAAA8AugADAAEECQAAAG4AAAADAAEECQABAB4AbgADAAEECQACAA4AjAADAAEECQADAEwAmgADAAEECQAEAC4A5gADAAEECQAFAE4BFAADAAEECQAGACIBYgADAAEECQAHAFoBhAADAAEECQAJABoB3gADAAEECQALADYB+AADAAEECQAMADYCLgADAAEECQAQABgCZAADAAEECQARAAoCfAADAAEECQDIABYChgADAAEECQDJADACnABDAG8AcAB5AHIAaQBnAGgAdAAgACgAYwApACAATQBhAHIAawAgAFMAaQBtAG8AbgBzAG8AbgAsACAAMgAwADAANQAuACAAQQBsAGwAIAByAGkAZwBoAHQAcwAgAHIAZQBzAGUAcgB2AGUAZAAuAFAAcgBvAHgAaQBtAGEAIABOAG8AdgBhACAATAB0AFIAZQBnAHUAbABhAHIATQBhAHIAawBTAGkAbQBvAG4AcwBvAG4AOgAgAFAAcgBvAHgAaQBtAGEAIABOAG8AdgBhACAATABpAGcAaAB0ADoAIAAyADAAMAA1AFAAcgBvAHgAaQBtAGEAIABOAG8AdgBhACAATAB0ACAAUgBlAGcAdQBsAGEAcgBWAGUAcgBzAGkAbwBuACAAMQAuADAAMAAwADsAUABTACAAMAAwADEALgAwADAAMAA7AGgAbwB0AGMAbwBuAHYAIAAxAC4AMAAuADMAOABQAHIAbwB4AGkAbQBhAE4AbwB2AGEALQBMAGkAZwBoAHQAUAByAG8AeABpAG0AYQAgAE4AbwB2AGEAIABpAHMAIABhACAAdAByAGEAZABlAG0AYQByAGsAIABvAGYAIABNAGEAcgBrACAAUwBpAG0AbwBuAHMAbwBuAC4ATQBhAHIAawAgAFMAaQBtAG8AbgBzAG8AbgBoAHQAdABwADoALwAvAHcAdwB3AC4AbQBhAHIAawBzAGkAbQBvAG4AcwBvAG4ALgBjAG8AbQBoAHQAdABwADoALwAvAHcAdwB3AC4AbQBhAHIAawBzAGkAbQBvAG4AcwBvAG4ALgBjAG8AbQBQAHIAbwB4AGkAbQBhACAATgBvAHYAYQBMAGkAZwBoAHQAVwBlAGIAZgBvAG4AdAAgADEALgAwAFcAZQBkACAAQQB1AGcAIAAyADkAIAAxADUAOgAwADEAOgAzADkAIAAyADAAMQAyAAAAAgAAAAAAAP8FACgAAAAAAAAAAAAAAAAAAAAAAAAAAADpAAABAgEDAAMABAAFAAYABwAIAAkACgALAAwADQAOAA8AEAARABIAEwAUABUAFgAXABgAGQAaABsAHAAdAB4AHwAgACEAIgAjACQAJQAmACcAKAApACoAKwAsAC0ALgAvADAAMQAyADMANAA1ADYANwA4ADkAOgA7ADwAPQA+AD8AQABBAEIAQwBEAEUARgBHAEgASQBKAEsATABNAE4ATwBQAFEAUgBTAFQAVQBWAFcAWABZAFoAWwBcAF0AXgBfAGAAYQEEAKMAhACFAL0AlgDoAIYAjgCLAJ0AqQCkAQUAigDaAIMAkwEGAQcAjQCIAMMA3gEIAJ4AqgD1APQA9gCiAK0AyQDHAK4AYgBjAJAAZADLAGUAyADKAM8AzADNAM4A6QBmANMA0ADRAK8AZwDwAJEA1gDUANUAaADrAO0AiQBqAGkAawBtAGwAbgCgAG8AcQBwAHIAcwB1AHQAdgB3AOoAeAB6AHkAewB9AHwAuAChAH8AfgCAAIEA7ADuALoAsACxALsA2ADZAQkBCgELAQwBDQEOAQ8BEAERARIBEwEUARUBFgCyALMAtgC3AMQAtAC1AMUAhwCrARcAvgC/ARgBGQCMARoBGwEcAR0BHgZnbHlwaDEHdW5pMDAwRAd1bmkwMEEwB3VuaTAwQUQHdW5pMDBCMgd1bmkwMEIzB3VuaTAwQjkHdW5pMjAwMAd1bmkyMDAxB3VuaTIwMDIHdW5pMjAwMwd1bmkyMDA0B3VuaTIwMDUHdW5pMjAwNgd1bmkyMDA3B3VuaTIwMDgHdW5pMjAwOQd1bmkyMDBBB3VuaTIwMTAHdW5pMjAxMQpmaWd1cmVkYXNoB3VuaTIwMkYHdW5pMjA1RgRFdXJvB3VuaUUwMDAHdW5pRkIwMQd1bmlGQjAyB3VuaUZCMDMHdW5pRkIwNAC4Af+FsAGNAEuwCFBYsQEBjlmxRgYrWCGwEFlLsBRSWCGwgFkdsAYrXFgAsAMgRbADK0SwBiBFsgN+AiuwAytEsAUgRbIGVwIrsAMrRLAEIEWyBUQCK7ADK0SwByBFsgOjAiuwAytEsAggRbIHGgIrsAMrRAGwCSBFsAMrRLAKIEWyCbcCK7EDRnYrRLALIEWyCmkCK7EDRnYrRLAMIEWyC0MCK7EDRnYrRLANIEWyDC8CK7EDRnYrRLAOIEWyDRkCK7EDRnYrRFmwFCsAAVA+ZxMAAA=="
 
 /***/ },
-/* 48 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "4ea7ca3086635b4d34ef762e3fdc38be.ttf"
 
 /***/ },
-/* 49 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

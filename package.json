@@ -46,6 +46,7 @@
     "angular": "^1.4.7",
     "angular-formly": "^7.2.3",
     "angular-messages": "^1.4.7",
+    "angular-sanitize": "^1.4.7",
     "api-check": "^7.5.3",
     "dropzone": "^4.2.0",
     "flexboxgrid": "^6.3.0",

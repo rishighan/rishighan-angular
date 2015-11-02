@@ -1,17 +1,36 @@
+
 <formly-form model = "postFormModel" fields = "postFormFields" class="admin">
     <div dropzone="dropzoneConfig">
-    Drag and drop files here or click to upload
+        Drag and drop files here or click to upload
     </div>
 </formly-form>
+
+
+
 <pre>
-{{postFormModel}}
-{{adminc.gatirodhak}}
+    {{postFormModel | json}}
+    {{adminc.gatirodhak}}
+    {{itemArray | json}}
+    {{selectedItem}}
 </pre>
 <script type="text/ng-template" id="error-messages.html">
-<formly-transclude></formly-transclude>
-<div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
+    <formly-transclude></formly-transclude>
+    <div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
     <div class="error" ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages">
         {{message(fc.$viewValue, fc.$modelValue, this)}}
     </div>
-</div>
+    </div>
 </script>
+
+
+
+<ui-select ng-model="selectedItem" style="border:1px solid red;">
+    <ui-select-match>
+        <span ng-bind="$select.selected.name"></span>
+    </ui-select-match>
+    <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id">
+        <span ng-bind="item.name"></span>
+    </ui-select-choices>
+</ui-select>
+
+

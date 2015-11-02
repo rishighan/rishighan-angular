@@ -4,13 +4,19 @@ import formly from 'angular-formly';
 import apiCheck from 'api-check';
 import ngMessages from 'angular-messages';
 import adminComponent from './admin.component';
-var Dropzone = require('dropzone');
-var uiSelect  = require('ui-select');
+import ngSanitize from 'angular-sanitize';
 
+var Dropzone = require('dropzone');
+var uiselect = require('ui-select');
+
+
+console.log(uiselect);
 let adminModule = angular.module('admin', [
     uiRouter,
     formly,
-    ngMessages
+    ngMessages,
+    ngSanitize,
+    uiselect
 ])
 
 .config(($stateProvider, $urlRouterProvider) => {
@@ -47,6 +53,8 @@ let adminModule = angular.module('admin', [
             }
         ]
     });
+
+
     formlyConfig.setWrapper({
         name: 'validation',
         types: ['input', 'textarea', 'customInput'],
@@ -58,7 +66,6 @@ let adminModule = angular.module('admin', [
 
 .directive('admin', adminComponent)
     .directive('dropzone', function() {
-
         return function(scope, element, attrs) {
             var config, dropzone;
             //console.log(scope);
