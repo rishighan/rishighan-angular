@@ -1,0 +1,33 @@
+{
+  "name": "rishighan-angular",
+  "version": "1.0.0",
+  "homepage": "https://github.com/rishighan/rishighan-angular",
+  "authors": [
+    "Rishi Ghan"
+  ],
+  "description": "Rishi Ghan's personal website",
+  "main": "app.js",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "rishi",
+    "ghan",
+    "website"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "dropzone": "~4.2.0",
+    "ui-select": "angular-ui-select#~0.13.2"
+  }
+}
