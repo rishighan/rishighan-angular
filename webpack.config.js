@@ -74,7 +74,7 @@ module.exports = {
         alias: {
             "flexboxgrid.css": NODE_MODULES_PATH + "/flexboxgrid/dist/flexboxgrid.css",
             "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js",
-            // "ui-select.css": BOWER_COMPONENTS_PATH + '/angular-ui-select/dist/select.css',
+            "select.css": BOWER_COMPONENTS_PATH + '/angular-ui-select/dist/select.css',
             "ui-select": BOWER_COMPONENTS_PATH + "/angular-ui-select/dist/select.js"
         },
         modulesDirectories: ['assets', 'node_modules', 'bower_components']
