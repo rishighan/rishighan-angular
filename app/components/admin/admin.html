@@ -1,37 +1,28 @@
-
 <formly-form model = "postFormModel" fields = "postFormFields" class="admin">
     <div dropzone="dropzoneConfig">
         Drag and drop files here or click to upload
     </div>
 </formly-form>
-
-
-
 <pre>
-    {{postFormModel | json}}
-    {{adminc.gatirodhak}}
-    {{itemArray | json}}
-    {{selectedItem}}
+        {{postFormModel | json}}
+        {{adminc.gatirodhak}}
+testData | json}}
 </pre>
 
-<ui-select ng-model="selectedItem">
-    <ui-select-match>
-        <span ng-bind="$select.selected.name"></span>
-    </ui-select-match>
-    <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id">
-        <span ng-bind="item.name"></span>
+
+<script type="text/ng-template" id="ui-select-multiple.html">
+ <ui-select multiple data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap">
+    <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
+    <ui-select-choices data-repeat="{{to.ngOptions}}">
+        <div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>
     </ui-select-choices>
 </ui-select>
-<script type="text/ng-template" id="error-messages.html">
-    <formly-transclude></formly-transclude>
-    <div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
-    <div class="error" ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages">
-        {{message(fc.$viewValue, fc.$modelValue, this)}}
-    </div>
-    </div>
 </script>
 
-
-
-
-
+<script type="text/ng-template" id="error-messages.html">
+<formly-transclude></formly-transclude>
+<div class="error" ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages">
+    {{message(fc.$viewValue, fc.$modelValue, this)}}
+</div>
+</div>
+</script>

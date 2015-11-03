@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	module.exports = __webpack_require__(51);
+	module.exports = __webpack_require__(53);
 
 
 /***/ },
@@ -29001,7 +29001,7 @@
 
 	/**
 	 * State-based routing for AngularJS
-	 * @version v0.2.15
+	 * @version v0.2.8
 	 * @link http://angular-ui.github.com/
 	 * @license MIT License, http://www.opensource.org/licenses/MIT
 	 */
@@ -29063,13 +29063,13 @@
 	 * @param {Object} object A JavaScript object.
 	 * @return {Array} Returns the keys of the object as an array.
 	 */
-	function objectKeys(object) {
+	function keys(object) {
 	  if (Object.keys) {
 	    return Object.keys(object);
 	  }
 	  var result = [];
 
-	  forEach(object, function(val, key) {
+	  angular.forEach(object, function(val, key) {
 	    result.push(key);
 	  });
 	  return result;
@@ -29082,7 +29082,7 @@
 	 * @param {*} value A value to search the array for.
 	 * @return {Number} Returns the array index value of `value`, or `-1` if not present.
 	 */
-	function indexOf(array, value) {
+	function arraySearch(array, value) {
 	  if (Array.prototype.indexOf) {
 	    return array.indexOf(value, Number(arguments[2]) || 0);
 	  }
@@ -29110,17 +29110,33 @@
 	  var parents = ancestors($current, $to), parentParams, inherited = {}, inheritList = [];
 
 	  for (var i in parents) {
-	    if (!parents[i].params) continue;
-	    parentParams = objectKeys(parents[i].params);
-	    if (!parentParams.length) continue;
+	    if (!parents[i].params || !parents[i].params.length) continue;
+	    parentParams = parents[i].params;
 
 	    for (var j in parentParams) {
-	      if (indexOf(inheritList, parentParams[j]) >= 0) continue;
+	      if (arraySearch(inheritList, parentParams[j]) >= 0) continue;
 	      inheritList.push(parentParams[j]);
 	      inherited[parentParams[j]] = currentParams[parentParams[j]];
 	    }
 	  }
 	  return extend({}, inherited, newParams);
+	}
+
+	/**
+	 * Normalizes a set of values to string or `null`, filtering them by a list of keys.
+	 *
+	 * @param {Array} keys The list of keys to normalize/return.
+	 * @param {Object} values An object hash of values to normalize.
+	 * @return {Object} Returns an object hash of normalized string values.
+	 */
+	function normalize(keys, values) {
+	  var normalized = {};
+
+	  forEach(keys, function (name) {
+	    var value = values[name];
+	    normalized[name] = (value != null) ? String(value) : null;
+	  });
+	  return normalized;
 	}
 
 	/**
@@ -29161,76 +29177,11 @@
 	  return filtered;
 	}
 
-	// like _.indexBy
-	// when you know that your index values will be unique, or you want last-one-in to win
-	function indexBy(array, propName) {
-	  var result = {};
-	  forEach(array, function(item) {
-	    result[item[propName]] = item;
-	  });
-	  return result;
-	}
-
-	// extracted from underscore.js
-	// Return a copy of the object only containing the whitelisted properties.
-	function pick(obj) {
-	  var copy = {};
-	  var keys = Array.prototype.concat.apply(Array.prototype, Array.prototype.slice.call(arguments, 1));
-	  forEach(keys, function(key) {
-	    if (key in obj) copy[key] = obj[key];
-	  });
-	  return copy;
-	}
-
-	// extracted from underscore.js
-	// Return a copy of the object omitting the blacklisted properties.
-	function omit(obj) {
-	  var copy = {};
-	  var keys = Array.prototype.concat.apply(Array.prototype, Array.prototype.slice.call(arguments, 1));
-	  for (var key in obj) {
-	    if (indexOf(keys, key) == -1) copy[key] = obj[key];
-	  }
-	  return copy;
-	}
-
-	function pluck(collection, key) {
-	  var result = isArray(collection) ? [] : {};
-
-	  forEach(collection, function(val, i) {
-	    result[i] = isFunction(key) ? key(val) : val[key];
-	  });
-	  return result;
-	}
-
-	function filter(collection, callback) {
-	  var array = isArray(collection);
-	  var result = array ? [] : {};
-	  forEach(collection, function(val, i) {
-	    if (callback(val, i)) {
-	      result[array ? result.length : i] = val;
-	    }
-	  });
-	  return result;
-	}
-
-	function map(collection, callback) {
-	  var result = isArray(collection) ? [] : {};
-
-	  forEach(collection, function(val, i) {
-	    result[i] = callback(val, i);
-	  });
-	  return result;
-	}
-
 	/**
 	 * @ngdoc overview
 	 * @name ui.router.util
 	 *
 	 * @description
-	 * # ui.router.util sub-module
-	 *
-	 * This module is a dependency of other sub-modules. Do not include this module as a dependency
-	 * in your angular app (use {@link ui.router} module instead).
 	 *
 	 */
 	angular.module('ui.router.util', ['ng']);
@@ -29242,26 +29193,19 @@
 	 * @requires ui.router.util
 	 *
 	 * @description
-	 * # ui.router.router sub-module
 	 *
-	 * This module is a dependency of other sub-modules. Do not include this module as a dependency
-	 * in your angular app (use {@link ui.router} module instead).
 	 */
 	angular.module('ui.router.router', ['ui.router.util']);
 
 	/**
 	 * @ngdoc overview
-	 * @name ui.router.state
+	 * @name ui.router.router
 	 * 
 	 * @requires ui.router.router
 	 * @requires ui.router.util
 	 *
 	 * @description
-	 * # ui.router.state sub-module
 	 *
-	 * This module is a dependency of the main ui.router module. Do not include this module as a dependency
-	 * in your angular app (use {@link ui.router} module instead).
-	 * 
 	 */
 	angular.module('ui.router.state', ['ui.router.router', 'ui.router.util']);
 
@@ -29272,37 +29216,18 @@
 	 * @requires ui.router.state
 	 *
 	 * @description
-	 * # ui.router
-	 * 
-	 * ## The main module for ui.router 
-	 * There are several sub-modules included with the ui.router module, however only this module is needed
-	 * as a dependency within your angular app. The other modules are for organization purposes. 
 	 *
-	 * The modules are:
-	 * * ui.router - the main "umbrella" module
-	 * * ui.router.router - 
-	 * 
-	 * *You'll need to include **only** this module as the dependency within your angular app.*
-	 * 
-	 * <pre>
-	 * <!doctype html>
-	 * <html ng-app="myApp">
-	 * <head>
-	 *   <script src="js/angular.js"></script>
-	 *   <!-- Include the ui-router script -->
-	 *   <script src="js/angular-ui-router.min.js"></script>
-	 *   <script>
-	 *     // ...and add 'ui.router' as a dependency
-	 *     var myApp = angular.module('myApp', ['ui.router']);
-	 *   </script>
-	 * </head>
-	 * <body>
-	 * </body>
-	 * </html>
-	 * </pre>
 	 */
 	angular.module('ui.router', ['ui.router.state']);
-
+	/**
+	 * @ngdoc overview
+	 * @name ui.router.compat
+	 *
+	 * @requires ui.router
+	 *
+	 * @description
+	 *
+	 */
 	angular.module('ui.router.compat', ['ui.router']);
 
 	/**
@@ -29348,7 +29273,6 @@
 	   */
 	  this.study = function (invocables) {
 	    if (!isObject(invocables)) throw new Error("'invocables' must be an object");
-	    var invocableKeys = objectKeys(invocables || {});
 	    
 	    // Perform a topological sort of invocables to build an ordered plan
 	    var plan = [], cycle = [], visited = {};
@@ -29357,7 +29281,7 @@
 	      
 	      cycle.push(key);
 	      if (visited[key] === VISIT_IN_PROGRESS) {
-	        cycle.splice(0, indexOf(cycle, key));
+	        cycle.splice(0, cycle.indexOf(key));
 	        throw new Error("Cyclic dependency: " + cycle.join(" -> "));
 	      }
 	      visited[key] = VISIT_IN_PROGRESS;
@@ -29409,8 +29333,7 @@
 	        if (!--wait) {
 	          if (!merged) merge(values, parent.$$values); 
 	          result.$$values = values;
-	          result.$$promises = result.$$promises || true; // keep for isResolve()
-	          delete result.$$inheritedValues;
+	          result.$$promises = true; // keep for isResolve()
 	          resolution.resolve(values);
 	        }
 	      }
@@ -29419,28 +29342,20 @@
 	        result.$$failure = reason;
 	        resolution.reject(reason);
 	      }
-
+	      
 	      // Short-circuit if parent has already failed
 	      if (isDefined(parent.$$failure)) {
 	        fail(parent.$$failure);
 	        return result;
 	      }
 	      
-	      if (parent.$$inheritedValues) {
-	        merge(values, omit(parent.$$inheritedValues, invocableKeys));
-	      }
-
 	      // Merge parent values if the parent has already resolved, or merge
 	      // parent promises and wait if the parent resolve is still in progress.
-	      extend(promises, parent.$$promises);
 	      if (parent.$$values) {
-	        merged = merge(values, omit(parent.$$values, invocableKeys));
-	        result.$$inheritedValues = omit(parent.$$values, invocableKeys);
+	        merged = merge(values, parent.$$values);
 	        done();
 	      } else {
-	        if (parent.$$inheritedValues) {
-	          result.$$inheritedValues = omit(parent.$$inheritedValues, invocableKeys);
-	        }        
+	        extend(promises, parent.$$promises);
 	        parent.then(done, fail);
 	      }
 	      
@@ -29643,13 +29558,13 @@
 	    if (isFunction(url)) url = url(params);
 	    if (url == null) return null;
 	    else return $http
-	        .get(url, { cache: $templateCache, headers: { Accept: 'text/html' }})
+	        .get(url, { cache: $templateCache })
 	        .then(function(response) { return response.data; });
 	  };
 
 	  /**
 	   * @ngdoc function
-	   * @name ui.router.util.$templateFactory#fromProvider
+	   * @name ui.router.util.$templateFactory#fromUrl
 	   * @methodOf ui.router.util.$templateFactory
 	   *
 	   * @description
@@ -29669,75 +29584,50 @@
 
 	angular.module('ui.router.util').service('$templateFactory', $TemplateFactory);
 
-	var $$UMFP; // reference to $UrlMatcherFactoryProvider
-
 	/**
-	 * @ngdoc object
-	 * @name ui.router.util.type:UrlMatcher
-	 *
-	 * @description
 	 * Matches URLs against patterns and extracts named parameters from the path or the search
 	 * part of the URL. A URL pattern consists of a path pattern, optionally followed by '?' and a list
 	 * of search parameters. Multiple search parameter names are separated by '&'. Search parameters
 	 * do not influence whether or not a URL is matched, but their values are passed through into
-	 * the matched parameters returned by {@link ui.router.util.type:UrlMatcher#methods_exec exec}.
-	 *
+	 * the matched parameters returned by {@link UrlMatcher#exec exec}.
+	 * 
 	 * Path parameter placeholders can be specified using simple colon/catch-all syntax or curly brace
 	 * syntax, which optionally allows a regular expression for the parameter to be specified:
 	 *
-	 * * `':'` name - colon placeholder
-	 * * `'*'` name - catch-all placeholder
-	 * * `'{' name '}'` - curly placeholder
-	 * * `'{' name ':' regexp|type '}'` - curly placeholder with regexp or type name. Should the
-	 *   regexp itself contain curly braces, they must be in matched pairs or escaped with a backslash.
+	 * * ':' name - colon placeholder
+	 * * '*' name - catch-all placeholder
+	 * * '{' name '}' - curly placeholder
+	 * * '{' name ':' regexp '}' - curly placeholder with regexp. Should the regexp itself contain
+	 *   curly braces, they must be in matched pairs or escaped with a backslash.
 	 *
 	 * Parameter names may contain only word characters (latin letters, digits, and underscore) and
-	 * must be unique within the pattern (across both path and search parameters). For colon
+	 * must be unique within the pattern (across both path and search parameters). For colon 
 	 * placeholders or curly placeholders without an explicit regexp, a path parameter matches any
 	 * number of characters other than '/'. For catch-all placeholders the path parameter matches
 	 * any number of characters.
-	 *
-	 * Examples:
-	 *
-	 * * `'/hello/'` - Matches only if the path is exactly '/hello/'. There is no special treatment for
+	 * 
+	 * ### Examples
+	 * 
+	 * * '/hello/' - Matches only if the path is exactly '/hello/'. There is no special treatment for
 	 *   trailing slashes, and patterns have to match the entire path, not just a prefix.
-	 * * `'/user/:id'` - Matches '/user/bob' or '/user/1234!!!' or even '/user/' but not '/user' or
+	 * * '/user/:id' - Matches '/user/bob' or '/user/1234!!!' or even '/user/' but not '/user' or
 	 *   '/user/bob/details'. The second path segment will be captured as the parameter 'id'.
-	 * * `'/user/{id}'` - Same as the previous example, but using curly brace syntax.
-	 * * `'/user/{id:[^/]*}'` - Same as the previous example.
-	 * * `'/user/{id:[0-9a-fA-F]{1,8}}'` - Similar to the previous example, but only matches if the id
+	 * * '/user/{id}' - Same as the previous example, but using curly brace syntax.
+	 * * '/user/{id:[^/]*}' - Same as the previous example.
+	 * * '/user/{id:[0-9a-fA-F]{1,8}}' - Similar to the previous example, but only matches if the id
 	 *   parameter consists of 1 to 8 hex digits.
-	 * * `'/files/{path:.*}'` - Matches any URL starting with '/files/' and captures the rest of the
+	 * * '/files/{path:.*}' - Matches any URL starting with '/files/' and captures the rest of the
 	 *   path into the parameter 'path'.
-	 * * `'/files/*path'` - ditto.
-	 * * `'/calendar/{start:date}'` - Matches "/calendar/2014-11-12" (because the pattern defined
-	 *   in the built-in  `date` Type matches `2014-11-12`) and provides a Date object in $stateParams.start
+	 * * '/files/*path' - ditto.
 	 *
-	 * @param {string} pattern  The pattern to compile into a matcher.
-	 * @param {Object} config  A configuration object hash:
-	 * @param {Object=} parentMatcher Used to concatenate the pattern/config onto
-	 *   an existing UrlMatcher
-	 *
-	 * * `caseInsensitive` - `true` if URL matching should be case insensitive, otherwise `false`, the default value (for backward compatibility) is `false`.
-	 * * `strict` - `false` if matching against a URL with a trailing slash should be treated as equivalent to a URL without a trailing slash, the default value is `true`.
+	 * @constructor
+	 * @param {string} pattern  the pattern to compile into a matcher.
 	 *
 	 * @property {string} prefix  A static prefix of this pattern. The matcher guarantees that any
-	 *   URL matching this matcher (i.e. any string for which {@link ui.router.util.type:UrlMatcher#methods_exec exec()} returns
+	 *   URL matching this matcher (i.e. any string for which {@link UrlMatcher#exec exec()} returns
 	 *   non-null) will start with this prefix.
-	 *
-	 * @property {string} source  The pattern that was passed into the constructor
-	 *
-	 * @property {string} sourcePath  The path portion of the source property
-	 *
-	 * @property {string} sourceSearch  The search portion of the source property
-	 *
-	 * @property {string} regex  The constructed regex that will be used to match against the url when
-	 *   it is time to determine which url will match.
-	 *
-	 * @returns {Object}  New `UrlMatcher` object
 	 */
-	function UrlMatcher(pattern, config, parentMatcher) {
-	  config = extend({ params: {} }, isObject(config) ? config : {});
+	function UrlMatcher(pattern) {
 
 	  // Find all placeholders and create a compiled pattern, using either classic or curly syntax:
 	  //   '*' name
@@ -29746,130 +29636,86 @@
 	  //   '{' name ':' regexp '}'
 	  // The regular expression is somewhat complicated due to the need to allow curly braces
 	  // inside the regular expression. The placeholder regexp breaks down as follows:
-	  //    ([:*])([\w\[\]]+)              - classic placeholder ($1 / $2) (search version has - for snake-case)
-	  //    \{([\w\[\]]+)(?:\:( ... ))?\}  - curly brace placeholder ($3) with optional regexp/type ... ($4) (search version has - for snake-case
-	  //    (?: ... | ... | ... )+         - the regexp consists of any number of atoms, an atom being either
-	  //    [^{}\\]+                       - anything other than curly braces or backslash
-	  //    \\.                            - a backslash escape
-	  //    \{(?:[^{}\\]+|\\.)*\}          - a matched set of curly braces containing other atoms
-	  var placeholder       = /([:*])([\w\[\]]+)|\{([\w\[\]]+)(?:\:((?:[^{}\\]+|\\.|\{(?:[^{}\\]+|\\.)*\})+))?\}/g,
-	      searchPlaceholder = /([:]?)([\w\[\]-]+)|\{([\w\[\]-]+)(?:\:((?:[^{}\\]+|\\.|\{(?:[^{}\\]+|\\.)*\})+))?\}/g,
-	      compiled = '^', last = 0, m,
+	  //    ([:*])(\w+)               classic placeholder ($1 / $2)
+	  //    \{(\w+)(?:\:( ... ))?\}   curly brace placeholder ($3) with optional regexp ... ($4)
+	  //    (?: ... | ... | ... )+    the regexp consists of any number of atoms, an atom being either
+	  //    [^{}\\]+                  - anything other than curly braces or backslash
+	  //    \\.                       - a backslash escape
+	  //    \{(?:[^{}\\]+|\\.)*\}     - a matched set of curly braces containing other atoms
+	  var placeholder = /([:*])(\w+)|\{(\w+)(?:\:((?:[^{}\\]+|\\.|\{(?:[^{}\\]+|\\.)*\})+))?\}/g,
+	      names = {}, compiled = '^', last = 0, m,
 	      segments = this.segments = [],
-	      parentParams = parentMatcher ? parentMatcher.params : {},
-	      params = this.params = parentMatcher ? parentMatcher.params.$$new() : new $$UMFP.ParamSet(),
-	      paramNames = [];
+	      params = this.params = [];
 
-	  function addParameter(id, type, config, location) {
-	    paramNames.push(id);
-	    if (parentParams[id]) return parentParams[id];
-	    if (!/^\w+(-+\w+)*(?:\[\])?$/.test(id)) throw new Error("Invalid parameter name '" + id + "' in pattern '" + pattern + "'");
-	    if (params[id]) throw new Error("Duplicate parameter name '" + id + "' in pattern '" + pattern + "'");
-	    params[id] = new $$UMFP.Param(id, type, config, location);
-	    return params[id];
+	  function addParameter(id) {
+	    if (!/^\w+(-+\w+)*$/.test(id)) throw new Error("Invalid parameter name '" + id + "' in pattern '" + pattern + "'");
+	    if (names[id]) throw new Error("Duplicate parameter name '" + id + "' in pattern '" + pattern + "'");
+	    names[id] = true;
+	    params.push(id);
 	  }
 
-	  function quoteRegExp(string, pattern, squash, optional) {
-	    var surroundPattern = ['',''], result = string.replace(/[\\\[\]\^$*+?.()|{}]/g, "\\$&");
-	    if (!pattern) return result;
-	    switch(squash) {
-	      case false: surroundPattern = ['(', ')' + (optional ? "?" : "")]; break;
-	      case true:  surroundPattern = ['?(', ')?']; break;
-	      default:    surroundPattern = ['(' + squash + "|", ')?']; break;
-	    }
-	    return result + surroundPattern[0] + pattern + surroundPattern[1];
+	  function quoteRegExp(string) {
+	    return string.replace(/[\\\[\]\^$*+?.()|{}]/g, "\\$&");
 	  }
 
 	  this.source = pattern;
 
 	  // Split into static segments separated by path parameter placeholders.
 	  // The number of segments is always 1 more than the number of parameters.
-	  function matchDetails(m, isSearch) {
-	    var id, regexp, segment, type, cfg, arrayMode;
-	    id          = m[2] || m[3]; // IE[78] returns '' for unmatched groups instead of null
-	    cfg         = config.params[id];
-	    segment     = pattern.substring(last, m.index);
-	    regexp      = isSearch ? m[4] : m[4] || (m[1] == '*' ? '.*' : null);
-	    type        = $$UMFP.type(regexp || "string") || inherit($$UMFP.type("string"), { pattern: new RegExp(regexp, config.caseInsensitive ? 'i' : undefined) });
-	    return {
-	      id: id, regexp: regexp, segment: segment, type: type, cfg: cfg
-	    };
-	  }
-
-	  var p, param, segment;
+	  var id, regexp, segment;
 	  while ((m = placeholder.exec(pattern))) {
-	    p = matchDetails(m, false);
-	    if (p.segment.indexOf('?') >= 0) break; // we're into the search part
-
-	    param = addParameter(p.id, p.type, p.cfg, "path");
-	    compiled += quoteRegExp(p.segment, param.type.pattern.source, param.squash, param.isOptional);
-	    segments.push(p.segment);
+	    id = m[2] || m[3]; // IE[78] returns '' for unmatched groups instead of null
+	    regexp = m[4] || (m[1] == '*' ? '.*' : '[^/]*');
+	    segment = pattern.substring(last, m.index);
+	    if (segment.indexOf('?') >= 0) break; // we're into the search part
+	    compiled += quoteRegExp(segment) + '(' + regexp + ')';
+	    addParameter(id);
+	    segments.push(segment);
 	    last = placeholder.lastIndex;
 	  }
 	  segment = pattern.substring(last);
 
 	  // Find any search parameter names and remove them from the last segment
 	  var i = segment.indexOf('?');
-
 	  if (i >= 0) {
 	    var search = this.sourceSearch = segment.substring(i);
 	    segment = segment.substring(0, i);
-	    this.sourcePath = pattern.substring(0, last + i);
+	    this.sourcePath = pattern.substring(0, last+i);
 
-	    if (search.length > 0) {
-	      last = 0;
-	      while ((m = searchPlaceholder.exec(search))) {
-	        p = matchDetails(m, true);
-	        param = addParameter(p.id, p.type, p.cfg, "search");
-	        last = placeholder.lastIndex;
-	        // check if ?&
-	      }
-	    }
+	    // Allow parameters to be separated by '?' as well as '&' to make concat() easier
+	    forEach(search.substring(1).split(/[&?]/), addParameter);
 	  } else {
 	    this.sourcePath = pattern;
 	    this.sourceSearch = '';
 	  }
 
-	  compiled += quoteRegExp(segment) + (config.strict === false ? '\/?' : '') + '$';
+	  compiled += quoteRegExp(segment) + '$';
 	  segments.push(segment);
-
-	  this.regexp = new RegExp(compiled, config.caseInsensitive ? 'i' : undefined);
+	  this.regexp = new RegExp(compiled);
 	  this.prefix = segments[0];
-	  this.$$paramNames = paramNames;
 	}
 
 	/**
-	 * @ngdoc function
-	 * @name ui.router.util.type:UrlMatcher#concat
-	 * @methodOf ui.router.util.type:UrlMatcher
-	 *
-	 * @description
 	 * Returns a new matcher for a pattern constructed by appending the path part and adding the
 	 * search parameters of the specified pattern to this pattern. The current pattern is not
 	 * modified. This can be understood as creating a pattern for URLs that are relative to (or
 	 * suffixes of) the current pattern.
 	 *
-	 * @example
+	 * ### Example
 	 * The following two matchers are equivalent:
-	 * <pre>
+	 * ```
 	 * new UrlMatcher('/user/{id}?q').concat('/details?date');
 	 * new UrlMatcher('/user/{id}/details?q&date');
-	 * </pre>
+	 * ```
 	 *
 	 * @param {string} pattern  The pattern to append.
-	 * @param {Object} config  An object hash of the configuration for the matcher.
-	 * @returns {UrlMatcher}  A matcher for the concatenated pattern.
+	 * @return {UrlMatcher}  A matcher for the concatenated pattern.
 	 */
-	UrlMatcher.prototype.concat = function (pattern, config) {
+	UrlMatcher.prototype.concat = function (pattern) {
 	  // Because order of search parameters is irrelevant, we can add our own search
 	  // parameters to the end of the new pattern. Parse the new pattern by itself
 	  // and then join the bits together, but it's much easier to do this on a string level.
-	  var defaultConfig = {
-	    caseInsensitive: $$UMFP.caseInsensitive(),
-	    strict: $$UMFP.strictMode(),
-	    squash: $$UMFP.defaultSquashPolicy()
-	  };
-	  return new UrlMatcher(this.sourcePath + pattern + this.sourceSearch, extend(defaultConfig, config), this);
+	  return new UrlMatcher(this.sourcePath + pattern + this.sourceSearch);
 	};
 
 	UrlMatcher.prototype.toString = function () {
@@ -29877,159 +29723,78 @@
 	};
 
 	/**
-	 * @ngdoc function
-	 * @name ui.router.util.type:UrlMatcher#exec
-	 * @methodOf ui.router.util.type:UrlMatcher
-	 *
-	 * @description
 	 * Tests the specified path against this matcher, and returns an object containing the captured
 	 * parameter values, or null if the path does not match. The returned object contains the values
 	 * of any search parameters that are mentioned in the pattern, but their value may be null if
 	 * they are not present in `searchParams`. This means that search parameters are always treated
 	 * as optional.
 	 *
-	 * @example
-	 * <pre>
-	 * new UrlMatcher('/user/{id}?q&r').exec('/user/bob', {
-	 *   x: '1', q: 'hello'
-	 * });
-	 * // returns { id: 'bob', q: 'hello', r: null }
-	 * </pre>
+	 * ### Example
+	 * ```
+	 * new UrlMatcher('/user/{id}?q&r').exec('/user/bob', { x:'1', q:'hello' });
+	 * // returns { id:'bob', q:'hello', r:null }
+	 * ```
 	 *
 	 * @param {string} path  The URL path to match, e.g. `$location.path()`.
 	 * @param {Object} searchParams  URL search parameters, e.g. `$location.search()`.
-	 * @returns {Object}  The captured parameter values.
+	 * @return {Object}  The captured parameter values.
 	 */
 	UrlMatcher.prototype.exec = function (path, searchParams) {
 	  var m = this.regexp.exec(path);
 	  if (!m) return null;
-	  searchParams = searchParams || {};
 
-	  var paramNames = this.parameters(), nTotal = paramNames.length,
-	    nPath = this.segments.length - 1,
-	    values = {}, i, j, cfg, paramName;
+	  var params = this.params, nTotal = params.length,
+	    nPath = this.segments.length-1,
+	    values = {}, i;
 
 	  if (nPath !== m.length - 1) throw new Error("Unbalanced capture group in route '" + this.source + "'");
 
-	  function decodePathArray(string) {
-	    function reverseString(str) { return str.split("").reverse().join(""); }
-	    function unquoteDashes(str) { return str.replace(/\\-/g, "-"); }
-
-	    var split = reverseString(string).split(/-(?!\\)/);
-	    var allReversed = map(split, reverseString);
-	    return map(allReversed, unquoteDashes).reverse();
-	  }
-
-	  for (i = 0; i < nPath; i++) {
-	    paramName = paramNames[i];
-	    var param = this.params[paramName];
-	    var paramVal = m[i+1];
-	    // if the param value matches a pre-replace pair, replace the value before decoding.
-	    for (j = 0; j < param.replace; j++) {
-	      if (param.replace[j].from === paramVal) paramVal = param.replace[j].to;
-	    }
-	    if (paramVal && param.array === true) paramVal = decodePathArray(paramVal);
-	    values[paramName] = param.value(paramVal);
-	  }
-	  for (/**/; i < nTotal; i++) {
-	    paramName = paramNames[i];
-	    values[paramName] = this.params[paramName].value(searchParams[paramName]);
-	  }
+	  for (i=0; i<nPath; i++) values[params[i]] = m[i+1];
+	  for (/**/; i<nTotal; i++) values[params[i]] = searchParams[params[i]];
 
 	  return values;
 	};
 
 	/**
-	 * @ngdoc function
-	 * @name ui.router.util.type:UrlMatcher#parameters
-	 * @methodOf ui.router.util.type:UrlMatcher
-	 *
-	 * @description
 	 * Returns the names of all path and search parameters of this pattern in an unspecified order.
-	 *
-	 * @returns {Array.<string>}  An array of parameter names. Must be treated as read-only. If the
+	 * @return {Array.<string>}  An array of parameter names. Must be treated as read-only. If the
 	 *    pattern has no parameters, an empty array is returned.
 	 */
-	UrlMatcher.prototype.parameters = function (param) {
-	  if (!isDefined(param)) return this.$$paramNames;
-	  return this.params[param] || null;
+	UrlMatcher.prototype.parameters = function () {
+	  return this.params;
 	};
 
 	/**
-	 * @ngdoc function
-	 * @name ui.router.util.type:UrlMatcher#validate
-	 * @methodOf ui.router.util.type:UrlMatcher
-	 *
-	 * @description
-	 * Checks an object hash of parameters to validate their correctness according to the parameter
-	 * types of this `UrlMatcher`.
-	 *
-	 * @param {Object} params The object hash of parameters to validate.
-	 * @returns {boolean} Returns `true` if `params` validates, otherwise `false`.
-	 */
-	UrlMatcher.prototype.validates = function (params) {
-	  return this.params.$$validates(params);
-	};
-
-	/**
-	 * @ngdoc function
-	 * @name ui.router.util.type:UrlMatcher#format
-	 * @methodOf ui.router.util.type:UrlMatcher
-	 *
-	 * @description
 	 * Creates a URL that matches this pattern by substituting the specified values
 	 * for the path and search parameters. Null values for path parameters are
 	 * treated as empty strings.
 	 *
-	 * @example
-	 * <pre>
+	 * ### Example
+	 * ```
 	 * new UrlMatcher('/user/{id}?q').format({ id:'bob', q:'yes' });
 	 * // returns '/user/bob?q=yes'
-	 * </pre>
+	 * ```
 	 *
 	 * @param {Object} values  the values to substitute for the parameters in this pattern.
-	 * @returns {string}  the formatted URL (path and optionally search part).
+	 * @return {string}  the formatted URL (path and optionally search part).
 	 */
 	UrlMatcher.prototype.format = function (values) {
-	  values = values || {};
-	  var segments = this.segments, params = this.parameters(), paramset = this.params;
-	  if (!this.validates(values)) return null;
+	  var segments = this.segments, params = this.params;
+	  if (!values) return segments.join('');
 
-	  var i, search = false, nPath = segments.length - 1, nTotal = params.length, result = segments[0];
+	  var nPath = segments.length-1, nTotal = params.length,
+	    result = segments[0], i, search, value;
 
-	  function encodeDashes(str) { // Replace dashes with encoded "\-"
-	    return encodeURIComponent(str).replace(/-/g, function(c) { return '%5C%' + c.charCodeAt(0).toString(16).toUpperCase(); });
+	  for (i=0; i<nPath; i++) {
+	    value = values[params[i]];
+	    // TODO: Maybe we should throw on null here? It's not really good style to use '' and null interchangeabley
+	    if (value != null) result += encodeURIComponent(value);
+	    result += segments[i+1];
 	  }
-
-	  for (i = 0; i < nTotal; i++) {
-	    var isPathParam = i < nPath;
-	    var name = params[i], param = paramset[name], value = param.value(values[name]);
-	    var isDefaultValue = param.isOptional && param.type.equals(param.value(), value);
-	    var squash = isDefaultValue ? param.squash : false;
-	    var encoded = param.type.encode(value);
-
-	    if (isPathParam) {
-	      var nextSegment = segments[i + 1];
-	      if (squash === false) {
-	        if (encoded != null) {
-	          if (isArray(encoded)) {
-	            result += map(encoded, encodeDashes).join("-");
-	          } else {
-	            result += encodeURIComponent(encoded);
-	          }
-	        }
-	        result += nextSegment;
-	      } else if (squash === true) {
-	        var capture = result.match(/\/$/) ? /\/?(.*)/ : /(.*)/;
-	        result += nextSegment.match(capture)[1];
-	      } else if (isString(squash)) {
-	        result += squash + nextSegment;
-	      }
-	    } else {
-	      if (encoded == null || (isDefaultValue && squash !== false)) continue;
-	      if (!isArray(encoded)) encoded = [ encoded ];
-	      encoded = map(encoded, encodeURIComponent).join('&' + name + '=');
-	      result += (search ? '&' : '?') + (name + '=' + encoded);
+	  for (/**/; i<nTotal; i++) {
+	    value = values[params[i]];
+	    if (value != null) {
+	      result += (search ? '&' : '?') + params[i] + '=' + encodeURIComponent(value);
 	      search = true;
 	    }
 	  }
@@ -30038,694 +29803,49 @@
 	};
 
 	/**
-	 * @ngdoc object
-	 * @name ui.router.util.type:Type
-	 *
-	 * @description
-	 * Implements an interface to define custom parameter types that can be decoded from and encoded to
-	 * string parameters matched in a URL. Used by {@link ui.router.util.type:UrlMatcher `UrlMatcher`}
-	 * objects when matching or formatting URLs, or comparing or validating parameter values.
-	 *
-	 * See {@link ui.router.util.$urlMatcherFactory#methods_type `$urlMatcherFactory#type()`} for more
-	 * information on registering custom types.
-	 *
-	 * @param {Object} config  A configuration object which contains the custom type definition.  The object's
-	 *        properties will override the default methods and/or pattern in `Type`'s public interface.
-	 * @example
-	 * <pre>
-	 * {
-	 *   decode: function(val) { return parseInt(val, 10); },
-	 *   encode: function(val) { return val && val.toString(); },
-	 *   equals: function(a, b) { return this.is(a) && a === b; },
-	 *   is: function(val) { return angular.isNumber(val) isFinite(val) && val % 1 === 0; },
-	 *   pattern: /\d+/
-	 * }
-	 * </pre>
-	 *
-	 * @property {RegExp} pattern The regular expression pattern used to match values of this type when
-	 *           coming from a substring of a URL.
-	 *
-	 * @returns {Object}  Returns a new `Type` object.
-	 */
-	function Type(config) {
-	  extend(this, config);
-	}
-
-	/**
-	 * @ngdoc function
-	 * @name ui.router.util.type:Type#is
-	 * @methodOf ui.router.util.type:Type
-	 *
-	 * @description
-	 * Detects whether a value is of a particular type. Accepts a native (decoded) value
-	 * and determines whether it matches the current `Type` object.
-	 *
-	 * @param {*} val  The value to check.
-	 * @param {string} key  Optional. If the type check is happening in the context of a specific
-	 *        {@link ui.router.util.type:UrlMatcher `UrlMatcher`} object, this is the name of the
-	 *        parameter in which `val` is stored. Can be used for meta-programming of `Type` objects.
-	 * @returns {Boolean}  Returns `true` if the value matches the type, otherwise `false`.
-	 */
-	Type.prototype.is = function(val, key) {
-	  return true;
-	};
-
-	/**
-	 * @ngdoc function
-	 * @name ui.router.util.type:Type#encode
-	 * @methodOf ui.router.util.type:Type
-	 *
-	 * @description
-	 * Encodes a custom/native type value to a string that can be embedded in a URL. Note that the
-	 * return value does *not* need to be URL-safe (i.e. passed through `encodeURIComponent()`), it
-	 * only needs to be a representation of `val` that has been coerced to a string.
-	 *
-	 * @param {*} val  The value to encode.
-	 * @param {string} key  The name of the parameter in which `val` is stored. Can be used for
-	 *        meta-programming of `Type` objects.
-	 * @returns {string}  Returns a string representation of `val` that can be encoded in a URL.
-	 */
-	Type.prototype.encode = function(val, key) {
-	  return val;
-	};
-
-	/**
-	 * @ngdoc function
-	 * @name ui.router.util.type:Type#decode
-	 * @methodOf ui.router.util.type:Type
-	 *
-	 * @description
-	 * Converts a parameter value (from URL string or transition param) to a custom/native value.
-	 *
-	 * @param {string} val  The URL parameter value to decode.
-	 * @param {string} key  The name of the parameter in which `val` is stored. Can be used for
-	 *        meta-programming of `Type` objects.
-	 * @returns {*}  Returns a custom representation of the URL parameter value.
-	 */
-	Type.prototype.decode = function(val, key) {
-	  return val;
-	};
-
-	/**
-	 * @ngdoc function
-	 * @name ui.router.util.type:Type#equals
-	 * @methodOf ui.router.util.type:Type
-	 *
-	 * @description
-	 * Determines whether two decoded values are equivalent.
-	 *
-	 * @param {*} a  A value to compare against.
-	 * @param {*} b  A value to compare against.
-	 * @returns {Boolean}  Returns `true` if the values are equivalent/equal, otherwise `false`.
-	 */
-	Type.prototype.equals = function(a, b) {
-	  return a == b;
-	};
-
-	Type.prototype.$subPattern = function() {
-	  var sub = this.pattern.toString();
-	  return sub.substr(1, sub.length - 2);
-	};
-
-	Type.prototype.pattern = /.*/;
-
-	Type.prototype.toString = function() { return "{Type:" + this.name + "}"; };
-
-	/** Given an encoded string, or a decoded object, returns a decoded object */
-	Type.prototype.$normalize = function(val) {
-	  return this.is(val) ? val : this.decode(val);
-	};
-
-	/*
-	 * Wraps an existing custom Type as an array of Type, depending on 'mode'.
-	 * e.g.:
-	 * - urlmatcher pattern "/path?{queryParam[]:int}"
-	 * - url: "/path?queryParam=1&queryParam=2
-	 * - $stateParams.queryParam will be [1, 2]
-	 * if `mode` is "auto", then
-	 * - url: "/path?queryParam=1 will create $stateParams.queryParam: 1
-	 * - url: "/path?queryParam=1&queryParam=2 will create $stateParams.queryParam: [1, 2]
-	 */
-	Type.prototype.$asArray = function(mode, isSearch) {
-	  if (!mode) return this;
-	  if (mode === "auto" && !isSearch) throw new Error("'auto' array mode is for query parameters only");
-
-	  function ArrayType(type, mode) {
-	    function bindTo(type, callbackName) {
-	      return function() {
-	        return type[callbackName].apply(type, arguments);
-	      };
-	    }
-
-	    // Wrap non-array value as array
-	    function arrayWrap(val) { return isArray(val) ? val : (isDefined(val) ? [ val ] : []); }
-	    // Unwrap array value for "auto" mode. Return undefined for empty array.
-	    function arrayUnwrap(val) {
-	      switch(val.length) {
-	        case 0: return undefined;
-	        case 1: return mode === "auto" ? val[0] : val;
-	        default: return val;
-	      }
-	    }
-	    function falsey(val) { return !val; }
-
-	    // Wraps type (.is/.encode/.decode) functions to operate on each value of an array
-	    function arrayHandler(callback, allTruthyMode) {
-	      return function handleArray(val) {
-	        val = arrayWrap(val);
-	        var result = map(val, callback);
-	        if (allTruthyMode === true)
-	          return filter(result, falsey).length === 0;
-	        return arrayUnwrap(result);
-	      };
-	    }
-
-	    // Wraps type (.equals) functions to operate on each value of an array
-	    function arrayEqualsHandler(callback) {
-	      return function handleArray(val1, val2) {
-	        var left = arrayWrap(val1), right = arrayWrap(val2);
-	        if (left.length !== right.length) return false;
-	        for (var i = 0; i < left.length; i++) {
-	          if (!callback(left[i], right[i])) return false;
-	        }
-	        return true;
-	      };
-	    }
-
-	    this.encode = arrayHandler(bindTo(type, 'encode'));
-	    this.decode = arrayHandler(bindTo(type, 'decode'));
-	    this.is     = arrayHandler(bindTo(type, 'is'), true);
-	    this.equals = arrayEqualsHandler(bindTo(type, 'equals'));
-	    this.pattern = type.pattern;
-	    this.$normalize = arrayHandler(bindTo(type, '$normalize'));
-	    this.name = type.name;
-	    this.$arrayMode = mode;
-	  }
-
-	  return new ArrayType(this, mode);
-	};
-
-
-
-	/**
-	 * @ngdoc object
-	 * @name ui.router.util.$urlMatcherFactory
-	 *
-	 * @description
-	 * Factory for {@link ui.router.util.type:UrlMatcher `UrlMatcher`} instances. The factory
-	 * is also available to providers under the name `$urlMatcherFactoryProvider`.
+	 * Service. Factory for {@link UrlMatcher} instances. The factory is also available to providers
+	 * under the name `$urlMatcherFactoryProvider`.
+	 * @constructor
+	 * @name $urlMatcherFactory
 	 */
 	function $UrlMatcherFactory() {
-	  $$UMFP = this;
-
-	  var isCaseInsensitive = false, isStrictMode = true, defaultSquashPolicy = false;
-
-	  function valToString(val) { return val != null ? val.toString().replace(/\//g, "%2F") : val; }
-	  function valFromString(val) { return val != null ? val.toString().replace(/%2F/g, "/") : val; }
-
-	  var $types = {}, enqueue = true, typeQueue = [], injector, defaultTypes = {
-	    string: {
-	      encode: valToString,
-	      decode: valFromString,
-	      // TODO: in 1.0, make string .is() return false if value is undefined/null by default.
-	      // In 0.2.x, string params are optional by default for backwards compat
-	      is: function(val) { return val == null || !isDefined(val) || typeof val === "string"; },
-	      pattern: /[^/]*/
-	    },
-	    int: {
-	      encode: valToString,
-	      decode: function(val) { return parseInt(val, 10); },
-	      is: function(val) { return isDefined(val) && this.decode(val.toString()) === val; },
-	      pattern: /\d+/
-	    },
-	    bool: {
-	      encode: function(val) { return val ? 1 : 0; },
-	      decode: function(val) { return parseInt(val, 10) !== 0; },
-	      is: function(val) { return val === true || val === false; },
-	      pattern: /0|1/
-	    },
-	    date: {
-	      encode: function (val) {
-	        if (!this.is(val))
-	          return undefined;
-	        return [ val.getFullYear(),
-	          ('0' + (val.getMonth() + 1)).slice(-2),
-	          ('0' + val.getDate()).slice(-2)
-	        ].join("-");
-	      },
-	      decode: function (val) {
-	        if (this.is(val)) return val;
-	        var match = this.capture.exec(val);
-	        return match ? new Date(match[1], match[2] - 1, match[3]) : undefined;
-	      },
-	      is: function(val) { return val instanceof Date && !isNaN(val.valueOf()); },
-	      equals: function (a, b) { return this.is(a) && this.is(b) && a.toISOString() === b.toISOString(); },
-	      pattern: /[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[1-2][0-9]|3[0-1])/,
-	      capture: /([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/
-	    },
-	    json: {
-	      encode: angular.toJson,
-	      decode: angular.fromJson,
-	      is: angular.isObject,
-	      equals: angular.equals,
-	      pattern: /[^/]*/
-	    },
-	    any: { // does not encode/decode
-	      encode: angular.identity,
-	      decode: angular.identity,
-	      equals: angular.equals,
-	      pattern: /.*/
-	    }
-	  };
-
-	  function getDefaultConfig() {
-	    return {
-	      strict: isStrictMode,
-	      caseInsensitive: isCaseInsensitive
-	    };
-	  }
-
-	  function isInjectable(value) {
-	    return (isFunction(value) || (isArray(value) && isFunction(value[value.length - 1])));
-	  }
-
 	  /**
-	   * [Internal] Get the default value of a parameter, which may be an injectable function.
-	   */
-	  $UrlMatcherFactory.$$getDefaultValue = function(config) {
-	    if (!isInjectable(config.value)) return config.value;
-	    if (!injector) throw new Error("Injectable functions cannot be called at configuration time");
-	    return injector.invoke(config.value);
-	  };
-
-	  /**
-	   * @ngdoc function
-	   * @name ui.router.util.$urlMatcherFactory#caseInsensitive
-	   * @methodOf ui.router.util.$urlMatcherFactory
-	   *
-	   * @description
-	   * Defines whether URL matching should be case sensitive (the default behavior), or not.
-	   *
-	   * @param {boolean} value `false` to match URL in a case sensitive manner; otherwise `true`;
-	   * @returns {boolean} the current value of caseInsensitive
-	   */
-	  this.caseInsensitive = function(value) {
-	    if (isDefined(value))
-	      isCaseInsensitive = value;
-	    return isCaseInsensitive;
-	  };
-
-	  /**
-	   * @ngdoc function
-	   * @name ui.router.util.$urlMatcherFactory#strictMode
-	   * @methodOf ui.router.util.$urlMatcherFactory
-	   *
-	   * @description
-	   * Defines whether URLs should match trailing slashes, or not (the default behavior).
-	   *
-	   * @param {boolean=} value `false` to match trailing slashes in URLs, otherwise `true`.
-	   * @returns {boolean} the current value of strictMode
-	   */
-	  this.strictMode = function(value) {
-	    if (isDefined(value))
-	      isStrictMode = value;
-	    return isStrictMode;
-	  };
-
-	  /**
-	   * @ngdoc function
-	   * @name ui.router.util.$urlMatcherFactory#defaultSquashPolicy
-	   * @methodOf ui.router.util.$urlMatcherFactory
-	   *
-	   * @description
-	   * Sets the default behavior when generating or matching URLs with default parameter values.
-	   *
-	   * @param {string} value A string that defines the default parameter URL squashing behavior.
-	   *    `nosquash`: When generating an href with a default parameter value, do not squash the parameter value from the URL
-	   *    `slash`: When generating an href with a default parameter value, squash (remove) the parameter value, and, if the
-	   *             parameter is surrounded by slashes, squash (remove) one slash from the URL
-	   *    any other string, e.g. "~": When generating an href with a default parameter value, squash (remove)
-	   *             the parameter value from the URL and replace it with this string.
-	   */
-	  this.defaultSquashPolicy = function(value) {
-	    if (!isDefined(value)) return defaultSquashPolicy;
-	    if (value !== true && value !== false && !isString(value))
-	      throw new Error("Invalid squash policy: " + value + ". Valid policies: false, true, arbitrary-string");
-	    defaultSquashPolicy = value;
-	    return value;
-	  };
-
-	  /**
-	   * @ngdoc function
-	   * @name ui.router.util.$urlMatcherFactory#compile
-	   * @methodOf ui.router.util.$urlMatcherFactory
-	   *
-	   * @description
-	   * Creates a {@link ui.router.util.type:UrlMatcher `UrlMatcher`} for the specified pattern.
-	   *
+	   * Creates a {@link UrlMatcher} for the specified pattern.
+	   * @function
+	   * @name $urlMatcherFactory#compile
+	   * @methodOf $urlMatcherFactory
 	   * @param {string} pattern  The URL pattern.
-	   * @param {Object} config  The config object hash.
-	   * @returns {UrlMatcher}  The UrlMatcher.
+	   * @return {UrlMatcher}  The UrlMatcher.
 	   */
-	  this.compile = function (pattern, config) {
-	    return new UrlMatcher(pattern, extend(getDefaultConfig(), config));
+	  this.compile = function (pattern) {
+	    return new UrlMatcher(pattern);
 	  };
 
 	  /**
-	   * @ngdoc function
-	   * @name ui.router.util.$urlMatcherFactory#isMatcher
-	   * @methodOf ui.router.util.$urlMatcherFactory
-	   *
-	   * @description
-	   * Returns true if the specified object is a `UrlMatcher`, or false otherwise.
-	   *
-	   * @param {Object} object  The object to perform the type check against.
-	   * @returns {Boolean}  Returns `true` if the object matches the `UrlMatcher` interface, by
-	   *          implementing all the same methods.
+	   * Returns true if the specified object is a UrlMatcher, or false otherwise.
+	   * @function
+	   * @name $urlMatcherFactory#isMatcher
+	   * @methodOf $urlMatcherFactory
+	   * @param {Object} o
+	   * @return {boolean}
 	   */
 	  this.isMatcher = function (o) {
-	    if (!isObject(o)) return false;
-	    var result = true;
-
-	    forEach(UrlMatcher.prototype, function(val, name) {
-	      if (isFunction(val)) {
-	        result = result && (isDefined(o[name]) && isFunction(o[name]));
-	      }
-	    });
-	    return result;
+	    return isObject(o) && isFunction(o.exec) && isFunction(o.format) && isFunction(o.concat);
 	  };
 
-	  /**
-	   * @ngdoc function
-	   * @name ui.router.util.$urlMatcherFactory#type
-	   * @methodOf ui.router.util.$urlMatcherFactory
-	   *
-	   * @description
-	   * Registers a custom {@link ui.router.util.type:Type `Type`} object that can be used to
-	   * generate URLs with typed parameters.
-	   *
-	   * @param {string} name  The type name.
-	   * @param {Object|Function} definition   The type definition. See
-	   *        {@link ui.router.util.type:Type `Type`} for information on the values accepted.
-	   * @param {Object|Function} definitionFn (optional) A function that is injected before the app
-	   *        runtime starts.  The result of this function is merged into the existing `definition`.
-	   *        See {@link ui.router.util.type:Type `Type`} for information on the values accepted.
-	   *
-	   * @returns {Object}  Returns `$urlMatcherFactoryProvider`.
-	   *
-	   * @example
-	   * This is a simple example of a custom type that encodes and decodes items from an
-	   * array, using the array index as the URL-encoded value:
-	   *
-	   * <pre>
-	   * var list = ['John', 'Paul', 'George', 'Ringo'];
-	   *
-	   * $urlMatcherFactoryProvider.type('listItem', {
-	   *   encode: function(item) {
-	   *     // Represent the list item in the URL using its corresponding index
-	   *     return list.indexOf(item);
-	   *   },
-	   *   decode: function(item) {
-	   *     // Look up the list item by index
-	   *     return list[parseInt(item, 10)];
-	   *   },
-	   *   is: function(item) {
-	   *     // Ensure the item is valid by checking to see that it appears
-	   *     // in the list
-	   *     return list.indexOf(item) > -1;
-	   *   }
-	   * });
-	   *
-	   * $stateProvider.state('list', {
-	   *   url: "/list/{item:listItem}",
-	   *   controller: function($scope, $stateParams) {
-	   *     console.log($stateParams.item);
-	   *   }
-	   * });
-	   *
-	   * // ...
-	   *
-	   * // Changes URL to '/list/3', logs "Ringo" to the console
-	   * $state.go('list', { item: "Ringo" });
-	   * </pre>
-	   *
-	   * This is a more complex example of a type that relies on dependency injection to
-	   * interact with services, and uses the parameter name from the URL to infer how to
-	   * handle encoding and decoding parameter values:
-	   *
-	   * <pre>
-	   * // Defines a custom type that gets a value from a service,
-	   * // where each service gets different types of values from
-	   * // a backend API:
-	   * $urlMatcherFactoryProvider.type('dbObject', {}, function(Users, Posts) {
-	   *
-	   *   // Matches up services to URL parameter names
-	   *   var services = {
-	   *     user: Users,
-	   *     post: Posts
-	   *   };
-	   *
-	   *   return {
-	   *     encode: function(object) {
-	   *       // Represent the object in the URL using its unique ID
-	   *       return object.id;
-	   *     },
-	   *     decode: function(value, key) {
-	   *       // Look up the object by ID, using the parameter
-	   *       // name (key) to call the correct service
-	   *       return services[key].findById(value);
-	   *     },
-	   *     is: function(object, key) {
-	   *       // Check that object is a valid dbObject
-	   *       return angular.isObject(object) && object.id && services[key];
-	   *     }
-	   *     equals: function(a, b) {
-	   *       // Check the equality of decoded objects by comparing
-	   *       // their unique IDs
-	   *       return a.id === b.id;
-	   *     }
-	   *   };
-	   * });
-	   *
-	   * // In a config() block, you can then attach URLs with
-	   * // type-annotated parameters:
-	   * $stateProvider.state('users', {
-	   *   url: "/users",
-	   *   // ...
-	   * }).state('users.item', {
-	   *   url: "/{user:dbObject}",
-	   *   controller: function($scope, $stateParams) {
-	   *     // $stateParams.user will now be an object returned from
-	   *     // the Users service
-	   *   },
-	   *   // ...
-	   * });
-	   * </pre>
-	   */
-	  this.type = function (name, definition, definitionFn) {
-	    if (!isDefined(definition)) return $types[name];
-	    if ($types.hasOwnProperty(name)) throw new Error("A type named '" + name + "' has already been defined.");
-
-	    $types[name] = new Type(extend({ name: name }, definition));
-	    if (definitionFn) {
-	      typeQueue.push({ name: name, def: definitionFn });
-	      if (!enqueue) flushTypeQueue();
-	    }
+	  this.$get = function () {
 	    return this;
 	  };
-
-	  // `flushTypeQueue()` waits until `$urlMatcherFactory` is injected before invoking the queued `definitionFn`s
-	  function flushTypeQueue() {
-	    while(typeQueue.length) {
-	      var type = typeQueue.shift();
-	      if (type.pattern) throw new Error("You cannot override a type's .pattern at runtime.");
-	      angular.extend($types[type.name], injector.invoke(type.def));
-	    }
-	  }
-
-	  // Register default types. Store them in the prototype of $types.
-	  forEach(defaultTypes, function(type, name) { $types[name] = new Type(extend({name: name}, type)); });
-	  $types = inherit($types, {});
-
-	  /* No need to document $get, since it returns this */
-	  this.$get = ['$injector', function ($injector) {
-	    injector = $injector;
-	    enqueue = false;
-	    flushTypeQueue();
-
-	    forEach(defaultTypes, function(type, name) {
-	      if (!$types[name]) $types[name] = new Type(type);
-	    });
-	    return this;
-	  }];
-
-	  this.Param = function Param(id, type, config, location) {
-	    var self = this;
-	    config = unwrapShorthand(config);
-	    type = getType(config, type, location);
-	    var arrayMode = getArrayMode();
-	    type = arrayMode ? type.$asArray(arrayMode, location === "search") : type;
-	    if (type.name === "string" && !arrayMode && location === "path" && config.value === undefined)
-	      config.value = ""; // for 0.2.x; in 0.3.0+ do not automatically default to ""
-	    var isOptional = config.value !== undefined;
-	    var squash = getSquashPolicy(config, isOptional);
-	    var replace = getReplace(config, arrayMode, isOptional, squash);
-
-	    function unwrapShorthand(config) {
-	      var keys = isObject(config) ? objectKeys(config) : [];
-	      var isShorthand = indexOf(keys, "value") === -1 && indexOf(keys, "type") === -1 &&
-	                        indexOf(keys, "squash") === -1 && indexOf(keys, "array") === -1;
-	      if (isShorthand) config = { value: config };
-	      config.$$fn = isInjectable(config.value) ? config.value : function () { return config.value; };
-	      return config;
-	    }
-
-	    function getType(config, urlType, location) {
-	      if (config.type && urlType) throw new Error("Param '"+id+"' has two type configurations.");
-	      if (urlType) return urlType;
-	      if (!config.type) return (location === "config" ? $types.any : $types.string);
-	      return config.type instanceof Type ? config.type : new Type(config.type);
-	    }
-
-	    // array config: param name (param[]) overrides default settings.  explicit config overrides param name.
-	    function getArrayMode() {
-	      var arrayDefaults = { array: (location === "search" ? "auto" : false) };
-	      var arrayParamNomenclature = id.match(/\[\]$/) ? { array: true } : {};
-	      return extend(arrayDefaults, arrayParamNomenclature, config).array;
-	    }
-
-	    /**
-	     * returns false, true, or the squash value to indicate the "default parameter url squash policy".
-	     */
-	    function getSquashPolicy(config, isOptional) {
-	      var squash = config.squash;
-	      if (!isOptional || squash === false) return false;
-	      if (!isDefined(squash) || squash == null) return defaultSquashPolicy;
-	      if (squash === true || isString(squash)) return squash;
-	      throw new Error("Invalid squash policy: '" + squash + "'. Valid policies: false, true, or arbitrary string");
-	    }
-
-	    function getReplace(config, arrayMode, isOptional, squash) {
-	      var replace, configuredKeys, defaultPolicy = [
-	        { from: "",   to: (isOptional || arrayMode ? undefined : "") },
-	        { from: null, to: (isOptional || arrayMode ? undefined : "") }
-	      ];
-	      replace = isArray(config.replace) ? config.replace : [];
-	      if (isString(squash))
-	        replace.push({ from: squash, to: undefined });
-	      configuredKeys = map(replace, function(item) { return item.from; } );
-	      return filter(defaultPolicy, function(item) { return indexOf(configuredKeys, item.from) === -1; }).concat(replace);
-	    }
-
-	    /**
-	     * [Internal] Get the default value of a parameter, which may be an injectable function.
-	     */
-	    function $$getDefaultValue() {
-	      if (!injector) throw new Error("Injectable functions cannot be called at configuration time");
-	      var defaultValue = injector.invoke(config.$$fn);
-	      if (defaultValue !== null && defaultValue !== undefined && !self.type.is(defaultValue))
-	        throw new Error("Default value (" + defaultValue + ") for parameter '" + self.id + "' is not an instance of Type (" + self.type.name + ")");
-	      return defaultValue;
-	    }
-
-	    /**
-	     * [Internal] Gets the decoded representation of a value if the value is defined, otherwise, returns the
-	     * default value, which may be the result of an injectable function.
-	     */
-	    function $value(value) {
-	      function hasReplaceVal(val) { return function(obj) { return obj.from === val; }; }
-	      function $replace(value) {
-	        var replacement = map(filter(self.replace, hasReplaceVal(value)), function(obj) { return obj.to; });
-	        return replacement.length ? replacement[0] : value;
-	      }
-	      value = $replace(value);
-	      return !isDefined(value) ? $$getDefaultValue() : self.type.$normalize(value);
-	    }
-
-	    function toString() { return "{Param:" + id + " " + type + " squash: '" + squash + "' optional: " + isOptional + "}"; }
-
-	    extend(this, {
-	      id: id,
-	      type: type,
-	      location: location,
-	      array: arrayMode,
-	      squash: squash,
-	      replace: replace,
-	      isOptional: isOptional,
-	      value: $value,
-	      dynamic: undefined,
-	      config: config,
-	      toString: toString
-	    });
-	  };
-
-	  function ParamSet(params) {
-	    extend(this, params || {});
-	  }
-
-	  ParamSet.prototype = {
-	    $$new: function() {
-	      return inherit(this, extend(new ParamSet(), { $$parent: this}));
-	    },
-	    $$keys: function () {
-	      var keys = [], chain = [], parent = this,
-	        ignore = objectKeys(ParamSet.prototype);
-	      while (parent) { chain.push(parent); parent = parent.$$parent; }
-	      chain.reverse();
-	      forEach(chain, function(paramset) {
-	        forEach(objectKeys(paramset), function(key) {
-	            if (indexOf(keys, key) === -1 && indexOf(ignore, key) === -1) keys.push(key);
-	        });
-	      });
-	      return keys;
-	    },
-	    $$values: function(paramValues) {
-	      var values = {}, self = this;
-	      forEach(self.$$keys(), function(key) {
-	        values[key] = self[key].value(paramValues && paramValues[key]);
-	      });
-	      return values;
-	    },
-	    $$equals: function(paramValues1, paramValues2) {
-	      var equal = true, self = this;
-	      forEach(self.$$keys(), function(key) {
-	        var left = paramValues1 && paramValues1[key], right = paramValues2 && paramValues2[key];
-	        if (!self[key].type.equals(left, right)) equal = false;
-	      });
-	      return equal;
-	    },
-	    $$validates: function $$validate(paramValues) {
-	      var keys = this.$$keys(), i, param, rawVal, normalized, encoded;
-	      for (i = 0; i < keys.length; i++) {
-	        param = this[keys[i]];
-	        rawVal = paramValues[keys[i]];
-	        if ((rawVal === undefined || rawVal === null) && param.isOptional)
-	          break; // There was no parameter value, but the param is optional
-	        normalized = param.type.$normalize(rawVal);
-	        if (!param.type.is(normalized))
-	          return false; // The value was not of the correct Type, and could not be decoded to the correct Type
-	        encoded = param.type.encode(normalized);
-	        if (angular.isString(encoded) && !param.type.pattern.exec(encoded))
-	          return false; // The value was of the correct type, but when encoded, did not match the Type's regexp
-	      }
-	      return true;
-	    },
-	    $$parent: undefined
-	  };
-
-	  this.ParamSet = ParamSet;
 	}
 
 	// Register as a provider so it's available to other providers
 	angular.module('ui.router.util').provider('$urlMatcherFactory', $UrlMatcherFactory);
-	angular.module('ui.router.util').run(['$urlMatcherFactory', function($urlMatcherFactory) { }]);
 
 	/**
 	 * @ngdoc object
 	 * @name ui.router.router.$urlRouterProvider
 	 *
 	 * @requires ui.router.util.$urlMatcherFactoryProvider
-	 * @requires $locationProvider
 	 *
 	 * @description
 	 * `$urlRouterProvider` has the responsibility of watching `$location`. 
@@ -30736,9 +29856,10 @@
 	 * There are several methods on `$urlRouterProvider` that make it useful to use directly
 	 * in your module config.
 	 */
-	$UrlRouterProvider.$inject = ['$locationProvider', '$urlMatcherFactoryProvider'];
-	function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
-	  var rules = [], otherwise = null, interceptDeferred = false, listener;
+	$UrlRouterProvider.$inject = ['$urlMatcherFactoryProvider'];
+	function $UrlRouterProvider(  $urlMatcherFactory) {
+	  var rules = [], 
+	      otherwise = null;
 
 	  // Returns a string that is a prefix of all strings matching the RegExp
 	  function regExpPrefix(re) {
@@ -30759,7 +29880,7 @@
 	   * @methodOf ui.router.router.$urlRouterProvider
 	   *
 	   * @description
-	   * Defines rules that are used by `$urlRouterProvider` to find matches for
+	   * Defines rules that are used by `$urlRouterProvider to find matches for
 	   * specific URLs.
 	   *
 	   * @example
@@ -30782,13 +29903,14 @@
 	   * @param {object} rule Handler function that takes `$injector` and `$location`
 	   * services as arguments. You can use them to return a valid path as a string.
 	   *
-	   * @return {object} `$urlRouterProvider` - `$urlRouterProvider` instance
+	   * @return {object} $urlRouterProvider - $urlRouterProvider instance
 	   */
-	  this.rule = function (rule) {
-	    if (!isFunction(rule)) throw new Error("'rule' must be a function");
-	    rules.push(rule);
-	    return this;
-	  };
+	  this.rule =
+	    function (rule) {
+	      if (!isFunction(rule)) throw new Error("'rule' must be a function");
+	      rules.push(rule);
+	      return this;
+	    };
 
 	  /**
 	   * @ngdoc object
@@ -30796,7 +29918,7 @@
 	   * @methodOf ui.router.router.$urlRouterProvider
 	   *
 	   * @description
-	   * Defines a path that is used when an invalid route is requested.
+	   * Defines a path that is used when an invalied route is requested.
 	   *
 	   * @example
 	   * <pre>
@@ -30810,26 +29932,27 @@
 	   *
 	   *   // Example of using function rule as param
 	   *   $urlRouterProvider.otherwise(function ($injector, $location) {
-	   *     return '/a/valid/url';
+	   *     ...
 	   *   });
 	   * });
 	   * </pre>
 	   *
 	   * @param {string|object} rule The url path you want to redirect to or a function 
 	   * rule that returns the url path. The function version is passed two params: 
-	   * `$injector` and `$location` services, and must return a url string.
+	   * `$injector` and `$location` services.
 	   *
-	   * @return {object} `$urlRouterProvider` - `$urlRouterProvider` instance
+	   * @return {object} $urlRouterProvider - $urlRouterProvider instance
 	   */
-	  this.otherwise = function (rule) {
-	    if (isString(rule)) {
-	      var redirect = rule;
-	      rule = function () { return redirect; };
-	    }
-	    else if (!isFunction(rule)) throw new Error("'rule' must be a function");
-	    otherwise = rule;
-	    return this;
-	  };
+	  this.otherwise =
+	    function (rule) {
+	      if (isString(rule)) {
+	        var redirect = rule;
+	        rule = function () { return redirect; };
+	      }
+	      else if (!isFunction(rule)) throw new Error("'rule' must be a function");
+	      otherwise = rule;
+	      return this;
+	    };
 
 
 	  function handleIfMatch($injector, handler, match) {
@@ -30845,8 +29968,8 @@
 	   *
 	   * @description
 	   * Registers a handler for a given url matching. if handle is a string, it is
-	   * treated as a redirect, and is interpolated according to the syntax of match
-	   * (i.e. like `String.replace()` for `RegExp`, or like a `UrlMatcher` pattern otherwise).
+	   * treated as a redirect, and is interpolated according to the syyntax of match
+	   * (i.e. like String.replace() for RegExp, or like a UrlMatcher pattern otherwise).
 	   *
 	   * If the handler is a function, it is injectable. It gets invoked if `$location`
 	   * matches. You have the option of inject the match object as `$match`.
@@ -30875,101 +29998,51 @@
 	   * @param {string|object} what The incoming path that you want to redirect.
 	   * @param {string|object} handler The path you want to redirect your user to.
 	   */
-	  this.when = function (what, handler) {
-	    var redirect, handlerIsString = isString(handler);
-	    if (isString(what)) what = $urlMatcherFactory.compile(what);
+	  this.when =
+	    function (what, handler) {
+	      var redirect, handlerIsString = isString(handler);
+	      if (isString(what)) what = $urlMatcherFactory.compile(what);
 
-	    if (!handlerIsString && !isFunction(handler) && !isArray(handler))
-	      throw new Error("invalid 'handler' in when()");
+	      if (!handlerIsString && !isFunction(handler) && !isArray(handler))
+	        throw new Error("invalid 'handler' in when()");
 
-	    var strategies = {
-	      matcher: function (what, handler) {
-	        if (handlerIsString) {
-	          redirect = $urlMatcherFactory.compile(handler);
-	          handler = ['$match', function ($match) { return redirect.format($match); }];
+	      var strategies = {
+	        matcher: function (what, handler) {
+	          if (handlerIsString) {
+	            redirect = $urlMatcherFactory.compile(handler);
+	            handler = ['$match', function ($match) { return redirect.format($match); }];
+	          }
+	          return extend(function ($injector, $location) {
+	            return handleIfMatch($injector, handler, what.exec($location.path(), $location.search()));
+	          }, {
+	            prefix: isString(what.prefix) ? what.prefix : ''
+	          });
+	        },
+	        regex: function (what, handler) {
+	          if (what.global || what.sticky) throw new Error("when() RegExp must not be global or sticky");
+
+	          if (handlerIsString) {
+	            redirect = handler;
+	            handler = ['$match', function ($match) { return interpolate(redirect, $match); }];
+	          }
+	          return extend(function ($injector, $location) {
+	            return handleIfMatch($injector, handler, what.exec($location.path()));
+	          }, {
+	            prefix: regExpPrefix(what)
+	          });
 	        }
-	        return extend(function ($injector, $location) {
-	          return handleIfMatch($injector, handler, what.exec($location.path(), $location.search()));
-	        }, {
-	          prefix: isString(what.prefix) ? what.prefix : ''
-	        });
-	      },
-	      regex: function (what, handler) {
-	        if (what.global || what.sticky) throw new Error("when() RegExp must not be global or sticky");
+	      };
 
-	        if (handlerIsString) {
-	          redirect = handler;
-	          handler = ['$match', function ($match) { return interpolate(redirect, $match); }];
+	      var check = { matcher: $urlMatcherFactory.isMatcher(what), regex: what instanceof RegExp };
+
+	      for (var n in check) {
+	        if (check[n]) {
+	          return this.rule(strategies[n](what, handler));
 	        }
-	        return extend(function ($injector, $location) {
-	          return handleIfMatch($injector, handler, what.exec($location.path()));
-	        }, {
-	          prefix: regExpPrefix(what)
-	        });
 	      }
+
+	      throw new Error("invalid 'what' in when()");
 	    };
-
-	    var check = { matcher: $urlMatcherFactory.isMatcher(what), regex: what instanceof RegExp };
-
-	    for (var n in check) {
-	      if (check[n]) return this.rule(strategies[n](what, handler));
-	    }
-
-	    throw new Error("invalid 'what' in when()");
-	  };
-
-	  /**
-	   * @ngdoc function
-	   * @name ui.router.router.$urlRouterProvider#deferIntercept
-	   * @methodOf ui.router.router.$urlRouterProvider
-	   *
-	   * @description
-	   * Disables (or enables) deferring location change interception.
-	   *
-	   * If you wish to customize the behavior of syncing the URL (for example, if you wish to
-	   * defer a transition but maintain the current URL), call this method at configuration time.
-	   * Then, at run time, call `$urlRouter.listen()` after you have configured your own
-	   * `$locationChangeSuccess` event handler.
-	   *
-	   * @example
-	   * <pre>
-	   * var app = angular.module('app', ['ui.router.router']);
-	   *
-	   * app.config(function ($urlRouterProvider) {
-	   *
-	   *   // Prevent $urlRouter from automatically intercepting URL changes;
-	   *   // this allows you to configure custom behavior in between
-	   *   // location changes and route synchronization:
-	   *   $urlRouterProvider.deferIntercept();
-	   *
-	   * }).run(function ($rootScope, $urlRouter, UserService) {
-	   *
-	   *   $rootScope.$on('$locationChangeSuccess', function(e) {
-	   *     // UserService is an example service for managing user state
-	   *     if (UserService.isLoggedIn()) return;
-	   *
-	   *     // Prevent $urlRouter's default handler from firing
-	   *     e.preventDefault();
-	   *
-	   *     UserService.handleLogin().then(function() {
-	   *       // Once the user has logged in, sync the current URL
-	   *       // to the router:
-	   *       $urlRouter.sync();
-	   *     });
-	   *   });
-	   *
-	   *   // Configures $urlRouter's listener *after* your custom listener
-	   *   $urlRouter.listen();
-	   * });
-	   * </pre>
-	   *
-	   * @param {boolean} defer Indicates whether to defer location change interception. Passing
-	            no parameter is equivalent to `true`.
-	   */
-	  this.deferIntercept = function (defer) {
-	    if (defer === undefined) defer = true;
-	    interceptDeferred = defer;
-	  };
 
 	  /**
 	   * @ngdoc object
@@ -30978,172 +30051,66 @@
 	   * @requires $location
 	   * @requires $rootScope
 	   * @requires $injector
-	   * @requires $browser
 	   *
 	   * @description
 	   *
 	   */
-	  this.$get = $get;
-	  $get.$inject = ['$location', '$rootScope', '$injector', '$browser'];
-	  function $get(   $location,   $rootScope,   $injector,   $browser) {
-
-	    var baseHref = $browser.baseHref(), location = $location.url(), lastPushedUrl;
-
-	    function appendBasePath(url, isHtml5, absolute) {
-	      if (baseHref === '/') return url;
-	      if (isHtml5) return baseHref.slice(0, -1) + url;
-	      if (absolute) return baseHref.slice(1) + url;
-	      return url;
-	    }
-
-	    // TODO: Optimize groups of rules with non-empty prefix into some sort of decision tree
-	    function update(evt) {
-	      if (evt && evt.defaultPrevented) return;
-	      var ignoreUpdate = lastPushedUrl && $location.url() === lastPushedUrl;
-	      lastPushedUrl = undefined;
-	      // TODO: Re-implement this in 1.0 for https://github.com/angular-ui/ui-router/issues/1573
-	      //if (ignoreUpdate) return true;
-
-	      function check(rule) {
-	        var handled = rule($injector, $location);
-
-	        if (!handled) return false;
-	        if (isString(handled)) $location.replace().url(handled);
-	        return true;
+	  this.$get =
+	    [        '$location', '$rootScope', '$injector',
+	    function ($location,   $rootScope,   $injector) {
+	      // TODO: Optimize groups of rules with non-empty prefix into some sort of decision tree
+	      function update(evt) {
+	        if (evt && evt.defaultPrevented) return;
+	        function check(rule) {
+	          var handled = rule($injector, $location);
+	          if (handled) {
+	            if (isString(handled)) $location.replace().url(handled);
+	            return true;
+	          }
+	          return false;
+	        }
+	        var n=rules.length, i;
+	        for (i=0; i<n; i++) {
+	          if (check(rules[i])) return;
+	        }
+	        // always check otherwise last to allow dynamic updates to the set of rules
+	        if (otherwise) check(otherwise);
 	      }
-	      var n = rules.length, i;
 
-	      for (i = 0; i < n; i++) {
-	        if (check(rules[i])) return;
-	      }
-	      // always check otherwise last to allow dynamic updates to the set of rules
-	      if (otherwise) check(otherwise);
-	    }
+	      $rootScope.$on('$locationChangeSuccess', update);
 
-	    function listen() {
-	      listener = listener || $rootScope.$on('$locationChangeSuccess', update);
-	      return listener;
-	    }
-
-	    if (!interceptDeferred) listen();
-
-	    return {
-	      /**
-	       * @ngdoc function
-	       * @name ui.router.router.$urlRouter#sync
-	       * @methodOf ui.router.router.$urlRouter
-	       *
-	       * @description
-	       * Triggers an update; the same update that happens when the address bar url changes, aka `$locationChangeSuccess`.
-	       * This method is useful when you need to use `preventDefault()` on the `$locationChangeSuccess` event,
-	       * perform some custom logic (route protection, auth, config, redirection, etc) and then finally proceed
-	       * with the transition by calling `$urlRouter.sync()`.
-	       *
-	       * @example
-	       * <pre>
-	       * angular.module('app', ['ui.router'])
-	       *   .run(function($rootScope, $urlRouter) {
-	       *     $rootScope.$on('$locationChangeSuccess', function(evt) {
-	       *       // Halt state change from even starting
-	       *       evt.preventDefault();
-	       *       // Perform custom logic
-	       *       var meetsRequirement = ...
-	       *       // Continue with the update and state transition if logic allows
-	       *       if (meetsRequirement) $urlRouter.sync();
-	       *     });
-	       * });
-	       * </pre>
-	       */
-	      sync: function() {
-	        update();
-	      },
-
-	      listen: function() {
-	        return listen();
-	      },
-
-	      update: function(read) {
-	        if (read) {
-	          location = $location.url();
-	          return;
+	      return {
+	        /**
+	         * @ngdoc function
+	         * @name ui.router.router.$urlRouter#sync
+	         * @methodOf ui.router.router.$urlRouter
+	         *
+	         * @description
+	         * Triggers an update; the same update that happens when the address bar url changes, aka `$locationChangeSuccess`.
+	         * This method is useful when you need to use `preventDefault()` on the `$locationChangeSuccess` event, 
+	         * perform some custom logic (route protection, auth, config, redirection, etc) and then finally proceed 
+	         * with the transition by calling `$urlRouter.sync()`.
+	         *
+	         * @example
+	         * <pre>
+	         * angular.module('app', ['ui.router']);
+	         *   .run(function($rootScope, $urlRouter) {
+	         *     $rootScope.$on('$locationChangeSuccess', function(evt) {
+	         *       // Halt state change from even starting
+	         *       evt.preventDefault();
+	         *       // Perform custom logic
+	         *       var meetsRequirement = ...
+	         *       // Continue with the update and state transition if logic allows
+	         *       if (meetsRequirement) $urlRouter.sync();
+	         *     });
+	         * });
+	         * </pre>
+	         */
+	        sync: function () {
+	          update();
 	        }
-	        if ($location.url() === location) return;
-
-	        $location.url(location);
-	        $location.replace();
-	      },
-
-	      push: function(urlMatcher, params, options) {
-	         var url = urlMatcher.format(params || {});
-
-	        // Handle the special hash param, if needed
-	        if (url !== null && params && params['#']) {
-	            url += '#' + params['#'];
-	        }
-
-	        $location.url(url);
-	        lastPushedUrl = options && options.$$avoidResync ? $location.url() : undefined;
-	        if (options && options.replace) $location.replace();
-	      },
-
-	      /**
-	       * @ngdoc function
-	       * @name ui.router.router.$urlRouter#href
-	       * @methodOf ui.router.router.$urlRouter
-	       *
-	       * @description
-	       * A URL generation method that returns the compiled URL for a given
-	       * {@link ui.router.util.type:UrlMatcher `UrlMatcher`}, populated with the provided parameters.
-	       *
-	       * @example
-	       * <pre>
-	       * $bob = $urlRouter.href(new UrlMatcher("/about/:person"), {
-	       *   person: "bob"
-	       * });
-	       * // $bob == "/about/bob";
-	       * </pre>
-	       *
-	       * @param {UrlMatcher} urlMatcher The `UrlMatcher` object which is used as the template of the URL to generate.
-	       * @param {object=} params An object of parameter values to fill the matcher's required parameters.
-	       * @param {object=} options Options object. The options are:
-	       *
-	       * - **`absolute`** - {boolean=false},  If true will generate an absolute url, e.g. "http://www.example.com/fullurl".
-	       *
-	       * @returns {string} Returns the fully compiled URL, or `null` if `params` fail validation against `urlMatcher`
-	       */
-	      href: function(urlMatcher, params, options) {
-	        if (!urlMatcher.validates(params)) return null;
-
-	        var isHtml5 = $locationProvider.html5Mode();
-	        if (angular.isObject(isHtml5)) {
-	          isHtml5 = isHtml5.enabled;
-	        }
-	        
-	        var url = urlMatcher.format(params);
-	        options = options || {};
-
-	        if (!isHtml5 && url !== null) {
-	          url = "#" + $locationProvider.hashPrefix() + url;
-	        }
-
-	        // Handle special hash param, if needed
-	        if (url !== null && params && params['#']) {
-	          url += '#' + params['#'];
-	        }
-
-	        url = appendBasePath(url, isHtml5, options.absolute);
-
-	        if (!options.absolute || !url) {
-	          return url;
-	        }
-
-	        var slash = (!isHtml5 && url ? '/' : ''), port = $location.port();
-	        port = (port === 80 || port === 443 ? '' : ':' + port);
-
-	        return [$location.protocol(), '://', $location.host(), port, slash, url].join('');
-	      }
-	    };
-	  }
+	      };
+	    }];
 	}
 
 	angular.module('ui.router.router').provider('$urlRouter', $UrlRouterProvider);
@@ -31154,6 +30121,7 @@
 	 *
 	 * @requires ui.router.router.$urlRouterProvider
 	 * @requires ui.router.util.$urlMatcherFactoryProvider
+	 * @requires $locationProvider
 	 *
 	 * @description
 	 * The new `$stateProvider` works similar to Angular's v1 router, but it focuses purely
@@ -31169,8 +30137,8 @@
 	 *
 	 * The `$stateProvider` provides interfaces to declare these states for your app.
 	 */
-	$StateProvider.$inject = ['$urlRouterProvider', '$urlMatcherFactoryProvider'];
-	function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
+	$StateProvider.$inject = ['$urlRouterProvider', '$urlMatcherFactoryProvider', '$locationProvider'];
+	function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory,           $locationProvider) {
 
 	  var root, states = {}, $state, queue = {}, abstractKey = 'abstract';
 
@@ -31198,14 +30166,18 @@
 
 	    // Build a URLMatcher if necessary, either via a relative or absolute URL
 	    url: function(state) {
-	      var url = state.url, config = { params: state.params || {} };
+	      var url = state.url;
 
 	      if (isString(url)) {
-	        if (url.charAt(0) == '^') return $urlMatcherFactory.compile(url.substring(1), config);
-	        return (state.parent.navigable || root).url.concat(url, config);
+	        if (url.charAt(0) == '^') {
+	          return $urlMatcherFactory.compile(url.substring(1));
+	        }
+	        return (state.parent.navigable || root).url.concat(url);
 	      }
 
-	      if (!url || $urlMatcherFactory.isMatcher(url)) return url;
+	      if ($urlMatcherFactory.isMatcher(url) || url == null) {
+	        return url;
+	      }
 	      throw new Error("Invalid url '" + url + "' in state '" + state + "'");
 	    },
 
@@ -31214,18 +30186,14 @@
 	      return state.url ? state : (state.parent ? state.parent.navigable : null);
 	    },
 
-	    // Own parameters for this state. state.url.params is already built at this point. Create and add non-url params
-	    ownParams: function(state) {
-	      var params = state.url && state.url.params || new $$UMFP.ParamSet();
-	      forEach(state.params || {}, function(config, id) {
-	        if (!params[id]) params[id] = new $$UMFP.Param(id, null, config, "config");
-	      });
-	      return params;
-	    },
-
 	    // Derive parameters for this state and ensure they're a super-set of parent's parameters
 	    params: function(state) {
-	      return state.parent && state.parent.params ? extend(state.parent.params.$$new(), state.ownParams) : new $$UMFP.ParamSet();
+	      if (!state.params) {
+	        return state.url ? state.url.parameters() : state.parent.params;
+	      }
+	      if (!isArray(state.params)) throw new Error("Invalid params in state '" + state + "'");
+	      if (state.url) throw new Error("Both params and url specicified in state '" + state + "'");
+	      return state.params;
 	    },
 
 	    // If there is no explicit multi-view configuration, make one up so we don't have
@@ -31241,6 +30209,26 @@
 	        views[name] = view;
 	      });
 	      return views;
+	    },
+
+	    ownParams: function(state) {
+	      if (!state.parent) {
+	        return state.params;
+	      }
+	      var paramNames = {}; forEach(state.params, function (p) { paramNames[p] = true; });
+
+	      forEach(state.parent.params, function (p) {
+	        if (!paramNames[p]) {
+	          throw new Error("Missing required parameter '" + p + "' in state '" + state.name + "'");
+	        }
+	        paramNames[p] = false;
+	      });
+	      var ownParams = [];
+
+	      forEach(paramNames, function (own, p) {
+	        if (own) ownParams.push(p);
+	      });
+	      return ownParams;
 	    },
 
 	    // Keep a full path from the root down to this state as this is needed for state activation.
@@ -31263,16 +30251,12 @@
 	  }
 
 	  function findState(stateOrName, base) {
-	    if (!stateOrName) return undefined;
-
 	    var isStr = isString(stateOrName),
 	        name  = isStr ? stateOrName : stateOrName.name,
 	        path  = isRelative(name);
 
 	    if (path) {
 	      if (!base) throw new Error("No reference point given for path '"  + name + "'");
-	      base = findState(base);
-	      
 	      var rel = name.split("."), i = 0, pathLength = rel.length, current = base;
 
 	      for (; i < pathLength; i++) {
@@ -31305,13 +30289,6 @@
 	    queue[parentName].push(state);
 	  }
 
-	  function flushQueuedChildren(parentName) {
-	    var queued = queue[parentName] || [];
-	    while(queued.length) {
-	      registerState(queued.shift());
-	    }
-	  }
-
 	  function registerState(state) {
 	    // Wrap a new object around the state so we can store our private details easily.
 	    state = inherit(state, {
@@ -31327,7 +30304,6 @@
 	    // Get parent name
 	    var parentName = (name.indexOf('.') !== -1) ? name.substring(0, name.lastIndexOf('.'))
 	        : (isString(state.parent)) ? state.parent
-	        : (isObject(state.parent) && isString(state.parent.name)) ? state.parent.name
 	        : '';
 
 	    // If parent is not registered yet, add state to queue and register later
@@ -31344,50 +30320,19 @@
 	    if (!state[abstractKey] && state.url) {
 	      $urlRouterProvider.when(state.url, ['$match', '$stateParams', function ($match, $stateParams) {
 	        if ($state.$current.navigable != state || !equalForKeys($match, $stateParams)) {
-	          $state.transitionTo(state, $match, { inherit: true, location: false });
+	          $state.transitionTo(state, $match, { location: false });
 	        }
 	      }]);
 	    }
 
 	    // Register any queued children
-	    flushQueuedChildren(name);
-
-	    return state;
-	  }
-
-	  // Checks text to see if it looks like a glob.
-	  function isGlob (text) {
-	    return text.indexOf('*') > -1;
-	  }
-
-	  // Returns true if glob matches current $state name.
-	  function doesStateMatchGlob (glob) {
-	    var globSegments = glob.split('.'),
-	        segments = $state.$current.name.split('.');
-
-	    //match single stars
-	    for (var i = 0, l = globSegments.length; i < l; i++) {
-	      if (globSegments[i] === '*') {
-	        segments[i] = '*';
+	    if (queue[name]) {
+	      for (var i = 0; i < queue[name].length; i++) {
+	        registerState(queue[name][i]);
 	      }
 	    }
 
-	    //match greedy starts
-	    if (globSegments[0] === '**') {
-	       segments = segments.slice(indexOf(segments, globSegments[1]));
-	       segments.unshift('**');
-	    }
-	    //match greedy ends
-	    if (globSegments[globSegments.length - 1] === '**') {
-	       segments.splice(indexOf(segments, globSegments[globSegments.length - 2]) + 1, Number.MAX_VALUE);
-	       segments.push('**');
-	    }
-
-	    if (globSegments.length != segments.length) {
-	      return false;
-	    }
-
-	    return segments.join('') === globSegments.join('');
+	    return state;
 	  }
 
 
@@ -31425,43 +30370,42 @@
 	   * meta-programming features.
 	   *
 	   * **Warning**: Decorators should not be interdependent because the order of 
-	   * execution of the builder functions in non-deterministic. Builder functions 
+	   * execution of the builder functions in nondeterministic. Builder functions 
 	   * should only be dependent on the state definition object and super function.
 	   *
 	   *
 	   * Existing builder functions and current return values:
 	   *
-	   * - **parent** `{object}` - returns the parent state object.
-	   * - **data** `{object}` - returns state data, including any inherited data that is not
+	   * - parent - `{object}` - returns the parent state object.
+	   * - data - `{object}` - returns state data, including any inherited data that is not
 	   *   overridden by own values (if any).
-	   * - **url** `{object}` - returns a {@link ui.router.util.type:UrlMatcher UrlMatcher}
-	   *   or `null`.
-	   * - **navigable** `{object}` - returns closest ancestor state that has a URL (aka is 
+	   * - url - `{object}` - returns a UrlMatcher or null.
+	   * - navigable - returns closest ancestor state that has a URL (aka is 
 	   *   navigable).
-	   * - **params** `{object}` - returns an array of state params that are ensured to 
+	   * - params - `{object}` - returns an array of state params that are ensured to 
 	   *   be a super-set of parent's params.
-	   * - **views** `{object}` - returns a views object where each key is an absolute view 
+	   * - views - `{object}` - returns a views object where each key is an absolute view 
 	   *   name (i.e. "viewName@stateName") and each value is the config object 
 	   *   (template, controller) for the view. Even when you don't use the views object 
 	   *   explicitly on a state config, one is still created for you internally.
 	   *   So by decorating this builder function you have access to decorating template 
 	   *   and controller properties.
-	   * - **ownParams** `{object}` - returns an array of params that belong to the state, 
+	   * - ownParams - `{object}` - returns an array of params that belong to the state, 
 	   *   not including any params defined by ancestor states.
-	   * - **path** `{string}` - returns the full path from the root down to this state. 
+	   * - path - `{string}` - returns the full path from the root down to this state. 
 	   *   Needed for state activation.
-	   * - **includes** `{object}` - returns an object that includes every state that 
-	   *   would pass a `$state.includes()` test.
+	   * - includes - `{object}` - returns an object that includes every state that 
+	   *   would pass a '$state.includes()' test.
 	   *
 	   * @example
 	   * <pre>
 	   * // Override the internal 'views' builder with a function that takes the state
 	   * // definition, and a reference to the internal function being overridden:
-	   * $stateProvider.decorator('views', function (state, parent) {
+	   * $stateProvider.decorator('views', function ($state, parent) {
 	   *   var result = {},
 	   *       views = parent(state);
 	   *
-	   *   angular.forEach(views, function (config, name) {
+	   *   angular.forEach(view, function (config, name) {
 	   *     var autoName = (state.name + '.' + name).replace('.', '/');
 	   *     config.templateUrl = config.templateUrl || '/partials/' + autoName + '.html';
 	   *     result[name] = config;
@@ -31516,304 +30460,61 @@
 	   * @description
 	   * Registers a state configuration under a given state name. The stateConfig object
 	   * has the following acceptable properties.
-	   *
-	   * @param {string} name A unique state name, e.g. "home", "about", "contacts".
-	   * To create a parent/child state use a dot, e.g. "about.sales", "home.newest".
-	   * @param {object} stateConfig State configuration object.
-	   * @param {string|function=} stateConfig.template
-	   * <a id='template'></a>
-	   *   html template as a string or a function that returns
-	   *   an html template as a string which should be used by the uiView directives. This property 
-	   *   takes precedence over templateUrl.
-	   *   
-	   *   If `template` is a function, it will be called with the following parameters:
-	   *
-	   *   - {array.&lt;object&gt;} - state parameters extracted from the current $location.path() by
-	   *     applying the current state
-	   *
-	   * <pre>template:
-	   *   "<h1>inline template definition</h1>" +
-	   *   "<div ui-view></div>"</pre>
-	   * <pre>template: function(params) {
-	   *       return "<h1>generated template</h1>"; }</pre>
-	   * </div>
-	   *
-	   * @param {string|function=} stateConfig.templateUrl
-	   * <a id='templateUrl'></a>
-	   *
-	   *   path or function that returns a path to an html
-	   *   template that should be used by uiView.
-	   *   
-	   *   If `templateUrl` is a function, it will be called with the following parameters:
-	   *
-	   *   - {array.&lt;object&gt;} - state parameters extracted from the current $location.path() by 
-	   *     applying the current state
-	   *
-	   * <pre>templateUrl: "home.html"</pre>
-	   * <pre>templateUrl: function(params) {
-	   *     return myTemplates[params.pageId]; }</pre>
-	   *
-	   * @param {function=} stateConfig.templateProvider
-	   * <a id='templateProvider'></a>
-	   *    Provider function that returns HTML content string.
-	   * <pre> templateProvider:
-	   *       function(MyTemplateService, params) {
-	   *         return MyTemplateService.getTemplate(params.pageId);
-	   *       }</pre>
-	   *
-	   * @param {string|function=} stateConfig.controller
-	   * <a id='controller'></a>
-	   *
-	   *  Controller fn that should be associated with newly
-	   *   related scope or the name of a registered controller if passed as a string.
-	   *   Optionally, the ControllerAs may be declared here.
-	   * <pre>controller: "MyRegisteredController"</pre>
-	   * <pre>controller:
-	   *     "MyRegisteredController as fooCtrl"}</pre>
-	   * <pre>controller: function($scope, MyService) {
-	   *     $scope.data = MyService.getData(); }</pre>
-	   *
-	   * @param {function=} stateConfig.controllerProvider
-	   * <a id='controllerProvider'></a>
-	   *
-	   * Injectable provider function that returns the actual controller or string.
-	   * <pre>controllerProvider:
-	   *   function(MyResolveData) {
-	   *     if (MyResolveData.foo)
-	   *       return "FooCtrl"
-	   *     else if (MyResolveData.bar)
-	   *       return "BarCtrl";
-	   *     else return function($scope) {
-	   *       $scope.baz = "Qux";
-	   *     }
-	   *   }</pre>
-	   *
-	   * @param {string=} stateConfig.controllerAs
-	   * <a id='controllerAs'></a>
 	   * 
-	   * A controller alias name. If present the controller will be
-	   *   published to scope under the controllerAs name.
-	   * <pre>controllerAs: "myCtrl"</pre>
+	   * - [`template`, `templateUrl`, `templateProvider`] - There are three ways to setup
+	   *   your templates.
 	   *
-	   * @param {string|object=} stateConfig.parent
-	   * <a id='parent'></a>
-	   * Optionally specifies the parent state of this state.
+	   *   - `{string|object}` - template - String HTML content, or function that returns an HTML
+	   *   string.
+	   *   - `{string}` - templateUrl - String URL path to template file OR function,
+	   *   that returns URL path string.
+	   *   - `{object}` - templateProvider - Provider function that returns HTML content
+	   *   string.
 	   *
-	   * <pre>parent: 'parentState'</pre>
-	   * <pre>parent: parentState // JS variable</pre>
+	   * - [`controller`, `controllerProvider`] - A controller paired to the state. You can
+	   *   either use a controller, or a controller provider.
 	   *
-	   * @param {object=} stateConfig.resolve
-	   * <a id='resolve'></a>
+	   *   - `{string|object}` - controller - Controller function or controller name.
+	   *   - `{object}` - controllerProvider - Injectable provider function that returns
+	   *   the actual controller or string.
 	   *
-	   * An optional map&lt;string, function&gt; of dependencies which
-	   *   should be injected into the controller. If any of these dependencies are promises, 
-	   *   the router will wait for them all to be resolved before the controller is instantiated.
-	   *   If all the promises are resolved successfully, the $stateChangeSuccess event is fired
-	   *   and the values of the resolved promises are injected into any controllers that reference them.
-	   *   If any  of the promises are rejected the $stateChangeError event is fired.
+	   * - `{object}` - resolve - A map of dependencies which should be injected into the
+	   *   controller.
 	   *
-	   *   The map object is:
-	   *   
-	   *   - key - {string}: name of dependency to be injected into controller
-	   *   - factory - {string|function}: If string then it is alias for service. Otherwise if function, 
-	   *     it is injected and return value it treated as dependency. If result is a promise, it is 
-	   *     resolved before its value is injected into controller.
-	   *
-	   * <pre>resolve: {
-	   *     myResolve1:
-	   *       function($http, $stateParams) {
-	   *         return $http.get("/api/foos/"+stateParams.fooID);
-	   *       }
-	   *     }</pre>
-	   *
-	   * @param {string=} stateConfig.url
-	   * <a id='url'></a>
-	   *
-	   *   A url fragment with optional parameters. When a state is navigated or
+	   * - `{string}` - url - A url with optional parameters. When a state is navigated or
 	   *   transitioned to, the `$stateParams` service will be populated with any 
 	   *   parameters that were passed.
 	   *
-	   *   (See {@link ui.router.util.type:UrlMatcher UrlMatcher} `UrlMatcher`} for
-	   *   more details on acceptable patterns )
+	   * - `{object}` - params - An array of parameter names or regular expressions. Only 
+	   *   use this within a state if you are not using url. Otherwise you can specify your
+	   *   parameters within the url. When a state is navigated or transitioned to, the 
+	   *   $stateParams service will be populated with any parameters that were passed.
 	   *
-	   * examples:
-	   * <pre>url: "/home"
-	   * url: "/users/:userid"
-	   * url: "/books/{bookid:[a-zA-Z_-]}"
-	   * url: "/books/{categoryid:int}"
-	   * url: "/books/{publishername:string}/{categoryid:int}"
-	   * url: "/messages?before&after"
-	   * url: "/messages?{before:date}&{after:date}"
-	   * url: "/messages/:mailboxid?{before:date}&{after:date}"
-	   * </pre>
+	   * - `{object}` - views - Use the views property to set up multiple views. 
+	   *   If you don't need multiple views within a single state this property is not 
+	   *   needed. Tip: remember that often nested views are more useful and powerful 
+	   *   than multiple sibling views.
 	   *
-	   * @param {object=} stateConfig.views
-	   * <a id='views'></a>
-	   * an optional map&lt;string, object&gt; which defined multiple views, or targets views
-	   * manually/explicitly.
-	   *
-	   * Examples:
-	   *
-	   * Targets three named `ui-view`s in the parent state's template
-	   * <pre>views: {
-	   *     header: {
-	   *       controller: "headerCtrl",
-	   *       templateUrl: "header.html"
-	   *     }, body: {
-	   *       controller: "bodyCtrl",
-	   *       templateUrl: "body.html"
-	   *     }, footer: {
-	   *       controller: "footCtrl",
-	   *       templateUrl: "footer.html"
-	   *     }
-	   *   }</pre>
-	   *
-	   * Targets named `ui-view="header"` from grandparent state 'top''s template, and named `ui-view="body" from parent state's template.
-	   * <pre>views: {
-	   *     'header@top': {
-	   *       controller: "msgHeaderCtrl",
-	   *       templateUrl: "msgHeader.html"
-	   *     }, 'body': {
-	   *       controller: "messagesCtrl",
-	   *       templateUrl: "messages.html"
-	   *     }
-	   *   }</pre>
-	   *
-	   * @param {boolean=} [stateConfig.abstract=false]
-	   * <a id='abstract'></a>
-	   * An abstract state will never be directly activated,
+	   * - `{boolean}` - abstract - An abstract state will never be directly activated, 
 	   *   but can provide inherited properties to its common children states.
-	   * <pre>abstract: true</pre>
 	   *
-	   * @param {function=} stateConfig.onEnter
-	   * <a id='onEnter'></a>
-	   *
-	   * Callback function for when a state is entered. Good way
+	   * - `{object}` - onEnter - Callback function for when a state is entered. Good way
 	   *   to trigger an action or dispatch an event, such as opening a dialog.
-	   * If minifying your scripts, make sure to explictly annotate this function,
-	   * because it won't be automatically annotated by your build tools.
 	   *
-	   * <pre>onEnter: function(MyService, $stateParams) {
-	   *     MyService.foo($stateParams.myParam);
-	   * }</pre>
-	   *
-	   * @param {function=} stateConfig.onExit
-	   * <a id='onExit'></a>
-	   *
-	   * Callback function for when a state is exited. Good way to
+	   * - `{object}` - onExit - Callback function for when a state is exited. Good way to
 	   *   trigger an action or dispatch an event, such as opening a dialog.
-	   * If minifying your scripts, make sure to explictly annotate this function,
-	   * because it won't be automatically annotated by your build tools.
 	   *
-	   * <pre>onExit: function(MyService, $stateParams) {
-	   *     MyService.cleanup($stateParams.myParam);
-	   * }</pre>
-	   *
-	   * @param {boolean=} [stateConfig.reloadOnSearch=true]
-	   * <a id='reloadOnSearch'></a>
-	   *
-	   * If `false`, will not retrigger the same state
-	   *   just because a search/query parameter has changed (via $location.search() or $location.hash()). 
-	   *   Useful for when you'd like to modify $location.search() without triggering a reload.
-	   * <pre>reloadOnSearch: false</pre>
-	   *
-	   * @param {object=} stateConfig.data
-	   * <a id='data'></a>
-	   *
-	   * Arbitrary data object, useful for custom configuration.  The parent state's `data` is
-	   *   prototypally inherited.  In other words, adding a data property to a state adds it to
-	   *   the entire subtree via prototypal inheritance.
-	   *
-	   * <pre>data: {
-	   *     requiredRole: 'foo'
-	   * } </pre>
-	   *
-	   * @param {object=} stateConfig.params
-	   * <a id='params'></a>
-	   *
-	   * A map which optionally configures parameters declared in the `url`, or
-	   *   defines additional non-url parameters.  For each parameter being
-	   *   configured, add a configuration object keyed to the name of the parameter.
-	   *
-	   *   Each parameter configuration object may contain the following properties:
-	   *
-	   *   - ** value ** - {object|function=}: specifies the default value for this
-	   *     parameter.  This implicitly sets this parameter as optional.
-	   *
-	   *     When UI-Router routes to a state and no value is
-	   *     specified for this parameter in the URL or transition, the
-	   *     default value will be used instead.  If `value` is a function,
-	   *     it will be injected and invoked, and the return value used.
-	   *
-	   *     *Note*: `undefined` is treated as "no default value" while `null`
-	   *     is treated as "the default value is `null`".
-	   *
-	   *     *Shorthand*: If you only need to configure the default value of the
-	   *     parameter, you may use a shorthand syntax.   In the **`params`**
-	   *     map, instead mapping the param name to a full parameter configuration
-	   *     object, simply set map it to the default parameter value, e.g.:
-	   *
-	   * <pre>// define a parameter's default value
-	   * params: {
-	   *     param1: { value: "defaultValue" }
-	   * }
-	   * // shorthand default values
-	   * params: {
-	   *     param1: "defaultValue",
-	   *     param2: "param2Default"
-	   * }</pre>
-	   *
-	   *   - ** array ** - {boolean=}: *(default: false)* If true, the param value will be
-	   *     treated as an array of values.  If you specified a Type, the value will be
-	   *     treated as an array of the specified Type.  Note: query parameter values
-	   *     default to a special `"auto"` mode.
-	   *
-	   *     For query parameters in `"auto"` mode, if multiple  values for a single parameter
-	   *     are present in the URL (e.g.: `/foo?bar=1&bar=2&bar=3`) then the values
-	   *     are mapped to an array (e.g.: `{ foo: [ '1', '2', '3' ] }`).  However, if
-	   *     only one value is present (e.g.: `/foo?bar=1`) then the value is treated as single
-	   *     value (e.g.: `{ foo: '1' }`).
-	   *
-	   * <pre>params: {
-	   *     param1: { array: true }
-	   * }</pre>
-	   *
-	   *   - ** squash ** - {bool|string=}: `squash` configures how a default parameter value is represented in the URL when
-	   *     the current parameter value is the same as the default value. If `squash` is not set, it uses the
-	   *     configured default squash policy.
-	   *     (See {@link ui.router.util.$urlMatcherFactory#methods_defaultSquashPolicy `defaultSquashPolicy()`})
-	   *
-	   *   There are three squash settings:
-	   *
-	   *     - false: The parameter's default value is not squashed.  It is encoded and included in the URL
-	   *     - true: The parameter's default value is omitted from the URL.  If the parameter is preceeded and followed
-	   *       by slashes in the state's `url` declaration, then one of those slashes are omitted.
-	   *       This can allow for cleaner looking URLs.
-	   *     - `"<arbitrary string>"`: The parameter's default value is replaced with an arbitrary placeholder of  your choice.
-	   *
-	   * <pre>params: {
-	   *     param1: {
-	   *       value: "defaultId",
-	   *       squash: true
-	   * } }
-	   * // squash "defaultValue" to "~"
-	   * params: {
-	   *     param1: {
-	   *       value: "defaultValue",
-	   *       squash: "~"
-	   * } }
-	   * </pre>
-	   *
+	   * - `{object}` - data - Arbitrary data object, useful for custom configuration.
 	   *
 	   * @example
 	   * <pre>
-	   * // Some state name examples
+	   * // The state() method takes a unique stateName (String) and a stateConfig (Object)
+	   * $stateProvider.state(stateName, stateConfig);
 	   *
 	   * // stateName can be a single top-level name (must be unique).
 	   * $stateProvider.state("home", {});
 	   *
-	   * // Or it can be a nested state name. This state is a child of the
-	   * // above "home" state.
+	   * // Or it can be a nested state name. This state is a child of the above "home" state.
 	   * $stateProvider.state("home.newest", {});
 	   *
 	   * // Nest states as deeply as needed.
@@ -31826,6 +30527,9 @@
 	   *   .state("contacts", {});
 	   * </pre>
 	   *
+	   * @param {string} name A unique state name, e.g. "home", "about", "contacts". 
+	   * To create a parent/child state use a dot, e.g. "about.sales", "home.newest".
+	   * @param {object} definition State configuratino object.
 	   */
 	  this.state = state;
 	  function state(name, definition) {
@@ -31846,7 +30550,6 @@
 	   * @requires $injector
 	   * @requires ui.router.util.$resolve
 	   * @requires ui.router.state.$stateParams
-	   * @requires ui.router.router.$urlRouter
 	   *
 	   * @property {object} params A param object, e.g. {sectionId: section.id)}, that 
 	   * you'd like to test against the current active state.
@@ -31860,82 +30563,25 @@
 	   * between them. It also provides interfaces to ask for current state or even states
 	   * you're coming from.
 	   */
+	  // $urlRouter is injected just to ensure it gets instantiated
 	  this.$get = $get;
-	  $get.$inject = ['$rootScope', '$q', '$view', '$injector', '$resolve', '$stateParams', '$urlRouter', '$location', '$urlMatcherFactory'];
-	  function $get(   $rootScope,   $q,   $view,   $injector,   $resolve,   $stateParams,   $urlRouter,   $location,   $urlMatcherFactory) {
+	  $get.$inject = ['$rootScope', '$q', '$view', '$injector', '$resolve', '$stateParams', '$location', '$urlRouter'];
+	  function $get(   $rootScope,   $q,   $view,   $injector,   $resolve,   $stateParams,   $location,   $urlRouter) {
 
 	    var TransitionSuperseded = $q.reject(new Error('transition superseded'));
 	    var TransitionPrevented = $q.reject(new Error('transition prevented'));
 	    var TransitionAborted = $q.reject(new Error('transition aborted'));
 	    var TransitionFailed = $q.reject(new Error('transition failed'));
+	    var currentLocation = $location.url();
 
-	    // Handles the case where a state which is the target of a transition is not found, and the user
-	    // can optionally retry or defer the transition
-	    function handleRedirect(redirect, state, params, options) {
-	      /**
-	       * @ngdoc event
-	       * @name ui.router.state.$state#$stateNotFound
-	       * @eventOf ui.router.state.$state
-	       * @eventType broadcast on root scope
-	       * @description
-	       * Fired when a requested state **cannot be found** using the provided state name during transition.
-	       * The event is broadcast allowing any handlers a single chance to deal with the error (usually by
-	       * lazy-loading the unfound state). A special `unfoundState` object is passed to the listener handler,
-	       * you can see its three properties in the example. You can use `event.preventDefault()` to abort the
-	       * transition and the promise returned from `go` will be rejected with a `'transition aborted'` value.
-	       *
-	       * @param {Object} event Event object.
-	       * @param {Object} unfoundState Unfound State information. Contains: `to, toParams, options` properties.
-	       * @param {State} fromState Current state object.
-	       * @param {Object} fromParams Current state params.
-	       *
-	       * @example
-	       *
-	       * <pre>
-	       * // somewhere, assume lazy.state has not been defined
-	       * $state.go("lazy.state", {a:1, b:2}, {inherit:false});
-	       *
-	       * // somewhere else
-	       * $scope.$on('$stateNotFound',
-	       * function(event, unfoundState, fromState, fromParams){
-	       *     console.log(unfoundState.to); // "lazy.state"
-	       *     console.log(unfoundState.toParams); // {a:1, b:2}
-	       *     console.log(unfoundState.options); // {inherit:false} + default options
-	       * })
-	       * </pre>
-	       */
-	      var evt = $rootScope.$broadcast('$stateNotFound', redirect, state, params);
-
-	      if (evt.defaultPrevented) {
-	        $urlRouter.update();
-	        return TransitionAborted;
+	    function syncUrl() {
+	      if ($location.url() !== currentLocation) {
+	        $location.url(currentLocation);
+	        $location.replace();
 	      }
-
-	      if (!evt.retry) {
-	        return null;
-	      }
-
-	      // Allow the handler to return a promise to defer state lookup retry
-	      if (options.$retry) {
-	        $urlRouter.update();
-	        return TransitionFailed;
-	      }
-	      var retryTransition = $state.transition = $q.when(evt.retry);
-
-	      retryTransition.then(function() {
-	        if (retryTransition !== $state.transition) return TransitionSuperseded;
-	        redirect.options.$retry = true;
-	        return $state.transitionTo(redirect.to, redirect.toParams, redirect.options);
-	      }, function() {
-	        return TransitionAborted;
-	      });
-	      $urlRouter.update();
-
-	      return retryTransition;
 	    }
 
 	    root.locals = { resolve: null, globals: { $stateParams: {} } };
-
 	    $state = {
 	      params: {},
 	      current: root.self,
@@ -31949,54 +30595,19 @@
 	     * @methodOf ui.router.state.$state
 	     *
 	     * @description
-	     * A method that force reloads the current state. All resolves are re-resolved,
-	     * controllers reinstantiated, and events re-fired.
+	     * Reloads the current state by re-transitioning to it.
 	     *
 	     * @example
 	     * <pre>
-	     * var app angular.module('app', ['ui.router']);
+	     * var app angular.module('app', ['ui.router.state']);
 	     *
-	     * app.controller('ctrl', function ($scope, $state) {
-	     *   $scope.reload = function(){
-	     *     $state.reload();
-	     *   }
+	     * app.controller('ctrl', function ($state) {
+	     *   $state.reload();
 	     * });
 	     * </pre>
-	     *
-	     * `reload()` is just an alias for:
-	     * <pre>
-	     * $state.transitionTo($state.current, $stateParams, { 
-	     *   reload: true, inherit: false, notify: true
-	     * });
-	     * </pre>
-	     *
-	     * @param {string=|object=} state - A state name or a state object, which is the root of the resolves to be re-resolved.
-	     * @example
-	     * <pre>
-	     * //assuming app application consists of 3 states: 'contacts', 'contacts.detail', 'contacts.detail.item' 
-	     * //and current state is 'contacts.detail.item'
-	     * var app angular.module('app', ['ui.router']);
-	     *
-	     * app.controller('ctrl', function ($scope, $state) {
-	     *   $scope.reload = function(){
-	     *     //will reload 'contact.detail' and 'contact.detail.item' states
-	     *     $state.reload('contact.detail');
-	     *   }
-	     * });
-	     * </pre>
-	     *
-	     * `reload()` is just an alias for:
-	     * <pre>
-	     * $state.transitionTo($state.current, $stateParams, { 
-	     *   reload: true, inherit: false, notify: true
-	     * });
-	     * </pre>
-
-	     * @returns {promise} A promise representing the state of the new transition. See
-	     * {@link ui.router.state.$state#methods_go $state.go}.
 	     */
-	    $state.reload = function reload(state) {
-	      return $state.transitionTo($state.current, $stateParams, { reload: state || true, inherit: false, notify: true});
+	    $state.reload = function reload() {
+	      $state.transitionTo($state.current, $stateParams, { reload: true, inherit: false, notify: false });
 	    };
 
 	    /**
@@ -32010,11 +30621,18 @@
 	     * `{ location: true, inherit: true, relative: $state.$current, notify: true }`. 
 	     * This allows you to easily use an absolute or relative to path and specify 
 	     * only the parameters you'd like to update (while letting unspecified parameters 
-	     * inherit from the currently active ancestor states).
+	     * inherit from the current state.
+	     *
+	     * Some examples:
+	     *
+	     * - `$state.go('contact.detail')` - will go to the `contact.detail` state
+	     * - `$state.go('^')` - will go to a parent state
+	     * - `$state.go('^.sibling')` - will go to a sibling state
+	     * - `$state.go('.child.grandchild')` - will go to grandchild state
 	     *
 	     * @example
 	     * <pre>
-	     * var app = angular.module('app', ['ui.router']);
+	     * var app = angular.module('app', ['ui.router.state']);
 	     *
 	     * app.controller('ctrl', function ($scope, $state) {
 	     *   $scope.changeState = function () {
@@ -32022,51 +30640,14 @@
 	     *   };
 	     * });
 	     * </pre>
-	     * <img src='../ngdoc_assets/StateGoExamples.png'/>
 	     *
-	     * @param {string} to Absolute state name or relative state path. Some examples:
-	     *
-	     * - `$state.go('contact.detail')` - will go to the `contact.detail` state
-	     * - `$state.go('^')` - will go to a parent state
-	     * - `$state.go('^.sibling')` - will go to a sibling state
-	     * - `$state.go('.child.grandchild')` - will go to grandchild state
-	     *
-	     * @param {object=} params A map of the parameters that will be sent to the state, 
-	     * will populate $stateParams. Any parameters that are not specified will be inherited from currently 
-	     * defined parameters. This allows, for example, going to a sibling state that shares parameters
-	     * specified in a parent state. Parameter inheritance only works between common ancestor states, I.e.
-	     * transitioning to a sibling will get you the parameters for all parents, transitioning to a child
-	     * will get you all current parameters, etc.
-	     * @param {object=} options Options object. The options are:
-	     *
-	     * - **`location`** - {boolean=true|string=} - If `true` will update the url in the location bar, if `false`
-	     *    will not. If string, must be `"replace"`, which will update url and also replace last history record.
-	     * - **`inherit`** - {boolean=true}, If `true` will inherit url parameters from current url.
-	     * - **`relative`** - {object=$state.$current}, When transitioning with relative path (e.g '^'), 
-	     *    defines which state to be relative from.
-	     * - **`notify`** - {boolean=true}, If `true` will broadcast $stateChangeStart and $stateChangeSuccess events.
-	     * - **`reload`** (v0.2.5) - {boolean=false}, If `true` will force transition even if the state or params 
-	     *    have not changed, aka a reload of the same state. It differs from reloadOnSearch because you'd
-	     *    use this when you want to force a reload when *everything* is the same, including search params.
-	     *
-	     * @returns {promise} A promise representing the state of the new transition.
-	     *
-	     * Possible success values:
-	     *
-	     * - $state.current
-	     *
-	     * <br/>Possible rejection values:
-	     *
-	     * - 'transition superseded' - when a newer transition has been started after this one
-	     * - 'transition prevented' - when `event.preventDefault()` has been called in a `$stateChangeStart` listener
-	     * - 'transition aborted' - when `event.preventDefault()` has been called in a `$stateNotFound` listener or
-	     *   when a `$stateNotFound` `event.retry` promise errors.
-	     * - 'transition failed' - when a state has been unsuccessfully found after 2 tries.
-	     * - *resolve error* - when an error has occurred with a `resolve`
-	     *
+	     * @param {string} to Absolute State Name or Relative State Path.
+	     * @param {object} params A map of the parameters that will be sent to the state, 
+	     * will populate $stateParams.
+	     * @param {object} options If Object is passed, object is an options hash.
 	     */
 	    $state.go = function go(to, params, options) {
-	      return $state.transitionTo(to, params, extend({ inherit: true, relative: $state.$current }, options));
+	      return this.transitionTo(to, params, extend({ inherit: true, relative: $state.$current }, options));
 	    };
 
 	    /**
@@ -32080,7 +30661,7 @@
 	     *
 	     * @example
 	     * <pre>
-	     * var app = angular.module('app', ['ui.router']);
+	     * var app = angular.module('app', ['ui.router.state']);
 	     *
 	     * app.controller('ctrl', function ($scope, $state) {
 	     *   $scope.changeState = function () {
@@ -32089,25 +30670,10 @@
 	     * });
 	     * </pre>
 	     *
-	     * @param {string} to State name.
-	     * @param {object=} toParams A map of the parameters that will be sent to the state,
+	     * @param {string} to Absolute State Name or Relative State Path.
+	     * @param {object} params A map of the parameters that will be sent to the state, 
 	     * will populate $stateParams.
-	     * @param {object=} options Options object. The options are:
-	     *
-	     * - **`location`** - {boolean=true|string=} - If `true` will update the url in the location bar, if `false`
-	     *    will not. If string, must be `"replace"`, which will update url and also replace last history record.
-	     * - **`inherit`** - {boolean=false}, If `true` will inherit url parameters from current url.
-	     * - **`relative`** - {object=}, When transitioning with relative path (e.g '^'), 
-	     *    defines which state to be relative from.
-	     * - **`notify`** - {boolean=true}, If `true` will broadcast $stateChangeStart and $stateChangeSuccess events.
-	     * - **`reload`** (v0.2.5) - {boolean=false|string=|object=}, If `true` will force transition even if the state or params 
-	     *    have not changed, aka a reload of the same state. It differs from reloadOnSearch because you'd
-	     *    use this when you want to force a reload when *everything* is the same, including search params.
-	     *    if String, then will reload the state with the name given in reload, and any children.
-	     *    if Object, then a stateObj is expected, will reload the state found in stateObj, and any children.
-	     *
-	     * @returns {promise} A promise representing the state of the new transition. See
-	     * {@link ui.router.state.$state#methods_go $state.go}.
+	     * @param {object} options If Object is passed, object is an options hash.
 	     */
 	    $state.transitionTo = function transitionTo(to, toParams, options) {
 	      toParams = toParams || {};
@@ -32118,15 +30684,31 @@
 	      var from = $state.$current, fromParams = $state.params, fromPath = from.path;
 	      var evt, toState = findState(to, options.relative);
 
-	      // Store the hash param for later (since it will be stripped out by various methods)
-	      var hash = toParams['#'];
-
 	      if (!isDefined(toState)) {
+	        // Broadcast not found event and abort the transition if prevented
 	        var redirect = { to: to, toParams: toParams, options: options };
-	        var redirectResult = handleRedirect(redirect, from.self, fromParams, options);
+	        evt = $rootScope.$broadcast('$stateNotFound', redirect, from.self, fromParams);
+	        if (evt.defaultPrevented) {
+	          syncUrl();
+	          return TransitionAborted;
+	        }
 
-	        if (redirectResult) {
-	          return redirectResult;
+	        // Allow the handler to return a promise to defer state lookup retry
+	        if (evt.retry) {
+	          if (options.$retry) {
+	            syncUrl();
+	            return TransitionFailed;
+	          }
+	          var retryTransition = $state.transition = $q.when(evt.retry);
+	          retryTransition.then(function() {
+	            if (retryTransition !== $state.transition) return TransitionSuperseded;
+	            redirect.options.$retry = true;
+	            return $state.transitionTo(redirect.to, redirect.toParams, redirect.options);
+	          }, function() {
+	            return TransitionAborted;
+	          });
+	          syncUrl();
+	          return retryTransition;
 	        }
 
 	        // Always retry once if the $stateNotFound was not prevented
@@ -32135,101 +30717,44 @@
 	        toParams = redirect.toParams;
 	        options = redirect.options;
 	        toState = findState(to, options.relative);
-
 	        if (!isDefined(toState)) {
-	          if (!options.relative) throw new Error("No such state '" + to + "'");
-	          throw new Error("Could not resolve '" + to + "' from state '" + options.relative + "'");
+	          if (options.relative) throw new Error("Could not resolve '" + to + "' from state '" + options.relative + "'");
+	          throw new Error("No such state '" + to + "'");
 	        }
 	      }
 	      if (toState[abstractKey]) throw new Error("Cannot transition to abstract state '" + to + "'");
 	      if (options.inherit) toParams = inheritParams($stateParams, toParams || {}, $state.$current, toState);
-	      if (!toState.params.$$validates(toParams)) return TransitionFailed;
-
-	      toParams = toState.params.$$values(toParams);
 	      to = toState;
 
 	      var toPath = to.path;
 
 	      // Starting from the root of the path, keep all levels that haven't changed
-	      var keep = 0, state = toPath[keep], locals = root.locals, toLocals = [];
-
-	      if (!options.reload) {
-	        while (state && state === fromPath[keep] && state.ownParams.$$equals(toParams, fromParams)) {
-	          locals = toLocals[keep] = state.locals;
-	          keep++;
-	          state = toPath[keep];
-	        }
-	      } else if (isString(options.reload) || isObject(options.reload)) {
-	        if (isObject(options.reload) && !options.reload.name) {
-	          throw new Error('Invalid reload state object');
-	        }
-	        
-	        var reloadState = options.reload === true ? fromPath[0] : findState(options.reload);
-	        if (options.reload && !reloadState) {
-	          throw new Error("No such reload state '" + (isString(options.reload) ? options.reload : options.reload.name) + "'");
-	        }
-
-	        while (state && state === fromPath[keep] && state !== reloadState) {
-	          locals = toLocals[keep] = state.locals;
-	          keep++;
-	          state = toPath[keep];
-	        }
+	      var keep, state, locals = root.locals, toLocals = [];
+	      for (keep = 0, state = toPath[keep];
+	           state && state === fromPath[keep] && equalForKeys(toParams, fromParams, state.ownParams) && !options.reload;
+	           keep++, state = toPath[keep]) {
+	        locals = toLocals[keep] = state.locals;
 	      }
 
 	      // If we're going to the same state and all locals are kept, we've got nothing to do.
 	      // But clear 'transition', as we still want to cancel any other pending transitions.
-	      // TODO: We may not want to bump 'transition' if we're called from a location change
-	      // that we've initiated ourselves, because we might accidentally abort a legitimate
-	      // transition initiated from code?
-	      if (shouldSkipReload(to, toParams, from, fromParams, locals, options)) {
-	        if (hash) toParams['#'] = hash;
-	        $state.params = toParams;
-	        copy($state.params, $stateParams);
-	        if (options.location && to.navigable && to.navigable.url) {
-	          $urlRouter.push(to.navigable.url, toParams, {
-	            $$avoidResync: true, replace: options.location === 'replace'
-	          });
-	          $urlRouter.update(true);
-	        }
+	      // TODO: We may not want to bump 'transition' if we're called from a location change that we've initiated ourselves,
+	      // because we might accidentally abort a legitimate transition initiated from code?
+	      if (shouldTriggerReload(to, from, locals, options) ) {
+	        if ( to.self.reloadOnSearch !== false )
+	          syncUrl();
 	        $state.transition = null;
 	        return $q.when($state.current);
 	      }
 
-	      // Filter parameters before we pass them to event handlers etc.
-	      toParams = filterByKeys(to.params.$$keys(), toParams || {});
+	      // Normalize/filter parameters before we pass them to event handlers etc.
+	      toParams = normalize(to.params, toParams || {});
 
 	      // Broadcast start event and cancel the transition if requested
 	      if (options.notify) {
-	        /**
-	         * @ngdoc event
-	         * @name ui.router.state.$state#$stateChangeStart
-	         * @eventOf ui.router.state.$state
-	         * @eventType broadcast on root scope
-	         * @description
-	         * Fired when the state transition **begins**. You can use `event.preventDefault()`
-	         * to prevent the transition from happening and then the transition promise will be
-	         * rejected with a `'transition prevented'` value.
-	         *
-	         * @param {Object} event Event object.
-	         * @param {State} toState The state being transitioned to.
-	         * @param {Object} toParams The params supplied to the `toState`.
-	         * @param {State} fromState The current state, pre-transition.
-	         * @param {Object} fromParams The params supplied to the `fromState`.
-	         *
-	         * @example
-	         *
-	         * <pre>
-	         * $rootScope.$on('$stateChangeStart',
-	         * function(event, toState, toParams, fromState, fromParams){
-	         *     event.preventDefault();
-	         *     // transitionTo() promise will be rejected with
-	         *     // a 'transition prevented' error
-	         * })
-	         * </pre>
-	         */
-	        if ($rootScope.$broadcast('$stateChangeStart', to.self, toParams, from.self, fromParams).defaultPrevented) {
-	          $rootScope.$broadcast('$stateChangeCancel', to.self, toParams, from.self, fromParams);
-	          $urlRouter.update();
+	        evt = $rootScope.$broadcast('$stateChangeStart', to.self, toParams, from.self, fromParams);
+	        if (evt.defaultPrevented) {
+	          syncUrl();
 	          return TransitionPrevented;
 	        }
 	      }
@@ -32242,10 +30767,9 @@
 	      // empty and gets filled asynchronously. We need to keep track of the promise for the
 	      // (fully resolved) current locals, and pass this down the chain.
 	      var resolved = $q.when(locals);
-
-	      for (var l = keep; l < toPath.length; l++, state = toPath[l]) {
+	      for (var l=keep; l<toPath.length; l++, state=toPath[l]) {
 	        locals = toLocals[l] = inherit(locals);
-	        resolved = resolveState(state, toParams, state === to, resolved, locals, options);
+	        resolved = resolveState(state, toParams, state===to, resolved, locals);
 	      }
 
 	      // Once everything is resolved, we are ready to perform the actual transition
@@ -32258,7 +30782,7 @@
 	        if ($state.transition !== transition) return TransitionSuperseded;
 
 	        // Exit 'from' states not kept
-	        for (l = fromPath.length - 1; l >= keep; l--) {
+	        for (l=fromPath.length-1; l>=keep; l--) {
 	          exiting = fromPath[l];
 	          if (exiting.self.onExit) {
 	            $injector.invoke(exiting.self.onExit, exiting.self, exiting.locals.globals);
@@ -32267,16 +30791,13 @@
 	        }
 
 	        // Enter 'to' states not kept
-	        for (l = keep; l < toPath.length; l++) {
+	        for (l=keep; l<toPath.length; l++) {
 	          entering = toPath[l];
 	          entering.locals = toLocals[l];
 	          if (entering.self.onEnter) {
 	            $injector.invoke(entering.self.onEnter, entering.self, entering.locals.globals);
 	          }
 	        }
-
-	        // Re-add the saved hash before we start returning things
-	        if (hash) toParams['#'] = hash;
 
 	        // Run it again, to catch any transitions in callbacks
 	        if ($state.transition !== transition) return TransitionSuperseded;
@@ -32288,59 +30809,28 @@
 	        copy($state.params, $stateParams);
 	        $state.transition = null;
 
-	        if (options.location && to.navigable) {
-	          $urlRouter.push(to.navigable.url, to.navigable.locals.globals.$stateParams, {
-	            $$avoidResync: true, replace: options.location === 'replace'
-	          });
+	        // Update $location
+	        var toNav = to.navigable;
+	        if (options.location && toNav) {
+	          $location.url(toNav.url.format(toNav.locals.globals.$stateParams));
+
+	          if (options.location === 'replace') {
+	            $location.replace();
+	          }
 	        }
 
 	        if (options.notify) {
-	        /**
-	         * @ngdoc event
-	         * @name ui.router.state.$state#$stateChangeSuccess
-	         * @eventOf ui.router.state.$state
-	         * @eventType broadcast on root scope
-	         * @description
-	         * Fired once the state transition is **complete**.
-	         *
-	         * @param {Object} event Event object.
-	         * @param {State} toState The state being transitioned to.
-	         * @param {Object} toParams The params supplied to the `toState`.
-	         * @param {State} fromState The current state, pre-transition.
-	         * @param {Object} fromParams The params supplied to the `fromState`.
-	         */
 	          $rootScope.$broadcast('$stateChangeSuccess', to.self, toParams, from.self, fromParams);
 	        }
-	        $urlRouter.update(true);
+	        currentLocation = $location.url();
 
 	        return $state.current;
 	      }, function (error) {
 	        if ($state.transition !== transition) return TransitionSuperseded;
 
 	        $state.transition = null;
-	        /**
-	         * @ngdoc event
-	         * @name ui.router.state.$state#$stateChangeError
-	         * @eventOf ui.router.state.$state
-	         * @eventType broadcast on root scope
-	         * @description
-	         * Fired when an **error occurs** during transition. It's important to note that if you
-	         * have any errors in your resolve functions (javascript errors, non-existent services, etc)
-	         * they will not throw traditionally. You must listen for this $stateChangeError event to
-	         * catch **ALL** errors.
-	         *
-	         * @param {Object} event Event object.
-	         * @param {State} toState The state being transitioned to.
-	         * @param {Object} toParams The params supplied to the `toState`.
-	         * @param {State} fromState The current state, pre-transition.
-	         * @param {Object} fromParams The params supplied to the `fromState`.
-	         * @param {Error} error The resolve error object.
-	         */
-	        evt = $rootScope.$broadcast('$stateChangeError', to.self, toParams, from.self, fromParams, error);
-
-	        if (!evt.defaultPrevented) {
-	            $urlRouter.update();
-	        }
+	        $rootScope.$broadcast('$stateChangeError', to.self, toParams, from.self, fromParams, error);
+	        syncUrl();
 
 	        return $q.reject(error);
 	      });
@@ -32355,40 +30845,35 @@
 	     *
 	     * @description
 	     * Similar to {@link ui.router.state.$state#methods_includes $state.includes},
-	     * but only checks for the full state name. If params is supplied then it will be
-	     * tested for strict equality against the current active params object, so all params
+	     * but only checks for the full state name. If params is supplied then it will be 
+	     * tested for strict equality against the current active params object, so all params 
 	     * must match with none missing and no extras.
 	     *
 	     * @example
 	     * <pre>
-	     * $state.$current.name = 'contacts.details.item';
-	     *
-	     * // absolute name
 	     * $state.is('contact.details.item'); // returns true
 	     * $state.is(contactDetailItemStateObject); // returns true
 	     *
-	     * // relative name (. and ^), typically from a template
-	     * // E.g. from the 'contacts.details' template
-	     * <div ng-class="{highlighted: $state.is('.item')}">Item</div>
+	     * // everything else would return false
 	     * </pre>
 	     *
-	     * @param {string|object} stateOrName The state name (absolute or relative) or state object you'd like to check.
-	     * @param {object=} params A param object, e.g. `{sectionId: section.id}`, that you'd like
+	     * @param {string|object} stateName The state name or state object you'd like to check.
+	     * @param {object} params A param object, e.g. `{sectionId: section.id}`, that you'd like 
 	     * to test against the current active state.
-	     * @param {object=} options An options object.  The options are:
-	     *
-	     * - **`relative`** - {string|object} -  If `stateOrName` is a relative state name and `options.relative` is set, .is will
-	     * test relative to `options.relative` state (or name).
-	     *
-	     * @returns {boolean} Returns true if it is the state.
+	     * @returns {boolean} Returns true or false whether its the state or not.
 	     */
-	    $state.is = function is(stateOrName, params, options) {
-	      options = extend({ relative: $state.$current }, options || {});
-	      var state = findState(stateOrName, options.relative);
+	    $state.is = function is(stateOrName, params) {
+	      var state = findState(stateOrName);
 
-	      if (!isDefined(state)) { return undefined; }
-	      if ($state.$current !== state) { return false; }
-	      return params ? equalForKeys(state.params.$$values(params), $stateParams) : true;
+	      if (!isDefined(state)) {
+	        return undefined;
+	      }
+
+	      if ($state.$current !== state) {
+	        return false;
+	      }
+
+	      return isDefined(params) && params !== null ? angular.equals($stateParams, params) : true;
 	    };
 
 	    /**
@@ -32397,66 +30882,42 @@
 	     * @methodOf ui.router.state.$state
 	     *
 	     * @description
-	     * A method to determine if the current active state is equal to or is the child of the
+	     * A method to determine if the current active state is equal to or is the child of the 
 	     * state stateName. If any params are passed then they will be tested for a match as well.
 	     * Not all the parameters need to be passed, just the ones you'd like to test for equality.
 	     *
 	     * @example
-	     * Partial and relative names
 	     * <pre>
-	     * $state.$current.name = 'contacts.details.item';
-	     *
-	     * // Using partial names
 	     * $state.includes("contacts"); // returns true
 	     * $state.includes("contacts.details"); // returns true
 	     * $state.includes("contacts.details.item"); // returns true
 	     * $state.includes("contacts.list"); // returns false
 	     * $state.includes("about"); // returns false
-	     *
-	     * // Using relative names (. and ^), typically from a template
-	     * // E.g. from the 'contacts.details' template
-	     * <div ng-class="{highlighted: $state.includes('.item')}">Item</div>
 	     * </pre>
 	     *
-	     * Basic globbing patterns
-	     * <pre>
-	     * $state.$current.name = 'contacts.details.item.url';
-	     *
-	     * $state.includes("*.details.*.*"); // returns true
-	     * $state.includes("*.details.**"); // returns true
-	     * $state.includes("**.item.**"); // returns true
-	     * $state.includes("*.details.item.url"); // returns true
-	     * $state.includes("*.details.*.url"); // returns true
-	     * $state.includes("*.details.*"); // returns false
-	     * $state.includes("item.**"); // returns false
-	     * </pre>
-	     *
-	     * @param {string} stateOrName A partial name, relative name, or glob pattern
-	     * to be searched for within the current state name.
-	     * @param {object=} params A param object, e.g. `{sectionId: section.id}`,
+	     * @param {string} stateOrName A partial name to be searched for within the current state name.
+	     * @param {object} params A param object, e.g. `{sectionId: section.id}`, 
 	     * that you'd like to test against the current active state.
-	     * @param {object=} options An options object.  The options are:
-	     *
-	     * - **`relative`** - {string|object=} -  If `stateOrName` is a relative state reference and `options.relative` is set,
-	     * .includes will test relative to `options.relative` state (or name).
-	     *
-	     * @returns {boolean} Returns true if it does include the state
+	     * @returns {boolean} True or false
 	     */
-	    $state.includes = function includes(stateOrName, params, options) {
-	      options = extend({ relative: $state.$current }, options || {});
-	      if (isString(stateOrName) && isGlob(stateOrName)) {
-	        if (!doesStateMatchGlob(stateOrName)) {
-	          return false;
-	        }
-	        stateOrName = $state.$current.name;
+	    $state.includes = function includes(stateOrName, params) {
+	      var state = findState(stateOrName);
+	      if (!isDefined(state)) {
+	        return undefined;
 	      }
 
-	      var state = findState(stateOrName, options.relative);
-	      if (!isDefined(state)) { return undefined; }
-	      if (!isDefined($state.$current.includes[state.name])) { return false; }
-	      return params ? equalForKeys(state.params.$$values(params), $stateParams, objectKeys(params)) : true;
-	    };
+	      if (!isDefined($state.$current.includes[state.name])) {
+	        return false;
+	      }
 
+	      var validParams = true;
+	      angular.forEach(params, function(value, key) {
+	        if (!isDefined($stateParams[key]) || $stateParams[key] !== value) {
+	          validParams = false;
+	        }
+	      });
+	      return validParams;
+	    };
 
 	    /**
 	     * @ngdoc function
@@ -32472,40 +30933,28 @@
 	     * </pre>
 	     *
 	     * @param {string|object} stateOrName The state name or state object you'd like to generate a url from.
-	     * @param {object=} params An object of parameter values to fill the state's required parameters.
-	     * @param {object=} options Options object. The options are:
-	     *
-	     * - **`lossy`** - {boolean=true} -  If true, and if there is no url associated with the state provided in the
-	     *    first parameter, then the constructed href url will be built from the first navigable ancestor (aka
-	     *    ancestor with a valid url).
-	     * - **`inherit`** - {boolean=true}, If `true` will inherit url parameters from current url.
-	     * - **`relative`** - {object=$state.$current}, When transitioning with relative path (e.g '^'), 
-	     *    defines which state to be relative from.
-	     * - **`absolute`** - {boolean=false},  If true will generate an absolute url, e.g. "http://www.example.com/fullurl".
-	     * 
-	     * @returns {string} compiled state url
+	     * @param {object} params An object of parameter values to fill the state's required parameters.
+	     * @returns {string} url
 	     */
 	    $state.href = function href(stateOrName, params, options) {
-	      options = extend({
-	        lossy:    true,
-	        inherit:  true,
-	        absolute: false,
-	        relative: $state.$current
-	      }, options || {});
-
+	      options = extend({ lossy: true, inherit: false, absolute: false, relative: $state.$current }, options || {});
 	      var state = findState(stateOrName, options.relative);
-
 	      if (!isDefined(state)) return null;
-	      if (options.inherit) params = inheritParams($stateParams, params || {}, $state.$current, state);
-	      
-	      var nav = (state && options.lossy) ? state.navigable : state;
 
-	      if (!nav || nav.url === undefined || nav.url === null) {
-	        return null;
+	      params = inheritParams($stateParams, params || {}, $state.$current, state);
+	      var nav = (state && options.lossy) ? state.navigable : state;
+	      var url = (nav && nav.url) ? nav.url.format(normalize(state.params, params || {})) : null;
+	      if (!$locationProvider.html5Mode() && url) {
+	        url = "#" + $locationProvider.hashPrefix() + url;
 	      }
-	      return $urlRouter.href(nav.url, filterByKeys(state.params.$$keys().concat('#'), params || {}), {
-	        absolute: options.absolute
-	      });
+	      if (options.absolute && url) {
+	        url = $location.protocol() + '://' + 
+	              $location.host() + 
+	              ($location.port() == 80 || $location.port() == 443 ? '' : ':' + $location.port()) + 
+	              (!$locationProvider.html5Mode() && url ? '/' : '') + 
+	              url;
+	      }
+	      return url;
 	    };
 
 	    /**
@@ -32514,25 +30963,30 @@
 	     * @methodOf ui.router.state.$state
 	     *
 	     * @description
-	     * Returns the state configuration object for any specific state or all states.
+	     * Returns the state configuration object for any state by passing the name
+	     * as a string. Without any arguments it'll return a array of all configured
+	     * state objects.
 	     *
-	     * @param {string|object=} stateOrName (absolute or relative) If provided, will only get the config for
-	     * the requested state. If not provided, returns an array of ALL state configs.
-	     * @param {string|object=} context When stateOrName is a relative state reference, the state will be retrieved relative to context.
-	     * @returns {Object|Array} State configuration object or array of all objects.
+	     * @param {string|object} stateOrName The name of the state for which you'd like 
+	     * to get the original state configuration object for.
+	     * @returns {object} State configuration object or array of all objects.
 	     */
 	    $state.get = function (stateOrName, context) {
-	      if (arguments.length === 0) return map(objectKeys(states), function(name) { return states[name].self; });
-	      var state = findState(stateOrName, context || $state.$current);
+	      if (!isDefined(stateOrName)) {
+	        var list = [];
+	        forEach(states, function(state) { list.push(state.self); });
+	        return list;
+	      }
+	      var state = findState(stateOrName, context);
 	      return (state && state.self) ? state.self : null;
 	    };
 
-	    function resolveState(state, params, paramsAreFiltered, inherited, dst, options) {
+	    function resolveState(state, params, paramsAreFiltered, inherited, dst) {
 	      // Make a restricted $stateParams with only the parameters that apply to this state if
 	      // necessary. In addition to being available to the controller and onEnter/onExit callbacks,
 	      // we also need $stateParams to be available for any $injector calls we make during the
 	      // dependency resolution process.
-	      var $stateParams = (paramsAreFiltered) ? params : filterByKeys(state.params.$$keys(), params);
+	      var $stateParams = (paramsAreFiltered) ? params : filterByKeys(state.params, params);
 	      var locals = { $stateParams: $stateParams };
 
 	      // Resolve 'global' dependencies for the state, i.e. those not specific to a view.
@@ -32540,43 +30994,34 @@
 	      // to the set that should be visible to the state, and are independent of when we update
 	      // the global $state and $stateParams values.
 	      dst.resolve = $resolve.resolve(state.resolve, locals, dst.resolve, state);
-	      var promises = [dst.resolve.then(function (globals) {
+	      var promises = [ dst.resolve.then(function (globals) {
 	        dst.globals = globals;
-	      })];
+	      }) ];
 	      if (inherited) promises.push(inherited);
 
-	      function resolveViews() {
-	        var viewsPromises = [];
+	      // Resolve template and dependencies for all views.
+	      forEach(state.views, function (view, name) {
+	        var injectables = (view.resolve && view.resolve !== state.resolve ? view.resolve : {});
+	        injectables.$template = [ function () {
+	          return $view.load(name, { view: view, locals: locals, params: $stateParams, notify: false }) || '';
+	        }];
 
-	        // Resolve template and dependencies for all views.
-	        forEach(state.views, function (view, name) {
-	          var injectables = (view.resolve && view.resolve !== state.resolve ? view.resolve : {});
-	          injectables.$template = [ function () {
-	            return $view.load(name, { view: view, locals: dst.globals, params: $stateParams, notify: options.notify }) || '';
-	          }];
-
-	          viewsPromises.push($resolve.resolve(injectables, dst.globals, dst.resolve, state).then(function (result) {
-	            // References to the controller (only instantiated at link time)
-	            if (isFunction(view.controllerProvider) || isArray(view.controllerProvider)) {
-	              var injectLocals = angular.extend({}, injectables, dst.globals);
-	              result.$$controller = $injector.invoke(view.controllerProvider, null, injectLocals);
-	            } else {
-	              result.$$controller = view.controller;
-	            }
-	            // Provide access to the state itself for internal use
-	            result.$$state = state;
-	            result.$$controllerAs = view.controllerAs;
-	            dst[name] = result;
-	          }));
-	        });
-
-	        return $q.all(viewsPromises).then(function(){
-	          return dst.globals;
-	        });
-	      }
+	        promises.push($resolve.resolve(injectables, locals, dst.resolve, state).then(function (result) {
+	          // References to the controller (only instantiated at link time)
+	          if (isFunction(view.controllerProvider) || isArray(view.controllerProvider)) {
+	            var injectLocals = angular.extend({}, injectables, locals);
+	            result.$$controller = $injector.invoke(view.controllerProvider, null, injectLocals);
+	          } else {
+	            result.$$controller = view.controller;
+	          }
+	          // Provide access to the state itself for internal use
+	          result.$$state = state;
+	          dst[name] = result;
+	        }));
+	      });
 
 	      // Wait for all the promises and then return the activation object
-	      return $q.all(promises).then(resolveViews).then(function (values) {
+	      return $q.all(promises).then(function (values) {
 	        return dst;
 	      });
 	    }
@@ -32584,27 +31029,8 @@
 	    return $state;
 	  }
 
-	  function shouldSkipReload(to, toParams, from, fromParams, locals, options) {
-	    // Return true if there are no differences in non-search (path/object) params, false if there are differences
-	    function nonSearchParamsEqual(fromAndToState, fromParams, toParams) {
-	      // Identify whether all the parameters that differ between `fromParams` and `toParams` were search params.
-	      function notSearchParam(key) {
-	        return fromAndToState.params[key].location != "search";
-	      }
-	      var nonQueryParamKeys = fromAndToState.params.$$keys().filter(notSearchParam);
-	      var nonQueryParams = pick.apply({}, [fromAndToState.params].concat(nonQueryParamKeys));
-	      var nonQueryParamSet = new $$UMFP.ParamSet(nonQueryParams);
-	      return nonQueryParamSet.$$equals(fromParams, toParams);
-	    }
-
-	    // If reload was not explicitly requested
-	    // and we're transitioning to the same state we're already in
-	    // and    the locals didn't change
-	    //     or they changed in a way that doesn't merit reloading
-	    //        (reloadOnParams:false, or reloadOnSearch.false and only search params changed)
-	    // Then return true.
-	    if (!options.reload && to === from &&
-	      (locals === from.locals || (to.self.reloadOnSearch === false && nonSearchParamsEqual(from, fromParams, toParams)))) {
+	  function shouldTriggerReload(to, from, locals, options) {
+	    if ( to === from && ((locals === from.locals && !options.reload) || (to.self.reloadOnSearch === false)) ) {
 	      return true;
 	    }
 	  }
@@ -32653,29 +31079,6 @@
 	          result = $templateFactory.fromConfig(options.view, options.params, options.locals);
 	        }
 	        if (result && options.notify) {
-	        /**
-	         * @ngdoc event
-	         * @name ui.router.state.$state#$viewContentLoading
-	         * @eventOf ui.router.state.$view
-	         * @eventType broadcast on root scope
-	         * @description
-	         *
-	         * Fired once the view **begins loading**, *before* the DOM is rendered.
-	         *
-	         * @param {Object} event Event object.
-	         * @param {Object} viewConfig The view config properties (template, controller, etc).
-	         *
-	         * @example
-	         *
-	         * <pre>
-	         * $scope.$on('$viewContentLoading',
-	         * function(event, viewConfig){
-	         *     // Access to all the view config properties.
-	         *     // and one special property 'targetView'
-	         *     // viewConfig.targetView
-	         * });
-	         * </pre>
-	         */
 	          $rootScope.$broadcast('$viewContentLoading', options);
 	        }
 	        return result;
@@ -32688,49 +31091,33 @@
 
 	/**
 	 * @ngdoc object
-	 * @name ui.router.state.$uiViewScrollProvider
+	 * @name ui.router.state.$uiViewScroll
+	 *
+	 * @requires $anchorScroll
+	 * @requires $timeout
 	 *
 	 * @description
-	 * Provider that returns the {@link ui.router.state.$uiViewScroll} service function.
+	 * When called with a jqLite element, it scrolls the element into view (after a
+	 * `$timeout` so the DOM has time to refresh).
+	 *
+	 * If you prefer to rely on `$anchorScroll` to scroll the view to the anchor,
+	 * this can be enabled by calling `$uiViewScrollProvider.useAnchorScroll()`.
 	 */
 	function $ViewScrollProvider() {
 
 	  var useAnchorScroll = false;
 
-	  /**
-	   * @ngdoc function
-	   * @name ui.router.state.$uiViewScrollProvider#useAnchorScroll
-	   * @methodOf ui.router.state.$uiViewScrollProvider
-	   *
-	   * @description
-	   * Reverts back to using the core [`$anchorScroll`](http://docs.angularjs.org/api/ng.$anchorScroll) service for
-	   * scrolling based on the url anchor.
-	   */
 	  this.useAnchorScroll = function () {
 	    useAnchorScroll = true;
 	  };
 
-	  /**
-	   * @ngdoc object
-	   * @name ui.router.state.$uiViewScroll
-	   *
-	   * @requires $anchorScroll
-	   * @requires $timeout
-	   *
-	   * @description
-	   * When called with a jqLite element, it scrolls the element into view (after a
-	   * `$timeout` so the DOM has time to refresh).
-	   *
-	   * If you prefer to rely on `$anchorScroll` to scroll the view to the anchor,
-	   * this can be enabled by calling {@link ui.router.state.$uiViewScrollProvider#methods_useAnchorScroll `$uiViewScrollProvider.useAnchorScroll()`}.
-	   */
 	  this.$get = ['$anchorScroll', '$timeout', function ($anchorScroll, $timeout) {
 	    if (useAnchorScroll) {
 	      return $anchorScroll;
 	    }
 
 	    return function ($element) {
-	      return $timeout(function () {
+	      $timeout(function () {
 	        $element[0].scrollIntoView();
 	      }, 0, false);
 	    };
@@ -32741,119 +31128,23 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name ui.router.state.directive:ui-view
+	 * @name ui.router.state.diretive.ui-view
 	 *
 	 * @requires ui.router.state.$state
 	 * @requires $compile
 	 * @requires $controller
 	 * @requires $injector
-	 * @requires ui.router.state.$uiViewScroll
-	 * @requires $document
 	 *
 	 * @restrict ECA
 	 *
 	 * @description
 	 * The ui-view directive tells $state where to place your templates.
+	 * A view can be unnamed or named.
 	 *
-	 * @param {string=} name A view name. The name should be unique amongst the other views in the
-	 * same state. You can have views of the same name that live in different states.
-	 *
-	 * @param {string=} autoscroll It allows you to set the scroll behavior of the browser window
-	 * when a view is populated. By default, $anchorScroll is overridden by ui-router's custom scroll
-	 * service, {@link ui.router.state.$uiViewScroll}. This custom service let's you
-	 * scroll ui-view elements into view when they are populated during a state activation.
-	 *
-	 * *Note: To revert back to old [`$anchorScroll`](http://docs.angularjs.org/api/ng.$anchorScroll)
-	 * functionality, call `$uiViewScrollProvider.useAnchorScroll()`.*
-	 *
-	 * @param {string=} onload Expression to evaluate whenever the view updates.
-	 * 
-	 * @example
-	 * A view can be unnamed or named. 
-	 * <pre>
-	 * <!-- Unnamed -->
-	 * <div ui-view></div> 
-	 * 
-	 * <!-- Named -->
-	 * <div ui-view="viewName"></div>
-	 * </pre>
-	 *
-	 * You can only have one unnamed view within any template (or root html). If you are only using a 
-	 * single view and it is unnamed then you can populate it like so:
-	 * <pre>
-	 * <div ui-view></div> 
-	 * $stateProvider.state("home", {
-	 *   template: "<h1>HELLO!</h1>"
-	 * })
-	 * </pre>
-	 * 
-	 * The above is a convenient shortcut equivalent to specifying your view explicitly with the {@link ui.router.state.$stateProvider#views `views`}
-	 * config property, by name, in this case an empty name:
-	 * <pre>
-	 * $stateProvider.state("home", {
-	 *   views: {
-	 *     "": {
-	 *       template: "<h1>HELLO!</h1>"
-	 *     }
-	 *   }    
-	 * })
-	 * </pre>
-	 * 
-	 * But typically you'll only use the views property if you name your view or have more than one view 
-	 * in the same template. There's not really a compelling reason to name a view if its the only one, 
-	 * but you could if you wanted, like so:
-	 * <pre>
-	 * <div ui-view="main"></div>
-	 * </pre> 
-	 * <pre>
-	 * $stateProvider.state("home", {
-	 *   views: {
-	 *     "main": {
-	 *       template: "<h1>HELLO!</h1>"
-	 *     }
-	 *   }    
-	 * })
-	 * </pre>
-	 * 
-	 * Really though, you'll use views to set up multiple views:
-	 * <pre>
-	 * <div ui-view></div>
-	 * <div ui-view="chart"></div> 
-	 * <div ui-view="data"></div> 
-	 * </pre>
-	 * 
-	 * <pre>
-	 * $stateProvider.state("home", {
-	 *   views: {
-	 *     "": {
-	 *       template: "<h1>HELLO!</h1>"
-	 *     },
-	 *     "chart": {
-	 *       template: "<chart_thing/>"
-	 *     },
-	 *     "data": {
-	 *       template: "<data_thing/>"
-	 *     }
-	 *   }    
-	 * })
-	 * </pre>
-	 *
-	 * Examples for `autoscroll`:
-	 *
-	 * <pre>
-	 * <!-- If autoscroll present with no expression,
-	 *      then scroll ui-view into view -->
-	 * <ui-view autoscroll/>
-	 *
-	 * <!-- If autoscroll present with valid expression,
-	 *      then scroll ui-view into view if expression evaluates to true -->
-	 * <ui-view autoscroll='true'/>
-	 * <ui-view autoscroll='false'/>
-	 * <ui-view autoscroll='scopeVariable'/>
-	 * </pre>
+	 * @param {string} ui-view A view name.
 	 */
-	$ViewDirective.$inject = ['$state', '$injector', '$uiViewScroll', '$interpolate'];
-	function $ViewDirective(   $state,   $injector,   $uiViewScroll,   $interpolate) {
+	$ViewDirective.$inject = ['$state', '$compile', '$controller', '$injector', '$uiViewScroll', '$document'];
+	function $ViewDirective(   $state,   $compile,   $controller,   $injector,   $uiViewScroll,   $document) {
 
 	  function getService() {
 	    return ($injector.has) ? function(service) {
@@ -32867,123 +31158,144 @@
 	    };
 	  }
 
-	  var service = getService(),
+	  var viewIsUpdating = false,
+	      service = getService(),
 	      $animator = service('$animator'),
 	      $animate = service('$animate');
 
-	  // Returns a set of DOM manipulation functions based on which Angular version
-	  // it should use
-	  function getRenderer(attrs, scope) {
+	  // Returns a set of DOM manipulation functions based on whether animation
+	  // should be performed
+	  function getRenderer(element, attrs, scope) {
 	    var statics = function() {
 	      return {
-	        enter: function (element, target, cb) { target.after(element); cb(); },
-	        leave: function (element, cb) { element.remove(); cb(); }
+	        leave: function (element) { element.remove(); },
+	        enter: function (element, parent, anchor) { anchor.after(element); }
 	      };
 	    };
 
 	    if ($animate) {
-	      return {
-	        enter: function(element, target, cb) {
-	          var promise = $animate.enter(element, null, target, cb);
-	          if (promise && promise.then) promise.then(cb);
-	        },
-	        leave: function(element, cb) {
-	          var promise = $animate.leave(element, cb);
-	          if (promise && promise.then) promise.then(cb);
-	        }
+	      return function(shouldAnimate) {
+	        return !shouldAnimate ? statics() : {
+	          enter: function(element, parent, anchor) { $animate.enter(element, null, anchor); },
+	          leave: function(element) { $animate.leave(element, function() { element.remove(); }); }
+	        };
 	      };
 	    }
 
 	    if ($animator) {
 	      var animate = $animator && $animator(scope, attrs);
 
-	      return {
-	        enter: function(element, target, cb) {animate.enter(element, null, target); cb(); },
-	        leave: function(element, cb) { animate.leave(element); cb(); }
+	      return function(shouldAnimate) {
+	        return !shouldAnimate ? statics() : {
+	          enter: function(element, parent, anchor) { animate.enter(element, parent); },
+	          leave: function(element) { animate.leave(element.contents(), element); }
+	        };
 	      };
 	    }
 
-	    return statics();
+	    return statics;
 	  }
 
 	  var directive = {
 	    restrict: 'ECA',
-	    terminal: true,
-	    priority: 400,
-	    transclude: 'element',
-	    compile: function (tElement, tAttrs, $transclude) {
-	      return function (scope, $element, attrs) {
-	        var previousEl, currentEl, currentScope, latestLocals,
-	            onloadExp     = attrs.onload || '',
-	            autoScrollExp = attrs.autoscroll,
-	            renderer      = getRenderer(attrs, scope);
+	    compile: function (element, attrs) {
+	      var initial   = element.html(),
+	          isDefault = true,
+	          anchor    = angular.element($document[0].createComment(' ui-view-anchor ')),
+	          parentEl  = element.parent();
 
-	        scope.$on('$stateChangeSuccess', function() {
-	          updateView(false);
-	        });
-	        scope.$on('$viewContentLoading', function() {
-	          updateView(false);
-	        });
+	      element.prepend(anchor);
 
-	        updateView(true);
+	      return function ($scope) {
+	        var inherited = parentEl.inheritedData('$uiView');
+
+	        var currentScope, currentEl, viewLocals,
+	            name      = attrs[directive.name] || attrs.name || '',
+	            onloadExp = attrs.onload || '',
+	            autoscrollExp = attrs.autoscroll,
+	            renderer  = getRenderer(element, attrs, $scope);
+
+	        if (name.indexOf('@') < 0) name = name + '@' + (inherited ? inherited.state.name : '');
+	        var view = { name: name, state: null };
+
+	        var eventHook = function () {
+	          if (viewIsUpdating) return;
+	          viewIsUpdating = true;
+
+	          try { updateView(true); } catch (e) {
+	            viewIsUpdating = false;
+	            throw e;
+	          }
+	          viewIsUpdating = false;
+	        };
+
+	        $scope.$on('$stateChangeSuccess', eventHook);
+	        $scope.$on('$viewContentLoading', eventHook);
+
+	        updateView(false);
 
 	        function cleanupLastView() {
-	          if (previousEl) {
-	            previousEl.remove();
-	            previousEl = null;
+	          if (currentEl) {
+	            renderer(true).leave(currentEl);
+	            currentEl = null;
 	          }
 
 	          if (currentScope) {
 	            currentScope.$destroy();
 	            currentScope = null;
 	          }
-
-	          if (currentEl) {
-	            renderer.leave(currentEl, function() {
-	              previousEl = null;
-	            });
-
-	            previousEl = currentEl;
-	            currentEl = null;
-	          }
 	        }
 
-	        function updateView(firstTime) {
-	          var newScope,
-	              name            = getUiViewName(scope, attrs, $element, $interpolate),
-	              previousLocals  = name && $state.$current && $state.$current.locals[name];
+	        function updateView(shouldAnimate) {
+	          var locals = $state.$current && $state.$current.locals[name];
 
-	          if (!firstTime && previousLocals === latestLocals) return; // nothing to do
-	          newScope = scope.$new();
-	          latestLocals = $state.$current.locals[name];
+	          if (isDefault) {
+	            isDefault = false;
+	            element.replaceWith(anchor);
+	          }
 
-	          var clone = $transclude(newScope, function(clone) {
-	            renderer.enter(clone, $element, function onUiViewEnter() {
-	              if(currentScope) {
-	                currentScope.$emit('$viewContentAnimationEnded');
-	              }
-
-	              if (angular.isDefined(autoScrollExp) && !autoScrollExp || scope.$eval(autoScrollExp)) {
-	                $uiViewScroll(clone);
-	              }
-	            });
+	          if (!locals) {
 	            cleanupLastView();
-	          });
+	            currentEl = element.clone();
+	            currentEl.html(initial);
+	            renderer(shouldAnimate).enter(currentEl, parentEl, anchor);
 
-	          currentEl = clone;
-	          currentScope = newScope;
-	          /**
-	           * @ngdoc event
-	           * @name ui.router.state.directive:ui-view#$viewContentLoaded
-	           * @eventOf ui.router.state.directive:ui-view
-	           * @eventType emits on ui-view directive scope
-	           * @description           *
-	           * Fired once the view is **loaded**, *after* the DOM is rendered.
-	           *
-	           * @param {Object} event Event object.
-	           */
+	            currentScope = $scope.$new();
+	            $compile(currentEl.contents())(currentScope);
+	            return;
+	          }
+
+	          if (locals === viewLocals) return; // nothing to do
+
+	          cleanupLastView();
+
+	          currentEl = element.clone();
+	          currentEl.html(locals.$template ? locals.$template : initial);
+	          renderer(true).enter(currentEl, parentEl, anchor);
+
+	          currentEl.data('$uiView', view);
+
+	          viewLocals = locals;
+	          view.state = locals.$$state;
+
+	          var link = $compile(currentEl.contents());
+
+	          currentScope = $scope.$new();
+
+	          if (locals.$$controller) {
+	            locals.$scope = currentScope;
+	            var controller = $controller(locals.$$controller, locals);
+	            currentEl.children().data('$ngControllerController', controller);
+	          }
+
+	          link(currentScope);
+
 	          currentScope.$emit('$viewContentLoaded');
-	          currentScope.$eval(onloadExp);
+	          if (onloadExp) currentScope.$eval(onloadExp);
+
+	          if (!angular.isDefined(autoscrollExp) || !autoscrollExp || $scope.$eval(autoscrollExp)) {
+	            $uiViewScroll(currentEl);
+	          }
 	        }
 	      };
 	    }
@@ -32992,61 +31304,10 @@
 	  return directive;
 	}
 
-	$ViewDirectiveFill.$inject = ['$compile', '$controller', '$state', '$interpolate'];
-	function $ViewDirectiveFill (  $compile,   $controller,   $state,   $interpolate) {
-	  return {
-	    restrict: 'ECA',
-	    priority: -400,
-	    compile: function (tElement) {
-	      var initial = tElement.html();
-	      return function (scope, $element, attrs) {
-	        var current = $state.$current,
-	            name = getUiViewName(scope, attrs, $element, $interpolate),
-	            locals  = current && current.locals[name];
-
-	        if (! locals) {
-	          return;
-	        }
-
-	        $element.data('$uiView', { name: name, state: locals.$$state });
-	        $element.html(locals.$template ? locals.$template : initial);
-
-	        var link = $compile($element.contents());
-
-	        if (locals.$$controller) {
-	          locals.$scope = scope;
-	          locals.$element = $element;
-	          var controller = $controller(locals.$$controller, locals);
-	          if (locals.$$controllerAs) {
-	            scope[locals.$$controllerAs] = controller;
-	          }
-	          $element.data('$ngControllerController', controller);
-	          $element.children().data('$ngControllerController', controller);
-	        }
-
-	        link(scope);
-	      };
-	    }
-	  };
-	}
-
-	/**
-	 * Shared ui-view code for both directives:
-	 * Given scope, element, and its attributes, return the view's name
-	 */
-	function getUiViewName(scope, attrs, element, $interpolate) {
-	  var name = $interpolate(attrs.uiView || attrs.name || '')(scope);
-	  var inherited = element.inheritedData('$uiView');
-	  return name.indexOf('@') >= 0 ?  name :  (name + '@' + (inherited ? inherited.state.name : ''));
-	}
-
 	angular.module('ui.router.state').directive('uiView', $ViewDirective);
-	angular.module('ui.router.state').directive('uiView', $ViewDirectiveFill);
 
-	function parseStateRef(ref, current) {
-	  var preparsed = ref.match(/^\s*({[^}]*})\s*$/), parsed;
-	  if (preparsed) ref = current + '(' + preparsed[1] + ')';
-	  parsed = ref.replace(/\n/g, " ").match(/^([^(]+?)\s*(\((.*)\))?$/);
+	function parseStateRef(ref) {
+	  var parsed = ref.replace(/\n/g, " ").match(/^([^(]+?)\s*(\((.*)\))?$/);
 	  if (!parsed || parsed.length !== 4) throw new Error("Invalid state ref '" + ref + "'");
 	  return { state: parsed[1], paramExpr: parsed[3] || null };
 	}
@@ -33082,93 +31343,51 @@
 	 * to the state that the link lives in, in other words the state that loaded the 
 	 * template containing the link.
 	 *
-	 * You can specify options to pass to {@link ui.router.state.$state#go $state.go()}
-	 * using the `ui-sref-opts` attribute. Options are restricted to `location`, `inherit`,
-	 * and `reload`.
-	 *
 	 * @example
-	 * Here's an example of how you'd use ui-sref and how it would compile. If you have the 
-	 * following template:
 	 * <pre>
-	 * <a ui-sref="home">Home</a> | <a ui-sref="about">About</a> | <a ui-sref="{page: 2}">Next page</a>
-	 * 
-	 * <ul>
-	 *     <li ng-repeat="contact in contacts">
-	 *         <a ui-sref="contacts.detail({ id: contact.id })">{{ contact.name }}</a>
-	 *     </li>
-	 * </ul>
-	 * </pre>
-	 * 
-	 * Then the compiled html would be (assuming Html5Mode is off and current state is contacts):
-	 * <pre>
-	 * <a href="#/home" ui-sref="home">Home</a> | <a href="#/about" ui-sref="about">About</a> | <a href="#/contacts?page=2" ui-sref="{page: 2}">Next page</a>
-	 * 
-	 * <ul>
-	 *     <li ng-repeat="contact in contacts">
-	 *         <a href="#/contacts/1" ui-sref="contacts.detail({ id: contact.id })">Joe</a>
-	 *     </li>
-	 *     <li ng-repeat="contact in contacts">
-	 *         <a href="#/contacts/2" ui-sref="contacts.detail({ id: contact.id })">Alice</a>
-	 *     </li>
-	 *     <li ng-repeat="contact in contacts">
-	 *         <a href="#/contacts/3" ui-sref="contacts.detail({ id: contact.id })">Bob</a>
-	 *     </li>
-	 * </ul>
+	 * <a ui-sref="home">Home</a> | <a ui-sref="about">About</a>
 	 *
-	 * <a ui-sref="home" ui-sref-opts="{reload: true}">Home</a>
+	 * <ul>
+	 *   <li ng-repeat="contact in contacts">
+	 *     <a ui-sref="contacts.detail({ id: contact.id })">{{ contact.name }}</a>
+	 *   </li>
+	 * </ul>
 	 * </pre>
 	 *
 	 * @param {string} ui-sref 'stateName' can be any valid absolute or relative state
-	 * @param {Object} ui-sref-opts options to pass to {@link ui.router.state.$state#go $state.go()}
 	 */
 	$StateRefDirective.$inject = ['$state', '$timeout'];
 	function $StateRefDirective($state, $timeout) {
-	  var allowedOptions = ['location', 'inherit', 'reload', 'absolute'];
-
 	  return {
 	    restrict: 'A',
-	    require: ['?^uiSrefActive', '?^uiSrefActiveEq'],
+	    require: '?^uiSrefActive',
 	    link: function(scope, element, attrs, uiSrefActive) {
-	      var ref = parseStateRef(attrs.uiSref, $state.current.name);
+	      var ref = parseStateRef(attrs.uiSref);
 	      var params = null, url = null, base = stateContext(element) || $state.$current;
-	      // SVGAElement does not use the href attribute, but rather the 'xlinkHref' attribute.
-	      var hrefKind = Object.prototype.toString.call(element.prop('href')) === '[object SVGAnimatedString]' ?
-	                 'xlink:href' : 'href';
-	      var newHref = null, isAnchor = element.prop("tagName").toUpperCase() === "A";
 	      var isForm = element[0].nodeName === "FORM";
-	      var attr = isForm ? "action" : hrefKind, nav = true;
-
-	      var options = { relative: base, inherit: true };
-	      var optionsOverride = scope.$eval(attrs.uiSrefOpts) || {};
-
-	      angular.forEach(allowedOptions, function(option) {
-	        if (option in optionsOverride) {
-	          options[option] = optionsOverride[option];
-	        }
-	      });
+	      var attr = isForm ? "action" : "href", nav = true;
 
 	      var update = function(newVal) {
-	        if (newVal) params = angular.copy(newVal);
+	        if (newVal) params = newVal;
 	        if (!nav) return;
 
-	        newHref = $state.href(ref.state, params, options);
+	        var newHref = $state.href(ref.state, params, { relative: base });
 
-	        var activeDirective = uiSrefActive[1] || uiSrefActive[0];
-	        if (activeDirective) {
-	          activeDirective.$$addStateInfo(ref.state, params);
+	        if (uiSrefActive) {
+	          uiSrefActive.$$setStateInfo(ref.state, params);
 	        }
-	        if (newHref === null) {
+	        if (!newHref) {
 	          nav = false;
 	          return false;
 	        }
-	        attrs.$set(attr, newHref);
+	        element[0][attr] = newHref;
 	      };
 
 	      if (ref.paramExpr) {
 	        scope.$watch(ref.paramExpr, function(newVal, oldVal) {
 	          if (newVal !== params) update(newVal);
 	        }, true);
-	        params = angular.copy(scope.$eval(ref.paramExpr));
+	        params = scope.$eval(ref.paramExpr);
 	      }
 	      update();
 
@@ -33176,19 +31395,12 @@
 
 	      element.bind("click", function(e) {
 	        var button = e.which || e.button;
-	        if ( !(button > 1 || e.ctrlKey || e.metaKey || e.shiftKey || element.attr('target')) ) {
+	        if ((button === 0 || button == 1) && !e.ctrlKey && !e.metaKey && !e.shiftKey && !element.attr('target')) {
 	          // HACK: This is to allow ng-clicks to be processed before the transition is initiated:
-	          var transition = $timeout(function() {
-	            $state.go(ref.state, params, options);
+	          $timeout(function() {
+	            $state.go(ref.state, params, { relative: base });
 	          });
 	          e.preventDefault();
-
-	          // if the state has no URL, ignore one preventDefault from the <a> directive.
-	          var ignorePreventDefaultCount = isAnchor && !newHref ? 1: 0;
-	          e.preventDefault = function() {
-	            if (ignorePreventDefaultCount-- <= 0)
-	              $timeout.cancel(transition);
-	          };
 	        }
 	      });
 	    }
@@ -33206,90 +31418,36 @@
 	 * @restrict A
 	 *
 	 * @description
-	 * A directive working alongside ui-sref to add classes to an element when the
+	 * A directive working alongside ui-sref to add classes to an element when the 
 	 * related ui-sref directive's state is active, and removing them when it is inactive.
-	 * The primary use-case is to simplify the special appearance of navigation menus
+	 * The primary use-case is to simplify the special appearance of navigation menus 
 	 * relying on `ui-sref`, by having the "active" state's menu button appear different,
 	 * distinguishing it from the inactive menu items.
 	 *
-	 * ui-sref-active can live on the same element as ui-sref or on a parent element. The first
-	 * ui-sref-active found at the same level or above the ui-sref will be used.
-	 *
-	 * Will activate when the ui-sref's target state or any child state is active. If you
-	 * need to activate only when the ui-sref target state is active and *not* any of
-	 * it's children, then you will use
-	 * {@link ui.router.state.directive:ui-sref-active-eq ui-sref-active-eq}
-	 *
 	 * @example
-	 * Given the following template:
-	 * <pre>
-	 * <ul>
-	 *   <li ui-sref-active="active" class="item">
-	 *     <a href ui-sref="app.user({user: 'bilbobaggins'})">@bilbobaggins</a>
-	 *   </li>
-	 * </ul>
-	 * </pre>
-	 *
-	 *
-	 * When the app state is "app.user" (or any children states), and contains the state parameter "user" with value "bilbobaggins",
-	 * the resulting HTML will appear as (note the 'active' class):
 	 * <pre>
 	 * <ul>
 	 *   <li ui-sref-active="active" class="item active">
 	 *     <a ui-sref="app.user({user: 'bilbobaggins'})" href="/users/bilbobaggins">@bilbobaggins</a>
 	 *   </li>
-	 * </ul>
-	 * </pre>
-	 *
-	 * The class name is interpolated **once** during the directives link time (any further changes to the
-	 * interpolated value are ignored).
-	 *
-	 * Multiple classes may be specified in a space-separated format:
-	 * <pre>
-	 * <ul>
-	 *   <li ui-sref-active='class1 class2 class3'>
-	 *     <a ui-sref="app.user">link</a>
-	 *   </li>
+	 *   <!-- ... -->
 	 * </ul>
 	 * </pre>
 	 */
-
-	/**
-	 * @ngdoc directive
-	 * @name ui.router.state.directive:ui-sref-active-eq
-	 *
-	 * @requires ui.router.state.$state
-	 * @requires ui.router.state.$stateParams
-	 * @requires $interpolate
-	 *
-	 * @restrict A
-	 *
-	 * @description
-	 * The same as {@link ui.router.state.directive:ui-sref-active ui-sref-active} but will only activate
-	 * when the exact target state used in the `ui-sref` is active; no child states.
-	 *
-	 */
-	$StateRefActiveDirective.$inject = ['$state', '$stateParams', '$interpolate'];
-	function $StateRefActiveDirective($state, $stateParams, $interpolate) {
-	  return  {
+	$StateActiveDirective.$inject = ['$state', '$stateParams', '$interpolate'];
+	function $StateActiveDirective($state, $stateParams, $interpolate) {
+	  return {
 	    restrict: "A",
-	    controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
-	      var states = [], activeClass;
+	    controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
+	      var state, params, activeClass;
 
 	      // There probably isn't much point in $observing this
-	      // uiSrefActive and uiSrefActiveEq share the same directive object with some
-	      // slight difference in logic routing
-	      activeClass = $interpolate($attrs.uiSrefActiveEq || $attrs.uiSrefActive || '', false)($scope);
+	      activeClass = $interpolate($attrs.uiSrefActive || '', false)($scope);
 
-	      // Allow uiSref to communicate with uiSrefActive[Equals]
-	      this.$$addStateInfo = function (newState, newParams) {
-	        var state = $state.get(newState, stateContext($element));
-
-	        states.push({
-	          state: state || { name: newState },
-	          params: newParams
-	        });
-
+	      // Allow uiSref to communicate with uiSrefActive
+	      this.$$setStateInfo = function(newState, newParams) {
+	        state = $state.get(newState, stateContext($element));
+	        params = newParams;
 	        update();
 	      };
 
@@ -33297,28 +31455,15 @@
 
 	      // Update route state
 	      function update() {
-	        if (anyMatch()) {
+	        if ($state.$current.self === state && matchesParams()) {
 	          $element.addClass(activeClass);
 	        } else {
 	          $element.removeClass(activeClass);
 	        }
 	      }
 
-	      function anyMatch() {
-	        for (var i = 0; i < states.length; i++) {
-	          if (isMatch(states[i].state, states[i].params)) {
-	            return true;
-	          }
-	        }
-	        return false;
-	      }
-
-	      function isMatch(state, params) {
-	        if (typeof $attrs.uiSrefActiveEq !== 'undefined') {
-	          return $state.is(state.name, params);
-	        } else {
-	          return $state.includes(state.name, params);
-	        }
+	      function matchesParams() {
+	        return !params || equalForKeys(params, $stateParams);
 	      }
 	    }]
 	  };
@@ -33326,8 +31471,7 @@
 
 	angular.module('ui.router.state')
 	  .directive('uiSref', $StateRefDirective)
-	  .directive('uiSrefActive', $StateRefActiveDirective)
-	  .directive('uiSrefActiveEq', $StateRefActiveDirective);
+	  .directive('uiSrefActive', $StateActiveDirective);
 
 	/**
 	 * @ngdoc filter
@@ -33336,38 +31480,181 @@
 	 * @requires ui.router.state.$state
 	 *
 	 * @description
-	 * Translates to {@link ui.router.state.$state#methods_is $state.is("stateName")}.
+	 * Translates to {@link ui.router.state.$state#is $state.is("stateName")}.
 	 */
 	$IsStateFilter.$inject = ['$state'];
 	function $IsStateFilter($state) {
-	  var isFilter = function (state) {
+	  return function(state) {
 	    return $state.is(state);
 	  };
-	  isFilter.$stateful = true;
-	  return isFilter;
 	}
 
 	/**
 	 * @ngdoc filter
-	 * @name ui.router.state.filter:includedByState
+	 * @name ui.router.state.filter:includeByState
 	 *
 	 * @requires ui.router.state.$state
 	 *
 	 * @description
-	 * Translates to {@link ui.router.state.$state#methods_includes $state.includes('fullOrPartialStateName')}.
+	 * Translates to {@link ui.router.state.$state#includes $state.includes()}.
 	 */
 	$IncludedByStateFilter.$inject = ['$state'];
 	function $IncludedByStateFilter($state) {
-	  var includesFilter = function (state) {
+	  return function(state) {
 	    return $state.includes(state);
 	  };
-	  includesFilter.$stateful = true;
-	  return  includesFilter;
 	}
 
 	angular.module('ui.router.state')
 	  .filter('isState', $IsStateFilter)
 	  .filter('includedByState', $IncludedByStateFilter);
+
+	/**
+	 * @ngdoc object
+	 * @name ui.router.compat.$routeProvider
+	 *
+	 * @requires ui.router.state.$stateProvider
+	 * @requires ui.router.router.$urlRouterProvider
+	 *
+	 * @description
+	 * `$routeProvider` of the `ui.router.compat` module overwrites the existing
+	 * `routeProvider` from the core. This is done to provide compatibility between
+	 * the UI Router and the core router.
+	 *
+	 * It also provides a `when()` method to register routes that map to certain urls.
+	 * Behind the scenes it actually delegates either to 
+	 * {@link ui.router.router.$urlRouterProvider $urlRouterProvider} or to the 
+	 * {@link ui.router.state.$stateProvider $stateProvider} to postprocess the given 
+	 * router definition object.
+	 */
+	$RouteProvider.$inject = ['$stateProvider', '$urlRouterProvider'];
+	function $RouteProvider(  $stateProvider,    $urlRouterProvider) {
+
+	  var routes = [];
+
+	  onEnterRoute.$inject = ['$$state'];
+	  function onEnterRoute(   $$state) {
+	    /*jshint validthis: true */
+	    this.locals = $$state.locals.globals;
+	    this.params = this.locals.$stateParams;
+	  }
+
+	  function onExitRoute() {
+	    /*jshint validthis: true */
+	    this.locals = null;
+	    this.params = null;
+	  }
+
+	  this.when = when;
+	  /**
+	   * @ngdoc function
+	   * @name ui.router.compat.$routeProvider#when
+	   * @methodOf ui.router.compat.$routeProvider
+	   *
+	   * @description
+	   * Registers a route with a given route definition object. The route definition
+	   * object has the same interface the angular core route definition object has.
+	   * 
+	   * @example
+	   * <pre>
+	   * var app = angular.module('app', ['ui.router.compat']);
+	   *
+	   * app.config(function ($routeProvider) {
+	   *   $routeProvider.when('home', {
+	   *     controller: function () { ... },
+	   *     templateUrl: 'path/to/template'
+	   *   });
+	   * });
+	   * </pre>
+	   *
+	   * @param {string} url URL as string
+	   * @param {object} route Route definition object
+	   *
+	   * @return {object} $routeProvider - $routeProvider instance
+	   */
+	  function when(url, route) {
+	    /*jshint validthis: true */
+	    if (route.redirectTo != null) {
+	      // Redirect, configure directly on $urlRouterProvider
+	      var redirect = route.redirectTo, handler;
+	      if (isString(redirect)) {
+	        handler = redirect; // leave $urlRouterProvider to handle
+	      } else if (isFunction(redirect)) {
+	        // Adapt to $urlRouterProvider API
+	        handler = function (params, $location) {
+	          return redirect(params, $location.path(), $location.search());
+	        };
+	      } else {
+	        throw new Error("Invalid 'redirectTo' in when()");
+	      }
+	      $urlRouterProvider.when(url, handler);
+	    } else {
+	      // Regular route, configure as state
+	      $stateProvider.state(inherit(route, {
+	        parent: null,
+	        name: 'route:' + encodeURIComponent(url),
+	        url: url,
+	        onEnter: onEnterRoute,
+	        onExit: onExitRoute
+	      }));
+	    }
+	    routes.push(route);
+	    return this;
+	  }
+
+	  /**
+	   * @ngdoc object
+	   * @name ui.router.compat.$route
+	   *
+	   * @requires ui.router.state.$state
+	   * @requires $rootScope
+	   * @requires $routeParams
+	   *
+	   * @property {object} routes - Array of registered routes.
+	   * @property {object} params - Current route params as object.
+	   * @property {string} current - Name of the current route.
+	   *
+	   * @description
+	   * The `$route` service provides interfaces to access defined routes. It also let's
+	   * you access route params through `$routeParams` service, so you have fully
+	   * control over all the stuff you would actually get from angular's core `$route`
+	   * service.
+	   */
+	  this.$get = $get;
+	  $get.$inject = ['$state', '$rootScope', '$routeParams'];
+	  function $get(   $state,   $rootScope,   $routeParams) {
+
+	    var $route = {
+	      routes: routes,
+	      params: $routeParams,
+	      current: undefined
+	    };
+
+	    function stateAsRoute(state) {
+	      return (state.name !== '') ? state : undefined;
+	    }
+
+	    $rootScope.$on('$stateChangeStart', function (ev, to, toParams, from, fromParams) {
+	      $rootScope.$broadcast('$routeChangeStart', stateAsRoute(to), stateAsRoute(from));
+	    });
+
+	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+	      $route.current = stateAsRoute(to);
+	      $rootScope.$broadcast('$routeChangeSuccess', stateAsRoute(to), stateAsRoute(from));
+	      copy(toParams, $route.params);
+	    });
+
+	    $rootScope.$on('$stateChangeError', function (ev, to, toParams, from, fromParams, error) {
+	      $rootScope.$broadcast('$routeChangeError', stateAsRoute(to), stateAsRoute(from), error);
+	    });
+
+	    return $route;
+	  }
+	}
+
+	angular.module('ui.router.compat')
+	  .provider('$route', $RouteProvider)
+	  .directive('ngView', $ViewDirective);
 	})(window, window.angular);
 
 /***/ },
@@ -33396,7 +31683,7 @@
 
 	var _componentsComponents2 = _interopRequireDefault(_componentsComponents);
 
-	var _appComponent = __webpack_require__(44);
+	var _appComponent = __webpack_require__(46);
 
 	var _appComponent2 = _interopRequireDefault(_appComponent);
 
@@ -33404,7 +31691,7 @@
 
 	var _coreBootstrap2 = _interopRequireDefault(_coreBootstrap);
 
-	__webpack_require__(46);
+	__webpack_require__(48);
 
 	module.exports = _angular2['default'].module('rgApp', [_uiRouter2['default'], _sharedShared2['default'].name, _componentsComponents2['default'].name]).directive('rgApp', _appComponent2['default']);
 
@@ -33527,8 +31814,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/resolve-url-loader/index.js!./../../../node_modules/sass-loader/index.js?includePaths[]=/Users/rishi.ghan/projects/rishighan-angular/public/assets/css!./navbar.scss", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/resolve-url-loader/index.js!./../../../node_modules/sass-loader/index.js?includePaths[]=/Users/rishi.ghan/projects/rishighan-angular/public/assets/css!./navbar.scss");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/resolve-url-loader/index.js!./../../../node_modules/sass-loader/index.js?includePaths[]=/Users/rishi/Sites/rishighan/public/assets/css!./navbar.scss", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/resolve-url-loader/index.js!./../../../node_modules/sass-loader/index.js?includePaths[]=/Users/rishi/Sites/rishighan/public/assets/css!./navbar.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -34372,6 +32659,7 @@
 
 	var Dropzone = __webpack_require__(41);
 	var uiselect = __webpack_require__(43);
+	__webpack_require__(44);
 
 	console.log(uiselect);
 	var adminModule = _angular2['default'].module('admin', [_uiRouter2['default'], _angularFormly2['default'], _angularMessages2['default'], _angularSanitize2['default'], uiselect]).config(function ($stateProvider, $urlRouterProvider) {
@@ -34435,7 +32723,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
-	* angular-formly JavaScript Library v7.3.1
+	* angular-formly JavaScript Library v7.2.3
 	*
 	* @license MIT (http://license.angular-formly.com)
 	*
@@ -34589,7 +32877,7 @@
 
 		ngModule.constant('formlyApiCheck', _providersFormlyApiCheck2['default']);
 		ngModule.constant('formlyErrorAndWarningsUrlPrefix', _otherDocsBaseUrl2['default']);
-		ngModule.constant('formlyVersion', ("7.3.1")); // <-- webpack variable
+		ngModule.constant('formlyVersion', ("7.2.3")); // <-- webpack variable
 
 		ngModule.provider('formlyUsability', _providersFormlyUsability2['default']);
 		ngModule.provider('formlyConfig', _providersFormlyConfig2['default']);
@@ -34808,8 +33096,6 @@
 		  fieldGroup: apiCheck.arrayOf(apiCheck.oneOfType([formlyFieldOptions, apiCheck.object])),
 		  className: apiCheck.string.optional,
 		  options: formOptionsApi.optional,
-		  templateOptions: apiCheck.object.optional,
-		  wrapper: specifyWrapperType.optional,
 		  hide: apiCheck.bool.optional,
 		  hideExpression: formlyExpression.optional,
 		  data: apiCheck.object.optional,
@@ -34860,7 +33146,7 @@
 		Object.defineProperty(exports, "__esModule", {
 		  value: true
 		});
-		exports["default"] = "https://github.com/formly-js/angular-formly/blob/" + ("7.3.1") + "/other/ERRORS_AND_WARNINGS.md#";
+		exports["default"] = "https://github.com/formly-js/angular-formly/blob/" + ("7.2.3") + "/other/ERRORS_AND_WARNINGS.md#";
 		module.exports = exports["default"];
 
 	/***/ },
@@ -35648,8 +33934,8 @@
 		      fields: '=?',
 		      formState: '=?',
 		      formOptions: '=?',
-		      form: '=?' },
-		    // TODO require form in a breaking release
+		      form: '=?' // TODO require form in a breaking release
+		    },
 		    controller: FormlyFieldController,
 		    link: fieldLink
 		  };
@@ -35828,7 +34114,6 @@
 		    function setupFieldGroup() {
 		      $scope.options.options = $scope.options.options || {};
 		      $scope.options.options.formState = $scope.formState;
-		      $scope.to = $scope.options.templateOptions;
 		    }
 		  }
 
@@ -35872,7 +34157,7 @@
 		      if (scope.options.key) {
 		        modelValue = 'model[\'' + scope.options.key + '\']';
 		      }
-		      getTemplate('\n          <formly-form model="' + modelValue + '"\n                       fields="options.fieldGroup"\n                       options="options.options"\n                       form="options.form"\n                       class="' + scope.options.className + '"\n                       ' + extraAttributes + '\n                       is-field-group>\n          </formly-form>\n        ').then(transcludeInWrappers(scope.options, scope.formOptions)).then(setElementTemplate);
+		      setElementTemplate('\n          <formly-form model="' + modelValue + '"\n                       fields="options.fieldGroup"\n                       options="options.options"\n                       form="options.form"\n                       class="' + scope.options.className + '"\n                       ' + extraAttributes + '\n                       is-field-group>\n          </formly-form>\n        ');
 		    }
 
 		    function addAttributes() {
@@ -37063,7 +35348,7 @@
 /* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	//! api-check version 7.5.5 built with ♥ by Kent C. Dodds <kent@doddsfamily.us> (http://kent.doddsfamily.us) (ó ì_í)=óò=(ì_í ò)
+	//! api-check version 7.5.3 built with ♥ by Kent C. Dodds <kent@doddsfamily.us> (http://kent.doddsfamily.us) (ó ì_í)=óò=(ì_í ò)
 
 	(function webpackUniversalModuleDefinition(root, factory) {
 		if(true)
@@ -37156,7 +35441,7 @@
 		var apiCheckApis = getApiCheckApis();
 
 		module.exports = getApiCheckInstance;
-		module.exports.VERSION = ("7.5.5");
+		module.exports.VERSION = ("7.5.3");
 		module.exports.utils = apiCheckUtil;
 		module.exports.globalConfig = {
 		  verbose: false,
@@ -37173,8 +35458,8 @@
 		});
 
 		function getApiCheckInstance() {
-		  var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-		  var extraCheckers = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+		  var config = arguments[0] === undefined ? {} : arguments[0];
+		  var extraCheckers = arguments[1] === undefined ? {} : arguments[1];
 
 		  /* eslint complexity:[2, 6] */
 		  if (apiCheckApiCheck && arguments.length) {
@@ -37298,8 +35583,8 @@
 		  }
 
 		  function getErrorMessage(api, args) {
-		    var messages = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
-		    var output = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+		    var messages = arguments[2] === undefined ? [] : arguments[2];
+		    var output = arguments[3] === undefined ? {} : arguments[3];
 
 		    var gOut = apiCheck.config.output || {};
 		    var prefix = getPrefix();
@@ -37307,12 +35592,12 @@
 		    var url = getUrl();
 		    var message = 'apiCheck failed! ' + messages.join(', ');
 		    var passedAndShouldHavePassed = '\n\n' + buildMessageFromApiAndArgs(api, args);
-		    return (prefix + ' ' + message + ' ' + suffix + ' ' + (url || '') + passedAndShouldHavePassed).trim();
+		    return ('' + prefix + ' ' + message + ' ' + suffix + ' ' + (url || '') + '' + passedAndShouldHavePassed).trim();
 
 		    function getPrefix() {
 		      var p = output.onlyPrefix;
 		      if (!p) {
-		        p = ((gOut.prefix || '') + ' ' + (output.prefix || '')).trim();
+		        p = ('' + (gOut.prefix || '') + ' ' + (output.prefix || '')).trim();
 		      }
 		      return p;
 		    }
@@ -37320,7 +35605,7 @@
 		    function getSuffix() {
 		      var s = output.onlySuffix;
 		      if (!s) {
-		        s = ((output.suffix || '') + ' ' + (gOut.suffix || '')).trim();
+		        s = ('' + (output.suffix || '') + ' ' + (gOut.suffix || '')).trim();
 		      }
 		      return s;
 		    }
@@ -37328,7 +35613,7 @@
 		    function getUrl() {
 		      var u = output.url;
 		      if (!u) {
-		        u = gOut.docsBaseUrl && output.urlSuffix && ('' + gOut.docsBaseUrl + output.urlSuffix).trim();
+		        u = gOut.docsBaseUrl && output.urlSuffix && ('' + gOut.docsBaseUrl + '' + output.urlSuffix).trim();
 		      }
 		      return u;
 		    }
@@ -37387,7 +35672,7 @@
 		      }
 		      var types = 'type' + (useS ? 's' : '');
 		      var newLine = n + n;
-		      return 'You passed:' + n + passedArgs + newLine + ('With the ' + types + ':' + n + argTypes + newLine) + ('The API calls for:' + n + apiTypes);
+		      return 'You passed:' + n + '' + passedArgs + '' + newLine + ('With the ' + types + ':' + n + '' + argTypes + '' + newLine) + ('The API calls for:' + n + '' + apiTypes);
 		    }
 		  }
 
@@ -37444,7 +35729,7 @@
 		    } else if (argFailed && checker.isOptional) {
 		      argIndex--;
 		    } else {
-		      messages.push(t(argName) + ' passed');
+		      messages.push('' + t(argName) + ' passed');
 		    }
 		  }
 		  return failed ? messages : [];
@@ -37628,7 +35913,7 @@
 
 		'use strict';
 
-		function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+		function _defineProperty(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); }
 
 		var stringify = __webpack_require__(2);
 		var checkerHelpers = {
@@ -37750,7 +36035,7 @@
 		  if (copy.length === 1) {
 		    join = ' ';
 		  }
-		  return copy.join(join) + ('' + (copy.length ? join + finalJoin : '') + last);
+		  return copy.join(join) + ('' + (copy.length ? join + finalJoin : '') + '' + last);
 		}
 
 		function getError(name, location, checkerType) {
@@ -37758,13 +36043,13 @@
 		    checkerType = checkerType({ short: true });
 		  }
 		  var stringType = typeof checkerType !== 'object' ? checkerType : stringify(checkerType);
-		  return new Error(nAtL(name, location) + ' must be ' + t(stringType));
+		  return new Error('' + nAtL(name, location) + ' must be ' + t(stringType));
 		}
 
 		function nAtL(name, location) {
 		  var tName = t(name || 'value');
 		  var tLocation = !location ? '' : ' at ' + t(location);
-		  return '' + tName + tLocation;
+		  return '' + tName + '' + tLocation;
 		}
 
 		function t(thing) {
@@ -37884,13 +36169,13 @@
 		  if (typeof checkerCopy.type === 'object') {
 		    checkerCopy.type = copy(checkerCopy.type); // make our own copy of this
 		  } else if (typeof checkerCopy.type === 'function') {
-		      checkerCopy.type = function () {
-		        return checker.type.apply(checker, arguments);
-		      };
-		    } else {
-		      checkerCopy.type += ' (optional)';
-		      return;
-		    }
+		    checkerCopy.type = function () {
+		      return checker.type.apply(checker, arguments);
+		    };
+		  } else {
+		    checkerCopy.type += ' (optional)';
+		    return;
+		  }
 		  checkerCopy.type.__apiCheckData = copy(checker.type.__apiCheckData) || {}; // and this
 		  checkerCopy.type.__apiCheckData.optional = true;
 		}
@@ -38146,7 +36431,7 @@
 		        shapeTypes[prop] = getCheckerDisplay(checker);
 		      });
 		      function type() {
-		        var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+		        var options = arguments[0] === undefined ? {} : arguments[0];
 
 		        var ret = {};
 		        var terse = options.terse;
@@ -38203,7 +36488,7 @@
 		        name = name || '';
 		        each(shape, function (checker, prop) {
 		          if (val.hasOwnProperty(prop) || !checker.isOptional) {
-		            shapePropError = checker(val[prop], prop, '' + location + name, val);
+		            shapePropError = checker(val[prop], prop, '' + location + '' + name, val);
 		            return !isError(shapePropError);
 		          }
 		        });
@@ -38228,7 +36513,7 @@
 		          return allowedProperties.indexOf(prop) === -1;
 		        });
 		        if (extraProps.length) {
-		          return new Error(nAtL(name, location) + ' cannot have extra properties: ' + t(extraProps.join('`, `')) + '.' + ('It is limited to ' + t(allowedProperties.join('`, `'))));
+		          return new Error('' + nAtL(name, location) + ' cannot have extra properties: ' + t(extraProps.join('`, `')) + '.' + ('It is limited to ' + t(allowedProperties.join('`, `'))));
 		        }
 		      }, { type: strictType, shortType: 'strict shape' }, disabled);
 
@@ -38340,9 +36625,7 @@
 		  }
 
 		  function anyCheckGetter() {
-		    return setupChecker(function anyCheckerDefinition() {
-		      // don't do anything
-		    }, { type: 'any' }, disabled);
+		    return setupChecker(function anyCheckerDefinition() {}, { type: 'any' }, disabled);
 		  }
 
 		  function nullCheckGetter() {
@@ -38390,6 +36673,8 @@
 		    }, { type: type }, disabled);
 		  }
 		}
+
+		// don't do anything
 
 	/***/ }
 	/******/ ])
@@ -39135,7 +37420,7 @@
 /* 37 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<formly-form model = \"postFormModel\" fields = \"postFormFields\" class=\"admin\">\n    <div dropzone=\"dropzoneConfig\">\n        Drag and drop files here or click to upload\n    </div>\n</formly-form>\n\n\n\n<pre>\n    {{postFormModel | json}}\n    {{adminc.gatirodhak}}\n    {{itemArray | json}}\n    {{selectedItem}}\n</pre>\n\n<ui-select ng-model=\"selectedItem\">\n    <ui-select-match>\n        <span ng-bind=\"$select.selected.name\"></span>\n    </ui-select-match>\n    <ui-select-choices repeat=\"item in (itemArray | filter: $select.search) track by item.id\">\n        <span ng-bind=\"item.name\"></span>\n    </ui-select-choices>\n</ui-select>\n<script type=\"text/ng-template\" id=\"error-messages.html\">\n    <formly-transclude></formly-transclude>\n    <div class=\"my-messages\" ng-messages=\"fc.$error\" ng-if=\"fc.$touched\">\n    <div class=\"error\" ng-message=\"{{::name}}\" ng-repeat=\"(name, message) in ::options.validation.messages\">\n        {{message(fc.$viewValue, fc.$modelValue, this)}}\n    </div>\n    </div>\n</script>\n\n\n\n\n\n";
+	module.exports = "\n<formly-form model = \"postFormModel\" fields = \"postFormFields\" class=\"admin\">\n    <div dropzone=\"dropzoneConfig\">\n        Drag and drop files here or click to upload\n    </div>\n</formly-form>\n\n\n\n<pre>\n    {{postFormModel | json}}\n    {{adminc.gatirodhak}}\n    {{itemArray | json}}\n    {{selectedItem}}\n</pre>\n\n<ui-select ng-model=\"selectedItem\">\n    <ui-select-match>\n        <span ng-bind=\"$select.selected.name\"></span>\n    </ui-select-match>\n    <ui-select-choices repeat=\"item in (itemArray | filter: $select.search) track by item.id\">\n        <span ng-bind=\"item.name\"></span>\n    </ui-select-choices>\n</ui-select>\n\n<script type=\"text/ng-template\" id=\"error-messages.html\">\n    <formly-transclude></formly-transclude>\n    <div class=\"my-messages\" ng-messages=\"fc.$error\" ng-if=\"fc.$touched\">\n    <div class=\"error\" ng-message=\"{{::name}}\" ng-repeat=\"(name, message) in ::options.validation.messages\">\n        {{message(fc.$viewValue, fc.$modelValue, this)}}\n    </div>\n    </div>\n</script>\n\n\n\n\n\n";
 
 /***/ },
 /* 38 */
@@ -43660,6 +41945,33 @@
 /* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"!!./../../../node_modules/css-loader/index.js!./../../../node_modules/exports-loader/index.js?\"ui.select\"!./select.css\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/exports-loader/index.js?\"ui.select\"!./select.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/exports-loader/index.js?\"ui.select\"!./select.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 45 */,
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -43670,7 +41982,7 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _appHtml = __webpack_require__(45);
+	var _appHtml = __webpack_require__(47);
 
 	var _appHtml2 = _interopRequireDefault(_appHtml);
 
@@ -43686,19 +41998,19 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 45 */
+/* 47 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"app\">\n  <div ui-view></div>\n</div>\n";
 
 /***/ },
-/* 46 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(47);
+	var content = __webpack_require__(49);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(14)(content, {});
@@ -43707,8 +42019,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/resolve-url-loader/index.js!./../node_modules/sass-loader/index.js?includePaths[]=/Users/rishi.ghan/projects/rishighan-angular/public/assets/css!./app.scss", function() {
-				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/resolve-url-loader/index.js!./../node_modules/sass-loader/index.js?includePaths[]=/Users/rishi.ghan/projects/rishighan-angular/public/assets/css!./app.scss");
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/resolve-url-loader/index.js!./../node_modules/sass-loader/index.js?includePaths[]=/Users/rishi/Sites/rishighan/public/assets/css!./app.scss", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/resolve-url-loader/index.js!./../node_modules/sass-loader/index.js?includePaths[]=/Users/rishi/Sites/rishighan/public/assets/css!./app.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -43718,7 +42030,7 @@
 	}
 
 /***/ },
-/* 47 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(13)();
@@ -43726,31 +42038,31 @@
 
 
 	// module
-	exports.push([module.id, "@font-face {\n  font-family: \"proxima_nova_regular\";\n  src: url(" + __webpack_require__(48) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: \"proxima_nova_ltregular\";\n  src: url(" + __webpack_require__(49) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: \"Source Code Pro\";\n  src: url(" + __webpack_require__(50) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\npre {\n  font-family: \"Source Code Pro\";\n}\n\n.container .body {\n  font-family: \"proxima_nova_regular\";\n}\n\n.container .body a {\n  color: #FFAE00;\n  text-decoration: none;\n}\n\n.container .body a:hover {\n  color: #FF8000;\n  text-decoration: none;\n}\n\n.container .post {\n  letter-spacing: 0.01em;\n  line-height: 1.4em;\n  font-size: 0.9708em;\n  font-size: 0.9708rem;\n}\n\n.container .post h2 {\n  font-family: \"proxima_nova_regular\";\n  font-size: 1.9416em;\n  font-size: 1.9416rem;\n}\n\n.container .post h3 {\n  font-family: \"proxima_nova_ltregular\";\n  font-size: 1.2944em;\n  font-size: 1.2944rem;\n}\n\n.container .post h4 {\n  font-family: \"proxima_nova_ltregular\";\n  font-size: 0.9708em;\n  font-size: 0.9708rem;\n}\n\n.container .post .caption {\n  font-size: 0.809em;\n  font-size: 0.809rem;\n  font-style: italic;\n}\n\n.admin {\n  font-family: \"proxima_nova_regular\";\n}\n\n.admin label {\n  font-size: 0.90608em;\n  font-size: 0.90608rem;\n}\n\n.admin label:after {\n  content: ' ';\n  display: block;\n  white-space: wrap;\n}", ""]);
+	exports.push([module.id, "@font-face {\n  font-family: \"proxima_nova_regular\";\n  src: url(" + __webpack_require__(50) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: \"proxima_nova_ltregular\";\n  src: url(" + __webpack_require__(51) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: \"Source Code Pro\";\n  src: url(" + __webpack_require__(52) + ") format(\"truetype\");\n  font-weight: normal;\n  font-style: normal;\n}\n\npre {\n  font-family: \"Source Code Pro\";\n}\n\n.container .body {\n  font-family: \"proxima_nova_regular\";\n}\n\n.container .body a {\n  color: #FFAE00;\n  text-decoration: none;\n}\n\n.container .body a:hover {\n  color: #FF8000;\n  text-decoration: none;\n}\n\n.container .post {\n  letter-spacing: 0.01em;\n  line-height: 1.4em;\n  font-size: 0.9708em;\n  font-size: 0.9708rem;\n}\n\n.container .post h2 {\n  font-family: \"proxima_nova_regular\";\n  font-size: 1.9416em;\n  font-size: 1.9416rem;\n}\n\n.container .post h3 {\n  font-family: \"proxima_nova_ltregular\";\n  font-size: 1.2944em;\n  font-size: 1.2944rem;\n}\n\n.container .post h4 {\n  font-family: \"proxima_nova_ltregular\";\n  font-size: 0.9708em;\n  font-size: 0.9708rem;\n}\n\n.container .post .caption {\n  font-size: 0.809em;\n  font-size: 0.809rem;\n  font-style: italic;\n}\n\n.admin {\n  font-family: \"proxima_nova_regular\";\n}\n\n.admin label {\n  font-size: 0.90608em;\n  font-size: 0.90608rem;\n}\n\n.admin label:after {\n  content: ' ';\n  display: block;\n  white-space: wrap;\n}", ""]);
 
 	// exports
 
 
 /***/ },
-/* 48 */
+/* 50 */
 /***/ function(module, exports) {
 
 	module.exports = "data:application/x-font-ttf;base64,AAEAAAATAQAABAAwRkZUTVVOMpYAAAE8AAAAHEdERUYC9wHpAAABWAAAADJHUE9TbJF0jwAAAYwAAAAgR1NVQuLm9CIAAAGsAAAF5k9TLzJ8/cMpAAAHlAAAAGBjbWFwP0Yz7gAAB/QAAAHyY3Z0IA2JC9YAAAnoAAAAPmZwZ21TtC+nAAAKKAAAAmVnYXNwAAAAEAAADJAAAAAIZ2x5ZmQD3lAAAAyYAACOzGhlYWT+3YEIAACbZAAAADZoaGVhDsEHjgAAm5wAAAAkaG10eJhGQqcAAJvAAAADlmxvY2Hhb72cAACfWAAAAc5tYXhwAgMBgQAAoSgAAAAgbmFtZV8ehrQAAKFIAAADxnBvc3RK8SJgAAClEAAAAtRwcmVwH3+4eAAAp+QAAAD6d2ViZt32T98AAKjgAAAABgAAAAEAAAAAyYlvMQAAAAC/vzTvAAAAAMwFjnUAAQAAAA4AAAAqAAAAAAACAAQAAQB5AAEAegB8AAIAfQDhAAEA4gDlAAIABAAAAAIAAAAAAAEAAAAKABwAHgABbGF0bgAIAAQAAAAA//8AAAAAAAAAAQAAAAoAIgBKAAFsYXRuAAgABAAAAAD//wADAAAAAQACAANmcmFjABRsaWdhABxvcmRuACIAAAACAAAAAQAAAAEAAwAAAAEAAgAGAA4AJgAuAF4AZgBuAAYAAAAJAGgAjgC0ANoBAAEmAUwBcgGYAAYAAAABAaYABgAAABUBwAHiAgQCLgJYAooCugLkAwoDLgNQA24DmAO+A+IEBAQiBEwEcgSWBMYABAAAAAEExAAEAAAAAQTwAAEAAAABBRwAAwAAAAMAFAAaACAAAAABAAAABAABAAEAFAABAAEAEgABAAEAFQADAAAAAwAUABoAIAAAAAEAAAAEAAEAAQAUAAEAAQASAAEAAQAXAAMAAAADABQAGgAgAAAAAQAAAAQAAQABABYAAQABABIAAQABABcAAwAAAAMAFAAaACAAAAABAAAABAABAAEAFAABAAEAEgABAAEAFgADAAAAAwAUABoAIAAAAAEAAAAEAAEAAQAVAAEAAQASAAEAAQAWAAMAAAADABQAGgAgAAAAAQAAAAQAAQABABQAAQABABIAAQABABsAAwAAAAMAFAAaACAAAAABAAAABAABAAEAFgABAAEAEgABAAEAGwADAAAAAwAUABoAIAAAAAEAAAAEAAEAAQAYAAEAAQASAAEAAQAbAAMAAAADABQAGgAgAAAAAQAAAAQAAQABABoAAQABABIAAQABABsAAwABABYAAQASAAAAAQAAAAUAAQAAAAEABAASAHoAewB8AAMAAQAYAAEAEgAAAAEAAAAFAAEAAQBDAAIAAQATABwAAAADAAEAGAABABIAAAABAAAABQABAAEAUQACAAEAEwAcAAAAAwACABoAIAABABQAAAABAAAABQABAAEAQwABAAEAEQACAAEAEwAcAAAAAwACABoAIAABABQAAAABAAAABQABAAEAUQABAAEAEQACAAEAEwAcAAAAAwACABwAJgABABYAAQAsAAEAAAAFAAEAAQBWAAIAAQATABwAAAABAAEAFAABAAEASgADAAMAHAAgACoAAQAWAAAAAQAAAAUAAQABAEoAAQAAAAIAAQATABwAAAABAAEAFAADAAIAGAAeAAEAEgABACQAAAABAAEAVQABAAEAFAABAAEAFAABAAEAVgADAAEAGgABABQAAQAgAAEAAAAFAAEAAQBVAAEAAQAUAAEAAQBWAAMAAgAaAB4AAQAUAAAAAQAAAAUAAQABAFYAAQAAAAEAAQAUAAMAAgAWABwAAQAQAAAAAAABAAEARgABAAEAFQABAAEAFAADAAEAGAABABIAAAABAAAABQABAAEARgABAAEAFQADAAIAGAAeAAEAEgABACQAAAABAAEAUAABAAEAFQABAAEAFAABAAEARgADAAEAGgABABQAAQAgAAEAAAAFAAEAAQBQAAEAAQAVAAEAAQBGAAMAAgAaAB4AAQAUAAAAAQAAAAUAAQABAEYAAQAAAAEAAQAVAAMAAgAWABwAAQAQAAAAAAABAAEARgABAAEAFgABAAEAFAADAAEAGAABABIAAAABAAAABQABAAEARgABAAEAFgADAAIAGAAeAAEAEgABACQAAAABAAEAVAABAAEAFgABAAEAFAABAAEARgADAAEAGgABABQAAQAgAAEAAAAFAAEAAQBUAAEAAQAWAAEAAQBGAAMAAgAaAB4AAQAUAAAAAQAAAAUAAQABAEYAAQAAAAEAAQAWAAMAAQAaAAEAFAABACoAAQAAAAUAAQABAFYAAgACABMAEwAAABcAHAABAAEAAQBKAAMAAgAaAB4AAQAUAAAAAQAAAAUAAQABAEoAAQAA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AeYAAwABBAkACwA2AgAAAwABBAkADAA2AjYAAwABBAkAEAAYAmwAAwABBAkAEQAOAoQAAwABBAkAEgAoApIAAwABBAkAyAAWAroAAwABBAkAyQAwAtAAQwBvAHAAeQByAGkAZwBoAHQAIAAoAGMAKQAgAE0AYQByAGsAIABTAGkAbQBvAG4AcwBvAG4ALAAgADIAMAAwADUALgAgAEEAbABsACAAcgBpAGcAaAB0AHMAIAByAGUAcwBlAHIAdgBlAGQALgBQAHIAbwB4AGkAbQBhACAATgBvAHYAYQAgAFIAZwBSAGUAZwB1AGwAYQByAE0AYQByAGsAUwBpAG0AbwBuAHMAbwBuADoAIABQAHIAbwB4AGkAbQBhACAATgBvAHYAYQAgAFIAZQBnAHUAbABhAHIAOgAgADIAMAAwADUAUAByAG8AeABpAG0AYQAgAE4AbwB2AGEAIABSAGcAIABSAGUAZwB1AGwAYQByAFYAZQByAHMAaQBvAG4AIAAxAC4AMQAwADEAOwBQAFMAIAAwADAAMQAuADAAMAAxADsAaABvAHQAYwBvAG4AdgAgADEALgAwAC4AMwA4AFAAcgBvAHgAaQBtAGEATgBvAHYAYQAtAFIAZQBnAHUAbABhAHIAUAByAG8AeABpAG0AYQAgAE4AbwB2AGEAIABpAHMAIABhACAAdAByAGEAZABlAG0AYQByAGsAIABvAGYAIABNAGEAcgBrACAAUwBpAG0AbwBuAHMAbwBuAC4ATQBhAHIAawAgAFMAaQBtAG8AbgBzAG8AbgBoAHQAdABwADoALwAvAHcAdwB3AC4AbQBhAHIAawBzAGkAbQBvAG4AcwBvAG4ALgBjAG8AbQBoAHQAdABwADoALwAvAHcAdwB3AC4AbQBhAHIAawBzAGkAbQBvAG4AcwBvAG4ALgBjAG8AbQBQAHIAbwB4AGkAbQBhACAATgBvAHYAYQBSAGUAZwB1AGwAYQByAFAAcgBvAHgAaQBtAGEAIABOAG8AdgBhACAAUgBlAGcAdQBsAGEAcgBXAGUAYgBmAG8AbgB0ACAAMQAuADAATQBvAG4AIABKAHUAbgAgADEAOAAgADIAMgA6ADAAMwA6ADMAMwAgADIAMAAxADIAAAACAAAAAAAA/wUAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAOYAAAECAQMAAwAEAAUABgAHAAgACQAKAAsADAANAA4ADwAQABEAEgATABQAFQAWABcAGAAZABoAGwAcAB0AHgAfACAAIQAiACMAJAAlACYAJwAoACkAKgArACwALQAuAC8AMAAxADIAMwA0ADUANgA3ADgAOQA6ADsAPAA9AD4APwBAAEEAQgBEAEUARgBHAEgASQBKAEsATABNAE4ATwBQAFEAUgBTAFQAVQBWAFcAWABZAFoAWwBcAF0AXgBfAGAAYQEEAKMAhACFAL0AlgDoAIYAjgCLAJ0AqQCkAQUAigCDAJMBBgEHAI0AiADeAQgAngCqAPUA9AD2AKIArQDJAMcArgBiAGMAkABkAMsAZQDIAMoAzwDMAM0AzgDpAGYA0wDQANEArwBnAPAAkQDWANQA1QBoAOsA7QCJAGoAaQBrAG0AbABuAKAAbwBxAHAAcgBzAHUAdAB2AHcA6gB4AHoAeQB7AH0AfAC4AKEAfwB+AIAAgQDsAO4AugCwALEAuwDYANkBCQEKAQsBDAENAQ4BDwEQAREBEgETARQBFQEWALIAswC2ALcAxAC0ALUAxQCHAKsBFwC+AL8BGAEZAIwBGgEbARwBHQEeBmdseXBoMQZnbHlwaDIHdW5pMDBBMAd1bmkwMEFEB3VuaTAwQjIHdW5pMDBCMwd1bmkwMEI5B3VuaTIwMDAHdW5pMjAwMQd1bmkyMDAyB3VuaTIwMDMHdW5pMjAwNAd1bmkyMDA1B3VuaTIwMDYHdW5pMjAwNwd1bmkyMDA4B3VuaTIwMDkHdW5pMjAwQQd1bmkyMDEwB3VuaTIwMTEKZmlndXJlZGFzaAd1bmkyMDJGB3VuaTIwNUYERXVybwd1bmlFMDAwB3VuaUZCMDEHdW5pRkIwMgd1bmlGQjAzB3VuaUZCMDS4Af+FsAGNAEuwCFBYsQEBjlmxRgYrWCGwEFlLsBRSWCGwgFkdsAYrXFgAsAMgRbADK0SwCCBFsgNKAiuwAytEsAcgRbIIPQIrsAMrRLAGIEWyBzACK7ADK0SwBSBFsgYiAiuwAytEsAQgRboABQEUAAIrsAMrRLAJIEWyAxQCK7ADK0QBsAogRbADK0SwCyBFsgpJAiuxA0Z2K0SwDCBFsgtqAiuxA0Z2K0SwDSBFsgxyAiuxA0Z2K0SwDiBFsg1SAiuxA0Z2K0SwDyBFsg47AiuxA0Z2K0SwECBFsg8hAiuxA0Z2K0SwESBFshAeAiuxA0Z2K0RZsBQrAAAAAU/f3fUAAA=="
 
 /***/ },
-/* 49 */
+/* 51 */
 /***/ function(module, exports) {
 
 	module.exports = "data:application/x-font-ttf;base64,AAEAAAATAQAABAAwRkZUTVWsvB8AAAE8AAAAHEdERUYDAwHyAAABWAAAADJHUE9TbJF0jwAAAYwAAAAgR1NVQkyedU0AAAGsAAAGFE9TLzJ8hsLOAAAHwAAAAGBjbWFw/+K4pgAACCAAAAHqY3Z0IA8BCL0AAAoMAAAANmZwZ21TtC+nAAAKRAAAAmVnYXNwAAAAEAAADKwAAAAIZ2x5Zv14kFoAAAy0AACPIGhlYWT/pXmdAACb1AAAADZoaGVhDr8HoQAAnAwAAAAkaG10eJJJSjMAAJwwAAADomxvY2EqsE5QAACf1AAAAdRtYXhwAgYBkwAAoagAAAAgbmFtZVbqfTcAAKHIAAADhnBvc3SG+Wh7AAClUAAAAttwcmVwuTW0kgAAqCwAAADMd2ViZmcUUD4AAKj4AAAABgAAAAEAAAAAyYlvMQAAAAC/vzVaAAAAAMxkF5MAAQAAAA4AAAAqAAAAAAACAAQAAQB8AAEAfQB/AAIAgADkAAEA5QDoAAIABAAAAAIAAAAAAAEAAAAKABwAHgABbGF0bgAIAAQAAAAA//8AAAAAAAAAAQAAAAoAJABYAAFsYXRuAAgABAAAAAD//wAEAAAAAQACAAMABGZyYWMAGmxpZ2EAIm9yZG4AKHN1cHMALgAAAAIAAAABAAAAAQAEAAAAAQADAAAAAQACAAcAEAAoADAAOABoAHAAeAAGAAAACQBwAJYAvADiAQgBLgFUAXoBoAAGAAAAAQGuAAEAAAABAcgABgAAABUB1gH4AhoCRAJuAqAC0AL6AyADRANmA4QDrgPUA/gEGgQ4BGIEiASsBNwABAAAAAEE2gAEAAAAAQUGAAEAAAABBTIAAwAAAAMAFAAaACAAAAABAAAABQABAAEAFAABAAEAEgABAAEAFQADAAAAAwAUABoAIAAAAAEAAAAFAAEAAQAUAAEAAQASAAEAAQAXAAMAAAADABQAGgAgAAAAAQAAAAUAAQABABYAAQABABIAAQABABcAAwAAAAMAFAAaACAAAAABAAAABQABAAEAFAABAAEAEgABAAEAFgADAAAAAwAUABoAIAAAAAEAAAAFAAEAAQAVAAEAAQASAAEAAQAWAAMAAAADABQAGgAgAAAAAQAAAAUAAQABABQAAQABABIAAQABABsAAwAAAAMAFAAaACAAAAABAAAABQABAAEAFgABAAEAEgABAAEAGwADAAAAAwAUABoAIAAAAAEAAAAFAAEAAQAYAAEAAQASAAEAAQAbAAMAAAADABQAGgAgAAAAAQAAAAUAAQABABoAAQABABIAAQABABsAAwABABYAAQASAAAAAQAAAAYAAQAAAAEABAASAH0AfgB/AAIADAADAHoAdAB1AAEAAwAUABUAFgADAAEAGAABABIAAAABAAAABgABAAEARAACAAEAEwAcAAAAAwABABgAAQASAAAAAQAAAAYAAQABAFIAAgABABMAHAAAAAMAAgAaACAAAQAUAAAAAQAAAAYAAQABAEQAAQABABEAAgABABMAHAAAAAMAAgAaACAAAQAUAAAAAQAAAAYAAQABAFIAAQABABEAAgABABMAHAAAAAMAAgAcACYAAQAWAAEALAABAAAABgABAAEAVwACAAEAEwAcAAAAAQABABQAAQABAEsAAwADABwAIAAqAAEAFgAAAAEAAAAGAAEAAQBLAAEAAAACAAEAEwAcAAAAAQABABQAAwACABgAHgABABIAAQAkAAAAAQABAFYAAQABABQAAQABABQAAQABAFcAAwABABoAAQAUAAEAIAABAAAABgABAAEAVgABAAEAFAABAAEAVwADAAIAGgAeAAEAFAAAAAEAAAAGAAEAAQBXAAEAAAABAAEAFAADAAIAFgAcAAEAEAAAAAAAAQABAEcAAQABABUAAQABABQAAwABABgAAQASAAAAAQAAAAYAAQABAEcAAQABABUAAwACABgAHgABABIAAQAkAAAAAQABAFEAAQABABUAAQABABQAAQABAEcAAwABABoAAQAUAAEAIAABAAAABgABAAEAUQABAAEAFQABAAEARwADAAIAGgAeAAEAFAAAAAEAAAAGAAEAAQBHAAEAAAABAAEAFQADAAIAFgAcAAEAEAAAAAAAAQABAEcAAQABABYAAQABABQAAwABABgAAQASAAAAAQAAAAYAAQABAEcAAQABABYAAwACABgAHgABABIAAQAkAAAAAQABAFUAAQABABYAAQABABQAAQABAEcAAwABABoAAQAUAAEAIAABAAAABgABAAEAVQABAAEAFgABAAEARwADAAIAGgAeAAEAFAAAAAEAAAAGAAEAAQBHAAEAAAABAAEAFgADAAEAGgABABQAAQAqAAEAAAAGAAEAAQBXAAIAAgAT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sgECACuwCTMBsBEvsADWsQML6bADELEIASuxCwvpsRIBK7EIAxESsA45ADAxExEzERQWIDY1ETMREAAhIACqd9YBjtd3/u/+/P7+/u4CDANK/LjR6+vRA0j8tv7+/t0BJAAAAAABAB8AAAUOBVYABgAhALIGAAArsgACACuwAzMBsAcvsQgBKwCxAAYRErACOTAxEzMJATMBIx+HAfIB74f90ZEFVvstBNP6qgABACcAAAbJBVYADADFALIMAAArsggJCzMzM7IAAgArtAEDBAYHJBczAbANL7AA1rEBDemwARCxBgErsQcN6bEOASuwNhq6wknvDgAVKwqwABCwDMAOsAEQsALAuj2j7sUAFSsKBbADLrEBAgiwAsAOsQoR+QWwC8C6wlbu3gAVKwqwCS6xCwoIsArADrEFEvkFsATAuj237w4AFSsKsQQFCLAGELAFwAWwBxCwCMADALICBQouLi4BQAkCAwQFCAkKCwwuLi4uLi4uLi6wQBoAMDETMwkBMwkBMwEjCQEjJ4MBSgFQagFOAUqD/nuD/rj+uIMFVvtOBLL7TgSy+qoElvtqAAEAJwAABQIFVgALACYAsgAAACuwCDOyAgIAK7AFMwGwDC+xDQErALECABESsQQKOTkwMTMJATMJATMJASMJAScCJf36kwG6Ab2T/foCJZH+Iv4lArwCmv28AkT9aP1CAmj9mAABAB8AAATTBVYACAAwALIHAAArsgACACuwAzMBsAkvsAfWsQYL6bEKASuxBgcRErACOQCxAAcRErACOTAxEzMJATMBESMRH40BzQHNjf3hdwVW/WACoPzy/bgCSAAAAAABAGYAAAQ/BVYACQAuALIAAAArsQcD6bIEAgArsQMD6QGwCi+xCwErALEHABESsAE5sQQDERKwBjkwMTM1ASE1IRUBIRVmAzj8yAPL/MkDRWYEhmpk+3hqAAAAAAEATP57AbAFbQAHADQAsgECACuxBAXpsAAvsQUF6QGwCC+wANa0BQkARAQrsgUACiuzQAUDCSuwBjKxCQErADAxExEhFSERIRVMAWT+9gEK/nsG8ln5v1gAAAAAAQAA/9cCQgV/AAMAFgABsAQvsADWtAIOAAgEK7EFASsAMDERMwEjXAHmXQV/+lgAAQAj/nsBhwVtAAcANACyBAIAK7EDBemwBy+xAAXpAbAIL7AB1rQG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AAEAAgAWAAABAAE+AAAAAAAAAA8AugADAAEECQAAAG4AAAADAAEECQABAB4AbgADAAEECQACAA4AjAADAAEECQADAEwAmgADAAEECQAEAC4A5gADAAEECQAFAE4BFAADAAEECQAGACIBYgADAAEECQAHAFoBhAADAAEECQAJABoB3gADAAEECQALADYB+AADAAEECQAMADYCLgADAAEECQAQABgCZAADAAEECQARAAoCfAADAAEECQDIABYChgADAAEECQDJADACnABDAG8AcAB5AHIAaQBnAGgAdAAgACgAYwApACAATQBhAHIAawAgAFMAaQBtAG8AbgBzAG8AbgAsACAAMgAwADAANQAuACAAQQBsAGwAIAByAGkAZwBoAHQAcwAgAHIAZQBzAGUAcgB2AGUAZAAuAFAAcgBvAHgAaQBtAGEAIABOAG8AdgBhACAATAB0AFIAZQBnAHUAbABhAHIATQBhAHIAawBTAGkAbQBvAG4AcwBvAG4AOgAgAFAAcgBvAHgAaQBtAGEAIABOAG8AdgBhACAATABpAGcAaAB0ADoAIAAyADAAMAA1AFAAcgBvAHgAaQBtAGEAIABOAG8AdgBhACAATAB0ACAAUgBlAGcAdQBsAGEAcgBWAGUAcgBzAGkAbwBuACAAMQAuADAAMAAwADsAUABTACAAMAAwADEALgAwADAAMAA7AGgAbwB0AGMAbwBuAHYAIAAxAC4AMAAuADMAOABQAHIAbwB4AGkAbQBhAE4AbwB2AGEALQBMAGkAZwBoAHQAUAByAG8AeABpAG0AYQAgAE4AbwB2AGEAIABpAHMAIABhACAAdAByAGEAZABlAG0AYQByAGsAIABvAGYAIABNAGEAcgBrACAAUwBpAG0AbwBuAHMAbwBuAC4ATQBhAHIAawAgAFMAaQBtAG8AbgBzAG8AbgBoAHQAdABwADoALwAvAHcAdwB3AC4AbQBhAHIAawBzAGkAbQBvAG4AcwBvAG4ALgBjAG8AbQBoAHQAdABwADoALwAvAHcAdwB3AC4AbQBhAHIAawBzAGkAbQBvAG4AcwBvAG4ALgBjAG8AbQBQAHIAbwB4AGkAbQBhACAATgBvAHYAYQBMAGkAZwBoAHQAVwBlAGIAZgBvAG4AdAAgADEALgAwAFcAZQBkACAAQQB1AGcAIAAyADkAIAAxADUAOgAwADEAOgAzADkAIAAyADAAMQAyAAAAAgAAAAAAAP8FACgAAAAAAAAAAAAAAAAAAAAAAAAAAADpAAABAgEDAAMABAAFAAYABwAIAAkACgALAAwADQAOAA8AEAARABIAEwAUABUAFgAXABgAGQAaABsAHAAdAB4AHwAgACEAIgAjACQAJQAmACcAKAApACoAKwAsAC0ALgAvADAAMQAyADMANAA1ADYANwA4ADkAOgA7ADwAPQA+AD8AQABBAEIAQwBEAEUARgBHAEgASQBKAEsATABNAE4ATwBQAFEAUgBTAFQAVQBWAFcAWABZAFoAWwBcAF0AXgBfAGAAYQEEAKMAhACFAL0AlgDoAIYAjgCLAJ0AqQCkAQUAigDaAIMAkwEGAQcAjQCIAMMA3gEIAJ4AqgD1APQA9gCiAK0AyQDHAK4AYgBjAJAAZADLAGUAyADKAM8AzADNAM4A6QBmANMA0ADRAK8AZwDwAJEA1gDUANUAaADrAO0AiQBqAGkAawBtAGwAbgCgAG8AcQBwAHIAcwB1AHQAdgB3AOoAeAB6AHkAewB9AHwAuAChAH8AfgCAAIEA7ADuALoAsACxALsA2ADZAQkBCgELAQwBDQEOAQ8BEAERARIBEwEUARUBFgCyALMAtgC3AMQAtAC1AMUAhwCrARcAvgC/ARgBGQCMARoBGwEcAR0BHgZnbHlwaDEHdW5pMDAwRAd1bmkwMEEwB3VuaTAwQUQHdW5pMDBCMgd1bmkwMEIzB3VuaTAwQjkHdW5pMjAwMAd1bmkyMDAxB3VuaTIwMDIHdW5pMjAwMwd1bmkyMDA0B3VuaTIwMDUHdW5pMjAwNgd1bmkyMDA3B3VuaTIwMDgHdW5pMjAwOQd1bmkyMDBBB3VuaTIwMTAHdW5pMjAxMQpmaWd1cmVkYXNoB3VuaTIwMkYHdW5pMjA1RgRFdXJvB3VuaUUwMDAHdW5pRkIwMQd1bmlGQjAyB3VuaUZCMDMHdW5pRkIwNAC4Af+FsAGNAEuwCFBYsQEBjlmxRgYrWCGwEFlLsBRSWCGwgFkdsAYrXFgAsAMgRbADK0SwBiBFsgN+AiuwAytEsAUgRbIGVwIrsAMrRLAEIEWyBUQCK7ADK0SwByBFsgOjAiuwAytEsAggRbIHGgIrsAMrRAGwCSBFsAMrRLAKIEWyCbcCK7EDRnYrRLALIEWyCmkCK7EDRnYrRLAMIEWyC0MCK7EDRnYrRLANIEWyDC8CK7EDRnYrRLAOIEWyDRkCK7EDRnYrRFmwFCsAAVA+ZxMAAA=="
 
 /***/ },
-/* 50 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "4ea7ca3086635b4d34ef762e3fdc38be.ttf"
+	module.exports = __webpack_require__.p + "43bb4cbf1d0ecfdb1309e4cb67264f35.ttf"
 
 /***/ },
-/* 51 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

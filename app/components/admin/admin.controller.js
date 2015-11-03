@@ -6,6 +6,7 @@ class AdminController {
             flag: "Update Yoself.",
             singleOption: null
         };
+
         var testData = [{
             "id": 1,
             "label": "Option 1"
@@ -16,16 +17,6 @@ class AdminController {
             "id": 3,
             "label": "Option 3"
         }];
-
-        $scope.itemArray = [
-        {id: 1, name: 'first'},
-        {id: 2, name: 'second'},
-        {id: 3, name: 'third'},
-        {id: 4, name: 'fourth'},
-        {id: 5, name: 'fifth'},
-    ];
-
-    $scope.selectedItem= $scope.itemArray[0];
 
         // dropzone config
         $scope.dropzoneConfig = {
@@ -80,20 +71,20 @@ class AdminController {
                 type: 'input',
                 placeholder: 'Flag image',
                 required: true
-            },
-        // }, {
-        //     key: 'singleOption',
-        //     type: 'ui-select-single',
-        //     templateOptions: {
-        //         optionsAttr: 'bs-options',
-        //         ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
-        //         label: 'Single Select',
-        //         valueProp: 'id',
-        //         labelProp: 'label',
-        //         placeholder: 'Select option',
-        //         description: 'Template includes the allow-clear option on the ui-select-match element',
-        //         options: testData
-        //     }
+            }
+        }, {
+            key: 'multipleOption',
+            type: 'ui-select-multiple',
+            templateOptions: {
+                optionsAttr: 'bs-options',
+                ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
+                label: 'Multiple Select',
+                valueProp: 'id',
+                labelProp: 'label',
+                placeholder: 'Select options',
+                overwriteOk: true,
+                options: testData
+            }
         }];
     }
 }

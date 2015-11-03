@@ -5,15 +5,15 @@ import apiCheck from 'api-check';
 import ngMessages from 'angular-messages';
 import adminComponent from './admin.component';
 import ngSanitize from 'angular-sanitize';
+import formlyBootstrap from 'angular-formly-templates-bootstrap';
 
 var Dropzone = require('dropzone');
 var uiselect = require('ui-select');
 
-
-console.log(uiselect);
 let adminModule = angular.module('admin', [
     uiRouter,
     formly,
+    formlyBootstrap,
     ngMessages,
     ngSanitize,
     uiselect
@@ -29,14 +29,19 @@ let adminModule = angular.module('admin', [
 
 // formly config
 .run(function(formlyConfig) {
+    // NOTE: This next line is highly recommended. Otherwise Chrome's autocomplete will appear over your options!
+    formlyConfig.extras.removeChromeAutoComplete = true;
+
     formlyConfig.setType({
         name: 'input',
         template: '<label>{{options.templateOptions.label}}</label><input ng-model="model[options.key]" />'
     });
+
     formlyConfig.setType({
         name: 'textarea',
         template: '<label>{{options.templateOptions.label}}</label><textarea ng-model="model[options.key]" rows="10" cols="40"/></label>'
     });
+
     formlyConfig.setType({
         name: 'customInput',
         extends: 'input',
@@ -52,6 +57,12 @@ let adminModule = angular.module('admin', [
                 }
             }
         ]
+    });
+
+    formlyConfig.setType({
+        name: 'ui-select-multiple',
+        extends: 'select',
+        templateUrl: 'ui-select-multiple.html'
     });
 
 
