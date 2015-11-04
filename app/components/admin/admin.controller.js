@@ -26,7 +26,8 @@ class AdminController {
                 maxThumbnailFilesize: 5,
                 autoProcessQueue: false,
                 maxFiles: 5,
-                multiple: true
+                uploadMultiple: true,
+                parallelUploads: 5
             },
             'eventHandlers': {
                 'sending': function(file, xhr, formData) {},
