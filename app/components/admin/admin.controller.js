@@ -1,6 +1,5 @@
 class AdminController {
     constructor($scope, formlyValidationMessages) {
-        this.gatirodhak = 'Jagannath, Bakwaas kam kar.';
 
         $scope.postFormModel = {
             flag: "Update Yoself.",
@@ -26,7 +25,8 @@ class AdminController {
                 paramName: 'uploadedFile',
                 maxThumbnailFilesize: 5,
                 autoProcessQueue: false,
-                maxFiles: 5
+                maxFiles: 5,
+                multiple: true
             },
             'eventHandlers': {
                 'sending': function(file, xhr, formData) {},
