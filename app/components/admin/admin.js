@@ -68,7 +68,7 @@ let adminModule = angular.module('admin', [
 
     formlyConfig.setWrapper({
         name: 'validation',
-        types: ['input', 'textarea', 'customInput'],
+        types: ['input', 'textarea', 'customInput', 'ui-select-multiple'],
         templateUrl: 'error-messages.html'
     });
 

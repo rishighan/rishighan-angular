@@ -2,7 +2,7 @@ class AdminController {
     constructor($scope, formlyValidationMessages) {
 
         $scope.postFormModel = {
-            flag: "Update Yoself.",
+            flag: [],
             singleOption: null
         };
 
