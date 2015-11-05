@@ -86,6 +86,40 @@ class AdminController {
                 overwriteOk: true,
                 options: testData
             }
+        }, {
+            type: 'repeatSection',
+            key: 'investments',
+            templateOptions: {
+                btnText: 'Add another investment',
+                fields: [{
+                    className: 'row',
+                    fieldGroup: [{
+                        className: 'col-xs-4',
+                        type: 'input',
+                        key: 'investmentName',
+                        templateOptions: {
+                            label: 'Name of Investment:',
+                            required: true
+                        }
+                    }, {
+                        type: 'input',
+                        key: 'investmentDate',
+                        className: 'col-xs-4',
+                        templateOptions: {
+                            label: 'Date of Investment:',
+                            placeholder: 'dd/mm/yyyy such as 20/05/2015',
+                            dateFormat: 'DD, d  MM, yy'
+                        }
+                    }, {
+                        type: 'input',
+                        key: 'stockIdentifier',
+                        className: 'col-xs-4',
+                        templateOptions: {
+                            label: 'Stock Identifier:'
+                        }
+                    }]
+                }]
+            }
         }];
     }
 }
