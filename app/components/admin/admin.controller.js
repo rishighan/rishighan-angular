@@ -17,6 +17,29 @@ class AdminController {
             "label": "Option 3"
         }];
 
+        this.model = {
+        investments: [
+          {
+            investmentName:'abc',
+            investmentDate:(new Date()).toDateString(),
+            stockIdentifier:'',
+            investmentValue:'',
+            relationshipName:'',
+            complianceApprover:'',
+            requestorComment:''
+          },
+          {
+            investmentName:'haf',
+            investmentDate:(new Date()).toDateString(),
+            stockIdentifier:'',
+            investmentValue:'',
+            relationshipName:'',
+            complianceApprover:'',
+            requestorComment:''
+          }
+        ]
+      };
+
         // dropzone config
         $scope.dropzoneConfig = {
             'options': {
