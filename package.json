@@ -54,6 +54,7 @@
     "bootstrap": "^3.3.5",
     "dropzone": "^4.2.0",
     "flexboxgrid": "^6.3.0",
+    "googleapis": "^2.1.6",
     "ui-router": "0.2.15"
   }
 }

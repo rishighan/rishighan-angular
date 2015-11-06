@@ -14,7 +14,10 @@ var db = require('./config/database.connection.js');
 var schema = require('./config/post.schema.js');
 
 var app = express();
+var googleApi = require('googleapis');
+var OAuth2 = googleApi.auth.OAuth2;
 
+console.log("Google API:" + OAuth2)
 // connect to db
 db.connect();
 

@@ -8,6 +8,8 @@ import repeatSectionController from './repeat.section.controller';
 import ngSanitize from 'angular-sanitize';
 import formlyBootstrap from 'angular-formly-templates-bootstrap';
 
+import analyticsService from '../analytics/analytics.service';
+
 var Dropzone = require('dropzone');
 var uiselect = require('ui-select');
 
