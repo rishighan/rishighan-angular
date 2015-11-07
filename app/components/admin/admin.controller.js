@@ -2,7 +2,7 @@ import analyticsService from '../analytics/analytics.service';
 
 class AdminController {
     constructor($scope, formlyValidationMessages, analyticsService) {
-
+        analyticsService.spawnAnalytics();
         $scope.postFormModel = {
             flag: [],
             singleOption: null
