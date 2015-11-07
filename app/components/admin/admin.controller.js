@@ -1,5 +1,7 @@
+import analyticsService from '../analytics/analytics.service';
+
 class AdminController {
-    constructor($scope, formlyValidationMessages) {
+    constructor($scope, formlyValidationMessages, analyticsService) {
 
         $scope.postFormModel = {
             flag: [],
