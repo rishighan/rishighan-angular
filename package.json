@@ -4,7 +4,7 @@
   "description": "A simple mongodb-driven blog written in AngularJS",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "testem",
     "hot-dev-server": "webpack-dev-server --content-base app/ --hot",
     "local-dev": "node server.js"
   },
@@ -39,6 +39,7 @@
     "mongoose": "^4.1.9",
     "ng-annotate-loader": "0.0.10",
     "node-sass": "^3.3.3",
+    "phantomjs": "^1.9.18",
     "resolve-url-loader": "^1.3.2",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.12.4",

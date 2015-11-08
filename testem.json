@@ -1,10 +1,14 @@
 {
-    "framework": "jasmine",
+    "framework": ["jasmine"],
     "src_files": [
-        "tests/**/*.js",
+        "node_modules/angular/angular.js",
+        "node_modules/angular-mocks/angular-mocks.js",
+        "app/components/analytics/*.js",
+        "tests/*.js",
         "tests/**/*.spec.js"
     ],
+
     "debug": true,
-    "launch_in_dev": ["PhantomJS"],
+    "launch_in_dev": ["PhantomJS", "Chrome"],
     "launch_in_ci": ["PhantomJS"]
 }
