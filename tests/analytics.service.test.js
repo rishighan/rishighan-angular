@@ -1,7 +1,7 @@
 "use strict";
 describe('Hello', function() {
 
-    beforeEach(module('analytics'));
+    beforeEach(module('rgApp'));
     beforeEach(inject(function (_analyticsService_, $httpBackend) {
         analyticsService = _analyticsService_;
         httpBackend = $httpBackend;
