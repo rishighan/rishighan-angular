@@ -32153,7 +32153,7 @@
 
 	var _adminAdmin2 = _interopRequireDefault(_adminAdmin);
 
-	var _analyticsAnalytics = __webpack_require__(43);
+	var _analyticsAnalytics = __webpack_require__(47);
 
 	var _analyticsAnalytics2 = _interopRequireDefault(_analyticsAnalytics);
 
@@ -32657,26 +32657,22 @@
 
 	var _adminComponent2 = _interopRequireDefault(_adminComponent);
 
-	var _repeatSectionController = __webpack_require__(39);
+	var _repeatSectionController = __webpack_require__(40);
 
 	var _repeatSectionController2 = _interopRequireDefault(_repeatSectionController);
 
-	var _angularSanitize = __webpack_require__(40);
+	var _angularSanitize = __webpack_require__(41);
 
 	var _angularSanitize2 = _interopRequireDefault(_angularSanitize);
 
-	var _angularFormlyTemplatesBootstrap = __webpack_require__(42);
+	var _angularFormlyTemplatesBootstrap = __webpack_require__(43);
 
 	var _angularFormlyTemplatesBootstrap2 = _interopRequireDefault(_angularFormlyTemplatesBootstrap);
 
-	var _analyticsAnalytics = __webpack_require__(43);
+	var Dropzone = __webpack_require__(44);
+	var uiselect = __webpack_require__(46);
 
-	var _analyticsAnalytics2 = _interopRequireDefault(_analyticsAnalytics);
-
-	var Dropzone = __webpack_require__(45);
-	var uiselect = __webpack_require__(47);
-
-	var adminModule = _angular2['default'].module('admin', [_uiRouter2['default'], _angularFormly2['default'], _angularFormlyTemplatesBootstrap2['default'], _angularMessages2['default'], _angularSanitize2['default'], uiselect, _analyticsAnalytics2['default']]).config(function ($stateProvider, $urlRouterProvider) {
+	var adminModule = _angular2['default'].module('admin', [_uiRouter2['default'], _angularFormly2['default'], _angularFormlyTemplatesBootstrap2['default'], _angularMessages2['default'], _angularSanitize2['default'], uiselect]).config(function ($stateProvider, $urlRouterProvider) {
 	    $stateProvider.state('admin', {
 	        url: '/admin',
 	        template: '<admin></admin>'
@@ -37455,7 +37451,7 @@
 
 /***/ },
 /* 38 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
@@ -37463,15 +37459,24 @@
 	    value: true
 	});
 
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { "default": obj };
+	}
+
 	function _classCallCheck(instance, Constructor) {
 	    if (!(instance instanceof Constructor)) {
 	        throw new TypeError("Cannot call a class as a function");
 	    }
 	}
 
-	var AdminController = function AdminController($scope, formlyValidationMessages) {
+	var _analyticsAnalyticsService = __webpack_require__(39);
+
+	var _analyticsAnalyticsService2 = _interopRequireDefault(_analyticsAnalyticsService);
+
+	var AdminController = function AdminController($scope, formlyValidationMessages, analyticsService) {
 	    _classCallCheck(this, AdminController);
 
+	    analyticsService.spawnAnalytics();
 	    $scope.postFormModel = {
 	        flag: [],
 	        singleOption: null
@@ -37621,6 +37626,54 @@
 /* 39 */
 /***/ function(module, exports) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = (function () {
+	    function defineProperties(target, props) {
+	        for (var i = 0; i < props.length; i++) {
+	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	        }
+	    }return function (Constructor, protoProps, staticProps) {
+	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	    };
+	})();
+
+	function _classCallCheck(instance, Constructor) {
+	    if (!(instance instanceof Constructor)) {
+	        throw new TypeError("Cannot call a class as a function");
+	    }
+	}
+
+	var AnalyticsService = (function () {
+	    /*@ngInject*/
+
+	    function AnalyticsService() {
+	        _classCallCheck(this, AnalyticsService);
+
+	        var foo = "Rishi";
+	    }
+
+	    _createClass(AnalyticsService, [{
+	        key: "spawnAnalytics",
+	        value: function spawnAnalytics() {
+	            return "Booyah. Spawning Analytics...";
+	        }
+	    }]);
+
+	    return AnalyticsService;
+	})();
+
+	exports["default"] = AnalyticsService;
+	module.exports = exports["default"];
+
+/***/ },
+/* 40 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
@@ -37686,15 +37739,15 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(41);
+	__webpack_require__(42);
 	module.exports = 'ngSanitize';
 
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	/**
@@ -38383,7 +38436,7 @@
 
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! angular-formly-templates-bootstrap version 6.1.5 built with ♥ by Astrism <astrisms@gmail.com>, Kent C. Dodds <kent@doddsfamily.us> (ó ì_í)=óò=(ì_í ò)
@@ -38994,83 +39047,7 @@
 	;
 
 /***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	function _interopRequireDefault(obj) {
-	  return obj && obj.__esModule ? obj : { 'default': obj };
-	}
-
-	var _angular = __webpack_require__(3);
-
-	var _angular2 = _interopRequireDefault(_angular);
-
-	var _analyticsService = __webpack_require__(44);
-
-	var _analyticsService2 = _interopRequireDefault(_analyticsService);
-
-	var AnalyticsModule = _angular2['default'].module('analyticsModule', []).service('analyticsService', AnalyticsModule);
-
-	exports['default'] = AnalyticsModule;
-	module.exports = exports['default'];
-
-/***/ },
 /* 44 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = (function () {
-	    function defineProperties(target, props) {
-	        for (var i = 0; i < props.length; i++) {
-	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-	        }
-	    }return function (Constructor, protoProps, staticProps) {
-	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-	    };
-	})();
-
-	function _classCallCheck(instance, Constructor) {
-	    if (!(instance instanceof Constructor)) {
-	        throw new TypeError("Cannot call a class as a function");
-	    }
-	}
-
-	var AnalyticsService = (function () {
-	    /*@ngInject*/
-
-	    function AnalyticsService() {
-	        _classCallCheck(this, AnalyticsService);
-
-	        var foo = "Rishi";
-	        console.log("This is the google api service" + foo);
-	    }
-
-	    _createClass(AnalyticsService, [{
-	        key: "spawnAnalytics",
-	        value: function spawnAnalytics() {
-	            return "Rishi";
-	        }
-	    }]);
-
-	    return AnalyticsService;
-	})();
-
-	exports["default"] = AnalyticsService;
-	module.exports = exports["default"];
-
-/***/ },
-/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {
@@ -40826,10 +40803,10 @@
 
 	}).call(this);
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)(module)))
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -40845,7 +40822,7 @@
 
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports) {
 
 	/*!
@@ -42777,6 +42754,33 @@
 
 	/*** EXPORTS FROM exports-loader ***/
 	module.exports = "ui.select"
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
+
+	var _angular = __webpack_require__(3);
+
+	var _angular2 = _interopRequireDefault(_angular);
+
+	var _analyticsService = __webpack_require__(39);
+
+	var _analyticsService2 = _interopRequireDefault(_analyticsService);
+
+	var AnalyticsModule = _angular2['default'].module('analytics', []).service('analyticsService', _analyticsService2['default']);
+
+	exports['default'] = AnalyticsModule;
+	module.exports = exports['default'];
 
 /***/ },
 /* 48 */

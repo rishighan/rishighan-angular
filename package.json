@@ -4,9 +4,9 @@
   "description": "A simple mongodb-driven blog written in AngularJS",
   "main": "index.js",
   "scripts": {
-    "test": "testem",
-    "hot-dev-server": "webpack-dev-server --content-base app/ --hot",
-    "local-dev": "node server.js"
+    "hot-dev-server": "webpack-dev-server --content-base app/ --hot --inline",
+    "local-dev": "node server.js",
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
