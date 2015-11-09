@@ -79,6 +79,9 @@ module.exports = {
         },
         modulesDirectories: ['assets', 'node_modules', 'bower_components']
 
-    }
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin()
+    ]
 
 }
