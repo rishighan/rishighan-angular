@@ -15,14 +15,15 @@ module.exports = {
 
     context: APP,
     entry: {
-        app: ['./core/bootstrap.js',
+        rgapp: ['./core/bootstrap.js',
             // 'webpack-dev-server/app/home?http://0.0.0.0:3001',
             'webpack/hot/only-dev-server'
-        ]
+        ],
+        test: path.resolve('./tests/specs.js')
     },
     output: {
         path: BUILD,
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
 
     module: {
@@ -32,7 +33,7 @@ module.exports = {
         // preloaders
         preLoaders: [{
             test: /\.js$/,
-            exclude: /node_modules|bower_components/,
+            exclude: /node_modules|tests|bower_components/,
             loader: 'jshint-loader'
         }],
 
@@ -52,7 +53,7 @@ module.exports = {
         }, {
             test: /\.js$/,
             loader: 'ng-annotate!babel!jshint',
-            exclude: /node_modules|bower_components/
+            exclude: /node_modules|tests|bower_components/
         }, {
             test: /\.html$/,
             loader: 'html-loader'

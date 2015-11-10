@@ -1,11 +1,9 @@
 {
     "framework": ["jasmine"],
     "src_files": [
-        "public/bundle.js",
-        "node_modules/angular-mocks/angular-mocks.js",
-        "tests/*.js",
-        "tests/**/*.spec.js"
+        "/public/test.js"
     ],
+    "test_page": "tests/test.html",
     "debug": true,
     "launch_in_dev": ["PhantomJS", "Chrome"],
     "launch_in_ci": ["PhantomJS"]
