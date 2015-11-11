@@ -19,7 +19,7 @@ module.exports = {
             // 'webpack-dev-server/app/home?http://0.0.0.0:3001',
             'webpack/hot/only-dev-server'
         ],
-        test: path.resolve('./tests/specs.js')
+        test:'../tests/specs.js'
     },
     output: {
         path: BUILD,
