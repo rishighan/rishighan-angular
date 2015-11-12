@@ -6,7 +6,7 @@
   "scripts": {
     "hot-dev-server": "webpack-dev-server --content-base app/ --hot --inline",
     "local-dev": "node server.js",
-    "test": "karma start"
+    "test": "testem"
   },
   "repository": {
     "type": "git",
