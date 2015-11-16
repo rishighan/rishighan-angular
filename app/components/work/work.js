@@ -1,9 +1,9 @@
-import angular from 'angular';
-import uiRouter from 'ui-router';
+// import angular from 'angular';
+// import uiRouter from 'ui-router';
 import workComponent from './work.component';
 
 let workModule = angular.module('work', [
-  uiRouter
+  'ui.router'
 ])
 
 .config(($stateProvider, $urlRouterProvider) => {

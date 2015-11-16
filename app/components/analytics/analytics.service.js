@@ -3,9 +3,8 @@ class AnalyticsService {
     constructor() {
         var foo = "Rishi";
     }
-
     spawnAnalytics() {
-        return "Booyah. Spawning Analytics...";
+        return "hello3";
     }
 
 }

@@ -7,8 +7,8 @@
 require('polyfill-function-prototype-bind'); // for phantomjs
 require('angular');
 require('angular-mocks');
-
+require('../app/app');
 /* loads all the `.spec$|.test$` files in the src folder and all the sub directories */
 /* also include the module exported from `src/module.js` */
-var context = require.context('../tests', true, /(test|spec)\.(coffee|js)$|rgapp\.js/);
+var context = require.context('../tests', true, /(test|spec)\.(js)$/);
 context.keys().forEach(context);

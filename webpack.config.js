@@ -5,7 +5,7 @@ var webpack = require('webpack');
 var path = require('path');
 
 var APP = path.resolve(__dirname + '/app/');
-var BUILD = path.resolve(__dirname + '/public/');
+var BUILD = path.resolve(__dirname + '/dist/');
 var NODE_MODULES_PATH = path.resolve(__dirname + '/node_modules/');
 var BOWER_COMPONENTS_PATH = path.resolve(__dirname + '/bower_components/');
 
@@ -15,20 +15,20 @@ module.exports = {
 
     context: APP,
     entry: {
-        rgapp: ['./core/bootstrap.js',
-            // 'webpack-dev-server/app/home?http://0.0.0.0:3001',
-            'webpack/hot/only-dev-server'
-        ],
-        test:'../tests/specs.js'
+        rgapp: './core/bootstrap.js'
+        // test:'../tests/specs.js'
     },
     output: {
         path: BUILD,
         filename: '[name].js'
     },
 
+
+// process.NODE.ENV === 'production';
+//
     module: {
         // devtool
-        devtool: 'source-map',
+        // devtool: 'eval',
 
         // preloaders
         preLoaders: [{
@@ -44,7 +44,7 @@ module.exports = {
             test: /\.(png|woff|ttf)$/,
             loader: 'url-loader?limit=100000'
         }, {
-            test: /\.s[ac]ss$/,
+            test: /\.scss$/,
             loaders: ["style",
                 "css",
                 "resolve-url",
@@ -75,14 +75,14 @@ module.exports = {
         alias: {
             "flexboxgrid.css": NODE_MODULES_PATH + "/flexboxgrid/dist/flexboxgrid.css",
             "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js",
-            "select.css": BOWER_COMPONENTS_PATH + '/angular-ui-select/dist/select.css',
-            "ui-select": BOWER_COMPONENTS_PATH + "/angular-ui-select/dist/select.js"
+            "select.css": BOWER_COMPONENTS_PATH + '/ui-select/dist/select.css',
+            "ui-select": BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js"
         },
         modulesDirectories: ['assets', 'node_modules', 'bower_components']
 
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        // new webpack.HotModuleReplacementPlugin()
     ]
 
 }

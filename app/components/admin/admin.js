@@ -1,5 +1,4 @@
-import angular from 'angular';
-import uiRouter from 'ui-router';
+
 import formly from 'angular-formly';
 import apiCheck from 'api-check';
 import ngMessages from 'angular-messages';
@@ -12,7 +11,7 @@ var Dropzone = require('dropzone');
 var uiselect = require('ui-select');
 
 let adminModule = angular.module('admin', [
-    uiRouter,
+    'ui.router',
     formly,
     formlyBootstrap,
     ngMessages,

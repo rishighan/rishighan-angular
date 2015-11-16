@@ -2,7 +2,7 @@
 'use strict';
 
 // run the function that loads the dependencies
-require('./vendor.js')();
+// require('./vendor.js')();
 
 var appModule = require('../app');
 

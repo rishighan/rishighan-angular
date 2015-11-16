@@ -1,4 +1,4 @@
-import angular from 'angular';
+// import angular from 'angular';
 import Navbar from './navbar/navbar';
 
 let sharedModule = angular.module('app.shared', [

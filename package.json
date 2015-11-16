@@ -4,9 +4,12 @@
   "description": "A simple mongodb-driven blog written in AngularJS",
   "main": "index.js",
   "scripts": {
-    "hot-dev-server": "webpack-dev-server --content-base app/ --hot --inline",
+    "dev": "webpack-dev-server --content-base app/ --hot --inline",
+    "start": "webpack -w --debug --devtool eval --output-pathinfo",
     "local-dev": "node server.js",
-    "test": "testem"
+    "test": "testem",
+    "pretest:func": "npm i && ./bin/webdriver-manager update",
+    "test:func": "./bin/protractor tests/functional/protractor.config.js"
   },
   "repository": {
     "type": "git",
@@ -47,10 +50,10 @@
     "testem": "^0.9.9",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.2",
-    "webpack-dev-server": "^1.12.1"
+    "webpack-dev-server": "^1.12.1",
+    "protractor": "2.x"
   },
   "dependencies": {
-    "angular": "^1.4.7",
     "angular-formly": "^7.2.3",
     "angular-formly-templates-bootstrap": "^6.1.5",
     "angular-messages": "^1.4.7",
@@ -59,7 +62,6 @@
     "bootstrap": "^3.3.5",
     "dropzone": "^4.2.0",
     "flexboxgrid": "^6.3.0",
-    "googleapis": "^2.1.6",
-    "ui-router": "0.2.15"
+    "googleapis": "^2.1.6"
   }
 }

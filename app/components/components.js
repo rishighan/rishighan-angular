@@ -1,4 +1,3 @@
-import angular from 'angular';
 import Home from './home/home';
 import Work from './work/work';
 import Post from './post/post';

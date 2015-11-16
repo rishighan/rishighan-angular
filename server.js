@@ -26,7 +26,8 @@ var postModel = mongoose.model('Post', schema.PostSchema);
 
 // The path to static assets
 var publicPath = path.resolve(__dirname, 'public');
-//app.use(express.static(publicPath));
+app.use('/bower', express.static(path.resolve(__dirname, 'bower_components')));
+app.use('/dist/', express.static(path.resolve(__dirname, 'dist')));
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -38,6 +39,10 @@ app.use(function(req, res, next) {
 app.listen(3000, function() {
     console.log("Server listening on port 3000");
 });
+
+app.all('/', function (req, res) {
+    res.sendFile('index.html', { root:  path.join(__dirname, './app')  });
+})
 
 app.get('/db/getposts', function(req, res, next) {
     postModel.findOne({
@@ -91,16 +96,16 @@ app.get('/db/createtestpost', function(req, res, next) {
 });
 
 
-new webpackDevServer(webpack(config), {
-    hot: true,
-    historyApiFallback: true,
-    proxy: {
-        "*": "http://localhost:3000"
-    }
-}).listen(3001, 'localhost', function(err, result) {
-    if (err) {
-        console.log(err);
-    }
+// new webpackDevServer(webpack(config), {
+//     hot: true,
+//     historyApiFallback: true,
+//     proxy: {
+//         "*": "http://localhost:3000"
+//     }
+// }).listen(3001, 'localhost', function(err, result) {
+//     if (err) {
+//         console.log(err);
+//     }
 
-    console.log('Listening at localhost:3001');
-});
+//     console.log('Listening at localhost:3001');
+// });
