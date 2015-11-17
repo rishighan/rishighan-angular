@@ -1,4 +1,3 @@
-
 import formly from 'angular-formly';
 import apiCheck from 'api-check';
 import ngMessages from 'angular-messages';

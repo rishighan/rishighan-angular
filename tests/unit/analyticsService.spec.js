@@ -12,6 +12,6 @@ describe('Hello', function() {
         // spyOn(analyticsService, 'spawnAnalytics').andReturn('hello');
 
         // debugger
-        expect(analyticsService.spawnAnalytics()).toBe('hello3');
+        expect(analyticsService.spawnAnalytics()).toBe('this be analytics');
     });
 });
