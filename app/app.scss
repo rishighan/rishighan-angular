@@ -14,19 +14,19 @@ $sourceCodeProRegular: 'Source Code Pro';
 
 @font-face {
     font-family: $proximaRegular;
-    src: url('./proximanova-regular-webfont.ttf') format('truetype');
+    src: url('../assets/fonts/proximanova-regular-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: $proximaLightRegular;
-    src: url('./proximanova-light-webfont.ttf') format('truetype');
+    src: url('../assets/fonts/proximanova-light-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: $sourceCodeProRegular;
-    src: url('./SourceCodePro-Regular.ttf') format('truetype');
+    src: url('../assets/fonts/SourceCodePro-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
