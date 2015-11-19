@@ -55,7 +55,9 @@ class AdminController {
                 parallelUploads: 5
             },
             'eventHandlers': {
-                'sending': function(file, xhr, formData) {},
+                'sending': function(file, xhr, formData) {
+                    console.log("Sending" + file);
+                },
                 'success': function(file, response) {},
                 'maxfilesexceeded': function(file) {
                     this.removeFile(file);

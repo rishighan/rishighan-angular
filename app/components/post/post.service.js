@@ -6,14 +6,13 @@ class PostService {
 
     // TODO: make actual calls to API
     read() {
-        return this._$http.get('http://localhost:3001/db/getposts').then(function(result) {
+        return this._$http.get('http://localhost:3000/db/getposts').then(function(result) {
             return result.data;
         });
     }
 
     create() {
-        return this._$http.get('http://localhost:3001/db/createtestpost').then(function(result) {
-            console.log(result);
+        return this._$http.get('http://localhost:3000/db/createtestpost').then(function(result) {
             return result.data;
         });
     }

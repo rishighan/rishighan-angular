@@ -38,7 +38,8 @@ $subheading2:0.6em;
 $caption: 0.5em;
 $tinyCaption: 0.3em;
 $bodyCopy: 0.6em;
-$formLabel: 0.56em;
+$formLabel: 0.5em;
+$formInput: 0.48em;
 
 // Navigation
 // Styles should apply to both the horizontal and vertical nav.
@@ -90,13 +91,14 @@ pre {
 
     label {
         @include setPointSize($formLabel);
+
         &:after {
             content: ' ';
             display: block;
             white-space: wrap;
         }
     }
+    input, textarea {
+        @include setPointSize($formInput);
+    }
 }
-
-
-
