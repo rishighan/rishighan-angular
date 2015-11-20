@@ -4,8 +4,12 @@
 // Colors
 $link: #FFAE00;
 $link-hover: #FF8000;
+$buttonTextDark: #000;
+$buttonTextLight: #FFF;
+
 // Typography
 @import "./sass-partials/typography";
+
 // Fonts
 $proximaLightRegular: 'proxima_nova_ltregular';
 $proximaRegular: 'proxima_nova_regular';
@@ -86,6 +90,8 @@ pre {
         }
     }
 }
+
+// form styles
 .admin {
     font-family: $proximaRegular;
 
@@ -98,7 +104,17 @@ pre {
             white-space: wrap;
         }
     }
+
     input, textarea {
         @include setPointSize($formInput);
+    }
+    .ui-select-match-item{
+        @include setPointSize($caption);
+        background: #CCC;
+        color: $buttonTextLight;
+        padding: 2px 5px 2px 2px;
+        border-radius: 2px;
+        margin-right: 3px;
+        text-transform: uppercase;
     }
 }
