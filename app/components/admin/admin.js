@@ -55,7 +55,7 @@ let adminModule = angular.module('admin', [
 
     formlyConfig.setType({
         name: 'textarea',
-        template: '<label>{{options.templateOptions.label}}</label><textarea ng-model="model[options.key]" rows="10" cols="40"/></label>'
+        template: '<label>{{options.templateOptions.label}}</label><textarea ng-model="model[options.key]"/></label>'
     });
 
     formlyConfig.setType({

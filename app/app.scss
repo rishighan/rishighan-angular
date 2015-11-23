@@ -10,6 +10,9 @@ $buttonTextLight: #FFF;
 // Typography
 @import "./sass-partials/typography";
 
+// Forms
+@import "./sass-partials/forms";
+
 // Fonts
 $proximaLightRegular: 'proxima_nova_ltregular';
 $proximaRegular: 'proxima_nova_regular';
@@ -44,6 +47,7 @@ $tinyCaption: 0.3em;
 $bodyCopy: 0.6em;
 $formLabel: 0.5em;
 $formInput: 0.48em;
+$input: 0.7em;
 
 // Navigation
 // Styles should apply to both the horizontal and vertical nav.
@@ -51,6 +55,11 @@ $formInput: 0.48em;
 // Generic Styles
 pre {
     font-family: $sourceCodeProRegular;
+}
+
+textarea{
+    outline: none;
+    resize: none;
 }
 // Normal Post container
 .container {
@@ -104,17 +113,30 @@ pre {
             white-space: wrap;
         }
     }
+    input{
+        outline: none;
+        @include simpleUnderline(1px, solid, green);
+        @include setPointSize($input);
+    }
 
-    input, textarea {
+    textarea {
         @include setPointSize($formInput);
     }
+    // tag styles
     .ui-select-match-item{
         @include setPointSize($caption);
         background: #CCC;
         color: $buttonTextLight;
+        letter-spacing: 0.07em;
         padding: 2px 5px 2px 2px;
         border-radius: 2px;
         margin-right: 3px;
         text-transform: uppercase;
+    }
+
+    // validation messages
+    .my-messages{
+        @include setPointSize($caption);
+        color: red;
     }
 }

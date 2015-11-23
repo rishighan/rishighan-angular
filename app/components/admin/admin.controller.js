@@ -20,24 +20,14 @@ class AdminController {
         }];
 
         this.model = {
-        investments: [
+        citations: [
           {
-            investmentName:'abc',
-            investmentDate:(new Date()).toDateString(),
-            stockIdentifier:'',
-            investmentValue:'',
-            relationshipName:'',
-            complianceApprover:'',
-            requestorComment:''
+            citationName:'abc',
+            citationSource:'',
           },
           {
-            investmentName:'haf',
-            investmentDate:(new Date()).toDateString(),
-            stockIdentifier:'',
-            investmentValue:'',
-            relationshipName:'',
-            complianceApprover:'',
-            requestorComment:''
+            citationName:'cdfred',
+            citationSource:'',
           }
         ]
       };
@@ -115,34 +105,27 @@ class AdminController {
             }
         }, {
             type: 'repeatSection',
-            key: 'investments',
+            key: 'citations',
             templateOptions: {
-                btnText: 'Add another investment',
+                btnText: 'Add another citation',
                 fields: [{
                     className: 'row',
                     fieldGroup: [{
                         className: 'col-xs-4',
                         type: 'input',
-                        key: 'investmentName',
+                        key: 'citationName',
                         templateOptions: {
-                            label: 'Name of Investment:',
+                            label: 'Citation:',
                             required: true
                         }
                     }, {
                         type: 'input',
-                        key: 'investmentDate',
+                        key: 'citationSource',
                         className: 'col-xs-4',
                         templateOptions: {
-                            label: 'Date of Investment:',
-                            placeholder: 'dd/mm/yyyy such as 20/05/2015',
-                            dateFormat: 'DD, d  MM, yy'
-                        }
-                    }, {
-                        type: 'input',
-                        key: 'stockIdentifier',
-                        className: 'col-xs-4',
-                        templateOptions: {
-                            label: 'Stock Identifier:'
+                            label: 'Source or hyperlink:',
+                            placeholder: 'http://thisthatortheother.com/docs/papersonhysteria',
+                            required: true
                         }
                     }]
                 }]
