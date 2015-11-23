@@ -1,0 +1,30 @@
+// form partial
+@mixin simpleUnderline($borderWidth, $borderStyle, $borderColor){
+    border-top: 0 none;
+    border-left: 0 none;
+    border-right: 0 none;
+    border-bottom: $borderWidth $borderStyle $borderColor;
+}
+
+// button CSS
+.button {
+  border: 0 none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 5px;
+  text-transform: none;
+  outline: none;
+  transition: all 100ms ease-in-out;
+  width: auto; /* auto */
+  text-align: center; /* DELETE WHEN WIDTH AUTO */
+
+  &:hover{
+    background: #CCC;
+  }
+  &.primary{
+    background: blue;
+  }
+}
+
