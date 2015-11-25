@@ -61,7 +61,7 @@
     "api-check": "^7.5.3",
     "bootstrap": "^3.3.5",
     "dropzone": "^4.2.0",
-    "flexboxgrid": "^6.3.0",
-    "googleapis": "^2.1.6"
+    "googleapis": "^2.1.6",
+    "skeleton-css": "^2.0.4"
   }
 }

@@ -73,7 +73,6 @@ module.exports = {
         root: [],
         extensions: ["", ".js", ".jsx", ".node"],
         alias: {
-            "flexboxgrid.css": NODE_MODULES_PATH + "/flexboxgrid/dist/flexboxgrid.css",
             "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js",
             "select.css": BOWER_COMPONENTS_PATH + '/ui-select/dist/select.css',
             "ui-select": BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js"

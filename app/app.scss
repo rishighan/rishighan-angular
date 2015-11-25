@@ -7,11 +7,16 @@ $link-hover: #FF8000;
 $buttonTextDark: #000;
 $buttonTextLight: #FFF;
 
+// Grid
+@import "./sass-partials/grid";
+
 // Typography
 @import "./sass-partials/typography";
 
 // Forms
 @import "./sass-partials/forms";
+
+
 
 // Fonts
 $proximaLightRegular: 'proxima_nova_ltregular';
@@ -47,7 +52,7 @@ $tinyCaption: 0.3em;
 $bodyCopy: 0.6em;
 $formLabel: 0.5em;
 $formInput: 0.48em;
-$input: 0.7em;
+$input: 0.6em;
 
 // Navigation
 // Styles should apply to both the horizontal and vertical nav.
@@ -106,6 +111,8 @@ textarea{
 
     label {
         @include setPointSize($formLabel);
+        display: block;
+        clear: both;
 
         &:after {
             content: ' ';
@@ -122,6 +129,7 @@ textarea{
     textarea {
         @include setPointSize($formInput);
     }
+
     // tag styles
     .ui-select-match-item{
         @include setPointSize($caption);
@@ -137,6 +145,8 @@ textarea{
     // validation messages
     .my-messages{
         @include setPointSize($caption);
+        display: block;
+        clear: both;
         color: red;
     }
 }

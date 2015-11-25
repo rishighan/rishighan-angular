@@ -20,17 +20,14 @@ class AdminController {
         }];
 
         this.model = {
-        citations: [
-          {
-            citationName:'abc',
-            citationSource:'',
-          },
-          {
-            citationName:'cdfred',
-            citationSource:'',
-          }
-        ]
-      };
+            citations: [{
+                citationName: 'abc',
+                citationSource: '',
+            }, {
+                citationName: 'cdfred',
+                citationSource: '',
+            }]
+        };
 
         // dropzone config
         $scope.dropzoneConfig = {
@@ -101,7 +98,8 @@ class AdminController {
                 labelProp: 'label',
                 placeholder: 'Select options',
                 overwriteOk: true,
-                options: testData
+                options: testData,
+                required: true
             }
         }, {
             type: 'repeatSection',
@@ -111,7 +109,7 @@ class AdminController {
                 fields: [{
                     className: 'row',
                     fieldGroup: [{
-                        className: 'col-xs-4',
+                        className: 'col c4',
                         type: 'input',
                         key: 'citationName',
                         templateOptions: {
@@ -119,9 +117,9 @@ class AdminController {
                             required: true
                         }
                     }, {
+                        className: 'col c8',
                         type: 'input',
                         key: 'citationSource',
-                        className: 'col-xs-4',
                         templateOptions: {
                             label: 'Source or hyperlink:',
                             placeholder: 'http://thisthatortheother.com/docs/papersonhysteria',

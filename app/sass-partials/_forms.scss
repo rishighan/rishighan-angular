@@ -1,3 +1,4 @@
+@import './typography';
 // form partial
 @mixin simpleUnderline($borderWidth, $borderStyle, $borderColor){
     border-top: 0 none;
