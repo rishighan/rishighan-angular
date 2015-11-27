@@ -130,6 +130,9 @@ textarea{
         @include setPointSize($formInput);
     }
 
+    .formly-field{
+        margin: 0 0 20px 0;
+    }
     // tag styles
     .ui-select-match-item{
         @include setPointSize($caption);
