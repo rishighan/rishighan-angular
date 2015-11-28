@@ -78,19 +78,11 @@ class AdminController {
                 label: 'Content',
                 required: true
             }
-        }, {
-            key: 'flag',
-            type: 'customInput',
-            templateOptions: {
-                label: 'Flag',
-                type: 'input',
-                placeholder: 'Flag image',
-                required: true
-            }
-        }, {
+        },  {
             key: 'multipleOption',
             type: 'ui-select-multiple',
             templateOptions: {
+                className: 'col-md-6',
                 optionsAttr: 'bs-options',
                 ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
                 label: 'Multiple Select',

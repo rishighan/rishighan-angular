@@ -9,6 +9,11 @@ import formlyBootstrap from 'angular-formly-templates-bootstrap';
 var Dropzone = require('dropzone');
 var uiselect = require('ui-select');
 
+require('bootstrap.css');
+require('bootstrap-theme.css');
+require('jquery');
+require('bootstrap');
+
 let adminModule = angular.module('admin', [
     'ui.router',
     formly,
@@ -50,12 +55,12 @@ let adminModule = angular.module('admin', [
 
     formlyConfig.setType({
         name: 'input',
-        template: '<label>{{options.templateOptions.label}}</label><input class="col c8" ng-model="model[options.key]" />'
+        template: '<label>{{options.templateOptions.label}}</label><input class="col-lg-8 col-md-6" ng-model="model[options.key]" />'
     });
 
     formlyConfig.setType({
         name: 'textarea',
-        template: '<label>{{options.templateOptions.label}}</label><textarea class="col c8" ng-model="model[options.key]"/></label>'
+        template: '<label>{{options.templateOptions.label}}</label><textarea class="col-md-10 col-xs-6" ng-model="model[options.key]"/></label>'
     });
 
     formlyConfig.setType({

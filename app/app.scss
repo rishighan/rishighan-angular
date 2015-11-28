@@ -6,18 +6,10 @@ $link: #FFAE00;
 $link-hover: #FF8000;
 $buttonTextDark: #000;
 $buttonTextLight: #FFF;
-
-// Grid
-@import "./sass-partials/grid";
-
 // Typography
 @import "./sass-partials/typography";
-
 // Forms
 @import "./sass-partials/forms";
-
-
-
 // Fonts
 $proximaLightRegular: 'proxima_nova_ltregular';
 $proximaRegular: 'proxima_nova_regular';
@@ -30,29 +22,30 @@ $sourceCodeProRegular: 'Source Code Pro';
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: $proximaLightRegular;
     src: url('../assets/fonts/proximanova-light-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: $sourceCodeProRegular;
     src: url('../assets/fonts/SourceCodePro-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
+
 // Font sizes
 $megaHeadline: 2em;
-$headline: 1.2em;
-$subheading1:0.8em;
-$subheading2:0.6em;
-$caption: 0.5em;
+$headline: 2.2em;
+$subheading1: 1.3em;
+$subheading2: 1.1em;
+$caption: 0.8em;
 $tinyCaption: 0.3em;
-$bodyCopy: 0.6em;
-$formLabel: 0.5em;
-$formInput: 0.48em;
-$input: 0.6em;
+$bodyCopy: 1em;
+$code: 0.9em;
 
 // Navigation
 // Styles should apply to both the horizontal and vertical nav.
@@ -60,17 +53,18 @@ $input: 0.6em;
 // Generic Styles
 pre {
     font-family: $sourceCodeProRegular;
+    @include setPointSize($code)
 }
 
-textarea{
+textarea {
     outline: none;
     resize: none;
 }
+
 // Normal Post container
 .container {
     .body {
         font-family: $proximaRegular;
-
         a {
             color: $link;
             text-decoration: none;
@@ -81,6 +75,7 @@ textarea{
             }
         }
     }
+
     .post {
         letter-spacing: 0.01em;
         line-height: 1.4em;
@@ -90,19 +85,23 @@ textarea{
             font-family: $proximaRegular;
             @include setPointSize($headline);
         }
+
         h3 {
             font-family: $proximaLightRegular;
             @include setPointSize($subheading1);
         }
+
         h4 {
             font-family: $proximaLightRegular;
             @include setPointSize($subheading2);
         }
+
         .caption {
             @include setPointSize($caption);
             font-style: italic;
         }
     }
+
 }
 
 // form styles
@@ -110,7 +109,8 @@ textarea{
     font-family: $proximaRegular;
 
     label {
-        @include setPointSize($formLabel);
+        //@include setPointSize($formLabel);
+        font-weight: normal;
         display: block;
         clear: both;
 
@@ -119,37 +119,19 @@ textarea{
             display: block;
             white-space: wrap;
         }
-    }
-    input{
-        outline: none;
-        @include simpleUnderline(1px, solid, green);
-        @include setPointSize($input);
+
     }
 
-    textarea {
-        @include setPointSize($formInput);
-    }
-
-    .formly-field{
+    .formly-field {
         margin: 0 0 20px 0;
-    }
-    // tag styles
-    .ui-select-match-item{
-        @include setPointSize($caption);
-        background: #CCC;
-        color: $buttonTextLight;
-        letter-spacing: 0.07em;
-        padding: 2px 5px 2px 2px;
-        border-radius: 2px;
-        margin-right: 3px;
-        text-transform: uppercase;
     }
 
     // validation messages
-    .my-messages{
-        @include setPointSize($caption);
+    .my-messages {
+        //@include setPointSize($caption);
         display: block;
         clear: both;
         color: red;
     }
+
 }
