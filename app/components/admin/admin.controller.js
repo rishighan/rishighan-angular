@@ -69,20 +69,22 @@ class AdminController {
             key: 'postTitle',
             templateOptions: {
                 label: 'Title',
-                required: true
+                required: true,
+                className: 'col-md-6 col-xs-6'
             }
         }, {
             type: 'textarea',
             key: 'content',
             templateOptions: {
                 label: 'Content',
-                required: true
+                required: true,
+                className: 'col-md-10 col-xs-8'
             }
         },  {
             key: 'multipleOption',
             type: 'ui-select-multiple',
             templateOptions: {
-                className: 'col-md-6',
+                className:'col-md-8 col-xs-6',
                 optionsAttr: 'bs-options',
                 ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
                 label: 'Multiple Select',
@@ -99,20 +101,19 @@ class AdminController {
             templateOptions: {
                 btnText: 'Add another citation',
                 fields: [{
-                    className: 'row',
                     fieldGroup: [{
-                        className: 'col c4',
                         type: 'input',
                         key: 'citationName',
                         templateOptions: {
+                            className: 'col-md-10 col-xs-6',
                             label: 'Citation:',
                             required: true
                         }
                     }, {
-                        className: 'col c8',
                         type: 'input',
                         key: 'citationSource',
                         templateOptions: {
+                            className: 'col-md-12 col-xs-6',
                             label: 'Source or hyperlink:',
                             placeholder: 'http://thisthatortheother.com/docs/papersonhysteria',
                             required: true

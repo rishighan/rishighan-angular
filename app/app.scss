@@ -6,10 +6,13 @@ $link: #FFAE00;
 $link-hover: #FF8000;
 $buttonTextDark: #000;
 $buttonTextLight: #FFF;
+
 // Typography
 @import "./sass-partials/typography";
+
 // Forms
 @import "./sass-partials/forms";
+
 // Fonts
 $proximaLightRegular: 'proxima_nova_ltregular';
 $proximaRegular: 'proxima_nova_regular';
@@ -61,6 +64,10 @@ textarea {
     resize: none;
 }
 
+.clearboth{
+    clear: both;
+}
+
 // Normal Post container
 .container {
     .body {
@@ -109,7 +116,6 @@ textarea {
     font-family: $proximaRegular;
 
     label {
-        //@include setPointSize($formLabel);
         font-weight: normal;
         display: block;
         clear: both;
@@ -119,16 +125,19 @@ textarea {
             display: block;
             white-space: wrap;
         }
-
     }
 
-    .formly-field {
-        margin: 0 0 20px 0;
+    input{
+       @include simpleUnderline(1px, solid, black);
+       background: 0 none;
+    }
+
+    textarea{
+        padding: 5px;
     }
 
     // validation messages
     .my-messages {
-        //@include setPointSize($caption);
         display: block;
         clear: both;
         color: red;
