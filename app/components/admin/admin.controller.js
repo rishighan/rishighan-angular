@@ -10,13 +10,19 @@ class AdminController {
 
         var testData = [{
             "id": 1,
-            "label": "Option 1"
+            "label": "Technical"
         }, {
             "id": 2,
-            "label": "Option 2"
+            "label": "Hero"
         }, {
             "id": 3,
-            "label": "Option 3"
+            "label": "Hackintosh"
+        }, {
+            "id": 4,
+            "label": "Highlight"
+        },{
+            "id": 5,
+            "label": "Archive"
         }];
 
         this.model = {
@@ -80,11 +86,11 @@ class AdminController {
                 required: true,
                 className: 'col-md-10 col-xs-8'
             }
-        },  {
+        }, {
             key: 'multipleOption',
             type: 'ui-select-multiple',
             templateOptions: {
-                className:'col-md-8 col-xs-6',
+                className: 'col-md-8 col-xs-6',
                 optionsAttr: 'bs-options',
                 ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
                 label: 'Multiple Select',

@@ -16,7 +16,7 @@
 
 <script type="text/ng-template" id="ui-select-multiple.html">
   <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-6 form-group">
       <ui-select multiple data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}">
         <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
         <ui-select-choices data-repeat="{{to.ngOptions}}">
@@ -38,20 +38,17 @@
 
 <script type="text/ng-template" id="repeatSection.html">
 <!--loop through each element in model array-->
-<div class="row">
+<div class="row form-group">
   <div class="{{hideRepeat}} col-md-8">
-    <div class="repeatsection well" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
-    <formly-form fields="fields" class="options.templateOptions.className" model="element" form="form"></formly-form>
-    <p class="row">
-    <div >
-      <button class="btn btn-xs btn-danger" ng-click="model[options.key].splice($index, 1)">
-      Remove
-      </button>
+    <div class="repeatsection" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
+      <formly-form fields="fields" class="options.templateOptions.className" model="element" form="form"></formly-form>
+    
+    <div class="row">
+      <button class="btn btn-xs btn-danger pull-right" ng-click="model[options.key].splice($index, 1)"> Remove </button>
     </div>
-    </p>
   </div>
   <div>
-    <button  class="btn btn-primary btn-sm" ng-click="addNew()" >{{to.btnText}}</button>
+    <button class="btn btn-primary btn-sm" ng-click="addNew()" >{{to.btnText}}</button>
   </div>
 </div>
 
