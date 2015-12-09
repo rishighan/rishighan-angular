@@ -114,7 +114,9 @@ textarea {
 // form styles
 .admin {
     font-family: $proximaRegular;
-
+    .formly-field{
+        // border:1px solid red;
+    }
     label {
         font-weight: normal;
         display: block;
@@ -127,6 +129,10 @@ textarea {
         }
     }
 
+    .margin20{
+        margin: 20px 0 0px 0;
+    }
+
     input{
        @include simpleUnderline(1px, solid, black);
        background: 0 none;
@@ -134,13 +140,6 @@ textarea {
 
     textarea{
         padding: 5px;
-    }
-
-    // validation messages
-    .my-messages {
-        display: block;
-        clear: both;
-        color: red;
     }
 
 }

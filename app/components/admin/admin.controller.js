@@ -20,7 +20,7 @@ class AdminController {
         }, {
             "id": 4,
             "label": "Highlight"
-        },{
+        }, {
             "id": 5,
             "label": "Archive"
         }];
@@ -73,27 +73,21 @@ class AdminController {
         $scope.postFormFields = [{
             type: 'input',
             key: 'postTitle',
+            className:'clearfix',
             templateOptions: {
                 label: 'Title',
                 required: true,
                 className: 'col-md-6 col-xs-6'
             }
         }, {
-            type: 'textarea',
-            key: 'content',
-            templateOptions: {
-                label: 'Content',
-                required: true,
-                className: 'col-md-10 col-xs-8'
-            }
-        }, {
             key: 'multipleOption',
             type: 'ui-select-multiple',
+            className: 'row margin20',
             templateOptions: {
                 className: 'col-md-8 col-xs-6',
                 optionsAttr: 'bs-options',
                 ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
-                label: 'Multiple Select',
+                label: 'Select tags',
                 valueProp: 'id',
                 labelProp: 'label',
                 placeholder: 'Select options',
@@ -102,14 +96,25 @@ class AdminController {
                 required: true
             }
         }, {
+            type: 'textarea',
+            key: 'content',
+            className: 'clearfix',
+            templateOptions: {
+                label: 'Content',
+                required: true,
+                className: 'col-md-10 col-xs-8'
+            }
+        }, {
             type: 'repeatSection',
             key: 'citations',
+            className: 'margin20',
             templateOptions: {
                 btnText: 'Add another citation',
                 fields: [{
                     fieldGroup: [{
                         type: 'input',
                         key: 'citationName',
+
                         templateOptions: {
                             className: 'col-md-10 col-xs-6',
                             label: 'Citation:',
@@ -118,6 +123,7 @@ class AdminController {
                     }, {
                         type: 'input',
                         key: 'citationSource',
+                        className: 'margin20',
                         templateOptions: {
                             className: 'col-md-12 col-xs-6',
                             label: 'Source or hyperlink:',

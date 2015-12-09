@@ -5,25 +5,29 @@
 
 <formly-form model = "postFormModel" fields = "postFormFields" class="admin">
     <div dropzone="dropzoneConfig">
+      <div class="margin20 well">
         Drag and drop files here or click to upload
+       </div>
     </div>
 </formly-form>
-<pre>
+<p>
+  <pre>
     {{postFormModel | json}}
     {{adminc.gatirodhak}}
     {{testData | json}}
-</pre>
+    </pre>
+</p>
 
 <script type="text/ng-template" id="ui-select-multiple.html">
   <div class="row">
-  <div class="col-md-6 form-group">
-      <ui-select multiple data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}">
-        <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
-        <ui-select-choices data-repeat="{{to.ngOptions}}">
-          <div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>
-        </ui-select-choices>
-      </ui-select>
-  </div>
+    <div class="col-md-6 form-group">
+        <ui-select multiple data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
+          <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
+          <ui-select-choices data-repeat="{{to.ngOptions}}">
+            <div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+    </div>
   </div>
 </script>
 
@@ -38,11 +42,11 @@
 
 <script type="text/ng-template" id="repeatSection.html">
 <!--loop through each element in model array-->
-<div class="row form-group">
+<div class="row">
   <div class="{{hideRepeat}} col-md-8">
     <div class="repeatsection" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
       <formly-form fields="fields" class="options.templateOptions.className" model="element" form="form"></formly-form>
-    
+
     <div class="row">
       <button class="btn btn-xs btn-danger pull-right" ng-click="model[options.key].splice($index, 1)"> Remove </button>
     </div>

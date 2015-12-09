@@ -1,16 +1,25 @@
 @import './typography';
+
 // form partial
-@mixin simpleUnderline($borderWidth, $borderStyle, $borderColor){
-    border-top: 0 none;
-    border-left: 0 none;
-    border-right: 0 none;
-    border-bottom: $borderWidth $borderStyle $borderColor;
-    outline: 0 none;
-    padding: 0;
+@mixin simpleUnderline($borderWidth, $borderStyle, $borderColor) {
+  border-top: 0 none;
+  border-left: 0 none;
+  border-right: 0 none;
+  border-bottom: $borderWidth $borderStyle $borderColor;
+  outline: 0 none;
+  padding: 0;
+}
+
+// formly fields
+// validation messages
+.my-messages {
+  display: block;
+  clear: both;
+  color: red;
 }
 
 // ui-select overrides
-.ui-select-container{
+.ui-select-container {
   border: 0 none;
   padding: 0;
   margin: 0;
@@ -21,12 +30,12 @@
   background: none transparent;
 }
 
-.ui-select-match-item{
+.ui-select-match-item {
   margin: 0 5px 5px 0;
 }
 
-.ui-select-choices{
+.ui-select-choices {
   padding: 5px 0 0 5px;
-  margin: -5px 0 0 0;
+  margin: -9px 0 0 0;
   border-radius: 0px;
 }
