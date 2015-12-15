@@ -16,6 +16,12 @@
   display: block;
   clear: both;
   color: red;
+  position:relative;
+}
+
+.formly-repeatSection{
+  min-height: 68px;
+  max-height: 68px;
 }
 
 // ui-select overrides

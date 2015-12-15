@@ -114,7 +114,7 @@ class AdminController {
                     fieldGroup: [{
                         type: 'input',
                         key: 'citationName',
-
+                        className:'formly-repeatSection',
                         templateOptions: {
                             className: 'col-md-10 col-xs-6',
                             label: 'Citation:',
@@ -123,7 +123,7 @@ class AdminController {
                     }, {
                         type: 'input',
                         key: 'citationSource',
-                        className: 'margin20',
+                        className: 'formly-repeatSection',
                         templateOptions: {
                             className: 'col-md-12 col-xs-6',
                             label: 'Source or hyperlink:',
