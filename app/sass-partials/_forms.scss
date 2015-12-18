@@ -10,15 +10,20 @@
   padding: 0;
 }
 
+@mixin borderStyle($borderWidth, $borderStyle, $borderColor, $borderRadius){
+  border: $borderWidth $borderStyle $borderColor;
+  border-radius: $borderRadius;
+}
+
 // formly fields
 // validation messages
 .my-messages {
   display: block;
   clear: both;
   color: red;
-  position:relative;
 }
 
+// hack for repeat section
 .formly-repeatSection{
   min-height: 68px;
   max-height: 68px;

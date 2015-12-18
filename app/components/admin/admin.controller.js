@@ -4,7 +4,7 @@ class AdminController {
     constructor($scope, formlyValidationMessages, analyticsService) {
         analyticsService.spawnAnalytics();
         $scope.postFormModel = {
-            flag: [],
+            attachedFile: [],
             singleOption: null
         };
 
@@ -56,7 +56,7 @@ class AdminController {
                     this.removeFile(file);
                 },
                 'addedfile': function(file) {
-                    $scope.postFormModel.flag = file.name;
+                    $scope.postFormModel.attachedFile = file.name;
                     $scope.$digest();
                 }
             }
@@ -102,7 +102,7 @@ class AdminController {
             templateOptions: {
                 label: 'Content',
                 required: true,
-                className: 'col-md-10 col-xs-8'
+                className: 'col-md-10 col-xs-6'
             }
         }, {
             type: 'repeatSection',

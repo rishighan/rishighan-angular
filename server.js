@@ -62,11 +62,9 @@ app.get('/db/createtestpost', function(req, res, next) {
     var rishi = new postModel({
         title: "This shit right here",
         tags: [{
-            name: "general",
-            description: "All things go"
+            name: "general"
         }, {
-            name: "rants",
-            description: "sometimes you have to let go"
+            name: "rants"
         }],
         date_created: new Date(),
         date_updated: new Date(),
@@ -80,7 +78,7 @@ app.get('/db/createtestpost', function(req, res, next) {
         content: "This shit right here is cray cray my boo",
         excerpt: "Nah boo",
         citation: [{
-            url: "http://giphy.com/gifs/bachelor-in-paradise-the-bachelorette-Z34IiLkiwSbKw",
+            name: "http://giphy.com/gifs/bachelor-in-paradise-the-bachelorette-Z34IiLkiwSbKw",
             description: "giffy giffy giffy"
         }]
     });
