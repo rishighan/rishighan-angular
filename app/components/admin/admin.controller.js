@@ -100,7 +100,18 @@ class AdminController {
             key: 'content',
             className: 'clearfix',
             templateOptions: {
+                rows: "10",
                 label: 'Content',
+                required: true,
+                className: 'col-md-10 col-xs-6'
+            }
+        },{
+            type: 'textarea',
+            key: 'excerpt',
+            className: 'clearfix margin20',
+            templateOptions: {
+                rows: "3",
+                label: 'Excerpt',
                 required: true,
                 className: 'col-md-10 col-xs-6'
             }

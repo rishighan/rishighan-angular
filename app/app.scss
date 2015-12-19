@@ -114,9 +114,6 @@ textarea {
 // form styles
 .admin {
     font-family: $proximaRegular;
-    .formly-field{
-        // border:1px solid red;
-    }
     label {
         font-weight: normal;
         display: block;
@@ -129,6 +126,7 @@ textarea {
         }
     }
 
+    // TODO: remove this hack
     .margin20{
         margin: 20px 0 0px 0;
     }
