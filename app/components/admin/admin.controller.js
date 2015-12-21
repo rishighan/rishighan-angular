@@ -1,7 +1,13 @@
 import analyticsService from '../analytics/analytics.service';
 
 class AdminController {
-    constructor($scope, formlyValidationMessages, analyticsService) {
+    constructor($scope,
+        formlyValidationMessages,
+        analyticsService,
+        $location,
+        $http) {
+
+
         analyticsService.spawnAnalytics();
         $scope.postFormModel = {
             attachedFile: [],
@@ -25,14 +31,18 @@ class AdminController {
             "label": "Archive"
         }];
 
-        this.model = {
-            citations: [{
-                citationName: 'abc',
-                citationSource: '',
-            }, {
-                citationName: 'cdfred',
-                citationSource: '',
-            }]
+
+
+        $scope.createPost = function() {
+            $http({
+                method: 'POST',
+                url: '/db/createtestpost',
+                data: $scope.postFormModel,
+            }).then(function successCallback(data) {
+                console.log(data);
+            }, function errorCallback(data) {
+                console.log(data);
+            });
         };
 
         // dropzone config
@@ -73,7 +83,7 @@ class AdminController {
         $scope.postFormFields = [{
             type: 'input',
             key: 'postTitle',
-            className:'clearfix',
+            className: 'clearfix',
             templateOptions: {
                 label: 'Title',
                 required: true,
@@ -100,12 +110,12 @@ class AdminController {
             key: 'content',
             className: 'clearfix',
             templateOptions: {
-                rows: "10",
+                rows: "12",
                 label: 'Content',
                 required: true,
-                className: 'col-md-10 col-xs-6'
+                className: 'col-md-10 col-xs-12'
             }
-        },{
+        }, {
             type: 'textarea',
             key: 'excerpt',
             className: 'clearfix margin20',
@@ -113,7 +123,7 @@ class AdminController {
                 rows: "3",
                 label: 'Excerpt',
                 required: true,
-                className: 'col-md-10 col-xs-6'
+                className: 'col-md-10 col-xs-12'
             }
         }, {
             type: 'repeatSection',
@@ -125,7 +135,7 @@ class AdminController {
                     fieldGroup: [{
                         type: 'input',
                         key: 'citationName',
-                        className:'formly-repeatSection',
+                        className: 'formly-repeatSection',
                         templateOptions: {
                             className: 'col-md-10 col-xs-6',
                             label: 'Citation:',

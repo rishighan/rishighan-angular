@@ -4,11 +4,15 @@
 <div class="col-md-10">
 
 <formly-form model = "postFormModel" fields = "postFormFields" class="admin">
-    <div dropzone="dropzoneConfig" class="margin20 well">
-      <div>
-        <h5>Drag and drop files here or click to upload</h5>
-      </div>
+  <div dropzone="dropzoneConfig" class="margin20 well">
+    <div>
+      <h5>Drag and drop files here or click to upload</h5>
     </div>
+  </div>
+
+  <div class="margin20">
+    <button class="btn btn-primary" ng-click="createPost()">Save Post</button>
+  </div>
 </formly-form>
 <p>
   <pre>
@@ -50,7 +54,7 @@
     </div>
 
     <div>
-      <button class="btn btn-primary btn-sm" ng-click="addNew()" >{{to.btnText}}</button>
+      <button class="btn btn-default btn-sm" ng-click="addNew()" >{{to.btnText}}</button>
     </div>
   </div>
 </div>

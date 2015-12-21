@@ -6,8 +6,7 @@ var exports = module.exports = {};
 exports.PostSchema = new Schema({
     title: String,
     tags: [{
-        name: String,
-        description: String
+        name: String
     }],
     date_created: Date,
     date_updated: Date,

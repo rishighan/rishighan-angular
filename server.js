@@ -4,6 +4,9 @@ var path = require('path');
 var express = require('express');
 var fs = require('fs');
 
+var bodyParser = require('body-parser');
+var multer = require('multer');
+
 var webpack = require('webpack');
 var webpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.js');
@@ -20,6 +23,9 @@ var OAuth2 = googleApi.auth.OAuth2;
 console.log("Google API:" + OAuth2)
 // connect to db
 db.connect();
+
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 // create a model using this Schema
 var postModel = mongoose.model('Post', schema.PostSchema);
@@ -57,39 +63,45 @@ app.get('/db/getposts', function(req, res, next) {
 
 });
 
-app.get('/db/createtestpost', function(req, res, next) {
+app.post('/db/createtestpost', function(req, res, next) {
+    // postModel.create({
+    //     title: req.body.postTitle,
+    //     tags:
 
-    var rishi = new postModel({
-        title: "This shit right here",
-        tags: [{
-            name: "general"
-        }, {
-            name: "rants"
-        }],
-        date_created: new Date(),
-        date_updated: new Date(),
-        attachment: [{
-            url: "http://giphy.com/gifs/smile-movie-Kxx2XWn8F4oa4?utm_source=iframe&utm_medium=embed&utm_campaign=tag_click",
-            size: 123,
-            date_created: new Date(),
-            date_updated: new Date()
-        }],
-        is_draft: false,
-        content: "This shit right here is cray cray my boo",
-        excerpt: "Nah boo",
-        citation: [{
-            name: "http://giphy.com/gifs/bachelor-in-paradise-the-bachelorette-Z34IiLkiwSbKw",
-            description: "giffy giffy giffy"
-        }]
-    });
+    // })
+   console.log(req.body);
 
-    rishi.save(function(error, data) {
-        if (error) {
-            res.send(error);
-        } else {
-            res.send(data);
-        }
-    });
+    // var rishi = new postModel({
+    //     title: "This shit right here",
+    //     tags: [{
+    //         name: "general"
+    //     }, {
+    //         name: "rants"
+    //     }],
+    //     date_created: new Date(),
+    //     date_updated: new Date(),
+    //     attachment: [{
+    //         url: "http://giphy.com/gifs/smile-movie-Kxx2XWn8F4oa4?utm_source=iframe&utm_medium=embed&utm_campaign=tag_click",
+    //         size: 123,
+    //         date_created: new Date(),
+    //         date_updated: new Date()
+    //     }],
+    //     is_draft: false,
+    //     content: "This shit right here is cray cray my boo",
+    //     excerpt: "Nah boo",
+    //     citation: [{
+    //         name: "http://giphy.com/gifs/bachelor-in-paradise-the-bachelorette-Z34IiLkiwSbKw",
+    //         description: "giffy giffy giffy"
+    //     }]
+    // });
+
+    // rishi.save(function(error, data) {
+    //     if (error) {
+    //         res.send(error);
+    //     } else {
+    //         res.send(data);
+    //     }
+    // });
 
 });
 
