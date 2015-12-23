@@ -14,6 +14,7 @@ class AdminController {
             singleOption: null
         };
 
+        // should come from a service
         var testData = [{
             "id": 1,
             "label": "Technical"
@@ -30,7 +31,6 @@ class AdminController {
             "id": 5,
             "label": "Archive"
         }];
-
 
 
         $scope.createPost = function() {
@@ -66,7 +66,7 @@ class AdminController {
                     this.removeFile(file);
                 },
                 'addedfile': function(file) {
-                    $scope.postFormModel.attachedFile = file.name;
+                    $scope.postFormModel.attachedFile.push(file.name);
                     $scope.$digest();
                 }
             }
