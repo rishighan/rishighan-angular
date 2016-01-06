@@ -69,7 +69,11 @@ app.post('/db/createtestpost', function(req, res, next) {
     //     tags:
 
     // })
-   console.log(req.body);
+   console.log(req.body.postTitle);
+   PostMode.create({
+    title: req.body.postTitle,
+
+   })
 
     // var rishi = new postModel({
     //     title: "This shit right here",

@@ -10,8 +10,7 @@ class AdminController {
 
         analyticsService.spawnAnalytics();
         $scope.postFormModel = {
-            attachedFile: [],
-            singleOption: null
+            attachedFile: []
         };
 
         // should come from a service
@@ -90,7 +89,7 @@ class AdminController {
                 className: 'col-md-6 col-xs-6'
             }
         }, {
-            key: 'multipleOption',
+            key: 'tags',
             type: 'ui-select-multiple',
             className: 'row margin20',
             templateOptions: {
