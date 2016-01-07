@@ -70,10 +70,21 @@ app.post('/db/createtestpost', function(req, res, next) {
 
     // })
    console.log(req.body.postTitle);
-   PostMode.create({
+   postModel.create({
     title: req.body.postTitle,
-
-   })
+    tags: req.body.tags,
+    date_created: new Date(),
+    date_updated: new Date(),
+    attachment: req.body.attachedFile,
+    is_draft: false,
+    content: req.body.content,
+    excerpt: req.body.excerpt,
+    citation: req.body.citations,
+   }, function(err, post){
+    if(err){
+        res.send(err);
+    }
+});
 
     // var rishi = new postModel({
     //     title: "This shit right here",
