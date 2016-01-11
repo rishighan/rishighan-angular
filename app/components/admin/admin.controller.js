@@ -72,6 +72,9 @@ class AdminController {
         };
         // validation
         this.options = {};
+        $scope.someFunc = function(){
+            console.log("here I am")
+        }
 
         formlyValidationMessages.addTemplateOptionValueMessage('maxlength', 'maxlength', '', 'is the maximum length', 'Too long');
         formlyValidationMessages.addTemplateOptionValueMessage('minlength', 'minlength', '', 'is the minimum length', 'Too short');

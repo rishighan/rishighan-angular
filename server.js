@@ -63,6 +63,7 @@ app.get('/db/getposts', function(req, res, next) {
 
 });
 
+// Create a new post
 app.post('/db/createpost', function(req, res, next) {
 
    postModel.create({
@@ -81,8 +82,17 @@ app.post('/db/createpost', function(req, res, next) {
     }
 });
 
-
 });
+
+// Get all posts
+app.post('db/getallposts', function(req, res, next){
+    postModel.find(function(err, posts){
+        if(err){
+            res.send(err);
+        }
+        res.json(posts);
+    })
+})
 
 
 // new webpackDevServer(webpack(config), {
