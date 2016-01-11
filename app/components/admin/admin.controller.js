@@ -72,8 +72,12 @@ class AdminController {
         };
         // validation
         this.options = {};
-        $scope.someFunc = function(){
-            console.log("here I am")
+        $scope.tagTransform = function(tag){
+            var item = {
+                id: tag,
+                label: tag
+            };
+            return item;
         }
 
         formlyValidationMessages.addTemplateOptionValueMessage('maxlength', 'maxlength', '', 'is the maximum length', 'Too long');
@@ -102,7 +106,7 @@ class AdminController {
                 label: 'Select tags',
                 valueProp: 'id',
                 labelProp: 'label',
-                placeholder: 'Select options',
+                placeholder: 'Select tags for your content',
                 overwriteOk: true,
                 options: testData,
                 required: true
