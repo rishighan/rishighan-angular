@@ -5,13 +5,11 @@ var exports = module.exports = {};
 
 exports.PostSchema = new Schema({
     title: String,
-    tags: [{
-        name: String
-    }],
+    tags: String,
     date_created: Date,
     date_updated: Date,
     attachment: [{
-        url: String,
+        filename: String,
         size: Number,
         date_created: Date,
         date_updated: Date

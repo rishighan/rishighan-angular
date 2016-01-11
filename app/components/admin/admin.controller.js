@@ -15,19 +15,19 @@ class AdminController {
 
         // should come from a service
         var testData = [{
-            "id": 1,
+            "id": "Technical",
             "label": "Technical"
         }, {
-            "id": 2,
+            "id": "Hero",
             "label": "Hero"
         }, {
-            "id": 3,
+            "id": "Hackintosh",
             "label": "Hackintosh"
         }, {
-            "id": 4,
+            "id": "Highlight",
             "label": "Highlight"
         }, {
-            "id": 5,
+            "id": "Archive",
             "label": "Archive"
         }];
 
@@ -35,7 +35,7 @@ class AdminController {
         $scope.createPost = function() {
             $http({
                 method: 'POST',
-                url: '/db/createtestpost',
+                url: '/db/createpost',
                 data: $scope.postFormModel,
             }).then(function successCallback(data) {
                 console.log(data);
@@ -65,7 +65,7 @@ class AdminController {
                     this.removeFile(file);
                 },
                 'addedfile': function(file) {
-                    $scope.postFormModel.attachedFile.push(file.name);
+                    $scope.postFormModel.attachedFile.push({"filename":file.name, "filesize": file.size});
                     $scope.$digest();
                 }
             }

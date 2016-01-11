@@ -63,13 +63,8 @@ app.get('/db/getposts', function(req, res, next) {
 
 });
 
-app.post('/db/createtestpost', function(req, res, next) {
-    // postModel.create({
-    //     title: req.body.postTitle,
-    //     tags:
+app.post('/db/createpost', function(req, res, next) {
 
-    // })
-   console.log(req.body.postTitle);
    postModel.create({
     title: req.body.postTitle,
     tags: req.body.tags,
@@ -86,37 +81,6 @@ app.post('/db/createtestpost', function(req, res, next) {
     }
 });
 
-    // var rishi = new postModel({
-    //     title: "This shit right here",
-    //     tags: [{
-    //         name: "general"
-    //     }, {
-    //         name: "rants"
-    //     }],
-    //     date_created: new Date(),
-    //     date_updated: new Date(),
-    //     attachment: [{
-    //         url: "http://giphy.com/gifs/smile-movie-Kxx2XWn8F4oa4?utm_source=iframe&utm_medium=embed&utm_campaign=tag_click",
-    //         size: 123,
-    //         date_created: new Date(),
-    //         date_updated: new Date()
-    //     }],
-    //     is_draft: false,
-    //     content: "This shit right here is cray cray my boo",
-    //     excerpt: "Nah boo",
-    //     citation: [{
-    //         name: "http://giphy.com/gifs/bachelor-in-paradise-the-bachelorette-Z34IiLkiwSbKw",
-    //         description: "giffy giffy giffy"
-    //     }]
-    // });
-
-    // rishi.save(function(error, data) {
-    //     if (error) {
-    //         res.send(error);
-    //     } else {
-    //         res.send(data);
-    //     }
-    // });
 
 });
 
