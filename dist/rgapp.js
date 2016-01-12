@@ -380,7 +380,7 @@
   \****************************************/
 /***/ function(module, exports) {
 
-	eval("module.exports = \"\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./components/admin/allposts.html\n ** module id = 37\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./components/admin/allposts.html?");
+	eval("module.exports = \"All Posts go here.\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./components/admin/allposts.html\n ** module id = 37\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./components/admin/allposts.html?");
 
 /***/ },
 /* 38 */
