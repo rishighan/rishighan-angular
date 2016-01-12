@@ -23,13 +23,14 @@
 <script type="text/ng-template" id="ui-select-multiple.html">
   <div class="row">
     <div class="col-md-6 form-group">
-        <ui-select multiple tagging="tagTransform" data-ng-model="model[options.key]" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
+        <ui-select multiple tagging="to.tagTransform" data-ng-model="model[options.key]" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
           <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
           <ui-select-choices data-repeat="{{to.ngOptions}}">
-            <div ng-if="option[to.labelProp].isTag" ng-bind-html="option[to.labelProp]+ '(new)' | highlight: $select.search"></div>
-            <div ng-if="!option[to.labelProp].isTag" ng-bind-html="option[to.labelProp] + option[to.labelProp].isTag | highlight: $select.search"></div>
+            <div ng-if="option[to.labelProp].isTag" ng-bind-html="option + '(new)' | highlight: $select.search"></div>
+            <div ng-if="!option[to.labelProp].isTag" ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>
+            {{option}}
           </ui-select-choices>
-          {{option[to.labelProp]}}
+
         </ui-select>
     </div>
   </div>

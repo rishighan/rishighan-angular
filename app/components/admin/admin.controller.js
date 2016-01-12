@@ -31,7 +31,7 @@ class AdminController {
             "label": "General"
         }];
 
-        $scope.tagsCopy = [testData[4]];
+        var tagsCopy = [testData[4]];
 
         $scope.createPost = function() {
             $http({
@@ -50,6 +50,7 @@ class AdminController {
              id: newTag,
              label: newTag
             };
+            console.log("here")
           return item;
         };
 
@@ -109,7 +110,8 @@ class AdminController {
                 valueProp: 'id',
                 labelProp: 'label',
                 placeholder: 'Select tags for your content',
-                options: $scope.tagsCopy
+                options: testData,
+                tagTransform: $scope.tagTransform
             }
         }, {
             type: 'textarea',
