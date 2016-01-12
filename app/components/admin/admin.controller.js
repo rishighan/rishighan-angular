@@ -27,10 +27,11 @@ class AdminController {
             "id": "Highlight",
             "label": "Highlight"
         }, {
-            "id": "Archive",
-            "label": "Archive"
+            "id": "General",
+            "label": "General"
         }];
 
+        $scope.tagsCopy = [testData[4]];
 
         $scope.createPost = function() {
             $http({
@@ -42,6 +43,14 @@ class AdminController {
             }, function errorCallback(data) {
                 console.log(data);
             });
+        };
+
+        $scope.tagTransform = function(newTag){
+          var item = {
+             id: newTag,
+             label: newTag
+            };
+          return item;
         };
 
         // dropzone config
@@ -72,13 +81,6 @@ class AdminController {
         };
         // validation
         this.options = {};
-        $scope.tagTransform = function(tag){
-            var item = {
-                id: tag,
-                label: tag
-            };
-            return item;
-        }
 
         formlyValidationMessages.addTemplateOptionValueMessage('maxlength', 'maxlength', '', 'is the maximum length', 'Too long');
         formlyValidationMessages.addTemplateOptionValueMessage('minlength', 'minlength', '', 'is the minimum length', 'Too short');
@@ -107,9 +109,7 @@ class AdminController {
                 valueProp: 'id',
                 labelProp: 'label',
                 placeholder: 'Select tags for your content',
-                overwriteOk: true,
-                options: testData,
-                required: true
+                options: $scope.tagsCopy
             }
         }, {
             type: 'textarea',
