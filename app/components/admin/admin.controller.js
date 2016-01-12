@@ -104,7 +104,7 @@ class AdminController {
             templateOptions: {
                 className: 'col-md-8 col-xs-6',
                 optionsAttr: 'bs-options',
-                ngOptions: 'option[to.valueProp] as option in to.options | filter: $select.search',
+                ngOptions: 'option in to.options | filter: $select.search',
                 label: 'Select tags',
                 valueProp: 'id',
                 labelProp: 'label',

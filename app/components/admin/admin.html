@@ -29,7 +29,7 @@
             <div ng-if="option[to.labelProp].isTag" ng-bind-html="option[to.labelProp]+ '(new)' | highlight: $select.search"></div>
             <div ng-if="!option[to.labelProp].isTag" ng-bind-html="option[to.labelProp] + option[to.labelProp].isTag | highlight: $select.search"></div>
           </ui-select-choices>
-          {{option}}
+          {{option[to.labelProp]}}
         </ui-select>
     </div>
   </div>
