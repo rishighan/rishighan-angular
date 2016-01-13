@@ -31,7 +31,6 @@ class AdminController {
             "label": "General"
         }];
 
-        var tagsCopy = [testData[4]];
 
         $scope.createPost = function() {
             $http({
@@ -50,9 +49,10 @@ class AdminController {
              id: newTag,
              label: newTag
             };
-            console.log("here")
           return item;
         };
+
+
 
         // dropzone config
         $scope.dropzoneConfig = {
@@ -111,7 +111,7 @@ class AdminController {
                 labelProp: 'label',
                 placeholder: 'Select tags for your content',
                 options: testData,
-                tagTransform: $scope.tagTransform
+                tagTransform: $scope.tagTransform // the tag transform function needs to be a part of templateOptions
             }
         }, {
             type: 'textarea',

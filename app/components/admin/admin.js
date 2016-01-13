@@ -53,6 +53,7 @@ let adminModule = angular.module('admin', [
     };
 })
 
+
 // formly config
 .run(function(formlyConfig) {
 // NOTE: This next line is highly recommended. Otherwise Chrome's autocomplete will appear over your options!
