@@ -5,7 +5,9 @@ var exports = module.exports = {};
 
 exports.PostSchema = new Schema({
     title: String,
-    tags: String,
+    tags: [{
+        name: String
+    }],
     date_created: Date,
     date_updated: Date,
     attachment: [{
