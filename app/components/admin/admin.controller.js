@@ -110,7 +110,7 @@ class AdminController {
                 valueProp: 'id',
                 labelProp: 'label',
                 placeholder: 'Select tags for your content',
-                options: testData,
+                options: testData, // Model containing tags
                 tagTransform: $scope.tagTransform // the tag transform function needs to be a part of templateOptions
             }
         }, {
