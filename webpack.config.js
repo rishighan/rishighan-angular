@@ -76,9 +76,9 @@ module.exports = {
             "jquery": BOWER_COMPONENTS_PATH + '/jquery/dist/jquery.js',
             "bootstrap.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap.css",
             "bootstrap-theme.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap-theme.css",
-            "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js",
             "select.css": BOWER_COMPONENTS_PATH + '/ui-select/dist/select.css',
-            "ui-select": BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js"
+            "ui-select": BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js",
+            "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js"
         },
         modulesDirectories: ['assets', 'node_modules', 'bower_components']
 

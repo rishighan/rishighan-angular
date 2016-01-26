@@ -3,17 +3,20 @@
 <div class="row">
 <div class="col-md-10">
 
-<formly-form model = "postFormModel" fields = "postFormFields" class="admin">
-  <div dropzone="dropzoneConfig" class="margin20 well clearfix">
-    <div>
-      <h5>Drag and drop files here or click to upload</h5>
-    </div>
-  </div>
+<form ng-submit="createPost()" name="form" novalidate enctype="multipart/form-data">
+<formly-form model = "postFormModel" fields = "postFormFields"  form="form" class="admin">
+
+<!--   <div dropzone="dropzoneConfig" class="well clearfix">
+        Drag and drop files here or click to upload
+  </div> -->
+
 
   <div class="margin20">
-    <button class="btn btn-primary" ng-click="createPost()">Save Post</button>
+    <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid">Save Post</button>
   </div>
 </formly-form>
+</form>
+
 <p>
   <pre>
     {{postFormModel | json}}
@@ -23,7 +26,7 @@
 <script type="text/ng-template" id="ui-select-multiple.html">
   <div class="row">
     <div class="col-md-6 form-group">
-        <ui-select multiple tagging="to.tagTransform" tagging-tokens="SPACE|,|/" data-ng-model="model[options.key]" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
+        <ui-select multiple tagging="to.tagTransform" tagging-tokens=";|,|/" data-ng-model="model[options.key]" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
           <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
           <ui-select-choices data-repeat="{{to.ngOptions}}">
             <div ng-if="option.isTag" ng-bind-html="option[to.labelProp] + ' ' + '(add new)' | highlight: $select.search"></div>

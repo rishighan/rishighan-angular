@@ -7,12 +7,13 @@ import repeatSectionController from './repeat.section.controller';
 import ngSanitize from 'angular-sanitize';
 import formlyBootstrap from 'angular-formly-templates-bootstrap';
 
-var Dropzone = require('dropzone');
 var uiselect = require('ui-select');
+var Dropzone = require('dropzone');
 
 require('bootstrap.css');
 require('jquery');
 require('bootstrap');
+
 
 let adminModule = angular.module('admin', [
     'ui.router',
@@ -29,45 +30,51 @@ let adminModule = angular.module('admin', [
             url: '/admin',
             template: '<admin></admin>'
         })
-        .state('posts',{
+        .state('posts', {
             url: '/admin/posts',
             template: '<allposts></allposts>'
         });
 })
 
 .directive('admin', adminComponent)
-.directive('allposts', allPostsComponent)
-.directive('dropzone', function() {
-    return function(scope, element, attrs) {
-        var config, dropzone;
-        //console.log(scope);
-        config = scope[attrs.dropzone];
+    .directive('allposts', allPostsComponent)
+    .directive('dropzone', function() {
+        return function(scope, element, attrs) {
+            var config, dropzone;
+            //console.log(scope);
+            config = scope[attrs.dropzone];
 
-        // create a Dropzone for the element with the given options
-        dropzone = new Dropzone(element[0], config.options);
+            // create a Dropzone for the element with the given options
+            dropzone = new Dropzone(element[0], config.options);
 
-        // bind the given event handlers
-        angular.forEach(config.eventHandlers, function(handler, event) {
-            dropzone.on(event, handler);
-        });
-    };
-})
-
-
+            // bind the given event handlers
+            angular.forEach(config.eventHandlers, function(handler, event) {
+                dropzone.on(event, handler);
+            });
+        };
+    })
 // formly config
 .run(function(formlyConfig) {
-// NOTE: This next line is highly recommended. Otherwise Chrome's autocomplete will appear over your options!
+    // NOTE: This next line is highly recommended. Otherwise Chrome's autocomplete will appear over your options!
     formlyConfig.extras.removeChromeAutoComplete = true;
 
     formlyConfig.setType({
         name: 'input',
-        template: '<label>{{options.templateOptions.label}}</label><input class="{{options.templateOptions.className}}" ng-model="model[options.key]" />'
+        template: '<label>{{options.templateOptions.label}}</label><input class="{{options.templateOptions.className}}" ng-model="model[options.key]" />',
+        overwriteOk: true
     });
 
     formlyConfig.setType({
         name: 'textarea',
         template: '<label>{{options.templateOptions.label}}</label>' +
-                  '<textarea class="{{options.templateOptions.className}}" rows="{{options.templateOptions.rows}}" ng-model="model[options.key]"/></label>'
+            '<textarea class="{{options.templateOptions.className}}" rows="{{options.templateOptions.rows}}" ng-model="model[options.key]"/>',
+        overwriteOk: true
+    });
+
+    formlyConfig.setType({
+        name: 'file',
+        template: '<label>{{options.templateOptions.label}}</label>' +
+            '<input type="file" class="{{options.templateOptions.className}}" ng-model="model[options.key]" ng-change="{{options.templateOptions.changeHandler}}"/>'
     });
 
     formlyConfig.setType({

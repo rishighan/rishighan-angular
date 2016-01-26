@@ -10,7 +10,7 @@ class AdminController {
 
         analyticsService.spawnAnalytics();
         $scope.postFormModel = {
-            attachedFile: []
+            flag: []
         };
 
         // should come from a service
@@ -31,12 +31,39 @@ class AdminController {
             "label": "General"
         }];
 
+        // dropzone config
+        $scope.dropzoneConfig = {
+            'options': {
+                url: "/db/createpost",
+                maxFilesize: 6000,
+                paramName: "uploadfile",
+                maxThumbnailFilesize: 5,
+                autoProcessQueue: false,
+                maxFiles: 5
 
+            },
+            'eventHandlers': {
+                'sending': function (file, xhr, formData) {
+                    $scope.postFormModel.file = file;
+                },
+                'success': function (file, response) {
+
+                },
+                'maxfilesexceeded': function(file){
+                    this.removeFile(file);
+                },
+                'addedfile' : function(file){
+                    $scope.postFormModel.flag = file.name;
+                    $scope.$digest();
+                }
+            }
+        };
         $scope.createPost = function() {
             $http({
                 method: 'POST',
                 url: '/db/createpost',
                 data: $scope.postFormModel,
+                headers: {'Content-Type': undefined},
             }).then(function successCallback(data) {
                 console.log(data);
             }, function errorCallback(data) {
@@ -52,34 +79,11 @@ class AdminController {
           return item;
         };
 
+        $scope.handleUpload = function(){
+            console.log("asdasd");
+        }
 
 
-        // dropzone config
-        $scope.dropzoneConfig = {
-            'options': {
-                url: '/api/files',
-                maxFileSize: 100,
-                paramName: 'uploadedFile',
-                maxThumbnailFilesize: 5,
-                autoProcessQueue: false,
-                maxFiles: 5,
-                uploadMultiple: true,
-                parallelUploads: 5
-            },
-            'eventHandlers': {
-                'sending': function(file, xhr, formData) {
-                    console.log("Sending" + file);
-                },
-                'success': function(file, response) {},
-                'maxfilesexceeded': function(file) {
-                    this.removeFile(file);
-                },
-                'addedfile': function(file) {
-                    $scope.postFormModel.attachedFile.push({"filename":file.name, "filesize": file.size});
-                    $scope.$digest();
-                }
-            }
-        };
         // validation
         this.options = {};
 
@@ -133,7 +137,28 @@ class AdminController {
                 required: true,
                 className: 'col-md-10 col-xs-12'
             }
-        }, {
+        },
+        {
+            type: 'file',
+            key: 'flag',
+            templateOptions: {
+                label: 'File',
+                required: true,
+                className: 'col-md-10 col-xs-12',
+                changeHandler: $scope.handleUpload
+            }
+        },
+        // {
+        //     key: 'flag',
+        //     type: 'customInput',
+        //     templateOptions: {
+        //         label: 'flag',
+        //         type: 'input',
+        //         placeholder: 'Upload that image',
+        //         required: true
+        //     },
+        // },
+        {
             type: 'repeatSection',
             key: 'citations',
             className: 'margin20',
@@ -147,7 +172,7 @@ class AdminController {
                         templateOptions: {
                             className: 'col-md-10 col-xs-6',
                             label: 'Citation:',
-                            required: true
+                            required: false
                         }
                     }, {
                         type: 'input',
@@ -157,7 +182,7 @@ class AdminController {
                             className: 'col-md-12 col-xs-6',
                             label: 'Source or hyperlink:',
                             placeholder: 'http://thisthatortheother.com/docs/papersonhysteria',
-                            required: true
+                            required: false
                         }
                     }]
                 }]
