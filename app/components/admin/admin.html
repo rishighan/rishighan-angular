@@ -6,10 +6,9 @@
 <form ng-submit="createPost()" name="form" novalidate enctype="multipart/form-data">
 <formly-form model = "postFormModel" fields = "postFormFields"  form="form" class="admin">
 
-<!--   <div dropzone="dropzoneConfig" class="well clearfix">
+  <div dropzone="dropzoneConfig" class="well clearfix">
         Drag and drop files here or click to upload
-  </div> -->
-
+  </div>
 
   <div class="margin20">
     <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid">Save Post</button>

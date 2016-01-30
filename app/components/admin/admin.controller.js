@@ -10,7 +10,7 @@ class AdminController {
 
         analyticsService.spawnAnalytics();
         $scope.postFormModel = {
-            flag: []
+            attachedFile: 'Wooot'
         };
 
         // should come from a service
@@ -34,9 +34,9 @@ class AdminController {
         // dropzone config
         $scope.dropzoneConfig = {
             'options': {
-                url: "/db/createpost",
+                url: "/api/files",
                 maxFilesize: 6000,
-                paramName: "uploadfile",
+                paramName: "attachedFile",
                 maxThumbnailFilesize: 5,
                 autoProcessQueue: false,
                 maxFiles: 5
@@ -44,7 +44,7 @@ class AdminController {
             },
             'eventHandlers': {
                 'sending': function (file, xhr, formData) {
-                    $scope.postFormModel.file = file;
+                    console.log(file);
                 },
                 'success': function (file, response) {
 
@@ -53,7 +53,8 @@ class AdminController {
                     this.removeFile(file);
                 },
                 'addedfile' : function(file){
-                    $scope.postFormModel.flag = file.name;
+                    console.log(file)
+                    $scope.postFormModel.attachedFile = file.name;
                     $scope.$digest();
                 }
             }
@@ -62,10 +63,13 @@ class AdminController {
             $http({
                 method: 'POST',
                 url: '/db/createpost',
-                data: $scope.postFormModel,
-                headers: {'Content-Type': undefined},
+                data: $scope.postFormModel
             }).then(function successCallback(data) {
                 console.log(data);
+                if(data.status === 200){
+                    // show confirmation and redirect
+                    console.log('Post added to db');
+                }
             }, function errorCallback(data) {
                 console.log(data);
             });
@@ -78,10 +82,6 @@ class AdminController {
             };
           return item;
         };
-
-        $scope.handleUpload = function(){
-            console.log("asdasd");
-        }
 
 
         // validation
@@ -139,25 +139,15 @@ class AdminController {
             }
         },
         {
-            type: 'file',
-            key: 'flag',
+            key: 'attachedFile',
+            type: 'customInput',
             templateOptions: {
-                label: 'File',
-                required: true,
-                className: 'col-md-10 col-xs-12',
-                changeHandler: $scope.handleUpload
-            }
+                label: 'Upload files',
+                type: 'input',
+                placeholder: 'Upload that image',
+                required: true
+            },
         },
-        // {
-        //     key: 'flag',
-        //     type: 'customInput',
-        //     templateOptions: {
-        //         label: 'flag',
-        //         type: 'input',
-        //         placeholder: 'Upload that image',
-        //         required: true
-        //     },
-        // },
         {
             type: 'repeatSection',
             key: 'citations',

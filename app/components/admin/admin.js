@@ -72,12 +72,6 @@ let adminModule = angular.module('admin', [
     });
 
     formlyConfig.setType({
-        name: 'file',
-        template: '<label>{{options.templateOptions.label}}</label>' +
-            '<input type="file" class="{{options.templateOptions.className}}" ng-model="model[options.key]" ng-change="{{options.templateOptions.changeHandler}}"/>'
-    });
-
-    formlyConfig.setType({
         name: 'customInput',
         extends: 'input',
         controller: ['$scope',
