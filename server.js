@@ -20,7 +20,7 @@ var Post = require('./db/post.crud.js');
 
 var app = express();
 
-// Google APi
+// Google API
 var googleApi = require('googleapis');
 var OAuth2 = googleApi.auth.OAuth2;
 
@@ -33,8 +33,6 @@ db.connect();
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-// create a model using this Schema
-// var postModel = mongoose.model('Post', schema.PostSchema);
 
 // The path to static assets
 var publicPath = path.resolve(__dirname, 'public');
@@ -56,8 +54,13 @@ app.all('/', function (req, res) {
     res.sendFile('index.html', { root:  path.join(__dirname, './app')  });
 })
 
-app.post('/api/files', upload.single('attachedFile'), function(req, res, next){
-    console.log(req.files);
+app.post('/api/files', function(req, res, next){
+  var promise = upload.array('attachedFile[0]', 12);
+  promise.then(function(data){
+    res.send(data);
+  })
+  .catch(console.log)
+  .done();
 });
 
 // Create a new post

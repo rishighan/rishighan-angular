@@ -10,7 +10,7 @@ class AdminController {
 
         analyticsService.spawnAnalytics();
         $scope.postFormModel = {
-            attachedFile: 'Wooot'
+            attachedFile: []
         };
 
         // should come from a service
@@ -35,27 +35,33 @@ class AdminController {
         $scope.dropzoneConfig = {
             'options': {
                 url: "/api/files",
-                maxFilesize: 6000,
+                maxFilesize: 9000000,
                 paramName: "attachedFile",
                 maxThumbnailFilesize: 5,
                 autoProcessQueue: true,
+                uploadMultiple: true,
                 maxFiles: 5
 
             },
             'eventHandlers': {
                 'sending': function (file, xhr, formData) {
-                    console.log(file);
+
 
                 },
                 'success': function (file, response) {
-
+                    console.log(response);
                 },
                 'maxfilesexceeded': function(file){
                     this.removeFile(file);
                 },
                 'addedfile' : function(file){
-                    console.log(file)
-                    $scope.postFormModel.attachedFile = file.name;
+                    var fileObj = {
+                        name: file.name,
+                        size: file.size,
+                        date_created: Date.now(),
+                        date_modified: Date.now()
+                    }
+                    $scope.postFormModel.attachedFile.push(fileObj);
                     $scope.$digest();
                 }
             }
@@ -139,16 +145,16 @@ class AdminController {
                 className: 'col-md-10 col-xs-12'
             }
         },
-        {
-            key: 'attachedFile',
-            type: 'customInput',
-            templateOptions: {
-                label: 'Upload files',
-                type: 'input',
-                placeholder: 'Upload that image',
-                required: true
-            },
-        },
+        // {
+        //     key: 'attachedFile',
+        //     type: 'customInput',
+        //     templateOptions: {
+        //         label: 'Upload files',
+        //         type: 'input',
+        //         placeholder: 'Upload that image',
+        //         required: true
+        //     },
+        // },
         {
             type: 'repeatSection',
             key: 'citations',
