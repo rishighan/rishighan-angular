@@ -38,13 +38,14 @@ class AdminController {
                 maxFilesize: 6000,
                 paramName: "attachedFile",
                 maxThumbnailFilesize: 5,
-                autoProcessQueue: false,
+                autoProcessQueue: true,
                 maxFiles: 5
 
             },
             'eventHandlers': {
                 'sending': function (file, xhr, formData) {
                     console.log(file);
+
                 },
                 'success': function (file, response) {
 

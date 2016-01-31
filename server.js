@@ -56,11 +56,12 @@ app.all('/', function (req, res) {
     res.sendFile('index.html', { root:  path.join(__dirname, './app')  });
 })
 
-
+app.post('/api/files', upload.single('attachedFile'), function(req, res, next){
+    console.log(req.files);
+});
 
 // Create a new post
 app.post('/db/createpost', function(req, res, next) {
-
     var promise = Post.createPost(req.body);
     promise.then(function(data){
               res.send(data);
