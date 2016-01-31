@@ -46,7 +46,6 @@ class AdminController {
             'eventHandlers': {
                 'sending': function (file, xhr, formData) {
 
-
                 },
                 'success': function (file, response) {
                     console.log(response);

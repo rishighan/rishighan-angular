@@ -24,7 +24,17 @@ var app = express();
 var googleApi = require('googleapis');
 var OAuth2 = googleApi.auth.OAuth2;
 
-var upload = multer({dest: __dirname + '/assets/images'});
+// multer config
+var storage = multer.diskStorage({
+    destination: function(req, res, cb){
+        cb(null, __dirname + '/assets/images');
+    },
+    filename: function(req, file, cb){
+        cb(null, file.originalname + '-' + Date.now() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+    }
+});
+
+var upload = multer({storage: storage}).any();
 
 console.log("Google API:" + OAuth2)
 // connect to db
@@ -54,13 +64,16 @@ app.all('/', function (req, res) {
     res.sendFile('index.html', { root:  path.join(__dirname, './app')  });
 })
 
+
+// Upload file(s)
 app.post('/api/files', function(req, res, next){
-  var promise = upload.array('attachedFile[0]', 12);
-  promise.then(function(data){
-    res.send(data);
-  })
-  .catch(console.log)
-  .done();
+    upload(req, res, function(err){
+        if(err){
+            res.json({error_code:1, err_desc: err});
+            return
+        }
+        res.json({error_code:0, err_desc:null})
+    })
 });
 
 // Create a new post
