@@ -84,7 +84,6 @@ app.post('/db/createpost', function(req, res, next) {
             })
            .catch(console.log)
            .done();
-
 });
 
 

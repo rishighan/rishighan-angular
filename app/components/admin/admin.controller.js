@@ -40,7 +40,9 @@ class AdminController {
                 maxThumbnailFilesize: 5,
                 autoProcessQueue: true,
                 uploadMultiple: true,
-                maxFiles: 5
+                parallelUploads: 5,
+                maxFiles: 5,
+                addRemoveLinks: true
 
             },
             'eventHandlers': {
@@ -62,6 +64,11 @@ class AdminController {
                     }
                     $scope.postFormModel.attachedFile.push(fileObj);
                     $scope.$digest();
+                },
+                'removedfile': function(file){
+                    var _ref;
+                    // $scope.postFormModel.attachedFile
+                    return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
             }
         };
@@ -144,16 +151,6 @@ class AdminController {
                 className: 'col-md-10 col-xs-12'
             }
         },
-        // {
-        //     key: 'attachedFile',
-        //     type: 'customInput',
-        //     templateOptions: {
-        //         label: 'Upload files',
-        //         type: 'input',
-        //         placeholder: 'Upload that image',
-        //         required: true
-        //     },
-        // },
         {
             type: 'repeatSection',
             key: 'citations',
