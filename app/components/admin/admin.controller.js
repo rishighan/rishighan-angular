@@ -1,4 +1,5 @@
 import analyticsService from '../analytics/analytics.service';
+import _ from 'underscore';
 
 class AdminController {
     constructor($scope,
@@ -61,14 +62,19 @@ class AdminController {
                         size: file.size,
                         date_created: Date.now(),
                         date_modified: Date.now()
-                    }
+                    };
+
                     $scope.postFormModel.attachedFile.push(fileObj);
                     $scope.$digest();
                 },
                 'removedfile': function(file){
-                    var _ref;
-                    // $scope.postFormModel.attachedFile
-                    return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                    var _ref = file.previewElement;
+
+                    // search the model using file.name as the key
+                    var del = _.where($scope.postFormModel.attachedFile, {name: file.name});
+                    $scope.postFormModel.attachedFile = _.without($scope.postFormModel.attachedFile, del[0]);
+                    $scope.$digest();
+                    return _ref !== null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
             }
         };

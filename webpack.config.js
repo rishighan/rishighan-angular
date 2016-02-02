@@ -78,7 +78,8 @@ module.exports = {
             "bootstrap-theme.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap-theme.css",
             "select.css": BOWER_COMPONENTS_PATH + '/ui-select/dist/select.css',
             "ui-select": BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js",
-            "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js"
+            "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js",
+            "underscore": BOWER_COMPONENTS_PATH + "underscore/underscore-min.js"
         },
         modulesDirectories: ['assets', 'node_modules', 'bower_components']
 
@@ -88,7 +89,8 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
-            "window.jQuery": "jquery"
+            "window.jQuery": "jquery",
+            _: "underscore"
         })
     ]
 
