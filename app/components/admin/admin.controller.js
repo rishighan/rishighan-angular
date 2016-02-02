@@ -8,7 +8,6 @@ class AdminController {
         $location,
         $http) {
 
-
         analyticsService.spawnAnalytics();
         $scope.postFormModel = {
             attachedFile: []
@@ -47,16 +46,16 @@ class AdminController {
 
             },
             'eventHandlers': {
-                'sending': function (file, xhr, formData) {
+                'sending': function(file, xhr, formData) {
 
                 },
-                'success': function (file, response) {
+                'success': function(file, response) {
                     console.log(response);
                 },
-                'maxfilesexceeded': function(file){
+                'maxfilesexceeded': function(file) {
                     this.removeFile(file);
                 },
-                'addedfile' : function(file){
+                'addedfile': function(file) {
                     var fileObj = {
                         name: file.name,
                         size: file.size,
@@ -67,11 +66,13 @@ class AdminController {
                     $scope.postFormModel.attachedFile.push(fileObj);
                     $scope.$digest();
                 },
-                'removedfile': function(file){
+                'removedfile': function(file) {
                     var _ref = file.previewElement;
 
                     // search the model using file.name as the key
-                    var del = _.where($scope.postFormModel.attachedFile, {name: file.name});
+                    var del = _.where($scope.postFormModel.attachedFile, {
+                        name: file.name
+                    });
                     $scope.postFormModel.attachedFile = _.without($scope.postFormModel.attachedFile, del[0]);
                     $scope.$digest();
                     return _ref !== null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
@@ -85,7 +86,7 @@ class AdminController {
                 data: $scope.postFormModel
             }).then(function successCallback(data) {
                 console.log(data);
-                if(data.status === 200){
+                if (data.status === 200) {
                     // show confirmation and redirect
                     console.log('Post added to db');
                 }
@@ -94,12 +95,12 @@ class AdminController {
             });
         };
 
-        $scope.tagTransform = function(newTag){
-          var item = {
-             id: newTag,
-             label: newTag
+        $scope.tagTransform = function(newTag) {
+            var item = {
+                id: newTag,
+                label: newTag
             };
-          return item;
+            return item;
         };
 
 
@@ -156,8 +157,7 @@ class AdminController {
                 required: true,
                 className: 'col-md-10 col-xs-12'
             }
-        },
-        {
+        }, {
             type: 'repeatSection',
             key: 'citations',
             className: 'margin20',

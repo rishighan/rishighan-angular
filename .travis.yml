@@ -1,5 +1,8 @@
 language: node_js
 node_js:
 - '0.12.7'
+install:
+  npm install
+  bower install
 notifications:
   slack: runawayunicorns:Rb8Q5qVgP2cLjaLBVPv3o7S1#random
