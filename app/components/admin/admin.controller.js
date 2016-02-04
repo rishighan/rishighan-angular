@@ -83,8 +83,8 @@ class AdminController {
                 },
                 'removedfile': function(file) {
                     var _ref = file.previewElement;
-
-                    // search the model using file.name as the key
+                    console.log(file);
+                    // update the form model
                     var del = _.where($scope.postFormModel.attachedFile, {
                         name: file.name
                     });
@@ -94,6 +94,7 @@ class AdminController {
                 }
             }
         };
+
         $scope.createPost = function() {
             $http({
                 method: 'POST',
