@@ -13,6 +13,21 @@ class AdminController {
             attachedFile: []
         };
 
+        //
+        this.navItems = [{
+            displayName: "Home",
+            stateReference: "home"
+        }, {
+            displayName: "Work",
+            stateReference: "work"
+        }, {
+            displayName: "Trampoline",
+            stateReference: "post"
+        }, {
+            displayName: "Admin",
+            stateReference: "admin"
+        }];
+
         // should come from a service
         var testData = [{
             "id": "Technical",

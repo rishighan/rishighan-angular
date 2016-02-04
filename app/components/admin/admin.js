@@ -14,7 +14,6 @@ require('bootstrap.css');
 require('jquery');
 require('bootstrap');
 
-
 let adminModule = angular.module('admin', [
     'ui.router',
     formly,
