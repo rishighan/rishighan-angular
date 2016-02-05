@@ -46,33 +46,35 @@ class AdminController {
             "label": "General"
         }];
 
+        $scope.delFile = '';
         // dropzone config
         $scope.dropzoneConfig = {
-            'options': {
+            options: {
                 url: "/api/files",
                 maxFilesize: 9000000,
                 paramName: "attachedFile",
                 maxThumbnailFilesize: 5,
                 autoProcessQueue: true,
                 uploadMultiple: true,
-                parallelUploads: 5,
+                parallelUploads: 1,
                 maxFiles: 5,
-                addRemoveLinks: true
-
+                addRemoveLinks: true,
+                accept: function(file, done){
+                    file.customData = {};
+                    return done();
+                }
             },
-            'eventHandlers': {
-                'sending': function(file, xhr, formData) {
-
+            eventHandlers: {
+                sending: function(file, xhr, formData) {
+                    // renaming the file before sending
+                    var newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
+                    formData.append("newFileName",  newFileName);
                 },
-                'success': function(file, response) {
-                    console.log(response);
-                },
-                'maxfilesexceeded': function(file) {
-                    this.removeFile(file);
-                },
-                'addedfile': function(file) {
-                    var fileObj = {
-                        name: file.name,
+                success: function(file, response) {
+                    // update the form model with the correct filename
+                    file.customData.fileName = response.files[0].filename;
+                     var fileObj = {
+                        name: file.customData.fileName,
                         size: file.size,
                         date_created: Date.now(),
                         date_modified: Date.now()
@@ -81,16 +83,33 @@ class AdminController {
                     $scope.postFormModel.attachedFile.push(fileObj);
                     $scope.$digest();
                 },
-                'removedfile': function(file) {
-                    var _ref = file.previewElement;
-                    console.log(file);
+                maxfilesexceeded: function(file) {
+                    this.removeFile(file);
+                },
+                addedfile: function(file) {
+
+                },
+                removedfile: function(file) {
+                    // make api call to delete file from fs
+                    $http({
+                        method: 'POST',
+                        url: '/api/files/delete',
+                        data: {file: file.customData.fileName}
+
+                    }).then(function successCallback(data){
+                        console.log(data);
+                    }, function errorCallback(data){
+                        console.log(data);
+                    });
+
                     // update the form model
                     var del = _.where($scope.postFormModel.attachedFile, {
-                        name: file.name
+                        name: file.customData.fileName
                     });
+                    var _ref = '';
                     $scope.postFormModel.attachedFile = _.without($scope.postFormModel.attachedFile, del[0]);
                     $scope.$digest();
-                    return _ref !== null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                    return (_ref = file.previewElement) !== null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
             }
         };

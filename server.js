@@ -30,7 +30,8 @@ var storage = multer.diskStorage({
         cb(null, __dirname + '/assets/images');
     },
     filename: function(req, file, cb){
-        cb(null, file.originalname + '-' + Date.now() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+        console.log(req.body);
+        cb(null, req.body.newFileName);
     }
 });
 
@@ -70,10 +71,18 @@ app.post('/api/files', function(req, res, next){
     upload(req, res, function(err){
         if(err){
             res.json({error_code: 1, err_desc: err});
-            return
         }
-        res.json({error_code: 0, err_desc: null})
+        res.json({error_code: 0, err_desc: null, files: req.files})
     })
+});
+
+// Delete File
+app.post('/api/files/delete', function(req, res, next){
+    console.log(req.body);
+    fs.unlink(__dirname + '/assets/images/' + req.body.file, function(error){
+        res.json({error_details: error});
+    });
+
 });
 
 // Create a new post
