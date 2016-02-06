@@ -67,7 +67,7 @@ app.all('/', function (req, res) {
 
 
 // Upload file(s)
-app.post('/api/files', function(req, res, next){
+app.post('/api/files/upload', function(req, res, next){
     upload(req, res, function(err){
         if(err){
             res.json({error_code: 1, err_desc: err});

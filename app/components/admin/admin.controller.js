@@ -1,10 +1,12 @@
 import analyticsService from '../analytics/analytics.service';
+import PostService from '../post/post.service';
 import _ from 'underscore';
 
 class AdminController {
     constructor($scope,
         formlyValidationMessages,
         analyticsService,
+        PostService,
         $location,
         $http) {
 
@@ -50,7 +52,7 @@ class AdminController {
         // dropzone config
         $scope.dropzoneConfig = {
             options: {
-                url: "/api/files",
+                url: "/api/files/upload",
                 maxFilesize: 9000000,
                 paramName: "attachedFile",
                 maxThumbnailFilesize: 5,
@@ -91,15 +93,8 @@ class AdminController {
                 },
                 removedfile: function(file) {
                     // make api call to delete file from fs
-                    $http({
-                        method: 'POST',
-                        url: '/api/files/delete',
-                        data: {file: file.customData.fileName}
-
-                    }).then(function successCallback(data){
-                        console.log(data);
-                    }, function errorCallback(data){
-                        console.log(data);
+                    PostService.deleteFile({file: file.customData.fileName}).then(function(result){
+                        console.log(result);
                     });
 
                     // update the form model
@@ -114,18 +109,8 @@ class AdminController {
             }
         };
 
-        $scope.createPost = function() {
-            $http({
-                method: 'POST',
-                url: '/db/createpost',
-                data: $scope.postFormModel
-            }).then(function successCallback(data) {
-                console.log(data);
-                if (data.status === 200) {
-                    // show confirmation and redirect
-                    console.log('Post added to db');
-                }
-            }, function errorCallback(data) {
+        $scope.createPost = function(){
+            PostService.createPost($scope.postFormModel).then(function(data){
                 console.log(data);
             });
         };
