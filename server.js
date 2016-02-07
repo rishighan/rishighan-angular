@@ -78,7 +78,6 @@ app.post('/api/files/upload', function(req, res, next){
 
 // Delete File
 app.post('/api/files/delete', function(req, res, next){
-    console.log(req.body);
     fs.unlink(__dirname + '/assets/images/' + req.body.file, function(error){
         res.json({error_details: error});
     });

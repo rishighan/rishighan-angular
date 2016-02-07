@@ -32,7 +32,8 @@
     "ui-select": "angular-ui-select#~0.13.2",
     "bootstrap": "~3.3.6",
     "dropzone": "~4.2.0",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "moment": "~2.11.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.7"
