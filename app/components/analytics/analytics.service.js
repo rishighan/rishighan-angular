@@ -4,7 +4,7 @@ class AnalyticsService {
         var foo = "Rishi";
     }
     spawnAnalytics() {
-        console.log("this be analytics");
+        return "this be analytics";
     }
 
 }
