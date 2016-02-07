@@ -18,12 +18,21 @@ class PostService {
             });
     }
 
+    getPosts() {
+        return this._$http.get('/db/getallposts')
+            .then(function(result) {
+                return result;
+            });
+    }
+
     deleteFile(file) {
         return this._$http.post('/api/files/delete', file)
             .then(function(result) {
                 return result;
             });
     }
+
+
 }
 
 export

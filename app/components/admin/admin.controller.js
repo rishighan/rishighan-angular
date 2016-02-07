@@ -1,5 +1,6 @@
 import analyticsService from '../analytics/analytics.service';
 import PostService from '../post/post.service';
+import NavUtilsService from '../../shared/utils/navutils.service';
 import _ from 'underscore';
 
 class AdminController {
@@ -7,6 +8,7 @@ class AdminController {
         formlyValidationMessages,
         analyticsService,
         PostService,
+        NavUtilsService,
         $location,
         $http) {
 
@@ -15,7 +17,7 @@ class AdminController {
             attachedFile: []
         };
 
-        //
+        // admin nav
         this.navItems = [{
             displayName: "Home",
             stateReference: "home"
@@ -48,7 +50,6 @@ class AdminController {
             "label": "General"
         }];
 
-        $scope.delFile = '';
         // dropzone config
         $scope.dropzoneConfig = {
             options: {
@@ -111,7 +112,7 @@ class AdminController {
 
         $scope.createPost = function(){
             PostService.createPost($scope.postFormModel).then(function(data){
-                console.log(data);
+                NavUtilsService.goToAllPostsPage();
             });
         };
 

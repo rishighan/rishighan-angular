@@ -26,23 +26,27 @@ var OAuth2 = googleApi.auth.OAuth2;
 
 // multer config
 var storage = multer.diskStorage({
-    destination: function(req, res, cb){
+    destination: function(req, res, cb) {
         cb(null, __dirname + '/assets/images');
     },
-    filename: function(req, file, cb){
+    filename: function(req, file, cb) {
         console.log(req.body);
         cb(null, req.body.newFileName);
     }
 });
 
-var upload = multer({storage: storage}).any();
+var upload = multer({
+    storage: storage
+}).any();
 
 console.log("Google API:" + OAuth2)
 // connect to db
 db.connect();
 
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({
+    extended: true
+})); // for parsing application/x-www-form-urlencoded
 
 
 // The path to static assets
@@ -61,25 +65,36 @@ app.listen(3000, function() {
     console.log("Server listening on port 3000");
 });
 
-app.all('/', function (req, res) {
-    res.sendFile('index.html', { root:  path.join(__dirname, './app')  });
+app.all('/', function(req, res) {
+    res.sendFile('index.html', {
+        root: path.join(__dirname, './app')
+    });
 })
 
 
 // Upload file(s)
-app.post('/api/files/upload', function(req, res, next){
-    upload(req, res, function(err){
-        if(err){
-            res.json({error_code: 1, err_desc: err});
+app.post('/api/files/upload', function(req, res, next) {
+    upload(req, res, function(err) {
+        if (err) {
+            res.json({
+                error_code: 1,
+                err_desc: err
+            });
         }
-        res.json({error_code: 0, err_desc: null, files: req.files})
+        res.json({
+            error_code: 0,
+            err_desc: null,
+            files: req.files
+        })
     })
 });
 
 // Delete File
-app.post('/api/files/delete', function(req, res, next){
-    fs.unlink(__dirname + '/assets/images/' + req.body.file, function(error){
-        res.json({error_details: error});
+app.post('/api/files/delete', function(req, res, next) {
+    fs.unlink(__dirname + '/assets/images/' + req.body.file, function(error) {
+        res.json({
+            error_details: error
+        });
     });
 
 });
@@ -87,12 +102,22 @@ app.post('/api/files/delete', function(req, res, next){
 // Create a new post
 app.post('/db/createpost', function(req, res, next) {
     var promise = Post.createPost(req.body);
-    promise.then(function(data){
-              res.send(data);
-            })
-           .catch(console.log)
-           .done();
+    promise.then(function(data) {
+        res.send(data);
+    })
+        .catch(console.log)
+        .done();
 });
+
+// get all posts
+app.get('/db/getallposts', function(req, res, next) {
+    var promise = Post.getAllPosts();
+    promise.then(function(data) {
+        res.send(data);
+    })
+        .catch(console.log)
+        .done();
+})
 
 
 
