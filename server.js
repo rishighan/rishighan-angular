@@ -53,6 +53,7 @@ app.use(bodyParser.urlencoded({
 var publicPath = path.resolve(__dirname, 'public');
 app.use('/bower', express.static(path.resolve(__dirname, 'bower_components')));
 app.use('/dist', express.static(path.resolve(__dirname, 'dist')));
+app.use('/', express.static(path.resolve(__dirname, 'app')));
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

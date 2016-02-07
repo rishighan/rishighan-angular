@@ -4,7 +4,7 @@
 <div class="row">
 <div class="col-md-10">
 
-<form ng-submit="createPost()" name="form" novalidate enctype="multipart/form-data">
+<form name="form" novalidate enctype="multipart/form-data">
 <formly-form model = "postFormModel" fields = "postFormFields"  form="form" class="admin">
   <i class="glyphicon glyphicon-ok"></i>
   <div dropzone="dropzoneConfig" class="well clearfix margin20">
@@ -12,7 +12,7 @@
   </div>
 
   <div class="margin20">
-    <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid">Save Post</button>
+    <button class="btn btn-primary" type="submit" ng-click="createPost()" ng-disabled="form.$invalid">Save Post</button>
   </div>
 </formly-form>
 </form>

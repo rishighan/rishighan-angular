@@ -79,7 +79,9 @@ module.exports = {
             "select.css": BOWER_COMPONENTS_PATH + '/ui-select/dist/select.css',
             "ui-select": BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js",
             "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js",
-            "underscore": BOWER_COMPONENTS_PATH + "/underscore/underscore-min.js"
+            "underscore": BOWER_COMPONENTS_PATH + "/underscore/underscore-min.js",
+            "pascalprecht.translate": BOWER_COMPONENTS_PATH + "/angular-translate/angular-translate.js",
+            "translate.static.file.loader": BOWER_COMPONENTS_PATH + '/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js'
         },
         modulesDirectories: ['assets', 'node_modules', 'bower_components']
 

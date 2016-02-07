@@ -62,7 +62,7 @@ class AdminController {
                 parallelUploads: 1,
                 maxFiles: 5,
                 addRemoveLinks: true,
-                accept: function(file, done){
+                accept: function(file, done) {
                     file.customData = {};
                     return done();
                 }
@@ -71,12 +71,12 @@ class AdminController {
                 sending: function(file, xhr, formData) {
                     // renaming the file before sending
                     var newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
-                    formData.append("newFileName",  newFileName);
+                    formData.append("newFileName", newFileName);
                 },
                 success: function(file, response) {
                     // update the form model with the correct filename
                     file.customData.fileName = response.files[0].filename;
-                     var fileObj = {
+                    var fileObj = {
                         name: file.customData.fileName,
                         size: file.size,
                         date_created: Date.now(),
@@ -94,7 +94,9 @@ class AdminController {
                 },
                 removedfile: function(file) {
                     // make api call to delete file from fs
-                    PostService.deleteFile({file: file.customData.fileName}).then(function(result){
+                    PostService.deleteFile({
+                        file: file.customData.fileName
+                    }).then(function(result) {
                         console.log(result);
                     });
 
@@ -110,8 +112,8 @@ class AdminController {
             }
         };
 
-        $scope.createPost = function(){
-            PostService.createPost($scope.postFormModel).then(function(data){
+        $scope.createPost = function() {
+            PostService.createPost($scope.postFormModel).then(function(data) {
                 NavUtilsService.goToAllPostsPage();
             });
         };

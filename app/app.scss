@@ -6,6 +6,17 @@ $link: #FFAE00;
 $link-hover: #FF8000;
 $buttonTextDark: #000;
 $buttonTextLight: #FFF;
+$bodyCopyLight: #6d6d6d;
+
+// Font sizes
+$megaHeadline: 2em;
+$headline: 2.2em;
+$subheading1: 1.3em;
+$subheading2: 1.1em;
+$caption: 0.8em;
+$tinyCaption: 0.3em;
+$bodyCopy: 1em;
+$code: 0.9em;
 
 // Typography
 @import "./sass-partials/typography";
@@ -16,6 +27,7 @@ $buttonTextLight: #FFF;
 // Fonts
 $proximaLightRegular: 'proxima_nova_ltregular';
 $proximaRegular: 'proxima_nova_regular';
+$montserratRegular: 'Montserrat-Regular';
 $proximaSemiBold: 'proxima_nova_semibold';
 $sourceCodeProRegular: 'Source Code Pro';
 
@@ -34,21 +46,20 @@ $sourceCodeProRegular: 'Source Code Pro';
 }
 
 @font-face {
+    font-family: $montserratRegular;
+    src: url('../assets/fonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: $sourceCodeProRegular;
     src: url('../assets/fonts/SourceCodePro-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
-// Font sizes
-$megaHeadline: 2em;
-$headline: 2.2em;
-$subheading1: 1.3em;
-$subheading2: 1.1em;
-$caption: 0.8em;
-$tinyCaption: 0.3em;
-$bodyCopy: 1em;
-$code: 0.9em;
+
 
 // Navigation
 // Styles should apply to both the horizontal and vertical nav.
@@ -114,6 +125,11 @@ textarea {
 // form styles
 .admin {
     font-family: $proximaRegular;
+    color: $bodyCopyLight;
+
+    ul{
+        list-style: none;
+    }
     label {
         font-weight: normal;
         display: block;
@@ -124,6 +140,11 @@ textarea {
             display: block;
             white-space: wrap;
         }
+    }
+
+    .label{
+        font-family: $montserratRegular;
+        font-weight: normal !important;
     }
 
     // TODO: remove this hack
