@@ -7,13 +7,15 @@ class EditPostController {
     constructor($scope,
         $location,
         $http,
+        $stateParams,
         NavUtilsService,
         PostService) {
 
     $scope.post = {};
-
-    PostService.getPosts($location.search(id)).then(function(post){
+    console.log( $stateParams)
+    PostService.getPost($stateParams.id).then(function(post){
         $scope.post = post.data;
+        console.log(post)
     });
 
     }

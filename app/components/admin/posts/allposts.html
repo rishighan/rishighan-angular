@@ -7,7 +7,7 @@
             <section class="row">
                 <ul class="col-md-10">
                     <li ng-repeat="post in posts">
-                        <h3>{{post.title}}</h3>
+                        <h3><a ui-sref="edit({id: post._id})">{{post.title}}</a></h3>
                         <h4>{{post.excerpt}}</h4>
                         <div><small>{{post.date_created | date: "dd m, yyyy" }}</small></div>
                         <span ng-repeat = "tag in post.tags">

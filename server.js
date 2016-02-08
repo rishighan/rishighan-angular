@@ -118,6 +118,16 @@ app.get('/db/getallposts', function(req, res, next) {
     })
         .catch(console.log)
         .done();
+});
+
+app.get('/db/getpost/:id', function(req, res, next){
+    console.log(req.params)
+    var promise = Post.getPost(req.params.id);
+    promise.then(function(post){
+        res.send(post);
+    })
+    .catch(console.log)
+    .done();
 })
 
 

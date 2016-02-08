@@ -4,13 +4,6 @@ class PostService {
         this._$http = $http;
     }
 
-    read() {
-        return this._$http.get('http://localhost:3000/db/getposts')
-            .then(function(result) {
-                return result.data;
-            });
-    }
-
     createPost(data) {
         return this._$http.post('/db/createpost', data)
             .then(function(result) {
@@ -22,6 +15,17 @@ class PostService {
         return this._$http.get('/db/getallposts')
             .then(function(result) {
                 return result;
+            });
+    }
+
+    getPost(id) {
+        return this._$http.get('/db/getpost/' + id, {
+                params: {
+                    id: id
+                }
+            })
+            .then(function(post) {
+                return post;
             });
     }
 

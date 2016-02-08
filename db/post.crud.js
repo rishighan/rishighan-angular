@@ -55,7 +55,7 @@ PostSchema.statics.getPost = function(id) {
     var deferred = Q.defer();
     this.find({
         _id: id
-    }, function(errror, data) {
+    }, function(error, data) {
         if (error) {
             deferred.reject(new Error(error));
         } else {

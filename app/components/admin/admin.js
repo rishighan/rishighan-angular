@@ -33,6 +33,10 @@ let adminModule = angular.module('admin', [
         .state('posts', {
             url: '/admin/posts',
             template: '<allposts></allposts>'
+        })
+        .state('edit', {
+            url: '/admin/post/edit?id',
+            template: '<editpost></editpost>'
         });
 })
 
