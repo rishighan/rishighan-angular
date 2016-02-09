@@ -1,3 +1,18 @@
-editpost.html
+<div class="container admin">
+    <div class="row">
+        <div class="col-md-10">
+            <header>
+                <h2>{{'admin.edit_posts.header' | translate}}</h2>
+            </header>
 
-{{post}}
+            <section class="row col-md-10">
+
+
+                <pre>
+                  {{post | json}}
+                </pre>
+            </section>
+
+        </div>
+    </div>
+</div>

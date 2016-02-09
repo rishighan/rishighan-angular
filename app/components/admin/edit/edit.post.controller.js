@@ -11,8 +11,9 @@ class EditPostController {
         NavUtilsService,
         PostService) {
 
+    // form model
     $scope.post = {};
-    console.log( $stateParams)
+
     PostService.getPost($stateParams.id).then(function(post){
         $scope.post = post.data;
         console.log(post)

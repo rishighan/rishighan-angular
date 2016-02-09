@@ -1,5 +1,8 @@
 {
     "main.posts.header": "Posts",
-    "main.drafts.header": "Drafts"
+    "main.drafts.header": "Drafts",
+
+    "admin.edit_posts.header": "Edit Post",
+    "admin.add_new_posts.header": "Write Something"
 
 }
