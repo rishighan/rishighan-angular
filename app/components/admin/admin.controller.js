@@ -1,6 +1,7 @@
 import analyticsService from '../analytics/analytics.service';
 import PostService from '../post/post.service';
 import NavUtilsService from '../../shared/utils/navutils.service';
+import FormlyDataService from '../../shared/utils/formlydata.service';
 import _ from 'underscore';
 
 class AdminController {
@@ -13,24 +14,13 @@ class AdminController {
         $http) {
 
         analyticsService.spawnAnalytics();
+        $scope.formlyDataService = FormlyDataService.formlyDataFactory();
         $scope.postFormModel = {
             attachedFile: []
         };
 
         // admin nav
-        this.navItems = [{
-            displayName: "Home",
-            stateReference: "home"
-        }, {
-            displayName: "Work",
-            stateReference: "work"
-        }, {
-            displayName: "Trampoline",
-            stateReference: "post"
-        }, {
-            displayName: "Admin",
-            stateReference: "admin"
-        }];
+        this.navItems = NavUtilsService.getAdminNavItems();
 
         // should come from a service
         var testData = [{
@@ -118,15 +108,6 @@ class AdminController {
             });
         };
 
-        $scope.tagTransform = function(newTag) {
-            var item = {
-                id: newTag,
-                label: newTag
-            };
-            return item;
-        };
-
-
         // validation
         this.options = {};
 
@@ -136,80 +117,7 @@ class AdminController {
         formlyValidationMessages.messages.email = '$viewValue + " is not a valid email address"';
 
         // Form Fields
-        $scope.postFormFields = [{
-            type: 'input',
-            key: 'postTitle',
-            className: 'clearfix',
-            templateOptions: {
-                label: 'Title',
-                required: true,
-                className: 'col-md-6 col-xs-6'
-            }
-        }, {
-            key: 'tags',
-            type: 'ui-select-multiple',
-            className: 'row margin20',
-            templateOptions: {
-                className: 'col-md-8 col-xs-6',
-                optionsAttr: 'bs-options',
-                ngOptions: 'option in to.options | filter: $select.search',
-                label: 'Select tags',
-                valueProp: 'id',
-                labelProp: 'label',
-                placeholder: 'Select tags for your content',
-                options: testData, // Model containing tags
-                tagTransform: $scope.tagTransform // the tag transform function needs to be a part of templateOptions
-            }
-        }, {
-            type: 'textarea',
-            key: 'content',
-            className: 'clearfix',
-            templateOptions: {
-                rows: "12",
-                label: 'Content',
-                required: true,
-                className: 'col-md-10 col-xs-12'
-            }
-        }, {
-            type: 'textarea',
-            key: 'excerpt',
-            className: 'clearfix margin20',
-            templateOptions: {
-                rows: "3",
-                label: 'Excerpt',
-                required: true,
-                className: 'col-md-10 col-xs-12'
-            }
-        }, {
-            type: 'repeatSection',
-            key: 'citations',
-            className: 'margin20',
-            templateOptions: {
-                btnText: 'Add another citation',
-                fields: [{
-                    fieldGroup: [{
-                        type: 'input',
-                        key: 'citationName',
-                        className: 'formly-repeatSection',
-                        templateOptions: {
-                            className: 'col-md-10 col-xs-6',
-                            label: 'Citation:',
-                            required: false
-                        }
-                    }, {
-                        type: 'input',
-                        key: 'citationSource',
-                        className: 'formly-repeatSection',
-                        templateOptions: {
-                            className: 'col-md-12 col-xs-6',
-                            label: 'Source or hyperlink:',
-                            placeholder: 'http://thisthatortheother.com/docs/papersonhysteria',
-                            required: false
-                        }
-                    }]
-                }]
-            }
-        }];
+        $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel(testData);
     }
 }
 

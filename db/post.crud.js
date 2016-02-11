@@ -21,8 +21,8 @@ var PostSchema = new Schema({
     content: String,
     excerpt: String,
     citation: [{
-        url: String,
-        description: String
+        name: String,
+        source: String
     }]
 });
 
@@ -38,7 +38,7 @@ PostSchema.statics.createPost = function(data) {
         is_draft: false,
         content: data.content,
         excerpt: data.excerpt,
-        citation: data.citations,
+        citation: data.citation,
     }, function(error, data) {
         if (error) {
             deferred.reject(new Error(error));
