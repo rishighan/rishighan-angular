@@ -38,7 +38,7 @@ PostSchema.statics.createPost = function(data) {
         is_draft: false,
         content: data.content,
         excerpt: data.excerpt,
-        citation: data.citation,
+        citation: data.citations,
     }, function(error, data) {
         if (error) {
             deferred.reject(new Error(error));

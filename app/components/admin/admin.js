@@ -12,7 +12,6 @@ var uiselect = require('ui-select');
 var Dropzone = require('dropzone');
 
 require('bootstrap.css');
-require('jquery');
 require('bootstrap');
 
 let adminModule = angular.module('admin', [
