@@ -30,7 +30,7 @@ var PostSchema = new Schema({
 PostSchema.statics.createPost = function(data) {
     var deferred = Q.defer();
     this.create({
-        title: data.postTitle,
+        title: data.title,
         tags: data.tags,
         date_created: new Date(),
         date_updated: new Date(),

@@ -22,10 +22,11 @@ class EditPostController {
             $scope.post = post.data;
             // Form Fields
             $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel($scope.post[0].tags);
-            return $scope.post;
+            // return $scope.post;
+            return post.data;
         });
 
-         // dropzone config
+        // dropzone config
         $scope.dropzoneConfig = {
             options: {
                 url: "/api/files/upload",
@@ -36,6 +37,7 @@ class EditPostController {
                 uploadMultiple: true,
                 parallelUploads: 1,
                 maxFiles: 5,
+                thumbnailWidth: "150",
                 addRemoveLinks: true,
                 accept: function(file, done) {
                     file.customData = {};
@@ -43,15 +45,17 @@ class EditPostController {
                 },
                 init: function(file, done) {
                     var _this = this;
-                    $scope.postDataPromise.then(function(postData){
-                            console.log(postData)
-                           _this.options.addedfile.call(_this, postData[0].attachment[0]);
-                           _this.options.thumbnail.call(_this, postData[0].attachment[0], "http://someserver.com/myimage.jpg");
 
-
-
-                    // mockFile.previewElement.classList.add('dz-success');
-                    // mockFile.previewElement.classList.add('dz-complete');
+                    $scope.postDataPromise.then(function(postData) {
+                        // TODO: refactor this to handle multiple files
+                        _.each(postData[0].attachment, function(file, index) {
+                            var mockFile = {
+                                name: postData[0].attachment[index].name,
+                                size: postData[0].attachment[index].size
+                            }
+                            _this.options.addedfile.call(_this, mockFile);
+                            _this.options.thumbnail.call(_this, mockFile, "/assets/images/" + mockFile.name);
+                        })
 
                     });
 
@@ -65,22 +69,28 @@ class EditPostController {
                 },
                 success: function(file, response) {
                     // update the form model with the correct filename
-                    // file.customData.fileName = response.files[0].filename;
-                    // var fileObj = {
-                    //     name: file.customData.fileName,
-                    //     size: file.size,
-                    //     date_created: Date.now(),
-                    //     date_modified: Date.now()
-                    // };
+                    file.customData.fileName = response.files[0].filename;
+                    var fileObj = {
+                        name: file.customData.fileName,
+                        size: file.size,
+                        date_created: Date.now(),
+                        date_modified: Date.now()
+                    };
 
-                    // $scope.post[0].attachment.push(fileObj);
-                    // $scope.$digest();
+                    $scope.post[0].attachment.push(fileObj);
+                    $scope.$digest();
                 },
                 maxfilesexceeded: function(file) {
                     this.removeFile(file);
                 },
+                addedFile: function(file) {
+
+                },
 
                 removedfile: function(file) {
+                    // TODO: refactor this to handle already existing
+                    // files, so you don't have to check for the
+                    // fileName param
                     // make api call to delete file from fs
                     PostService.deleteFile({
                         file: file.customData.fileName
