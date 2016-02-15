@@ -52,10 +52,11 @@ class EditPostController {
                             var mockFile = {
                                 name: postData[0].attachment[index].name,
                                 size: postData[0].attachment[index].size
-                            }
+                            };
                             _this.options.addedfile.call(_this, mockFile);
-                            _this.options.thumbnail.call(_this, mockFile, "/assets/images/" + mockFile.name);
-                        })
+                            _this.createThumbnailFromUrl(mockFile, "/assets/images/" + mockFile.name);
+                            // _this.options.thumbnail.call(_this, mockFile, "/assets/images/" + mockFile.name);
+                        });
 
                     });
 
