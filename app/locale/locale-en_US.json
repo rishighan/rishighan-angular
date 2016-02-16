@@ -1,8 +1,13 @@
 {
-    "main.posts.header": "Posts",
-    "main.drafts.header": "Drafts",
+    "main.debug.navitem": "Debug",
+
+    "admin.posts.header": "Posts",
+    "admin.drafts.header": "Drafts",
 
     "admin.edit_posts.header": "Edit Post",
-    "admin.add_new_posts.header": "Write Something"
+    "admin.add_new_posts.header": "Write Something",
+
+    "admin.drag_and_drop.message": "Drag and Drop files here or Click to Upload",
+    "admin.save_publish_post.button": "Save and Publish"
 
 }

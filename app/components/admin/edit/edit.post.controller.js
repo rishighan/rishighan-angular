@@ -47,15 +47,17 @@ class EditPostController {
 
                     $scope.postDataPromise.then(function(postData) {
                         // TODO: check for nullability of postData[0].attachment
-                        _.each(postData[0].attachment, function(file, index) {
-                            var mockFile = {
-                                name: postData[0].attachment[index].name,
-                                size: postData[0].attachment[index].size
-                            };
-                            _this.options.addedfile.call(_this, mockFile);
-                            _this.createThumbnailFromUrl(mockFile, "/assets/images/" + mockFile.name);
-                            // _this.options.thumbnail.call(_this, mockFile, "/assets/images/" + mockFile.name);
-                        });
+                        if (!_.isUndefined(postData[0].attachment)) {
+                            _.each(postData[0].attachment, function(file, index) {
+                                var mockFile = {
+                                    name: postData[0].attachment[index].name,
+                                    size: postData[0].attachment[index].size
+                                };
+                                _this.options.addedfile.call(_this, mockFile);
+                                _this.createThumbnailFromUrl(mockFile, "/assets/images/" + mockFile.name);
+                                // _this.options.thumbnail.call(_this, mockFile, "/assets/images/" + mockFile.name);
+                            });
+                        }
 
                     });
 
@@ -83,20 +85,15 @@ class EditPostController {
                 maxfilesexceeded: function(file) {
                     this.removeFile(file);
                 },
-                addedFile: function(file) {
-
-                },
-
                 removedfile: function(file) {
-                    // TODO: refactor this to handle already existing
-                    // files
+                    // find what to delete
                     var fileToDelete = '';
-                    if(!_.isUndefined(file.customData)){
+                    if (!_.isUndefined(file.customData)) {
                         fileToDelete = file.customData.fileName;
-                    }
-                    else{
+                    } else {
                         fileToDelete = file.name;
                     }
+                    // api call to delete from fs
                     PostService.deleteFile({
                         file: fileToDelete
                     }).then(function(result) {
@@ -113,6 +110,11 @@ class EditPostController {
                     return (_ref = file.previewElement) !== null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
             }
+        };
+
+        // update post
+        $scope.updatePost = function(data){
+
         };
 
 

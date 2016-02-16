@@ -78,6 +78,11 @@ PostSchema.statics.getAllPosts = function() {
     return deferred.promise;
 }
 
+// update or upsert a post
+PostSchema.static.updatePost = function(id){
+    var deferred = Q.defer();
+
+}
 
 var Post = mongoose.model('Post', PostSchema);
 

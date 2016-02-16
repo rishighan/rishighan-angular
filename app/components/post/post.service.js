@@ -29,6 +29,17 @@ class PostService {
             });
     }
 
+    updatePost(id) {
+        return this._$http.post('/db/updatepost/' + id, data, {
+            params: {
+                id: id
+            }
+        })
+        .then(function(result){
+            return result;
+        });
+    }
+
     deleteFile(file) {
         return this._$http.post('/api/files/delete', file)
             .then(function(result) {
