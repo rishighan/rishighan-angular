@@ -20,9 +20,8 @@ class EditPostController {
 
         $scope.postDataPromise = PostService.getPost($stateParams.id).then(function(post) {
             $scope.post = post.data;
-            // Form Fields
+            // Form Fields, pass in the tags model
             $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel($scope.post[0].tags);
-            // return $scope.post;
             return post.data;
         });
 
@@ -47,7 +46,7 @@ class EditPostController {
                     var _this = this;
 
                     $scope.postDataPromise.then(function(postData) {
-                        // TODO: refactor this to handle multiple files
+                        // TODO: check for nullability of postData[0].attachment
                         _.each(postData[0].attachment, function(file, index) {
                             var mockFile = {
                                 name: postData[0].attachment[index].name,
@@ -90,18 +89,23 @@ class EditPostController {
 
                 removedfile: function(file) {
                     // TODO: refactor this to handle already existing
-                    // files, so you don't have to check for the
-                    // fileName param
-                    // make api call to delete file from fs
+                    // files
+                    var fileToDelete = '';
+                    if(!_.isUndefined(file.customData)){
+                        fileToDelete = file.customData.fileName;
+                    }
+                    else{
+                        fileToDelete = file.name;
+                    }
                     PostService.deleteFile({
-                        file: file.customData.fileName
+                        file: fileToDelete
                     }).then(function(result) {
                         console.log(result);
                     });
 
                     // update the form model
                     var del = _.where($scope.post[0].attachment, {
-                        name: file.customData.fileName
+                        name: fileToDelete
                     });
                     var _ref = '';
                     $scope.post[0].attachment = _.without($scope.post[0].attachment, del[0]);
