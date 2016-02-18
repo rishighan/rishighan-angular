@@ -7,12 +7,13 @@ $link-hover: #FF8000;
 $buttonTextDark: #000;
 $buttonTextLight: #FFF;
 $bodyCopyLight: #6d6d6d;
+$lightBackground: #F3F3F3;
 
 // Font sizes
 $megaHeadline: 2em;
 $headline: 2.2em;
-$subheading1: 1.3em;
-$subheading2: 1.1em;
+$subheading1:1.3em;
+$subheading2:1.1em;
 $caption: 0.8em;
 $tinyCaption: 0.3em;
 $bodyCopy: 1em;
@@ -37,30 +38,24 @@ $sourceCodeProRegular: 'Source Code Pro';
     font-weight: normal;
     font-style: normal;
 }
-
 @font-face {
     font-family: $proximaLightRegular;
     src: url('../assets/fonts/proximanova-light-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
-
 @font-face {
     font-family: $montserratRegular;
     src: url('../assets/fonts/Montserrat-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
-
 @font-face {
     font-family: $sourceCodeProRegular;
     src: url('../assets/fonts/SourceCodePro-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
-
-
-
 // Navigation
 // Styles should apply to both the horizontal and vertical nav.
 
@@ -69,20 +64,18 @@ pre {
     font-family: $sourceCodeProRegular;
     @include setPointSize($code)
 }
-
 textarea {
     outline: none;
     resize: none;
 }
-
-.clearboth{
+.clearboth {
     clear: both;
 }
-
 // Normal Post container
 .container {
     .body {
         font-family: $proximaRegular;
+
         a {
             color: $link;
             text-decoration: none;
@@ -93,7 +86,6 @@ textarea {
             }
         }
     }
-
     .post {
         letter-spacing: 0.01em;
         line-height: 1.4em;
@@ -103,23 +95,23 @@ textarea {
             font-family: $proximaRegular;
             @include setPointSize($headline);
         }
-
         h3 {
             font-family: $proximaLightRegular;
             @include setPointSize($subheading1);
         }
-
         h4 {
             font-family: $proximaLightRegular;
             @include setPointSize($subheading2);
         }
-
         .caption {
             @include setPointSize($caption);
             font-style: italic;
         }
     }
+}
 
+.nav {
+    background: $lightBackground;
 }
 
 // form styles
@@ -127,7 +119,7 @@ textarea {
     font-family: $proximaRegular;
     color: $bodyCopyLight;
 
-    ul{
+    ul {
         list-style: none;
     }
     label {
@@ -141,25 +133,20 @@ textarea {
             white-space: wrap;
         }
     }
-
-    .label{
+    .label {
         font-size: 80%;
         letter-spacing: 0.03em;
         font-weight: normal !important;
     }
-
-    // TODO: remove this hack
-    .margin20{
+    // TODO:remove this hack
+    .margin20 {
         margin: 20px 0 0px 0;
     }
-
-    input{
-       @include simpleUnderline(1px, solid, black);
-       background: 0 none;
+    input {
+        @include simpleUnderline(1px, solid, black);
+        background: 0 none;
     }
-
-    textarea{
+    textarea {
         padding: 5px;
     }
-
 }

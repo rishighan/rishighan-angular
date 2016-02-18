@@ -22,8 +22,15 @@ class EditPostController {
             $scope.post = post.data;
             // Form Fields, pass in the tags model
             $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel($scope.post[0].tags);
+
+            _.each($scope.postFormFields, function(v, k){
+                console.log(v);
+            });
+
+
             return post.data;
         });
+
 
         // dropzone config
         $scope.dropzoneConfig = {
@@ -43,18 +50,16 @@ class EditPostController {
                     return done();
                 },
                 init: function(file, done) {
-                    var _this = this;
-
+                    var _dropzoneInstance = this;
                     $scope.postDataPromise.then(function(postData) {
-                        // TODO: check for nullability of postData[0].attachment
                         if (!_.isUndefined(postData[0].attachment)) {
                             _.each(postData[0].attachment, function(file, index) {
                                 var mockFile = {
                                     name: postData[0].attachment[index].name,
                                     size: postData[0].attachment[index].size
                                 };
-                                _this.options.addedfile.call(_this, mockFile);
-                                _this.createThumbnailFromUrl(mockFile, "/assets/images/" + mockFile.name);
+                                _dropzoneInstance.options.addedfile.call(_dropzoneInstance, mockFile);
+                                _dropzoneInstance.createThumbnailFromUrl(mockFile, "/assets/images/" + mockFile.name);
                                 // _this.options.thumbnail.call(_this, mockFile, "/assets/images/" + mockFile.name);
                             });
                         }

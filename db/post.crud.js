@@ -79,8 +79,11 @@ PostSchema.statics.getAllPosts = function() {
 }
 
 // update or upsert a post
-PostSchema.static.updatePost = function(id){
+PostSchema.statics.updatePost = function(id, data){
     var deferred = Q.defer();
+    this.update({
+        _id: id
+    })
 
 }
 
