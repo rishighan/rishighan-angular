@@ -78,14 +78,35 @@ PostSchema.statics.getAllPosts = function() {
     return deferred.promise;
 }
 
-// update or upsert a post
-PostSchema.statics.updatePost = function(id, data){
+// update or
+// Todo: upsert a post
+PostSchema.statics.updatePost = function(id, data) {
     var deferred = Q.defer();
+    var updates = data[0];
     this.update({
-        _id: id
-    })
+        $set: {
+            title: updates.title,
+            tags: updates.tags,
+            date_created: updates.date_created,
+            date_modified: updates.date_modified,
+            attachment: updates.attachment,
+            is_draft: false,
+            content: updates.content,
+            excerpt: updates.excerpt,
+            citation: updates.citation
 
+        }
+    }, function(error, data) {
+        if (error) {
+            deferred.reject(new Error(error));
+        } else {
+            deferred.resolve(data);
+        }
+    });
+
+    return deferred.promise;
 }
+
 
 var Post = mongoose.model('Post', PostSchema);
 

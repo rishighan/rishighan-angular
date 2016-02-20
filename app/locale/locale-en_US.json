@@ -8,6 +8,7 @@
     "admin.add_new_posts.header": "Write Something",
 
     "admin.drag_and_drop.message": "Drag and Drop files here or Click to Upload",
-    "admin.save_publish_post.button": "Save and Publish"
+    "admin.save_publish_post.button": "Save and Publish",
+    "admin.save_changes.button": "Save Changes"
 
 }

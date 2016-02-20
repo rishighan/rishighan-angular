@@ -131,6 +131,16 @@ app.get('/db/getpost/:id', function(req, res, next){
     .done();
 })
 
+app.post('/db/updatepost/:id', function(req, res, next){
+    console.log(req.params);
+    var promise = Post.updatePost(req.params.id, req.body);
+    promise.then(function(result){
+        res.send(result);
+    })
+    .catch(console.log)
+    .done();
+})
+
 
 
 // new webpackDevServer(webpack(config), {

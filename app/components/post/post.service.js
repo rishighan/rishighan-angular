@@ -30,10 +30,9 @@ class PostService {
     }
 
     updatePost(id, data) {
-        return this._$http.post('/db/updatepost/' + id, data, {
+        return this._$http.post('/db/updatepost/' + id, data,{
             params: {
-                id: id,
-                data: data
+                id: id
             }
         })
         .then(function(result){

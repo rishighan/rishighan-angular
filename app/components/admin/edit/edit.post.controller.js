@@ -17,20 +17,12 @@ class EditPostController {
         $scope.post = {};
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
 
-
         $scope.postDataPromise = PostService.getPost($stateParams.id).then(function(post) {
             $scope.post = post.data;
             // Form Fields, pass in the tags model
             $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel($scope.post[0].tags);
-
-            _.each($scope.postFormFields, function(v, k){
-                console.log(v);
-            });
-
-
             return post.data;
         });
-
 
         // dropzone config
         $scope.dropzoneConfig = {
@@ -118,9 +110,12 @@ class EditPostController {
         };
 
         // update post
-        $scope.updatePost = function(data){
-
+        $scope.updatePost = function(data) {
+            PostService.updatePost($scope.post[0]._id, $scope.post);
         };
+
+
+
 
 
     }
