@@ -1,9 +1,10 @@
 import analyticsService from '../../analytics/analytics.service';
 import PostService from '../../post/post.service';
 import NavUtilsService from '../../../shared/utils/navutils.service';
+import MessageUtilsService from '../../../shared/utils/messageutils.service';
 import _ from 'underscore';
 import elasticui from 'elasticui';
-import angularTranslate from 'pascalprecht.translate';
+import $translate from 'pascalprecht.translate';
 
 class AllPostsController {
     constructor($scope,
@@ -11,9 +12,14 @@ class AllPostsController {
         $http,
         analyticsService,
         NavUtilsService,
+        MessageUtilsService,
         PostService) {
 
     $scope.posts = {};
+    $scope.navItems = NavUtilsService.getAdminNavItems();
+
+
+    $scope.messages = MessageUtilsService.notification;
 
     PostService.getPosts().then(function(posts){
         $scope.posts = posts.data;

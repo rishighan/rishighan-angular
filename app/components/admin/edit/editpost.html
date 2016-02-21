@@ -1,9 +1,9 @@
 <navbar menu-items = "navItems" orientation = "horizontal"></navbar>
-    <div class="notifications" ng-if="messages">
-        <ng-messages>
-            <ng-message="messages">{{messages}}</ng-message>
-        </ng-messages>
-    </div>
+<div class="notifications" ng-if="messages">
+    <ng-messages>
+        <ng-message="messages">{{messages}}</ng-message>
+    </ng-messages>
+</div>
 <div class="container admin">
 <div class="row">
     <div class="col-md-10">
@@ -21,7 +21,7 @@
                         <span class="clearfix">{{'admin.drag_and_drop.message' | translate }}</span>
                     </div>
                     <div class="margin20">
-                        <button class="btn btn-primary" type="submit" ng-click="updatePost(post)" ng-disabled="form.$invalid">{{'admin.save_changes.button' | translate }}</button>
+                        <button class="btn btn-primary" type="submit" ng-click="updatePost(post)" ng-disabled="form.$invalid || form.$pristine">{{'admin.save_changes.button' | translate }}</button>
                     </div>
                 </formly-form>
             </form>

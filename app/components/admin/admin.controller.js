@@ -1,8 +1,10 @@
 import analyticsService from '../analytics/analytics.service';
 import PostService from '../post/post.service';
 import NavUtilsService from '../../shared/utils/navutils.service';
+import MessageUtilsService from '../../shared/utils/messageutils.service';
 import FormlyDataService from '../../shared/utils/formlydata.service';
 import _ from 'underscore';
+import $translate from 'pascalprecht.translate';
 
 class AdminController {
     constructor($scope,
@@ -10,6 +12,8 @@ class AdminController {
         analyticsService,
         PostService,
         NavUtilsService,
+        MessageUtilsService,
+        $translate,
         $location,
         $http) {
 
@@ -104,7 +108,9 @@ class AdminController {
 
         $scope.createPost = function() {
             PostService.createPost($scope.postFormModel).then(function(data) {
+                MessageUtilsService.notify($translate('admin.success_create_post.message'));
                 NavUtilsService.goToAllPostsPage();
+
             });
         };
 

@@ -3,18 +3,28 @@ class MessageUtilsService {
     constructor($http, $location) {
         this._$http = $http;
         this._$location = $location;
-        this._$message = {};
-    }
-    displaySuccess(message) {
-        var msgInstance = this._$message;
-        message.then(function(data){
-            msgInstance = data;
-            return msgInstance;
-        })
+        this.notificationPromise = {};
+        this.notification = '';
     }
 
-    getAdminNavItems(){
-        return this.adminNavItems;
+    clearNotifications(){
+        this.notification = '';
+    }
+
+    getNotification(){
+        return this.notification;
+    }
+
+    setNotification(message){
+        this.notification = message;
+    }
+
+    // todo: figure out if we need more methods
+    notify(messagePromise) {
+        var _this = this;
+        messagePromise.then(function(translation){
+            _this.setNotification(translation);
+        })
     }
 
 }

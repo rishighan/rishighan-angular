@@ -23,7 +23,7 @@ class EditPostController {
         // form model
         $scope.post = {};
         $scope.result = null;
-        $scope.messages = MessageUtilsService.message;
+
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
 
         $scope.postDataPromise = PostService.getPost($stateParams.id).then(function(post) {
@@ -123,10 +123,8 @@ class EditPostController {
             var updateResult = PostService.updatePost($scope.post[0]._id, $scope.post);
             updateResult.then(function(result){
                 $scope.result = result.status;
-                MessageUtilsService.displaySuccess($translate('admin.success_edit.message').then(function(translation){
-                    $scope.messages = translation;
-                }));
-
+                NavUtilsService.goToAllPostsPage();
+                MessageUtilsService.notify($translate('admin.success_edit.message'));
             });
         };
 

@@ -11,6 +11,7 @@
     "admin.save_publish_post.button": "Save and Publish",
     "admin.save_changes.button": "Save Changes",
 
-    "admin.success_edit.message": "Changes Saved Successfully"
+    "admin.success_edit.message": "Changes Saved Successfully",
+    "admin.success_create_post.message": "New Post Created Successfully"
 
 }
