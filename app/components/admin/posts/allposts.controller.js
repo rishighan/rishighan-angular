@@ -18,7 +18,7 @@ class AllPostsController {
     $scope.posts = {};
     $scope.navItems = NavUtilsService.getAdminNavItems();
 
-
+    // display status
     $scope.messages = MessageUtilsService.notification;
 
     PostService.getPosts().then(function(posts){

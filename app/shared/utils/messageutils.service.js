@@ -1,28 +1,24 @@
 class MessageUtilsService {
     /*@ngInject*/
-    constructor($http, $location) {
-        this._$http = $http;
-        this._$location = $location;
-        this.notificationPromise = {};
+    constructor() {
         this.notification = '';
     }
 
-    clearNotifications(){
+    clearNotifications() {
         this.notification = '';
     }
 
-    getNotification(){
+    getNotification() {
         return this.notification;
     }
 
-    setNotification(message){
+    setNotification(message) {
         this.notification = message;
     }
 
-    // todo: figure out if we need more methods
     notify(messagePromise) {
         var _this = this;
-        messagePromise.then(function(translation){
+        messagePromise.then(function(translation) {
             _this.setNotification(translation);
         })
     }

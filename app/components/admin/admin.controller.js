@@ -110,7 +110,6 @@ class AdminController {
             PostService.createPost($scope.postFormModel).then(function(data) {
                 MessageUtilsService.notify($translate('admin.success_create_post.message'));
                 NavUtilsService.goToAllPostsPage();
-
             });
         };
 
