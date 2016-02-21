@@ -114,6 +114,13 @@ textarea {
     background: $lightBackground;
 }
 
+.notifications {
+    font-family: $proximaRegular;
+    background: $lightBackground;
+    border-top: 1px solid #CCC;
+    padding: 7px 0 7px 14px;
+}
+
 // form styles
 .admin {
     font-family: $proximaRegular;

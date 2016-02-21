@@ -30,14 +30,14 @@ class PostService {
     }
 
     updatePost(id, data) {
-        return this._$http.post('/db/updatepost/' + id, data,{
-            params: {
-                id: id
-            }
-        })
-        .then(function(result){
-            return result;
-        });
+        return this._$http.post('/db/updatepost/' + id, data, {
+                params: {
+                    id: id
+                }
+            })
+            .then(function(result) {
+                return result;
+            });
     }
 
     deleteFile(file) {

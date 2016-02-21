@@ -1,9 +1,11 @@
 import PostService from '../../post/post.service';
 import NavUtilsService from '../../../shared/utils/navutils.service';
+import MessageUtilsService from '../../../shared/utils/messageutils.service';
 import FormlyDataService from '../../../shared/utils/formlydata.service';
 import _ from 'underscore';
 import angularTranslate from 'pascalprecht.translate';
 import Q from 'Q';
+import $translate from 'pascalprecht.translate';
 
 class EditPostController {
     constructor($scope,
@@ -11,10 +13,17 @@ class EditPostController {
         $http,
         $stateParams,
         NavUtilsService,
-        PostService) {
+        MessageUtilsService,
+        PostService,
+        $translate) {
+
+        // admin nav
+        $scope.navItems = NavUtilsService.getAdminNavItems();
 
         // form model
         $scope.post = {};
+        $scope.result = null;
+        $scope.messages = MessageUtilsService.message;
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
 
         $scope.postDataPromise = PostService.getPost($stateParams.id).then(function(post) {
@@ -111,7 +120,14 @@ class EditPostController {
 
         // update post
         $scope.updatePost = function(data) {
-            PostService.updatePost($scope.post[0]._id, $scope.post);
+            var updateResult = PostService.updatePost($scope.post[0]._id, $scope.post);
+            updateResult.then(function(result){
+                $scope.result = result.status;
+                MessageUtilsService.displaySuccess($translate('admin.success_edit.message').then(function(translation){
+                    $scope.messages = translation;
+                }));
+
+            });
         };
 
 

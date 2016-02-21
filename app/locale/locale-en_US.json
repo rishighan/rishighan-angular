@@ -4,11 +4,13 @@
     "admin.posts.header": "Posts",
     "admin.drafts.header": "Drafts",
 
-    "admin.edit_posts.header": "Edit Post",
+    "admin.edit_posts.header": "Editing",
     "admin.add_new_posts.header": "Write Something",
 
     "admin.drag_and_drop.message": "Drag and Drop files here or Click to Upload",
     "admin.save_publish_post.button": "Save and Publish",
-    "admin.save_changes.button": "Save Changes"
+    "admin.save_changes.button": "Save Changes",
+
+    "admin.success_edit.message": "Changes Saved Successfully"
 
 }

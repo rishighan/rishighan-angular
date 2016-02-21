@@ -1,64 +1,68 @@
+<navbar menu-items = "navItems" orientation = "horizontal"></navbar>
+    <div class="notifications" ng-if="messages">
+        <ng-messages>
+            <ng-message="messages">{{messages}}</ng-message>
+        </ng-messages>
+    </div>
 <div class="container admin">
-    <div class="row">
-        <div class="col-md-10">
-            <header>
-                <h2>{{'admin.edit_posts.header' | translate}}</h2>
-            </header>
-            <section>
-                <pre class="col-md-10">
-                    {{post | json}}
-                </pre>
-                <form name="form" novalidate enctype="multipart/form-data">
-                    <formly-form model = "post[0]" fields = "postFormFields"  form="form" class="admin">
-                        <i class="glyphicon glyphicon-ok"></i>
-                        <div dropzone="dropzoneConfig" class="well clearfix margin20">
-                            <span class="clearfix">{{'admin.drag_and_drop.message' | translate }}</span>
-                        </div>
-                        <div class="margin20">
-                            <button class="btn btn-primary" type="submit" ng-click="updatePost(post)" ng-disabled="form.$invalid">{{'admin.save_changes.button' | translate }}</button>
-                        </div>
-                    </formly-form>
-                </form>
-
-                <script type="text/ng-template" id="ui-select-multiple.html">
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <ui-select multiple tagging="to.tagTransform" tagging-tokens=";|,|/" data-ng-model="model[options.key]" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
-                        <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
-                        <ui-select-choices data-repeat="{{to.ngOptions}}">
-                        <div ng-if="option.isTag" ng-bind-html="option[to.labelProp] + ' ' + '(add new)' | highlight: $select.search"></div>
-                        <div ng-if="!option.isTag" ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>
-                        </ui-select-choices>
-                        </ui-select>
+<div class="row">
+    <div class="col-md-10">
+        <header>
+            <h2>{{'admin.edit_posts.header' | translate}} {{post[0].title}}</h2>
+        </header>
+        <section>
+<!--        <pre class="col-md-10">
+              {{post | json}}
+            </pre> -->
+            <form name="form" novalidate enctype="multipart/form-data">
+                <formly-form model = "post[0]" fields = "postFormFields"  form="form" class="admin">
+                    <i class="glyphicon glyphicon-ok"></i>
+                    <div dropzone="dropzoneConfig" class="well clearfix margin20">
+                        <span class="clearfix">{{'admin.drag_and_drop.message' | translate }}</span>
                     </div>
-                </div>
-                </script>
-
-                <script type="text/ng-template" id="error-messages.html">
-                    <formly-transclude></formly-transclude>
-                    <div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
-                        <div class="some-message" ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages">
-                            {{message(fc.$viewValue, fc.$modelValue, this)}}
-                        </div>
+                    <div class="margin20">
+                        <button class="btn btn-primary" type="submit" ng-click="updatePost(post)" ng-disabled="form.$invalid">{{'admin.save_changes.button' | translate }}</button>
                     </div>
-                </script>
-            <script type="text/ng-template" id="repeatSection.html">
-            <!--loop through each element in model array-->
+                </formly-form>
+            </form>
+            <script type="text/ng-template" id="ui-select-multiple.html">
             <div class="row">
-                <div class="{{hideRepeat}} col-md-8">
-                    <div class="repeatsection" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
-                    <formly-form fields="fields" model="element" form="form"></formly-form>
-                    <div class="row">
-                        <button class="btn btn-xs btn-danger pull-right" ng-click="model[options.key].splice($index, 1)"> Remove </button>
-                    </div>
+                <div class="col-md-6 form-group">
+                    <ui-select multiple tagging="to.tagTransform" tagging-tokens=";|,|/" data-ng-model="model[options.key]" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
+                    <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
+                    <ui-select-choices data-repeat="{{to.ngOptions}}">
+                    <div ng-if="option.isTag" ng-bind-html="option[to.labelProp] + ' ' + '(add new)' | highlight: $select.search"></div>
+                    <div ng-if="!option.isTag" ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>
+                    </ui-select-choices>
+                    </ui-select>
                 </div>
-                <div>
-                    <button class="btn btn-default btn-sm" ng-click="addNew()" >{{to.btnText}}</button>
-                </div>
+            </div>
+            </script>
+            <script type="text/ng-template" id="error-messages.html">
+        <formly-transclude></formly-transclude>
+        <div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
+            <div class="some-message" ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages">
+                {{message(fc.$viewValue, fc.$modelValue, this)}}
             </div>
         </div>
         </script>
-    </section>
+        <script type="text/ng-template" id="repeatSection.html">
+        <!--loop through each element in model array-->
+        <div class="row">
+            <div class="{{hideRepeat}} col-md-8">
+                <div class="repeatsection" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
+                <formly-form fields="fields" model="element" form="form"></formly-form>
+                <div class="row">
+                    <button class="btn btn-xs btn-danger pull-right" ng-click="model[options.key].splice($index, 1)"> Remove </button>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-default btn-sm" ng-click="addNew()" >{{to.btnText}}</button>
+            </div>
+        </div>
+    </div>
+    </script>
+</section>
 </div>
 </div>
 </div>

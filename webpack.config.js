@@ -81,7 +81,8 @@ module.exports = {
             "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js",
             "underscore": BOWER_COMPONENTS_PATH + "/underscore/underscore-min.js",
             "pascalprecht.translate": BOWER_COMPONENTS_PATH + "/angular-translate/angular-translate.js",
-            "translate.static.file.loader": BOWER_COMPONENTS_PATH + '/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js'
+            "translate.static.file.loader": BOWER_COMPONENTS_PATH + '/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+            "ngMessages": BOWER_COMPONENTS_PATH + '/angular-messages/angular-messages.min.js'
         },
         modulesDirectories: ['assets', 'node_modules', 'bower_components']
 
