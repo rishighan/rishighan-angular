@@ -88,7 +88,7 @@ PostSchema.statics.updatePost = function(id, data) {
             title: updates.title,
             tags: updates.tags,
             date_created: updates.date_created,
-            date_modified: updates.date_modified,
+            date_modified: new Date(),
             attachment: updates.attachment,
             is_draft: false,
             content: updates.content,

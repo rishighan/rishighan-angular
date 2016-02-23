@@ -11,6 +11,7 @@ class EditPostController {
     constructor($scope,
         $location,
         $http,
+        $timeout,
         $stateParams,
         NavUtilsService,
         MessageUtilsService,
@@ -28,10 +29,34 @@ class EditPostController {
 
         $scope.postDataPromise = PostService.getPost($stateParams.id).then(function(post) {
             $scope.post = post.data;
+
             // Form Fields, pass in the tags model
             $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel($scope.post[0].tags);
             return post.data;
         });
+
+        // autosave
+        var timeout = null;
+        var saveUpdates = function(){
+            // call to save/upsert as draft
+            console.log("Saved")
+        }
+
+        var debounceUpdates = function(newValue, oldValue){
+            if(newValue !== oldValue){
+                if(timeout){
+                    $timeout.cancel(timeout);
+                }
+                timeout = $timeout(saveUpdates, 1000);
+            }
+        }
+        $scope.$watch('post[0].content', debounceUpdates);
+        $scope.$watch('post[0].title', debounceUpdates);
+        $scope.$watch('post[0].excerpt', debounceUpdates);
+        $scope.$watch('post[0].tags', debounceUpdates);
+
+
+
 
         // dropzone config
         $scope.dropzoneConfig = {
@@ -127,11 +152,6 @@ class EditPostController {
                 MessageUtilsService.notify($translate('admin.success_edit.message'));
             });
         };
-
-
-
-
-
     }
 
 }
