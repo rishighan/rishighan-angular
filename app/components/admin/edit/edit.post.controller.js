@@ -39,7 +39,7 @@ class EditPostController {
         var timeout = null;
         var saveUpdates = function(){
             // call to save/upsert as draft
-            console.log("Saved")
+            console.log("Saved");
         }
 
         var debounceUpdates = function(newValue, oldValue){
@@ -47,15 +47,14 @@ class EditPostController {
                 if(timeout){
                     $timeout.cancel(timeout);
                 }
-                timeout = $timeout(saveUpdates, 1000);
+                timeout = $timeout(saveUpdates, 5000);
             }
         }
         $scope.$watch('post[0].content', debounceUpdates);
         $scope.$watch('post[0].title', debounceUpdates);
         $scope.$watch('post[0].excerpt', debounceUpdates);
         $scope.$watch('post[0].tags', debounceUpdates);
-
-
+        $scope.$watch('post[0].attachment', debounceUpdates);
 
 
         // dropzone config
@@ -145,7 +144,7 @@ class EditPostController {
 
         // update post
         $scope.updatePost = function(data) {
-            var updateResult = PostService.updatePost($scope.post[0]._id, $scope.post);
+            var updateResult = PostService.updatePost($scope.post[0]._id, $scope.post[0], true);
             updateResult.then(function(result){
                 $scope.result = result.status;
                 NavUtilsService.goToAllPostsPage();

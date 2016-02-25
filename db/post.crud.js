@@ -80,9 +80,10 @@ PostSchema.statics.getAllPosts = function() {
 
 // update or
 // Todo: upsert a post
-PostSchema.statics.updatePost = function(id, data) {
+PostSchema.statics.updatePost = function(id, data, upsertValue) {
     var deferred = Q.defer();
-    var updates = data[0];
+    var updates = data;
+
     this.update({
         $set: {
             title: updates.title,
@@ -95,7 +96,8 @@ PostSchema.statics.updatePost = function(id, data) {
             excerpt: updates.excerpt,
             citation: updates.citation
 
-        }
+        },
+        upsert: upsertValue,
     }, function(error, data) {
         if (error) {
             deferred.reject(new Error(error));

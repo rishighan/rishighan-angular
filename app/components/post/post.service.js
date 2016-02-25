@@ -29,10 +29,11 @@ class PostService {
             });
     }
 
-    updatePost(id, data) {
+    updatePost(id, data, upsertToggle) {
         return this._$http.post('/db/updatepost/' + id, data, {
                 params: {
-                    id: id
+                    id: id,
+                    upsertToggle: upsertToggle
                 }
             })
             .then(function(result) {

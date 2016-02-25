@@ -121,8 +121,7 @@ app.get('/db/getallposts', function(req, res, next) {
         .done();
 });
 
-app.get('/db/getpost/:id', function(req, res, next){
-    console.log(req.params)
+app.get('/db/getpost/:id', function(req, res, next){ß
     var promise = Post.getPost(req.params.id);
     promise.then(function(post){
         res.send(post);
@@ -132,8 +131,8 @@ app.get('/db/getpost/:id', function(req, res, next){
 })
 
 app.post('/db/updatepost/:id', function(req, res, next){
-    console.log(req.params);
-    var promise = Post.updatePost(req.params.id, req.body);
+    console.log(req.body);
+    var promise = Post.updatePost(req.params.id, req.body, req.params.upsertToggle);
     promise.then(function(result){
         res.send(result);
     })
