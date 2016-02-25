@@ -121,7 +121,7 @@ app.get('/db/getallposts', function(req, res, next) {
         .done();
 });
 
-app.get('/db/getpost/:id', function(req, res, next){ß
+app.get('/db/getpost/:id', function(req, res, next){
     var promise = Post.getPost(req.params.id);
     promise.then(function(post){
         res.send(post);
