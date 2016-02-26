@@ -20,7 +20,6 @@ class EditPostController {
 
         // admin nav
         $scope.navItems = NavUtilsService.getAdminNavItems();
-
         // form model
         $scope.post = {};
         $scope.result = null;
@@ -39,18 +38,20 @@ class EditPostController {
         var timeout = null;
         var saveUpdates = function(){
             // call to save/upsert as draft
-            PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function(result){
-                console.log(result);
+             PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function(result){
+                MessageUtilsService.notify($translate('admin.autosave_success.message'));
+                $scope.messages = MessageUtilsService.notification;
             });
 
-        }
+
+        };
 
         var debounceUpdates = function(newValue, oldValue){
             if(newValue !== oldValue){
                 if(timeout){
                     $timeout.cancel(timeout);
                 }
-                timeout = $timeout(saveUpdates, 5000);
+                timeout = $timeout(saveUpdates, 4000);
             }
         }
         $scope.$watch('post[0].content', debounceUpdates);
@@ -147,8 +148,7 @@ class EditPostController {
 
         // update post
         $scope.updatePost = function(data) {
-            var updateResult = PostService.updatePost($scope.post[0]._id, $scope.post[0], true);
-            updateResult.then(function(result){
+           PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function(result){
                 $scope.result = result.status;
                 NavUtilsService.goToAllPostsPage();
                 MessageUtilsService.notify($translate('admin.success_edit.message'));
