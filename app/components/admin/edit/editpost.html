@@ -1,19 +1,14 @@
 <navbar menu-items = "navItems" orientation = "horizontal"></navbar>
-<div class="notifications" ng-if="messages">
-    <ng-messages>
-        <ng-message="messages">{{messages}}</ng-message>
-    </ng-messages>
-</div>
+<notification message="messages"></notification>
+
 <div class="container admin">
 <div class="row">
     <div class="col-md-10">
         <header>
-            <h2>{{'admin.edit_posts.header' | translate}} {{post[0].title}}</h2>
+            <h2>{{'admin.edit_posts.header' | translate}} {{post[0].title}}</h2> <small>{{autosaveStatus}}</small>
         </header>
         <section>
-<!--        <pre class="col-md-10">
-              {{post | json}}
-            </pre> -->
+
             <form name="form" novalidate enctype="multipart/form-data">
                 <formly-form model = "post[0]" fields = "postFormFields"  form="form" class="admin">
                     <i class="glyphicon glyphicon-ok"></i>

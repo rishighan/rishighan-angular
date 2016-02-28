@@ -1,12 +1,13 @@
 class MessageUtilsService {
     /*@ngInject*/
     constructor() {
-        this.notification = null;
+        this.notification = "";
+        this.status = "";
     }
 
+
     clearNotifications() {
-        var _this = this;
-        _this.notification = null;
+        this.notification = '';
     }
 
     getNotification() {
@@ -17,10 +18,11 @@ class MessageUtilsService {
         this.notification = message;
     }
 
-    notify(messagePromise) {
+    notify(messagePromise, status) {
         var _this = this;
         messagePromise.then(function(translation) {
             _this.setNotification(translation);
+            _this.status = status;
         });
     }
 

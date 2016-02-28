@@ -20,45 +20,17 @@ class EditPostController {
 
         // admin nav
         $scope.navItems = NavUtilsService.getAdminNavItems();
+
         // form model
         $scope.post = {};
-        $scope.result = null;
-
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
 
         $scope.postDataPromise = PostService.getPost($stateParams.id).then(function(post) {
             $scope.post = post.data;
-
             // Form Fields, pass in the tags model
             $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel($scope.post[0].tags);
             return post.data;
         });
-
-        // autosave
-        var timeout = null;
-        var saveUpdates = function(){
-            // call to save/upsert as draft
-             PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function(result){
-                MessageUtilsService.notify($translate('admin.autosave_success.message'));
-                $scope.messages = MessageUtilsService.notification;
-            });
-
-
-        };
-
-        var debounceUpdates = function(newValue, oldValue){
-            if(newValue !== oldValue){
-                if(timeout){
-                    $timeout.cancel(timeout);
-                }
-                timeout = $timeout(saveUpdates, 4000);
-            }
-        }
-        $scope.$watch('post[0].content', debounceUpdates);
-        $scope.$watch('post[0].title', debounceUpdates);
-        $scope.$watch('post[0].excerpt', debounceUpdates);
-        $scope.$watch('post[0].tags', debounceUpdates);
-        $scope.$watch('post[0].attachment', debounceUpdates);
 
 
         // dropzone config
@@ -148,12 +120,42 @@ class EditPostController {
 
         // update post
         $scope.updatePost = function(data) {
-           PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function(result){
-                $scope.result = result.status;
+            if (timeout) {
+                $timeout.cancel(timeout);
+            }
+            PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function(result) {
                 NavUtilsService.goToAllPostsPage();
-                MessageUtilsService.notify($translate('admin.success_edit.message'));
+                MessageUtilsService.notify($translate('admin.success_edit.message'), 'success');
             });
         };
+
+        // autosave
+        var timeout = null;
+        var saveUpdates = function() {
+            // call to save/upsert as draft
+            PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function(result) {
+                $scope.autosaveStatus = 'Saved';
+                $timeout(function() {
+                    $scope.autosaveStatus = '';
+                }, 3000)
+            });
+        };
+
+        var debounceUpdates = function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+                if (timeout) {
+                    $timeout.cancel(timeout);
+                }
+                timeout = $timeout(saveUpdates, 4000);
+            }
+        }
+
+        $scope.$watch('post[0].content', debounceUpdates);
+        $scope.$watch('post[0].title', debounceUpdates);
+        $scope.$watch('post[0].excerpt', debounceUpdates);
+        $scope.$watchCollection('post[0].tags', debounceUpdates);
+        $scope.$watchCollection('post[0].citation', debounceUpdates);
+        $scope.$watchCollection('post[0].attachment', debounceUpdates);
     }
 
 }

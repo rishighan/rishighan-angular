@@ -1,9 +1,6 @@
 <navbar menu-items = "navItems" orientation = "horizontal"></navbar>
-<div class="notifications" ng-if="messages">
-    <ng-messages>
-        <ng-message="messages">{{messages}}</ng-message>
-    </ng-messages>
-</div>
+<notification message="messages"></notification>
+
 <div class="container admin">
     <div class="row">
         <div class="col-md-10">
