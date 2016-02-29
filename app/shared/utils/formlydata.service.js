@@ -40,7 +40,7 @@ class FormlyDataService {
             }
         }, {
             key: 'content',
-            type: 'textarea',
+            type: 'textareaTabs',
             className: 'clearfix',
             templateOptions: {
                 rows: "12",

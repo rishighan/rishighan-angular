@@ -40,8 +40,8 @@ let adminModule = angular.module('admin', [
 })
 
 .directive('admin', adminComponent)
-.directive('allposts', allPostsComponent)
-.directive('editpost', editPostComponent)
+    .directive('allposts', allPostsComponent)
+    .directive('editpost', editPostComponent)
 
 .directive('dropzone', function() {
     return function(scope, element, attrs) {
@@ -70,9 +70,15 @@ let adminModule = angular.module('admin', [
     });
 
     formlyConfig.setType({
+        name: 'textareaTabs',
+        templateUrl: 'textarea.tpl.html',
+        overwriteOk: true
+    });
+
+    formlyConfig.setType({
         name: 'textarea',
         template: '<label>{{options.templateOptions.label}}</label>' +
-            '<textarea class="{{options.templateOptions.className}}" rows="{{options.templateOptions.rows}}" ng-model="model[options.key]"/>',
+                  '<textarea class="{{options.templateOptions.className}}" rows="{{options.templateOptions.rows}}" ng-model="model[options.key]"> </textarea>',
         overwriteOk: true
     });
 

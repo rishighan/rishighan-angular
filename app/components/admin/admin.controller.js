@@ -5,6 +5,7 @@ import MessageUtilsService from '../../shared/utils/messageutils.service';
 import FormlyDataService from '../../shared/utils/formlydata.service';
 import _ from 'underscore';
 import $translate from 'pascalprecht.translate';
+import showdown from 'showdown';
 
 class AdminController {
     constructor($scope,
@@ -25,6 +26,7 @@ class AdminController {
 
         // admin nav
         this.navItems = NavUtilsService.getAdminNavItems();
+        var converter = new showdown.Converter();
 
         // should come from a service
         var testData = [{
@@ -123,6 +125,8 @@ class AdminController {
 
         // Form Fields
         $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel(testData);
+        console.log(converter);
+        $scope.someString = "**Rishi**"
     }
 }
 

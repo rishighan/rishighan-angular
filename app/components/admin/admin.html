@@ -1,79 +1,86 @@
 <navbar menu-items = "adminc.navItems" orientation = "horizontal"></navbar>
 <div class="notifications" ng-if="messages">
-    <ng-messages>
-        <ng-message="messages">{{messages}}</ng-message>
-    </ng-messages>
+<ng-messages>
+<ng-message="messages">{{messages}}</ng-message>
+</ng-messages>
 </div>
 <div class="container admin">
 <div class="row">
-<div class="col-md-10">
-<header>
-    <h2>{{'admin.add_new_posts.header' | translate}}</h2>
-</header>
-<form name="form" novalidate enctype="multipart/form-data">
-<formly-form model = "postFormModel" fields = "postFormFields"  form="form" class="admin">
-  <i class="glyphicon glyphicon-ok"></i>
-  <div dropzone="dropzoneConfig" class="well clearfix margin20">
-        <span class="clearfix">Drag and drop files here or click to upload</span>
-  </div>
-
-  <div class="margin20">
-    <button class="btn btn-primary" type="submit" ng-click="createPost()" ng-disabled="form.$invalid">Save Post</button>
-  </div>
-</formly-form>
-</form>
-
-<p>
-  <pre>
-    {{postFormModel | json}}
-  </pre>
-</p>
-
-<script type="text/ng-template" id="ui-select-multiple.html">
-  <div class="row">
-    <div class="col-md-6 form-group">
-        <ui-select multiple tagging="to.tagTransform" tagging-tokens=";|,|/" data-ng-model="model[options.key]" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
-          <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
-          <ui-select-choices data-repeat="{{to.ngOptions}}">
-            <div ng-if="option.isTag" ng-bind-html="option[to.labelProp] + ' ' + '(add new)' | highlight: $select.search"></div>
-            <div ng-if="!option.isTag" ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>
-          </ui-select-choices>
-        </ui-select>
-    </div>
-  </div>
-</script>
-
-<script type="text/ng-template" id="error-messages.html">
-    <formly-transclude></formly-transclude>
-    <div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
-        <div class="some-message" ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages">
-            {{message(fc.$viewValue, fc.$modelValue, this)}}
+  <div class="col-md-10">
+    <header>
+      <h2>{{'admin.add_new_posts.header' | translate}}</h2>
+    </header>
+    <form name="form" novalidate enctype="multipart/form-data">
+      <formly-form model = "postFormModel" fields = "postFormFields"  form="form" class="admin">
+        <i class="glyphicon glyphicon-ok"></i>
+        <div dropzone="dropzoneConfig" class="well clearfix margin20">
+          <span class="clearfix">Drag and drop files here or click to upload</span>
         </div>
+        <div class="margin20">
+          <button class="btn btn-primary" type="submit" ng-click="createPost()" ng-disabled="form.$invalid">Save Post</button>
+        </div>
+      </formly-form>
+    </form>
+    <p>
+        <pre>
+            {{postFormModel | json}}
+      </pre>
+    </p>
+    <script type="text/ng-template" id="ui-select-multiple.html">
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <ui-select multiple tagging="to.tagTransform" tagging-tokens=";|,|/" data-ng-model="model[options.key]" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
+        <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
+        <ui-select-choices data-repeat="{{to.ngOptions}}">
+        <div ng-if="option.isTag" ng-bind-html="option[to.labelProp] + ' ' + '(add new)' | highlight: $select.search"></div>
+        <div ng-if="!option.isTag" ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>
+        </ui-select-choices>
+        </ui-select>
+      </div>
     </div>
-</script>
-
-<script type="text/ng-template" id="repeatSection.html">
-<!--loop through each element in model array-->
-<div class="row">
-  <div class="{{hideRepeat}} col-md-8">
-    <div class="repeatsection" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
+    </script>
+    <script type="text/ng-template" id="error-messages.html">
+  <formly-transclude></formly-transclude>
+  <div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
+    <div class="some-message" ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages">
+      {{message(fc.$viewValue, fc.$modelValue, this)}}
+    </div>
+  </div>
+  </script>
+  <script type="text/ng-template" id="repeatSection.html">
+  <!--loop through each element in model array-->
+  <div class="row">
+    <div class="{{hideRepeat}} col-md-8">
+      <div class="repeatsection" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
       <formly-form fields="fields" model="element" form="form"></formly-form>
       <div class="row">
         <button class="btn btn-xs btn-danger pull-right" ng-click="model[options.key].splice($index, 1)"> Remove </button>
       </div>
     </div>
-
     <div>
       <button class="btn btn-default btn-sm" ng-click="addNew()" >{{to.btnText}}</button>
     </div>
   </div>
 </div>
+</script>
+<script type="text/ng-template" id="textarea.tpl.html">
+
+<ul class="nav nav-tabs {{options.templateOptions.className}}">
+  <li class="active"><a href="#home" data-toggle="tab">{{options.templateOptions.label}}</a></li>
+  <li><a href="#md-preview" data-toggle="tab">Markdown Preview</a></li>
+</ul>
+<div class="tab-content" >
+        <div class="tab-pane active fade in" id="home">
+          <textarea class="{{options.templateOptions.className}}" rows="{{options.templateOptions.rows}}" ng-model="model[options.key]"> </textarea>
+        </div>
+        <div class="tab-pane fade" id="md-preview">
+          <p markdown-to-html="model['content']"></p>
+        </div>
+</div>
 
 
 
 </script>
-
-
 </div>
 </div>
 </div>

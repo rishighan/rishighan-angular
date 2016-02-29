@@ -32,7 +32,6 @@ class EditPostController {
             return post.data;
         });
 
-
         // dropzone config
         $scope.dropzoneConfig = {
             options: {
@@ -137,7 +136,7 @@ class EditPostController {
                 $scope.autosaveStatus = 'Saved';
                 $timeout(function() {
                     $scope.autosaveStatus = '';
-                }, 3000)
+                }, 3000);
             });
         };
 
@@ -148,7 +147,7 @@ class EditPostController {
                 }
                 timeout = $timeout(saveUpdates, 4000);
             }
-        }
+        };
 
         $scope.$watch('post[0].content', debounceUpdates);
         $scope.$watch('post[0].title', debounceUpdates);
