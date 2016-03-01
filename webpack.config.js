@@ -84,9 +84,10 @@ module.exports = {
             "translate.static.file.loader": BOWER_COMPONENTS_PATH + '/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
             "ngMessages": BOWER_COMPONENTS_PATH + '/angular-messages/angular-messages.min.js',
             "highlightjs": BOWER_COMPONENTS_PATH + '/highlightjs/highlight.pack.min.js',
-            "showdown": BOWER_COMPONENTS_PATH + '/showdown/dist/showdown.min.js'
+            "showdown": BOWER_COMPONENTS_PATH + '/showdown/dist/showdown.min.js',
+            "ngSanitize": BOWER_COMPONENTS_PATH + '/angular-sanitize/angular-sanitize.min.js'
         },
-        modulesDirectories: ['assets', 'node_modules', 'bower_components']
+        modulesDirectories: ['assets', 'node_modules', path.resolve(__dirname + '/bower_components')]
 
     },
     plugins: [

@@ -1,6 +1,7 @@
 // import angular from 'angular';
 import Navbar from './navbar/navbar';
 import Notification from './notification/notification';
+import Markdown from './markdown/markdown';
 import NavUtilsService from './utils/navutils.service';
 import FormlyDataService from './utils/formlydata.service';
 import FormlyDataFactory from './utils/formlydata.service';
@@ -9,7 +10,8 @@ import MessageUtilsService from './utils/messageutils.service';
 
 let sharedModule = angular.module('app.shared', [
   Navbar.name,
-  Notification.name
+  Notification.name,
+  Markdown.name
 ])
 
 .service('NavUtilsService', NavUtilsService)
