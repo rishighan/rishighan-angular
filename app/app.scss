@@ -8,6 +8,7 @@ $buttonTextDark: #000;
 $buttonTextLight: #FFF;
 $bodyCopyLight: #6d6d6d;
 $lightBackground: #F3F3F3;
+
 // Font sizes
 $megaHeadline: 2em;
 $headline: 2.2em;
@@ -17,10 +18,13 @@ $caption: 0.8em;
 $tinyCaption: 0.3em;
 $bodyCopy: 1em;
 $code: 0.9em;
+
 // Typography
 @import "./sass-partials/typography";
+
 // Forms
 @import "./sass-partials/forms";
+
 // Fonts
 $proximaLightRegular: 'proxima_nova_ltregular';
 $proximaRegular: 'proxima_nova_regular';
@@ -78,17 +82,22 @@ $sourceCodeProRegular: 'Source Code Pro';
 // Styles should apply to both the horizontal and vertical nav.
 
 // Generic Styles
-pre {
+code, kbd, samp, pre {
     font-family: $sourceCodeProRegular;
     @include setPointSize($code)
+    border-radius: 0;
+    border: 0 none;
 }
+
 textarea {
     outline: none;
     resize: none;
 }
+
 .clearboth {
     clear: both;
 }
+
 // Normal Post container
 .container {
     .body {
@@ -131,7 +140,9 @@ textarea {
 .nav {
     background: $lightBackground;
     font-family: $proximaRegular;
+    text-transform: capitalize;
 }
+
 // form styles
 .admin {
     font-family: $proximaRegular;

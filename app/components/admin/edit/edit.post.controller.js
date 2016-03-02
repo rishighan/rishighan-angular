@@ -132,6 +132,7 @@ class EditPostController {
         var timeout = null;
         var saveUpdates = function() {
             // call to save/upsert as draft
+            console.log($scope.post)
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function(result) {
                 $scope.autosaveStatus = 'Saved';
                 $timeout(function() {

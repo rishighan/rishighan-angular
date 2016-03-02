@@ -22,8 +22,8 @@
       </formly-form>
     </form>
     <p>
-        <pre>
-            {{postFormModel | json}}
+              <pre>
+                    {{postFormModel | json}}
       </pre>
     </p>
     <script type="text/ng-template" id="ui-select-multiple.html">
@@ -63,26 +63,28 @@
   </div>
 </div>
 </script>
-<script type="text/ng-template" id="textarea.tpl.html">
 
-<ul class="nav nav-tabs {{options.templateOptions.className}}">
+<script type="text/ng-template" id="textarea.tpl.html">
+<ul class="nav nav-tabs col-md-10 col-xs-12">
   <li class="active"><a href="#home" data-toggle="tab">{{options.templateOptions.label}}</a></li>
   <li><a href="#md-preview" data-toggle="tab">Markdown Preview</a></li>
 </ul>
 <div class="tab-content" >
-    <div class="tab-pane active fade in" id="home">
+  <div class="tab-pane active fade in" id="home">
+    <div>
       <textarea class="{{options.templateOptions.className}}" rows="{{options.templateOptions.rows}}" ng-model="model[options.key]"> </textarea>
     </div>
-    <div class="tab-pane fade" id="md-preview">
+  </div>
+  <div class="tab-pane fade" id="md-preview">
     <div class="row">
       <div markdown data="model[options.key]" class="col-md-8"></div>
-      </div>
     </div>
+  </div>
 </div>
-
-
-
 </script>
+
+
+
 </div>
 </div>
 </div>

@@ -85,26 +85,30 @@ PostSchema.statics.updatePost = function(id, data, upsertValue) {
     var updates = data;
 
     this.update({
-        $set: {
-            title: updates.title,
-            tags: updates.tags,
-            date_created: updates.date_created,
-            date_modified: new Date(),
-            attachment: updates.attachment,
-            is_draft: false,
-            content: updates.content,
-            excerpt: updates.excerpt,
-            citation: updates.citation
+            _id: id
+        }, {
+            $set: {
+                title: updates.title,
+                tags: updates.tags,
+                date_created: updates.date_created,
+                date_modified: new Date(),
+                attachment: updates.attachment,
+                is_draft: false,
+                content: updates.content,
+                excerpt: updates.excerpt,
+                citation: updates.citation
 
+            }
+        }, {
+            upsert: upsertValue
         },
-        upsert: upsertValue,
-    }, function(error, data) {
-        if (error) {
-            deferred.reject(new Error(error));
-        } else {
-            deferred.resolve(data);
-        }
-    });
+        function(error, data) {
+            if (error) {
+                deferred.reject(new Error(error));
+            } else {
+                deferred.resolve(data);
+            }
+        });
 
     return deferred.promise;
 }
