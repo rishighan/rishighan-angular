@@ -13,19 +13,19 @@ module.exports = angular.module('rgApp', [
     Shared.name,
     Components.name
 ])
-    .directive('rgApp', AppComponent)
-    .constant('LOCALES', {
-        'locales': {
-            'en_US': 'English'
-        },
-        'preferredLocale': 'en_US'
-    })
-    .config(function($translateProvider) {
-        $translateProvider.useStaticFilesLoader({
-            prefix: '/locale/locale-',
-            suffix: '.json'
-        });
-        $translateProvider.preferredLanguage('en_US');
-        $translateProvider.useSanitizeValueStrategy(null);
-
+.directive('rgApp', AppComponent)
+.constant('LOCALES', {
+    'locales': {
+        'en_US': 'English'
+    },
+    'preferredLocale': 'en_US'
+})
+.config(function($translateProvider) {
+    $translateProvider.useStaticFilesLoader({
+        prefix: '/locale/locale-',
+        suffix: '.json'
     });
+    $translateProvider.preferredLanguage('en_US');
+    $translateProvider.useSanitizeValueStrategy(null);
+
+});

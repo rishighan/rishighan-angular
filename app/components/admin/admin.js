@@ -8,10 +8,8 @@ import repeatSectionController from './repeat.section.controller';
 import ngSanitize from 'angular-sanitize';
 import formlyBootstrap from 'angular-formly-templates-bootstrap';
 
-
 var uiselect = require('ui-select');
 var Dropzone = require('dropzone');
-
 require('bootstrap.css');
 require('bootstrap');
 
@@ -41,8 +39,8 @@ let adminModule = angular.module('admin', [
 })
 
 .directive('admin', adminComponent)
-    .directive('allposts', allPostsComponent)
-    .directive('editpost', editPostComponent)
+.directive('allposts', allPostsComponent)
+.directive('editpost', editPostComponent)
 
 .directive('dropzone', function() {
     return function(scope, element, attrs) {

@@ -136,12 +136,6 @@ textarea {
         }
     }
 }
-// navbar and notifications
-.nav {
-    background: $lightBackground;
-    font-family: $proximaRegular;
-    text-transform: capitalize;
-}
 
 // form styles
 .admin {
@@ -162,10 +156,12 @@ textarea {
             white-space: wrap;
         }
     }
+
     textarea {
         border: 1px solid $lightBackground;
         border-radius: 3px;
     }
+
     .label {
         font-size: 80%;
         letter-spacing: 0.03em;
@@ -175,10 +171,12 @@ textarea {
     .margin20 {
         margin: 20px 0 0px 0;
     }
+
     input {
         @include simpleUnderline(1px, solid, $lightBackground);
         background: 0 none;
     }
+
     textarea {
         padding: 5px;
     }
