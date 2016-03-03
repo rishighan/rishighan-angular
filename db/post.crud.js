@@ -66,6 +66,7 @@ PostSchema.statics.getPost = function(id) {
 }
 
 // retrieve all posts
+// todo: paginate requests
 PostSchema.statics.getAllPosts = function() {
     var deferred = Q.defer();
     this.find({}, function(error, data) {

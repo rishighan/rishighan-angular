@@ -65,6 +65,7 @@
     "bootstrap": "^3.3.5",
     "dropzone": "^4.2.0",
     "googleapis": "^2.1.6",
+    "passport": "^0.3.2",
     "skeleton-css": "^2.0.4"
   }
 }

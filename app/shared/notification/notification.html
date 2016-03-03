@@ -1,0 +1,3 @@
+<div ng-if="notc.message && notc.message.data!==''" message="notc.message" ng-class="{error: 'error', warning: 'warning', success: 'success'}[notc.message.type]" class="notifications">
+    <span> {{ notc.message.data }}</span>
+</div>

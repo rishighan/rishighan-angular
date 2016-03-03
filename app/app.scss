@@ -85,7 +85,7 @@ $sourceCodeProRegular: 'Source Code Pro';
 code, kbd, samp, pre {
     font-family: $sourceCodeProRegular;
     @include setPointSize($code)
-    border-radius: 0;
+    border-radius: 1px;
     border: 0 none;
 }
 
@@ -142,9 +142,6 @@ textarea {
     font-family: $proximaRegular;
     color: $bodyCopyLight;
 
-    ul {
-        list-style: none;
-    }
     label {
         font-weight: normal;
         display: block;
@@ -160,6 +157,7 @@ textarea {
     textarea {
         border: 1px solid $lightBackground;
         border-radius: 3px;
+        padding: 5px;
     }
 
     .label {
@@ -177,7 +175,4 @@ textarea {
         background: 0 none;
     }
 
-    textarea {
-        padding: 5px;
-    }
 }
