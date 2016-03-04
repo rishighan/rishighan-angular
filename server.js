@@ -2,6 +2,8 @@
 // TODO:  remove all db-related stuff
 var path = require('path');
 var express = require('express');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var fs = require('fs');
 var multer = require('multer');
 var bodyParser = require('body-parser');
@@ -10,6 +12,7 @@ var bodyParser = require('body-parser');
 var webpack = require('webpack');
 var webpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.js');
+var passport = require('passport');
 
 // db requires
 var mongoose = require('mongoose');
@@ -48,6 +51,16 @@ app.use(bodyParser.urlencoded({
     extended: true
 })); // for parsing application/x-www-form-urlencoded
 
+// session manangement
+app.use(session({
+    secret: 'signal',
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // The path to static assets
 var publicPath = path.resolve(__dirname, 'public');
