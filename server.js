@@ -13,6 +13,7 @@ var webpack = require('webpack');
 var webpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.js');
 var passport = require('passport');
+var User = require('./db/user.schema');
 
 // db requires
 var mongoose = require('mongoose');
@@ -46,10 +47,12 @@ console.log("Google API:" + OAuth2)
 // connect to db
 db.connect();
 
-app.use(bodyParser.json()); // for parsing application/json
+// for parsing application/json
+app.use(bodyParser.json());
+// for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: true
-})); // for parsing application/x-www-form-urlencoded
+}));
 
 // session manangement
 app.use(session({
@@ -85,6 +88,16 @@ app.all('/', function(req, res) {
         root: path.join(__dirname, './app')
     });
 })
+
+
+// login
+app.post('/login', function(req, res, next) {
+    passport.authenticate('local', {
+        successRedirect: '/admin',
+        failureRedirect: '/login',
+        failureFlash: true
+    })
+});
 
 
 // Upload file(s)
@@ -134,23 +147,23 @@ app.get('/db/getallposts', function(req, res, next) {
         .done();
 });
 
-app.get('/db/getpost/:id', function(req, res, next){
+app.get('/db/getpost/:id', function(req, res, next) {
     var promise = Post.getPost(req.params.id);
-    promise.then(function(post){
+    promise.then(function(post) {
         res.send(post);
     })
-    .catch(console.log)
-    .done();
+        .catch(console.log)
+        .done();
 })
 
-app.post('/db/updatepost/:id', function(req, res, next){
+app.post('/db/updatepost/:id', function(req, res, next) {
     console.log(req.body);
     var promise = Post.updatePost(req.params.id, req.body, req.params.upsertToggle);
-    promise.then(function(result){
+    promise.then(function(result) {
         res.send(result);
     })
-    .catch(console.log)
-    .done();
+        .catch(console.log)
+        .done();
 })
 
 

@@ -6,6 +6,7 @@ import NavUtilsService from './utils/navutils.service';
 import FormlyDataService from './utils/formlydata.service';
 import FormlyDataFactory from './utils/formlydata.service';
 import MessageUtilsService from './utils/messageutils.service';
+import UserService from './utils/user.service';
 
 
 let sharedModule = angular.module('app.shared', [
@@ -15,6 +16,7 @@ let sharedModule = angular.module('app.shared', [
 ])
 
 .service('NavUtilsService', NavUtilsService)
+.service('UserService', UserService)
 .service('FormlyDataService', FormlyDataService)
 .service('MessageUtilsService', MessageUtilsService)
 .factory('FormlyDataService.formlyDataFactory', FormlyDataService);
