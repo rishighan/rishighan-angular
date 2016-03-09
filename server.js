@@ -99,6 +99,18 @@ app.post('/login', function(req, res, next) {
     })
 });
 
+// register
+app.post('/register', function(req, res) {
+    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+        if (err) {
+            return res.render('register', { account : account });
+        }
+
+        passport.authenticate('local')(req, res, function () {
+            res.redirect('/');
+        });
+    });
+});
 
 // Upload file(s)
 app.post('/api/files/upload', function(req, res, next) {
