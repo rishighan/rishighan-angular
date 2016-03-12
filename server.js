@@ -88,6 +88,9 @@ app.all('/', function(req, res) {
         root: path.join(__dirname, './app')
     });
 })
+app.get('/ping', function(req, res){
+    res.status(200).send("pong!");
+});
 
 
 // login
@@ -99,11 +102,17 @@ app.post('/login', function(req, res, next) {
     })
 });
 
+app.get('/register', function(req, res) {
+    res.sendFile('components/admin/register.html', {
+        root: path.join(__dirname + '/app')
+    });
+});
+
 // register
 app.post('/register', function(req, res) {
-    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+    User.register(new User({ username : req.body.username }), req.body.password, function(err, account) {
         if (err) {
-            return res.render('register', { account : account });
+            return res.render('component/admin/register', { account : account, info: "That username already exists." });
         }
 
         passport.authenticate('local')(req, res, function () {
