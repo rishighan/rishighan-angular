@@ -1,4 +1,3 @@
-import ngMessages from 'angular-messages';
 import authenticationComponent from './authentication.component';
 
 let authenticationModule = angular.module('authentication', [
@@ -7,7 +6,7 @@ let authenticationModule = angular.module('authentication', [
 
 .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider
-        .state('fooya', {
+        .state('register', {
             url: '/register',
             template: '<register></register>'
         })
@@ -17,6 +16,7 @@ let authenticationModule = angular.module('authentication', [
         });
 })
 
-.directive('authentication', authenticationComponent);
+// This directive name is the same that you specify in the state definition
+.directive('register', authenticationComponent);
 
 export default authenticationModule;

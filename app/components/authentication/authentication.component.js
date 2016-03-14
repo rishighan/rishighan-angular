@@ -3,7 +3,9 @@ import controller from './authentication.controller';
 
 let authenticationComponent = function(){
     return{
-        scope: {},
+        scope: {
+
+        },
         restrict: 'E',
         template,
         controller,
