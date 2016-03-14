@@ -6,7 +6,7 @@ class UserService {
     }
 
     isAuthenticated(){
-        this._$http('/login')
+        this._$http('/login');
     }
 
 }

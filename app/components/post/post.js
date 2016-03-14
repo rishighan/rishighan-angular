@@ -1,5 +1,3 @@
-// import angular from 'angular';
-// import uiRouter from 'ui-router';
 import postComponent from './post.component';
 import postService from './post.service';
 

@@ -39,8 +39,8 @@ let adminModule = angular.module('admin', [
 })
 
 .directive('admin', adminComponent)
-    .directive('allposts', allPostsComponent)
-    .directive('editpost', editPostComponent)
+.directive('allposts', allPostsComponent)
+.directive('editpost', editPostComponent)
 
 .directive('dropzone', function() {
     return function(scope, element, attrs) {

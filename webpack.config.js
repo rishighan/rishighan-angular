@@ -24,7 +24,7 @@ module.exports = {
     },
 
 
-// process.NODE.ENV === 'production';
+    // process.NODE.ENV === 'production';
 
     module: {
         // devtool

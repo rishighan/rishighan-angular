@@ -15,18 +15,18 @@ class AllPostsController {
         MessageUtilsService,
         PostService) {
 
-    $scope.posts = {};
-    $scope.navItems = NavUtilsService.getAdminNavItems();
+        $scope.posts = {};
+        $scope.navItems = NavUtilsService.getAdminNavItems();
 
-    // display status
-    $scope.messages = {
-        data: MessageUtilsService.notification,
-        type: MessageUtilsService.status
-    }
+        // display status
+        $scope.messages = {
+            data: MessageUtilsService.notification,
+            type: MessageUtilsService.status
+        };
 
-    PostService.getPosts().then(function(posts){
-        $scope.posts = posts.data;
-    });
+        PostService.getPosts().then(function(posts) {
+            $scope.posts = posts.data;
+        });
 
     }
 

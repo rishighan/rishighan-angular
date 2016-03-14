@@ -4,7 +4,7 @@ import AppComponent from './app.component';
 import $translateProvider from 'pascalprecht.translate';
 import $translateStaticFilesLoader from 'translate.static.file.loader';
 require('./app.scss');
-import ngMessages from 'ngMessages';
+
 
 module.exports = angular.module('rgApp', [
     'ui.router',
