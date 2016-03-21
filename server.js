@@ -90,29 +90,26 @@ app.all('/', function(req, res) {
 })
 
 // login
-// app.post('/login', function(req, res, next) {
-//     passport.authenticate('local', {
-//         successRedirect: '/admin',
-//         failureRedirect: '/login',
-//         failureFlash: true
-//     })
-// });
+app.post('/login', function(req, res, next) {
+    passport.authenticate('local', {
+        successRedirect: '/admin',
+        failureRedirect: '/login',
+        failureFlash: true
+    })
+});
 
-// app.get('/register', function(req, res) {
-//     res.render('register.html')
-// });
 
-// // register
-// app.post('/register', function(req, res) {
-//     User.register(new User({ username : req.body.username }), req.body.password, function(err, account) {
-//         if (err) {
-//             return res.render('register.html', { account : account, info: "That username already exists." });
-//         }
-//         passport.authenticate('local')(req, res, function () {
-//             res.redirect('/');
-//         });
-//     });
-// });
+// register
+app.post('/register', function(req, res) {
+    User.register(new User({ username : req.body.username }), req.body.password, function(err, account) {
+        if (err) {
+            return res.json({ account : account, info: "That username already exists." });
+        }
+        passport.authenticate('local')(req, res, function () {
+            res.redirect('/');
+        });
+    });
+});
 
 // Upload file(s)
 app.post('/api/files/upload', function(req, res, next) {

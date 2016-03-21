@@ -10,7 +10,7 @@ let postModule = angular.module('post', [
         .state('post', {
             url: '/post',
             template: '<post></post>'
-        })
+        });
 })
 
 .directive('post', postComponent)

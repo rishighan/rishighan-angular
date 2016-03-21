@@ -1,4 +1,5 @@
 import authenticationComponent from './authentication.component';
+import loginComponent from './login.component';
 
 let authenticationModule = angular.module('authentication', [
     'ui.router'
@@ -17,6 +18,7 @@ let authenticationModule = angular.module('authentication', [
 })
 
 // This directive name is the same that you specify in the state definition
-.directive('register', authenticationComponent);
+.directive('register', authenticationComponent)
+.directive('login', loginComponent);
 
 export default authenticationModule;
