@@ -9,6 +9,13 @@ class UserService {
         this._$http('/login');
     }
 
+    login(){
+        this._$http.post('/login', {username: username, password: password})
+        .then(function(data, status){
+            console.log(data)
+        })
+    }
+
 }
 
 export default UserService;

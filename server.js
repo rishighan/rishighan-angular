@@ -91,11 +91,9 @@ app.all('/', function(req, res) {
 
 // login
 app.post('/login', function(req, res, next) {
-    passport.authenticate('local', {
-        successRedirect: '/admin',
-        failureRedirect: '/login',
-        failureFlash: true
-    })
+    passport.authenticate('local', function(error, user, info){
+        console.log("User:", user);
+    });
 });
 
 

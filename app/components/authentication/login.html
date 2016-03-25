@@ -1,16 +1,15 @@
 <section class="container admin">
     <div class="col-md-10">
-        <form action="/login" method="post">
+        <form>
             <div class="row">
                 <label>Username:</label>
-                <input type="text" name="username"/>
-
+                <input type="text" name="username" />
 
                 <label>Password:</label>
-                <input type="password" name="password"/>
+                <input type="password" name="password" />
             </div>
 
-                <button type="submit" value="Log In" class="btn btn-primary">Log In</button>
+                <button type="submit" value="Log In" class="btn btn-primary" ng-click="processLogin()">Log In</button>
 
         </form>
     </div>
