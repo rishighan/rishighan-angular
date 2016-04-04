@@ -7,13 +7,14 @@ var cookieParser = require('cookie-parser');
 var fs = require('fs');
 var multer = require('multer');
 var bodyParser = require('body-parser');
-
+var Q = require('q');
 
 var webpack = require('webpack');
 var webpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.js');
 var passport = require('passport');
 var User = require('./db/user.schema');
+var LocalStrategy = require('passport-local').Strategy;
 
 // db requires
 var mongoose = require('mongoose');
@@ -89,21 +90,48 @@ app.all('/', function(req, res) {
     });
 })
 
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        User.findOne({
+            username: username
+        }, function(err, user) {
+            if (err) {
+                return done(err);
+            }
+            if (!user) {
+                return done(null, false);
+            }
+            if (!user.verifyPassword(password)) {
+                return done(null, false);
+            }
+            return done(null, user);
+        });
+    }
+));
+
 // login
-app.post('/login', function(req, res, next) {
-    passport.authenticate('local', function(error, user, info){
-        console.log("User:", user);
+app.post('/login',
+    passport.authenticate('local', {
+        failureRedirect: '/'
+    }),
+    function(req, res) {
+        console.log(req.body.username)
+        res.redirect('/');
     });
-});
 
 
 // register
 app.post('/register', function(req, res) {
-    User.register(new User({ username : req.body.username }), req.body.password, function(err, account) {
+    User.register(new User({
+        username: req.body.username
+    }), req.body.password, function(err, account) {
         if (err) {
-            return res.json({ account : account, info: "That username already exists." });
+            return res.json({
+                account: account,
+                info: "That username already exists."
+            });
         }
-        passport.authenticate('local')(req, res, function () {
+        passport.authenticate('local')(req, res, function() {
             res.redirect('/');
         });
     });

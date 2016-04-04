@@ -1,21 +1,25 @@
 class UserService {
 
-    constructor($http, $stateParams){
+    constructor($http, $stateParams) {
         this._$http = $http;
 
     }
 
-    isAuthenticated(){
+    isAuthenticated() {
         this._$http('/login');
     }
 
-    login(){
-        this._$http.post('/login', {username: username, password: password})
-        .then(function(data, status){
-            console.log(data)
-        })
+    login(loginDetails) {
+        return this._$http.post('/login', {
+                username: loginDetails.username,
+                password: loginDetails.password
+            })
+            .then(function(data, status) {
+                console.log(data);
+            })
     }
 
 }
 
-export default UserService;
+export
+default UserService;
