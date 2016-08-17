@@ -15,7 +15,7 @@ class UserService {
                 password: loginDetails.password
             })
             .then(function(data, status) {
-                console.log(data);
+                console.log(data.config);
             })
     }
 

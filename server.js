@@ -13,6 +13,7 @@ var webpack = require('webpack');
 var webpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.js');
 var passport = require('passport');
+var BasicStrategy = require('passport-http').BasicStrategy;
 var User = require('./db/user.schema');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -88,9 +89,9 @@ app.all('/', function(req, res) {
     res.sendFile('index.html', {
         root: path.join(__dirname, './app')
     });
-})
+});
 
-passport.use(new LocalStrategy(
+passport.use(new BasicStrategy(
     function(username, password, done) {
         User.findOne({
             username: username
@@ -111,7 +112,7 @@ passport.use(new LocalStrategy(
 
 // login
 app.post('/login',
-    passport.authenticate('local', {
+    passport.authenticate('basic', {
         failureRedirect: '/'
     }),
     function(req, res) {
