@@ -7,8 +7,8 @@ let authenticationModule = angular.module('authentication', [
 
 .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider
-        .state('register', {
-            url: '/register',
+        .state('signup', {
+            url: '/signup',
             template: '<register></register>'
         })
         .state('login', {

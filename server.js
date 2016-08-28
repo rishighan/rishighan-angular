@@ -180,6 +180,18 @@ passport.use('signup', new LocalStrategy({
     })
 );
 
+/* Handle Login POST */
+app.post('/login', passport.authenticate('login', {
+    successRedirect: '/home',
+    failureRedirect: '/',
+    failureFlash : true
+}));
+
+/* GET Registration Page */
+app.get('/signup', function(req, res){
+    res.render('register',{message: req.flash('message')});
+});
+
 // Upload file(s)
 app.post('/api/files/upload', function(req, res, next) {
     upload(req, res, function(err) {
