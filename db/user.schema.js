@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 var bcrypt = require('bcrypt');
-// var bindings = require('bindings')('binding.node');
 
 // Define our user schema
 var UserSchema = new Schema({

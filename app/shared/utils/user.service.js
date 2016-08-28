@@ -5,7 +5,7 @@ class UserService {
 
     }
 
-    isAuthenticated() {
+    isValidPassword() {
         this._$http('/login');
     }
 

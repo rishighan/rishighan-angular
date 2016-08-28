@@ -1,7 +1,7 @@
 // Server config
 // TODO:  remove all db-related stuff
 var path = require('path');
-var express = require('express');
+const express = require('express');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var fs = require('fs');
@@ -13,7 +13,6 @@ var webpack = require('webpack');
 var webpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.js');
 var passport = require('passport');
-var BasicStrategy = require('passport-http').BasicStrategy;
 var User = require('./db/user.schema');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -91,52 +90,95 @@ app.all('/', function(req, res) {
     });
 });
 
-passport.use(new BasicStrategy(
-    function(username, password, done) {
-        User.findOne({
-            username: username
-        }, function(err, user) {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-                return done(null, false);
-            }
-            if (!user.verifyPassword(password)) {
-                return done(null, false);
-            }
-            return done(null, user);
-        });
-    }
-));
 
-// login
-app.post('/login',
-    passport.authenticate('basic', {
-        failureRedirect: '/'
-    }),
-    function(req, res) {
-        console.log(req.body.username)
-        res.redirect('/');
-    });
+// Authentication bits
+passport.serializeUser(function(user, done){
+    done(null, user._id);
+});
 
-
-// register
-app.post('/register', function(req, res) {
-    User.register(new User({
-        username: req.body.username
-    }), req.body.password, function(err, account) {
-        if (err) {
-            return res.json({
-                account: account,
-                info: "That username already exists."
-            });
-        }
-        passport.authenticate('local')(req, res, function() {
-            res.redirect('/');
-        });
+passport.deserializeUser(function(id, done){
+    User.findById(id, function(err, user){
+        done(err, user);
     });
 });
+
+// Strategies
+// passport/login.js
+passport.use('login', new LocalStrategy({
+        passReqToCallback : true
+    },
+    function(req, username, password, done) {
+        // check in mongo if a user with username exists or not
+        User.findOne({ 'username' :  username },
+            function(err, user) {
+                // In case of any error, return using the done method
+                if (err)
+                    return done(err);
+                // Username does not exist, log error & redirect back
+                if (!user){
+                    console.log('User Not Found with username '+username);
+                    return done(null, false,
+                        console.log('message', 'User Not found.'));
+                }
+                // User exists but wrong password, log the error
+                if (!isValidPassword(user, password)){
+                    console.log('Invalid Password');
+                    return done(null, false,
+                        console.log('message', 'Invalid Password'));
+                }
+                // User and password both match, return user from
+                // done method which will be treated like success
+                return done(null, user);
+            }
+        );
+    }));
+
+passport.use('signup', new LocalStrategy({
+        passReqToCallback : true
+    },
+    function(req, username, password, done) {
+        findOrCreateUser = function(){
+            // find a user in Mongo with provided username
+            User.findOne({'username':username},function(err, user) {
+                // In case of any error return
+                if (err){
+                    console.log('Error in SignUp: '+err);
+                    return done(err);
+                }
+                // already exists
+                if (user) {
+                    console.log('User already exists');
+                    return done(null, false,
+                        console.log('message','User Already Exists'));
+                } else {
+                    // if there is no user with that email
+                    // create the user
+                    var newUser = new User();
+                    // set the user's local credentials
+                    newUser.username = username;
+                    newUser.password = createHash(password);
+                    newUser.email = req.param('email');
+                    newUser.firstName = req.param('firstName');
+                    newUser.lastName = req.param('lastName');
+
+                    // save the user
+                    newUser.save(function(err) {
+                        if (err){
+                            console.log('Error in Saving user: '+err);
+                            throw err;
+                        }
+                        console.log('User Registration succesful');
+                        return done(null, newUser);
+                    });
+                }
+            });
+        };
+
+        // Delay the execution of findOrCreateUser and execute
+        // the method in the next tick of the event loop
+        process.nextTick(findOrCreateUser);
+    })
+);
 
 // Upload file(s)
 app.post('/api/files/upload', function(req, res, next) {
@@ -192,7 +234,7 @@ app.get('/db/getpost/:id', function(req, res, next) {
     })
         .catch(console.log)
         .done();
-})
+});
 
 app.post('/db/updatepost/:id', function(req, res, next) {
     console.log(req.body);
@@ -202,7 +244,7 @@ app.post('/db/updatepost/:id', function(req, res, next) {
     })
         .catch(console.log)
         .done();
-})
+});
 
 
 
