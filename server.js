@@ -2,6 +2,7 @@
 // TODO:  remove all db-related stuff
 var path = require('path');
 const express = require('express');
+const bCrypt = require('bcrypt');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var fs = require('fs');
@@ -133,6 +134,10 @@ passport.use('login', new LocalStrategy({
         );
     }));
 
+var createHash = function(password){
+    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
+
 passport.use('signup', new LocalStrategy({
         passReqToCallback : true
     },
@@ -155,11 +160,8 @@ passport.use('signup', new LocalStrategy({
                     // create the user
                     var newUser = new User();
                     // set the user's local credentials
-                    newUser.username = username;
-                    newUser.password = createHash(password);
-                    newUser.email = req.param('email');
-                    newUser.firstName = req.param('firstName');
-                    newUser.lastName = req.param('lastName');
+                    newUser.username = req.body.username;
+                    newUser.password = createHash(req.body.password);
 
                     // save the user
                     newUser.save(function(err) {
@@ -189,8 +191,15 @@ app.post('/login', passport.authenticate('login', {
 
 /* GET Registration Page */
 app.get('/signup', function(req, res){
-    res.render('register',{message: req.flash('message')});
+    res.redirect('/signup');
 });
+
+/* Handle Registration POST */
+app.post('/signup', passport.authenticate('signup', {
+    successRedirect: '/',
+    failureRedirect: '/signup',
+    failureFlash : true
+}));
 
 // Upload file(s)
 app.post('/api/files/upload', function(req, res, next) {
