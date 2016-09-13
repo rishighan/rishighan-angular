@@ -1,20 +1,25 @@
+const express = require('express');
+const router = express.Router();
+
 module.exports = function(passport){
      // Login
-    app.post('/login', passportModule.authenticate('login', {
+    router.post('/login', passport.authenticate('login', {
         successRedirect: '/admin',
         failureRedirect: '/',
         failureFlash : true
     }));
 
     // GET Registration
-    app.get('/signup', function(req, res){
+    router.get('/signup', function(req, res){
         res.redirect('/signup');
     });
 
     // POST Registration
-    app.post('/signup', passportModule.authenticate('signup', {
+    router.post('/signup', passport.authenticate('signup', {
         successRedirect: '/',
         failureRedirect: '/signup',
         failureFlash : true
     }));
-}
+
+    return router;
+};

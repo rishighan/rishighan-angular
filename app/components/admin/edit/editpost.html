@@ -22,8 +22,8 @@
             <div class="row">
                 <div class="col-md-6 form-group">
                     <ui-select multiple tagging="to.tagTransform" tagging-tokens=";|,|/" data-ng-model="model[options.key]" data-disabled="{{to.disabled}}" class="{{options.templateOptions.className}}" theme="bootstrap">
-                    <ui-select-match placeholder="{{to.placeholder}}">{{$item[to.labelProp]}}</ui-select-match>
-                        <ui-select-choices data-repeat="{{to.ngOptions}}">
+                    <ui-select-match placeholder="{{to.placeholder}}" class="ui-select-match">{{$item[to.labelProp]}}</ui-select-match>
+                        <ui-select-choices data-repeat="{{to.ngOptions}}" class="ui-select-choices">
                         <div ng-if="option.isTag" ng-bind-html="option[to.labelProp] + ' ' + '(add new)' | highlight: $select.search"></div>
                         <div ng-if="!option.isTag" ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>
                     </ui-select-choices>

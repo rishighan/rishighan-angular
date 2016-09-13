@@ -7,6 +7,8 @@ class PostService {
     createPost(data) {
         return this._$http.post('/db/createpost', data)
             .then(function(result) {
+
+                console.log(result);
                 return result;
             });
     }
