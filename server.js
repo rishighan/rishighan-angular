@@ -19,16 +19,17 @@ var db = require('./config/database.connection.js');
 const initPassport = require('./config/authentication/init');
 initPassport(passport);
 
-
+// routes
+var authRoutes = require('./routes/authentication.routes')(passport);
+var postRoutes = require('./routes/post.routes');
+var fileRoutes = require('./routes/file.routes');
 var app = express();
 
 // Google API
 var googleApi = require('googleapis');
 var OAuth2 = googleApi.auth.OAuth2;
-
-
-
 console.log("Google API:" + OAuth2)
+
 // connect to db
 db.connect();
 
@@ -52,15 +53,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-// Auth routes
-var routes = require('./routes/authentication.routes')(passport);
-var postRoutes = require('./routes/db');
-var fileRoutes = require('./routes/file.routes');
-app.use('/', routes);
+// routes
+app.use('/', fileRoutes);
+app.use('/', authRoutes);
 app.use('/db', postRoutes);
-app.use('/api', fileRoutes);
 
-// The path to static assets
+console.log(fileRoutes);
+console.log(postRoutes);
+
 var publicPath = path.resolve(__dirname, 'public');
 app.use('/bower', express.static(path.resolve(__dirname, 'bower_components')));
 app.use('/dist', express.static(path.resolve(__dirname, 'dist')));
@@ -84,7 +84,5 @@ app.all('/', function(req, res) {
         root: path.join(__dirname, './app')
     });
 });
-
-
 
 module.exports = app;
