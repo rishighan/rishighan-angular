@@ -6,7 +6,7 @@ const fs = require('fs');
 // multer config
 const storage = multer.diskStorage({
     destination: function(req, res, cb) {
-        cb(null, __dirname + '/assets/images');
+        cb(null, __dirname + '/../assets/images');
     },
     filename: function(req, file, cb) {
         cb(null, req.body.newFileName);
@@ -30,12 +30,13 @@ router.post('/api/files/upload', function (req, res) {
             err_desc: null,
             files: req.files
         })
+
     })
 });
 
 // Delete File
 router.post('/api/files/delete', function (req, res, next) {
-    fs.unlink(__dirname + '/assets/images/' + req.body.file, function (error) {
+    fs.unlink(__dirname + '/../assets/images/' + req.body.file, function (error) {
         res.json({
             error_details: error
         });

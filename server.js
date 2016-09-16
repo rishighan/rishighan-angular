@@ -53,13 +53,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-// routes
+// mount routes
 app.use('/', fileRoutes);
 app.use('/', authRoutes);
 app.use('/db', postRoutes);
-
-console.log(fileRoutes);
-console.log(postRoutes);
 
 var publicPath = path.resolve(__dirname, 'public');
 app.use('/bower', express.static(path.resolve(__dirname, 'bower_components')));
