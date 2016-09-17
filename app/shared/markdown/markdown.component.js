@@ -1,6 +1,8 @@
-import showdown from "showdown";
+import ngSanitize from 'ngSanitize';
+import showdown from 'showdown';
+import showdownPrettify from 'showdown-prettify';
 
-let markdownComponent = function ($sanitize, $sce) {
+let markdownComponent = function($sanitize, $sce) {
     return {
         restrict: 'A',
         scope: {
@@ -11,9 +13,9 @@ let markdownComponent = function ($sanitize, $sce) {
     };
 
     function getLinkFn($sanitize, $sce) {
-        return function (scope, element, attrs) {
-            scope.$watch('data', function (newValue) {
-                var converter = new showdown.Converter({extensions: ['prettify']});
+        return function(scope, element, attrs) {
+            scope.$watch('data', function(newValue) {
+                var converter = new showdown.Converter({extensions:['prettify']});
                 var showdownHTML;
                 if (typeof newValue === 'string') {
                     showdownHTML = converter.makeHtml(newValue);
