@@ -1,22 +1,17 @@
-import analyticsService from '../analytics/analytics.service';
-import PostService from '../post/post.service';
-import NavUtilsService from '../../shared/utils/navutils.service';
-import MessageUtilsService from '../../shared/utils/messageutils.service';
-import FormlyDataService from '../../shared/utils/formlydata.service';
-import _ from 'underscore';
-import $translate from 'pascalprecht.translate';
+import FormlyDataService from "../../shared/utils/formlydata.service";
+import _ from "underscore";
 
 class AdminController {
     constructor($scope,
-        formlyValidationMessages,
-        analyticsService,
-        PostService,
-        NavUtilsService,
-        MessageUtilsService,
-        $translate,
-        $location,
-        $http,
-        $sanitize) {
+                formlyValidationMessages,
+                analyticsService,
+                PostService,
+                NavUtilsService,
+                MessageUtilsService,
+                $translate,
+                $location,
+                $http,
+                $sanitize) {
 
         analyticsService.spawnAnalytics();
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
@@ -26,6 +21,7 @@ class AdminController {
 
         // admin nav
         this.navItems = NavUtilsService.getAdminNavItems();
+        const FILE_UPLOAD_URL = "/api/files/upload";
 
         // should come from a service
         var testData = [{
@@ -48,7 +44,7 @@ class AdminController {
         // dropzone config
         $scope.dropzoneConfig = {
             options: {
-                url: "/api/files/upload",
+                url: FILE_UPLOAD_URL,
                 maxFilesize: 9000000,
                 paramName: "attachedFile",
                 maxThumbnailFilesize: 5,
@@ -57,18 +53,18 @@ class AdminController {
                 parallelUploads: 1,
                 maxFiles: 5,
                 addRemoveLinks: true,
-                accept: function(file, done) {
+                accept: function (file, done) {
                     file.customData = {};
                     return done();
                 }
             },
             eventHandlers: {
-                sending: function(file, xhr, formData) {
+                sending: function (file, xhr, formData) {
                     // renaming the file before sending
                     var newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
                     formData.append("newFileName", newFileName);
                 },
-                success: function(file, response) {
+                success: function (file, response) {
                     // update the form model with the correct filename
                     file.customData.fileName = response.files[0].filename;
                     var fileObj = {
@@ -81,17 +77,17 @@ class AdminController {
                     $scope.postFormModel.attachedFile.push(fileObj);
                     $scope.$digest();
                 },
-                maxfilesexceeded: function(file) {
+                maxfilesexceeded: function (file) {
                     this.removeFile(file);
                 },
-                addedfile: function(file) {
+                addedfile: function (file) {
 
                 },
-                removedfile: function(file) {
+                removedfile: function (file) {
                     // make api call to delete file from fs
                     PostService.deleteFile({
                         file: file.customData.fileName
-                    }).then(function(result) {
+                    }).then(function (result) {
                         console.log(result);
                     });
 
@@ -107,8 +103,8 @@ class AdminController {
             }
         };
 
-        $scope.createPost = function() {
-            PostService.createPost($scope.postFormModel).then(function(data) {
+        $scope.createPost = function () {
+            PostService.createPost($scope.postFormModel).then(function (data) {
                 MessageUtilsService.notify($translate('admin.success_create_post.message'));
                 NavUtilsService.goToAllPostsPage();
             });
