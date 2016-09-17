@@ -1,4 +1,4 @@
-<navbar menu-items = "navItems" orientation = "horizontal"></navbar>
+<navbar menu-items="navItems" orientation="horizontal"></navbar>
 <notification message="messages"></notification>
 
 <div class="container admin">
@@ -12,8 +12,10 @@
                     <li ng-repeat="post in posts">
                         <h3><a ui-sref="edit({id: post._id})">{{post.title}}</a></h3>
                         <h4>{{post.excerpt}}</h4>
-                        <div><small>{{post.date_created | date: "dd MMMM, yyyy" }}</small></div>
-                        <span ng-repeat = "tag in post.tags">
+                        <div>
+                            <small>{{post.date_created | date: "dd MMMM, yyyy" }}</small>
+                        </div>
+                        <span ng-repeat="tag in post.tags">
                             <span class="label label-info">{{tag.id}}</span>
                         </span>
                     </li>
