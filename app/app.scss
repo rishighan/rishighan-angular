@@ -84,7 +84,7 @@ $sourceCodeProRegular: 'Source Code Pro';
 // Generic Styles
 code, kbd, samp, pre {
     font-family: $sourceCodeProRegular;
-    @include setPointSize($code)
+    @include setPointSize($code);
     border-radius: 1px;
     border: 0 none;
 }
