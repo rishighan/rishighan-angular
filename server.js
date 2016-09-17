@@ -1,5 +1,4 @@
 // Server config
-// TODO:  remove all db-related stuff
 var path = require('path');
 const express = require('express');
 
@@ -64,19 +63,19 @@ app.use('/dist', express.static(path.resolve(__dirname, 'dist')));
 app.use('/', express.static(path.resolve(__dirname, 'app')));
 app.use('/assets', express.static(path.resolve(__dirname, 'assets')));
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
 // Start Server on 3000
-app.listen(3000, function() {
+app.listen(3000, function () {
     console.log("Server listening on port 3000");
 });
 
 // catch-all
-app.all('/', function(req, res) {
+app.all('/', function (req, res) {
     res.sendFile('index.html', {
         root: path.join(__dirname, './app')
     });

@@ -24,7 +24,7 @@ class AdminController {
         const FILE_UPLOAD_URL = "/api/files/upload";
 
         // should come from a service
-        var testData = [{
+        const testData = [{
             "id": "Technical",
             "label": "Technical"
         }, {

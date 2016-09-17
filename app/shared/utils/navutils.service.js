@@ -23,7 +23,7 @@ class NavUtilsService {
         this._$location.path('/admin/posts');
     }
 
-    getAdminNavItems(){
+    getAdminNavItems() {
         return this.adminNavItems;
     }
 
