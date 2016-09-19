@@ -10,7 +10,7 @@ var webpack = require('webpack');
 var config = require('./webpack.config.js');
 const passport = require('passport');
 
-// db requires
+// db 
 var mongoose = require('mongoose');
 var db = require('./config/database.connection.js');
 
@@ -29,6 +29,15 @@ var googleApi = require('googleapis');
 var OAuth2 = googleApi.auth.OAuth2;
 console.log("Google API:" + OAuth2)
 
+var isAuthenticated = function (req, res, next) {
+    // if user is authenticated in the session, call the next() to call the next request handler
+    // Passport adds this method to request object. A middleware is allowed to add properties to
+    // request and response objects
+    if (req.isAuthenticated())
+        return next();
+    // if the user is not authenticated then redirect him to the login page
+    res.redirect('/');
+};
 // connect to db
 db.connect();
 

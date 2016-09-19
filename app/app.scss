@@ -12,8 +12,8 @@ $lightBackground: #F3F3F3;
 // Font sizes
 $megaHeadline: 2em;
 $headline: 2.2em;
-$subheading1:1.3em;
-$subheading2:1.1em;
+$subheading1: 1.3em;
+$subheading2: 1.1em;
 $caption: 0.8em;
 $tinyCaption: 0.3em;
 $bodyCopy: 1em;
@@ -33,49 +33,67 @@ $proximaSemiBold: 'proxima_nova_semibold';
 $sourceCodeProRegular: 'Source Code Pro';
 
 @font-face {
-    font-family: $proximaRegular;
-    src: url('../assets/fonts/proximanova-regular-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: $proximaRegular;
+  src: url('../assets/fonts/proximanova-regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
+
 @font-face {
-    font-family: $proximaLightRegular;
-    src: url('../assets/fonts/proximanova-light-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: $proximaLightRegular;
+  src: url('../assets/fonts/proximanova-light-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
+
 @font-face {
-    font-family: $montserratRegular;
-    src: url('../assets/fonts/Montserrat-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: $montserratRegular;
+  src: url('../assets/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
+
 @font-face {
-    font-family: $sourceCodeProRegular;
-    src: url('../assets/fonts/SourceCodePro-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: $sourceCodeProRegular;
+  src: url('../assets/fonts/SourceCodePro-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
+
 // Shapes
 .full-circle {
-    background-color: #c06;
-    height: 15px;
-    width: 15px;
-    float: left;
-    margin: 30px 0px 0 -20px;
-    -webkit-border-radius: 75px;
-    -moz-border-radius: 75px;
-    -webkit-animation: change 2s infinite;
+  background-color: #c06;
+  height: 15px;
+  width: 15px;
+  float: left;
+  margin: 30px 0px 0 -20px;
+  -webkit-border-radius: 75px;
+  -moz-border-radius: 75px;
+  -webkit-animation: change 2s infinite;
 }
 
 @-webkit-keyframes change {
-  0%      { background-color: #eef529; }
-  16.67%  { background-color: #cc5e00; }
-  33.33%  { background-color: #b40808; }
-  50%     { background-color: #8312c9; }
-  66.67%  { background-color: #1e3cba; }
-  83.33%  { background-color: #1ba340; }
-  100%    { background-color: #eef529; }
+  0% {
+    background-color: #eef529;
+  }
+  16.67% {
+    background-color: #cc5e00;
+  }
+  33.33% {
+    background-color: #b40808;
+  }
+  50% {
+    background-color: #8312c9;
+  }
+  66.67% {
+    background-color: #1e3cba;
+  }
+  83.33% {
+    background-color: #1ba340;
+  }
+  100% {
+    background-color: #eef529;
+  }
 }
 
 // Navigation
@@ -83,96 +101,96 @@ $sourceCodeProRegular: 'Source Code Pro';
 
 // Generic Styles
 code, kbd, samp, pre {
-    font-family: $sourceCodeProRegular;
-    @include setPointSize($code);
-    border-radius: 1px;
-    border: 0 none;
+  font-family: $sourceCodeProRegular;
+  @include setPointSize($code);
+  border-radius: 1px;
+  border: 0 none;
 }
 
 textarea {
-    outline: none;
-    resize: none;
+  outline: none;
+  resize: none;
 }
 
 .clearboth {
-    clear: both;
+  clear: both;
 }
 
 // Normal Post container
 .container {
-    .body {
-        font-family: $proximaRegular;
+  .body {
+    font-family: $proximaRegular;
 
-        a {
-            color: $link;
-            text-decoration: none;
+    a {
+      color: $link;
+      text-decoration: none;
 
-            &:hover {
-                color: $link-hover;
-                text-decoration: none;
-            }
-        }
+      &:hover {
+        color: $link-hover;
+        text-decoration: none;
+      }
     }
-    .post {
-        letter-spacing: 0.01em;
-        line-height: 1.4em;
-        @include setPointSize($bodyCopy);
+  }
+  .post {
+    letter-spacing: 0.01em;
+    line-height: 1.4em;
+    @include setPointSize($bodyCopy);
 
-        h2 {
-            font-family: $proximaRegular;
-            @include setPointSize($headline);
-        }
-        h3 {
-            font-family: $proximaLightRegular;
-            @include setPointSize($subheading1);
-        }
-        h4 {
-            font-family: $proximaLightRegular;
-            @include setPointSize($subheading2);
-        }
-        .caption {
-            @include setPointSize($caption);
-            font-style: italic;
-        }
+    h2 {
+      font-family: $proximaRegular;
+      @include setPointSize($headline);
     }
+    h3 {
+      font-family: $proximaLightRegular;
+      @include setPointSize($subheading1);
+    }
+    h4 {
+      font-family: $proximaLightRegular;
+      @include setPointSize($subheading2);
+    }
+    .caption {
+      @include setPointSize($caption);
+      font-style: italic;
+    }
+  }
 }
 
 // form styles
 .admin {
-    font-family: $proximaRegular;
-    color: $bodyCopyLight;
+  font-family: $proximaRegular;
+  color: $bodyCopyLight;
 
-    label {
-        font-weight: normal;
-        display: block;
-        clear: both;
+  label {
+    font-weight: normal;
+    display: block;
+    clear: both;
 
-        &:after {
-            content: ' ';
-            display: block;
-            white-space: wrap;
-        }
+    &:after {
+      content: ' ';
+      display: block;
+      white-space: nowrap;
     }
+  }
 
-    textarea {
-        border: 1px solid $lightBackground;
-        border-radius: 3px;
-        padding: 5px;
-    }
+  textarea {
+    border: 1px solid $lightBackground;
+    border-radius: 3px;
+    padding: 5px;
+  }
 
-    .label {
-        font-size: 80%;
-        letter-spacing: 0.03em;
-        font-weight: normal !important;
-    }
-    // TODO:remove this hack
-    .margin20 {
-        margin: 20px 0 0px 0;
-    }
+  .label {
+    font-size: 80%;
+    letter-spacing: 0.03em;
+    font-weight: normal !important;
+  }
+  // TODO:remove this hack
+  .margin20 {
+    margin: 20px 0 0px 0;
+  }
 
-    input {
-        @include simpleUnderline(1px, solid, $lightBackground);
-        background: 0 none;
-    }
+  input {
+    @include simpleUnderline(1px, solid, $lightBackground);
+    background: 0 none;
+  }
 
 }

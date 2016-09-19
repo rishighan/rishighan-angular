@@ -3,7 +3,6 @@ const signup = require('./signup');
 const User = require('../../db/user.schema');
 
 module.exports = function(passport){
-
     // Authentication bits
     passport.serializeUser(function (user, done) {
         done(null, user._id);

@@ -27,7 +27,7 @@ var PostSchema = new Schema({
 });
 
 // create
-PostSchema.statics.createPost = function(data) {
+PostSchema.statics.createPost = function (data) {
     var deferred = Q.defer();
     this.create({
         title: data.title,
@@ -39,7 +39,7 @@ PostSchema.statics.createPost = function(data) {
         content: data.content,
         excerpt: data.excerpt,
         citation: data.citations,
-    }, function(error, data) {
+    }, function (error, data) {
         if (error) {
             deferred.reject(new Error(error));
         } else {
@@ -47,15 +47,15 @@ PostSchema.statics.createPost = function(data) {
         }
     });
     return deferred.promise;
-}
+};
 
 
 // retrieve by id
-PostSchema.statics.getPost = function(id) {
+PostSchema.statics.getPost = function (id) {
     var deferred = Q.defer();
     this.find({
         _id: id
-    }, function(error, data) {
+    }, function (error, data) {
         if (error) {
             deferred.reject(new Error(error));
         } else {
@@ -63,13 +63,13 @@ PostSchema.statics.getPost = function(id) {
         }
     });
     return deferred.promise;
-}
+};
 
 // retrieve all posts
 // todo: paginate requests
-PostSchema.statics.getAllPosts = function() {
+PostSchema.statics.getAllPosts = function () {
     var deferred = Q.defer();
-    this.find({}, function(error, data) {
+    this.find({}, function (error, data) {
         if (error) {
             deferred.reject(new Error(error));
         } else {
@@ -77,11 +77,11 @@ PostSchema.statics.getAllPosts = function() {
         }
     });
     return deferred.promise;
-}
+};
 
 // update or
 // Todo: upsert a post
-PostSchema.statics.updatePost = function(id, data, upsertValue) {
+PostSchema.statics.updatePost = function (id, data, upsertValue) {
     var deferred = Q.defer();
     var updates = data;
 
@@ -103,7 +103,7 @@ PostSchema.statics.updatePost = function(id, data, upsertValue) {
         }, {
             upsert: upsertValue
         },
-        function(error, data) {
+        function (error, data) {
             if (error) {
                 deferred.reject(new Error(error));
             } else {

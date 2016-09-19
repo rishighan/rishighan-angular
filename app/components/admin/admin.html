@@ -1,7 +1,7 @@
 <navbar menu-items="adminc.navItems" orientation="horizontal"></navbar>
 <div class="notifications" ng-if="messages">
     <ng-messages>
-        <ng-message="messages">{{messages}}</ng-message>
+        <ng-message>{{messages}}</ng-message>
     </ng-messages>
 </div>
 <div class="container admin">
@@ -17,9 +17,7 @@
                         <span class="clearfix">Drag and drop files here or click to upload</span>
                     </div>
                     <div class="margin20">
-                        <button class="btn btn-primary" type="submit" ng-click="createPost()"
-                                ng-disabled="form.$invalid">Save Post
-                        </button>
+                        <button class="btn btn-primary" type="submit" ng-click="createPost()" ng-disabled="form.$invalid">Save Post</button>
                     </div>
                 </formly-form>
             </form>
