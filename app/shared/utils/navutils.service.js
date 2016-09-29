@@ -15,7 +15,7 @@ class NavUtilsService {
             stateReference: "post"
         }, {
             displayName: "Admin",
-            stateReference: "admin"
+            stateReference: 'admin'
         }];
     }
 

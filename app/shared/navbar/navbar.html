@@ -1,5 +1,5 @@
 <ul class="navigation" ng-class="{vertical: 'vertical', horizontal: 'horizontal'}[nv.orientation]">
     <li ng-repeat="item in nv.menuItems">
-        <a ui-sref="{{item.stateReference}}">{{item.displayName}}</a>
+        <a href="{{item.link}}" ui-sref="{{item.stateReference}}">{{item.displayName}}</a>
     </li>
 </ul>

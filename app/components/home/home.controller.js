@@ -12,7 +12,7 @@ class HomeController {
             stateReference: "post"
         }, {
             displayName: "Admin",
-            stateReference: "admin"
+            stateReference: "admin",
         }];
     }
 }

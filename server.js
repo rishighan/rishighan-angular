@@ -14,12 +14,7 @@ const passport = require('passport');
 var mongoose = require('mongoose');
 var db = require('./config/database.connection.js');
 
-// authentication
-const initPassport = require('./config/authentication/init');
-initPassport(passport);
-
 // routes
-var authRoutes = require('./routes/authentication.routes')(passport);
 var postRoutes = require('./routes/post.routes');
 var fileRoutes = require('./routes/file.routes');
 var app = express();
@@ -29,15 +24,6 @@ var googleApi = require('googleapis');
 var OAuth2 = googleApi.auth.OAuth2;
 console.log("Google API:" + OAuth2)
 
-var isAuthenticated = function (req, res, next) {
-    // if user is authenticated in the session, call the next() to call the next request handler
-    // Passport adds this method to request object. A middleware is allowed to add properties to
-    // request and response objects
-    if (req.isAuthenticated())
-        return next();
-    // if the user is not authenticated then redirect him to the login page
-    res.redirect('/');
-};
 // connect to db
 db.connect();
 
@@ -63,7 +49,6 @@ app.use(passport.session());
 
 // mount routes
 app.use('/', fileRoutes);
-app.use('/', authRoutes);
 app.use('/db', postRoutes);
 
 var publicPath = path.resolve(__dirname, 'public');

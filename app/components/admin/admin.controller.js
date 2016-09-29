@@ -23,7 +23,7 @@ class AdminController {
         this.navItems = NavUtilsService.getAdminNavItems();
         const FILE_UPLOAD_URL = "/api/files/upload";
 
-        // should come from a service
+        // todo: should come from a service
         const testData = [{
             "id": "Technical",
             "label": "Technical"
@@ -105,7 +105,9 @@ class AdminController {
 
         $scope.createPost = function () {
             PostService.createPost($scope.postFormModel).then(function (data) {
-                MessageUtilsService.notify($translate('admin.success_create_post.message'));
+                //todo: put a flash message here
+                //todo: log the result
+                // MessageUtilsService.notify($translate('admin.success_create_post.message'));
                 NavUtilsService.goToAllPostsPage();
             });
         };
