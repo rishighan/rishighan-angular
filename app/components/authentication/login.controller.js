@@ -1,13 +1,10 @@
-import AuthenticationService from './authentication.service';
-
 class LoginController{
-    constructor($http, $location, $scope){
+    constructor($http, $location, $scope, AuthenticationService){
         const ADMIN_PAGE = '/admin';
         this._$http = $http;
         this._$location = $location;
         $scope._disabled = true;
         $scope.error = false;
-
         $scope.login = function(){
             AuthenticationService.login($scope.loginForm.username, $scope.loginForm.password)
                 .then(function(){
@@ -16,7 +13,7 @@ class LoginController{
                     $scope.loginForm = {};
                 })
                 .catch(function(){
-                    //flash message
+                    //todo: flash message
                     $scope.error = true;
                     $scope.disabled = true;
                 })

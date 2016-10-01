@@ -16,7 +16,7 @@ class UserService {
             })
             .then(function(data, status) {
                 console.log(data.config);
-            })
+            });
     }
 
 }

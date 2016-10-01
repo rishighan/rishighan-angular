@@ -1,12 +1,14 @@
+import $q from 'Q';
+
 class AuthenticationService {
 
-    constructor($http, $q) {
+    constructor($http) {
         this.$http = $http;
         this.user = null;
     }
 
     isLoggedIn() {
-        if (user) {
+        if (this.user) {
             return true;
         } else {
             return false;
@@ -39,15 +41,15 @@ class AuthenticationService {
             })
             .success(function (data, status) {
                 if (status === 200 && data.status) {
-                    user = true;
+                    this.user = true;
                     deferred.resolve();
                 } else {
-                    user = false;
+                    this.user = false;
                     deferred.reject();
                 }
             })
             .error(function (data) {
-                user = false;
+                this.user = false;
                 deferred.reject();
             });
 
