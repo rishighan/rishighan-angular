@@ -38,14 +38,17 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.use(cookieParser());
+
 // session manangement
 app.use(session({
     secret: 'signal',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { maxAge: 60000, secure: false }
 }));
 
-app.use(cookieParser());
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));

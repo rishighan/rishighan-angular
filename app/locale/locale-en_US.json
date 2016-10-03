@@ -19,9 +19,12 @@
     "admin.login.button": "Sign In",
     "admin.login_success.message": "Successfully Logged In",
 
-  "admin.register.header": "Register a New User",
+    "admin.register.header": "Register a New User",
     "admin.register.button": "Sign Up",
-    "admin.register_success.message": "Created a New User"
+    "admin.register_success.message": "Created a New User",
+
+    "admin.user_logged_in.status": "Logged In As",
+    "admin.user_logged_out.status": "Logged Out"
 
 
 }

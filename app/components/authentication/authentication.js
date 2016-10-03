@@ -1,6 +1,7 @@
 import AuthenticationService from './authentication.service';
 import LoginController from './login.controller';
 import RegistrationController from './registration.controller';
+import LogoutController from './logout.controller';
 
 let authenticationModule = angular.module('authentication', [])
     .config(($stateProvider) => {
@@ -16,6 +17,11 @@ let authenticationModule = angular.module('authentication', [])
                 templateUrl: 'components/authentication/partials/register.html',
                 controller: RegistrationController,
                 controllerAs: 'regCtrl',
+                access: {restricted: true}
+            })
+            .state('logout', {
+                url: '/logout',
+                controller: LogoutController,
                 access: {restricted: true}
             });
     })

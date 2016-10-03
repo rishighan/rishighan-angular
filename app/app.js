@@ -30,10 +30,10 @@ module.exports = angular.module('rgApp', [
 
     })
     .run(function ($rootScope, $location, $state, AuthenticationService) {
-        $rootScope.$on('$stateChangeStart', function (event, next, current) {
+        $rootScope.$on('$stateChangeStart', function (event, toState) {
             AuthenticationService.getUserStatus()
-                .then(function () {
-                    if (next.access.restricted && !AuthenticationService.isLoggedIn()) {
+                .then(() => {
+                    if (toState.access.restricted && AuthenticationService.isLoggedIn() === false) {
                         $state.go('login');
                     }
                 });
