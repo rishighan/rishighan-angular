@@ -25,7 +25,8 @@ let adminModule = angular.module('admin', [
         $stateProvider
             .state('admin', {
                 url: '/admin',
-                template: '<admin></admin>'
+                template: '<admin></admin>',
+                access: {restricted: true}
             })
             .state('posts', {
                 url: '/admin/posts',

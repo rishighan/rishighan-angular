@@ -1,10 +1,18 @@
-import $q from 'Q';
+import $q from "Q";
 
 class AuthenticationService {
-
     constructor($http) {
         this.$http = $http;
-        this.user = null;
+        this._appUser = null;
+    }
+
+
+    get user() {
+        return this._appUser;
+    }
+
+    set user(value) {
+        this._appUser = value;
     }
 
     isLoggedIn() {
@@ -17,44 +25,34 @@ class AuthenticationService {
 
     getUserStatus() {
         return this.$http.get('/user/status')
-            // handle success
-            .success(function (data) {
+            .then((data) => {
                 if (data.status) {
-                    user = true;
+                    this.user = true;
                 } else {
-                    user = false;
+                    this.user = false;
                 }
-            })
-            // handle error
-            .error(function (data) {
-                user = false;
+            }, function (data) {
+                this.user = false;
+                return data;
             });
     }
 
     login(username, password) {
-        var deferred = $q.defer();
-        // send a post request to the server
-        this.$http.post('/user/login',
+        return this.$http.post('/user/login',
             {
                 username: username,
                 password: password
             })
-            .success(function (data, status) {
-                if (status === 200 && data.status) {
+            .then(function (data) {
+                if (data.status && data.status === 200) {
                     this.user = true;
-                    deferred.resolve();
                 } else {
                     this.user = false;
-                    deferred.reject();
                 }
-            })
-            .error(function (data) {
+            }, function (data) {
+                //todo: winston logging
                 this.user = false;
-                deferred.reject();
             });
-
-        return deferred.promise;
-
     }
 
     logout() {
@@ -63,42 +61,33 @@ class AuthenticationService {
         // send a get request to the server
         this.$http.get('/user/logout')
             .success(function (data) {
-                user = false;
+                this.user = false;
                 deferred.resolve();
             })
             .error(function (data) {
-                user = false;
+                this.user = false;
                 deferred.reject();
             });
-
         // return promise object
         return deferred.promise;
-
     }
 
     register(username, password) {
         // create a new instance of deferred
-        var deferred = $q.defer();
-        this.$http.post('/user/register',
+        return this.$http.post('/user/register',
             {
                 username: username,
                 password: password
             })
-            .success(function (data, status) {
+            .then(function (data, status) {
                 if (status === 200 && data.status) {
-                    deferred.resolve();
-                } else {
-                    deferred.reject();
+                    //todo: winston log
+                    return data;
                 }
-            })
-            // handle error
-            .error(function (data) {
-                deferred.reject();
+            }, function (data) {
+                //todo: winston log
+                return data;
             });
-
-        // return promise object
-        return deferred.promise;
-
     }
 }
 

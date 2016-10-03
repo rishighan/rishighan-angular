@@ -1,5 +1,5 @@
 {
-    "main.debug.navitem": "Debug",
+    "main.debug.button": "Debug",
 
     "admin.posts.header": "Posts",
     "admin.drafts.header": "Drafts",
@@ -13,6 +13,15 @@
 
     "admin.success_edit.message": "Changes Saved Successfully",
     "admin.success_create_post.message": "New Post Created Successfully",
-    "admin.autosave_success.message": "Autosaved Changes"
+    "admin.autosave_success.message": "Autosaved Changes",
+
+    "admin.login.header": "Login",
+    "admin.login.button": "Sign In",
+    "admin.login_success.message": "Successfully Logged In",
+
+  "admin.register.header": "Register a New User",
+    "admin.register.button": "Sign Up",
+    "admin.register_success.message": "Created a New User"
+
 
 }

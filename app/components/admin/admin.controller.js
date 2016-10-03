@@ -3,6 +3,7 @@ import _ from "underscore";
 
 class AdminController {
     constructor($scope,
+                $state,
                 formlyValidationMessages,
                 analyticsService,
                 PostService,
@@ -108,7 +109,7 @@ class AdminController {
                 //todo: put a flash message here
                 //todo: log the result
                 // MessageUtilsService.notify($translate('admin.success_create_post.message'));
-                NavUtilsService.goToAllPostsPage();
+                $state.go('posts');
             });
         };
 

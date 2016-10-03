@@ -1,25 +1,22 @@
-class LoginController{
-    constructor($http, $location, $scope, AuthenticationService){
-        const ADMIN_PAGE = '/admin';
-        this._$http = $http;
-        this._$location = $location;
-        $scope._disabled = true;
+class LoginController {
+    constructor($scope, $state, AuthenticationService) {
+        const ADMIN_PAGE = 'admin';
+        $scope._disabled = false;
         $scope.error = false;
-        $scope.login = function(){
+
+        $scope.login = function () {
             AuthenticationService.login($scope.loginForm.username, $scope.loginForm.password)
-                .then(function(){
-                    this._$location.path(ADMIN_PAGE);
+                .then(function () {
+                    $state.go(ADMIN_PAGE);
                     $scope._disabled = false;
                     $scope.loginForm = {};
-                })
-                .catch(function(){
+
+                },function () {
                     //todo: flash message
                     $scope.error = true;
-                    $scope.disabled = true;
-                })
-        }
+                    $scope._disabled = true;
+                });
+        };
     }
-
 }
-
 export default LoginController;

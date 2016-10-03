@@ -3,6 +3,7 @@ import _ from "underscore";
 
 class EditPostController {
     constructor($scope,
+                $state,
                 $timeout,
                 $stateParams,
                 NavUtilsService,
@@ -94,6 +95,7 @@ class EditPostController {
                     PostService.deleteFile({
                         file: fileToDelete
                     }).then(function (result) {
+                        //todo: winston login
                         console.log(result);
                     });
 
@@ -114,10 +116,11 @@ class EditPostController {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
-            PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function (result) {
-                NavUtilsService.goToAllPostsPage();
-                MessageUtilsService.notify($translate('admin.success_edit.message'), 'success');
-            });
+            PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
+                .then(function (result) {
+                    $state.go('posts');
+                    MessageUtilsService.notify($translate('admin.success_edit.message'), 'success');
+                });
         };
 
         // autosave

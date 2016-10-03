@@ -19,10 +19,6 @@ class NavUtilsService {
         }];
     }
 
-    goToAllPostsPage() {
-        this._$location.path('/admin/posts');
-    }
-
     getAdminNavItems() {
         return this.adminNavItems;
     }

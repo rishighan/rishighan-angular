@@ -3,20 +3,20 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-6">
-            <h2>Register a new user</h2>
-            <form ng-submit="login()">
+            <h2>{{'admin.register.header' | translate }}</h2>
+            <form ng-submit="regCtrl.register()">
                 <p>
                     <label for="username">Username</label>
-                    <input type="text" ng-model="loginForm.username" id="username" \>
+                    <input type="text" ng-model="regCtrl.registerForm.username" id="username" required\>
                 </p>
                 <p>
                     <label for="password">Password</label>
-                    <input type="password" ng-model="loginForm.password" id="password" \>
+                    <input type="password" ng-model="regCtrl.registerForm.password" id="password" required\>
                 </p>
-                <button class="btn btn-default pull-right" type="submit" ng-disabled="disabled">Login</button>
+                <button class="btn btn-default pull-right" type="submit" ng-disabled="regCtrl.disabled">{{'admin.register.button' | translate}}</button>
             </form>
         </div>
-        {{loginForm}}
-        {{error}}
+        {{regCtrl.registerForm}}
+        {{regCtrl.errorMessage}}
     </div>
 </div>

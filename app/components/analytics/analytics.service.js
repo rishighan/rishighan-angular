@@ -1,7 +1,7 @@
 class AnalyticsService {
     /*@ngInject*/
     constructor() {
-        var foo = "Rishi";
+        this.foo = "Rishi";
     }
     spawnAnalytics() {
         return "this be analytics";
