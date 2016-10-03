@@ -3,6 +3,7 @@ class AuthenticationService {
         this.$http = $http;
         this._appUser = null;
     }
+
     get user() {
         return this._appUser;
     }
@@ -12,13 +13,24 @@ class AuthenticationService {
     }
 
     isLoggedIn() {
-        return !!this.user;
+        if (this.user) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     getUserStatus() {
         return this.$http.get('/user/status')
-            .then(() => {
-                return this.user;
+            .success((data) => {
+                if (data.status) {
+                    this.user = true;
+                } else {
+                    this.user = false;
+                }
+            })
+            .error((data) => {
+                this.user = false;
             });
     }
 

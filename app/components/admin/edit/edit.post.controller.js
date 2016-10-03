@@ -7,7 +7,6 @@ class EditPostController {
                 $timeout,
                 $stateParams,
                 NavUtilsService,
-                MessageUtilsService,
                 PostService,
                 $translate) {
 
@@ -119,7 +118,6 @@ class EditPostController {
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
                 .then(function (result) {
                     $state.go('posts');
-                    MessageUtilsService.notify($translate('admin.success_edit.message'), 'success');
                 });
         };
 

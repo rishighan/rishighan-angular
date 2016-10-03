@@ -30,11 +30,13 @@ let adminModule = angular.module('admin', [
             })
             .state('posts', {
                 url: '/admin/posts',
-                template: '<allposts></allposts>'
+                template: '<allposts></allposts>',
+                access: {restricted: true}
             })
             .state('edit', {
                 url: '/admin/post/edit?id',
-                template: '<editpost></editpost>'
+                template: '<editpost></editpost>',
+                access: {restricted: true}
             });
     })
 

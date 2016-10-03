@@ -34,7 +34,7 @@ module.exports = angular.module('rgApp', [
             AuthenticationService.getUserStatus()
                 .then(() => {
                     if (toState.access.restricted && AuthenticationService.isLoggedIn() === false) {
-                        $state.go('login');
+                        $state.go('login', {}, {reload: true});
                     }
                 });
         });
