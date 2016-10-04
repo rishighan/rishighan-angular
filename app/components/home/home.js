@@ -17,5 +17,4 @@ let homeModule = angular.module('home', [
 
 .directive('home', homeComponent);
 
-export
-default homeModule;
+export default homeModule;

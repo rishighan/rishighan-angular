@@ -1,5 +1,5 @@
 import template from './navbar.html';
-import controller from './navbar.component.js';
+import controller from './navbar.controller.js';
 import navbarStyles from './navbar.scss';
 
 let navbarComponent = function(){

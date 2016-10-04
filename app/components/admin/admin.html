@@ -1,6 +1,4 @@
 <navbar menu-items="adminc.navItems" orientation="horizontal"></navbar>
-{{adminc.userStatus}}
-<div ng-if="adminc.userStatus" ng-click="logout()" class="btn btn-default btn-sm">Logout</div>
 <div class="notifications" ng-if="messages">
     <ng-messages>
         <ng-message>{{messages}}</ng-message>

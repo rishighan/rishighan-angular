@@ -7,8 +7,7 @@ class AdminController {
                 formlyValidationMessages,
                 analyticsService,
                 PostService,
-                NavUtilsService,
-                AuthenticationService) {
+                NavUtilsService) {
 
         analyticsService.spawnAnalytics();
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
@@ -17,7 +16,6 @@ class AdminController {
         };
 
         // admin nav
-        this.userStatus = AuthenticationService.isLoggedIn();
         this.navItems = NavUtilsService.getAdminNavItems();
         const FILE_UPLOAD_URL = "/api/files/upload";
 
@@ -108,13 +106,6 @@ class AdminController {
                 // MessageUtilsService.notify($translate('admin.success_create_post.message'));
                 $state.go('posts');
             });
-        };
-
-        $scope.logout = function () {
-            AuthenticationService.logout()
-                .then(() => {
-                    $state.go('login');
-                });
         };
 
         // validation

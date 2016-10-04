@@ -45,7 +45,6 @@ router.post('/login', function (req, res, next) {
 });
 
 router.get('/status', function (req, res) {
-    console.log(req.isAuthenticated());
     if (!req.isAuthenticated()) {
         return res.status(200).json({
             status: false
