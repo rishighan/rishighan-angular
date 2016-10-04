@@ -1,6 +1,5 @@
 class HomeController {
     constructor() {
-
         this.navItems = [{
             displayName: "Home",
             stateReference: "home"
@@ -10,10 +9,11 @@ class HomeController {
         }, {
             displayName: "Trampoline",
             stateReference: "post"
-        }, {
-            displayName: "Admin",
-            stateReference: "admin",
-        }];
+        },
+            {
+                displayName: "Thesis",
+                stateReference: "thesis"
+            }];
     }
 }
 

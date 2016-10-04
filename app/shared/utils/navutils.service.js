@@ -4,19 +4,15 @@ class NavUtilsService {
         this._$http = $http;
         this._$location = $location;
 
-        this.adminNavItems = [{
-            displayName: "Home",
-            stateReference: "home"
-        }, {
-            displayName: "Work",
-            stateReference: "work"
-        }, {
-            displayName: "Trampoline",
-            stateReference: "post"
-        }, {
-            displayName: "Admin",
-            stateReference: 'admin'
-        }];
+        this.adminNavItems = [
+            {
+                displayName: "Write",
+                stateReference: 'admin'
+            },
+            {
+                displayName: "Posts",
+                stateReference: 'posts'
+            }];
     }
 
     getAdminNavItems() {
