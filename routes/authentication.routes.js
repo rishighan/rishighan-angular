@@ -1,7 +1,6 @@
 const passport = require('passport');
 const express = require('express');
 const router = express.Router();
-
 const User = require('../db/user.schema');
 
 router.post('/register', function (req, res) {

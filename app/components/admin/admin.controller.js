@@ -1,5 +1,6 @@
 import FormlyDataService from "../../shared/utils/formlydata.service";
 import _ from "underscore";
+import {JL} from 'jsnLog';
 
 class AdminController {
     constructor($scope,
@@ -102,8 +103,8 @@ class AdminController {
         $scope.createPost = function () {
             PostService.createPost($scope.postFormModel).then(function (data) {
                 //todo: put a flash message here
-                //todo: log the result
                 // MessageUtilsService.notify($translate('admin.success_create_post.message'));
+                JL().info("Post Created" + data);
                 $state.go('posts');
             });
         };
