@@ -5,7 +5,6 @@ import $translateProvider from "pascalprecht.translate";
 import $translateStaticFilesLoader from "translate.static.file.loader";
 require('./app.scss');
 
-
 module.exports = angular.module('rgApp', [
     'ui.router',
     $translateProvider,
@@ -30,11 +29,11 @@ module.exports = angular.module('rgApp', [
 
     })
     .run(function ($rootScope, $location, $state, AuthenticationService) {
-        $rootScope.$on('$stateChangeStart', function (event, toState) {
+        $rootScope.$on('$stateChangeSuccess', function (event, toState) {
             AuthenticationService.getUserStatus()
                 .then(() => {
-                    if (toState.access.restricted && AuthenticationService.isLoggedIn() === false) {
-                        $state.go('login', {}, {reload: true});
+                    if (toState.access.restricted && !AuthenticationService.isLoggedIn()) {
+                        $state.go('login');
                     }
                 });
         });

@@ -44,8 +44,7 @@ app.use(cookieParser());
 app.use(session({
     secret: 'signal',
     resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 60000, secure: false }
+    saveUninitialized: true
 }));
 
 

@@ -5,12 +5,11 @@ describe('Hello', function() {
 
     beforeEach(inject(function(_analyticsService_) {
         analyticsService = _analyticsService_;
+        spyOn(analyticsService, 'spawnAnalytics').andReturn('hello');
     }));
 
 
     it('Should say analytics welcome message', function() {
-        // spyOn(analyticsService, 'spawnAnalytics').andReturn('hello');
-
         // debugger
         expect(analyticsService.spawnAnalytics()).toBe('this be analytics');
     });

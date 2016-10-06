@@ -13,13 +13,13 @@ require('bootstrap.css');
 require('bootstrap');
 
 let adminModule = angular.module('admin', [
-        'ui.router',
-        formly,
-        formlyBootstrap,
-        ngMessages,
-        ngSanitize,
-        uiselect
-    ])
+    'ui.router',
+    formly,
+    formlyBootstrap,
+    ngMessages,
+    ngSanitize,
+    uiselect
+])
 
     .config(($stateProvider, $urlRouterProvider) => {
         $stateProvider
@@ -47,9 +47,7 @@ let adminModule = angular.module('admin', [
     .directive('dropzone', function () {
         return function (scope, element, attrs) {
             var config, dropzone;
-            //console.log(scope);
             config = scope[attrs.dropzone];
-
             // create a Dropzone for the element with the given options
             dropzone = new Dropzone(element[0], config.options);
 

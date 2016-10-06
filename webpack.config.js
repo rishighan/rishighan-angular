@@ -85,7 +85,9 @@ module.exports = {
             "ngMessages": BOWER_COMPONENTS_PATH + '/angular-messages/angular-messages.min.js',
             "showdown-prettify": BOWER_COMPONENTS_PATH + '/showdown-prettify/dist/showdown-prettify.min.js',
             "showdown": BOWER_COMPONENTS_PATH + '/showdown/dist/showdown.min.js',
-            "ngSanitize": BOWER_COMPONENTS_PATH + '/angular-sanitize/angular-sanitize.min.js'
+            "ngSanitize": BOWER_COMPONENTS_PATH + '/angular-sanitize/angular-sanitize.min.js',
+            "angular-formly-templates-bootstrap": BOWER_COMPONENTS_PATH + '/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
+            "angular-formly": BOWER_COMPONENTS_PATH + '/angular-formly/dist/formly.min.js'
         },
         modulesDirectories: ['assets', 'node_modules', path.resolve(__dirname + '/bower_components')]
 

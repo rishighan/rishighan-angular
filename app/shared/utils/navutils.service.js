@@ -10,7 +10,7 @@ class NavUtilsService {
                 stateReference: 'admin'
             },
             {
-                displayName: "Posts",
+                displayName: "Browse",
                 stateReference: 'posts'
             }];
     }

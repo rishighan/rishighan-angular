@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/rishighan/rishighan-angular#readme",
   "devDependencies": {
-    "angular-mocks": "^1.4.7",
     "babel-core": "^5.8.25",
     "babel-loader": "^5.3.2",
     "bcrypt": "^0.8.5",
@@ -62,15 +61,9 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
-    "angular-formly": "^7.2.3",
-    "angular-formly-templates-bootstrap": "^6.1.5",
-    "angular-messages": "^1.4.7",
-    "angular-sanitize": "^1.4.7",
-    "api-check": "^7.5.3",
-    "bootstrap": "^3.3.5",
-    "dropzone": "^4.2.0",
     "ejs": "^2.4.1",
     "googleapis": "^2.1.6",
+    "jsnlog": "^2.20.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0"

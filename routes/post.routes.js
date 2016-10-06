@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../db/post.crud.js');
 
-// Create a new post
 router.post('/createpost', function (req, res, next) {
     var promise = Post.createPost(req.body);
     promise.then(function (data) {
@@ -12,7 +11,6 @@ router.post('/createpost', function (req, res, next) {
         .done();
 });
 
-// get all posts
 router.get('/getallposts', function (req, res, next) {
     var promise = Post.getAllPosts();
     promise.then(function (data) {

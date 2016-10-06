@@ -2,9 +2,9 @@
     <li ng-repeat="item in nv.menuItems">
         <a href="{{item.link}}" ui-sref="{{item.stateReference}}">{{item.displayName}}</a>
     </li>
-    <li ng-if="nv.userStatus">
+    <li ng-if="nv.isLoggedIn()">
         <span>
-            <small>{{nv.userStatus}}</small>
+            <small>{{nv.isLoggedIn()}}</small>
         </span>
         <a ng-click="nv.logout()" class="alert-link">Logout</a>
     </li>

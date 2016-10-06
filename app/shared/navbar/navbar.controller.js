@@ -1,9 +1,7 @@
 class NavbarController {
     constructor(AuthenticationService, $state) {
-        this.name = 'navbar';
         this._authService = AuthenticationService;
         this._$state = $state;
-        this.userStatus = AuthenticationService.isLoggedIn();
     }
 
     logout() {
@@ -12,6 +10,10 @@ class NavbarController {
                 this._$state.go('login');
             });
     };
+
+    isLoggedIn(){
+        return this._authService.isLoggedIn();
+    }
 }
 
 export default NavbarController;
