@@ -1,6 +1,5 @@
 import FormlyDataService from "../../shared/utils/formlydata.service";
 import _ from "underscore";
-import {JL} from 'jsnLog';
 
 class AdminController {
     constructor($scope,
@@ -8,7 +7,8 @@ class AdminController {
                 formlyValidationMessages,
                 analyticsService,
                 PostService,
-                NavUtilsService) {
+                NavUtilsService,
+                ngNotify) {
 
         analyticsService.spawnAnalytics();
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
@@ -19,7 +19,6 @@ class AdminController {
         // admin nav
         this.navItems = NavUtilsService.getAdminNavItems();
         const FILE_UPLOAD_URL = "/api/files/upload";
-
         // todo: should come from a service
         const testData = [{
             "id": "Technical",
@@ -37,6 +36,7 @@ class AdminController {
             "id": "General",
             "label": "General"
         }];
+
 
         // dropzone config
         $scope.dropzoneConfig = {
@@ -84,8 +84,10 @@ class AdminController {
                     // make api call to delete file from fs
                     PostService.deleteFile({
                         file: file.customData.fileName
-                    }).then(function (result) {
-                        console.log(result);
+                        // todo : flash alert
+                    }).then((result) => {
+                    }, (error) => {
+                        // todo: flash alert
                     });
 
                     // update the form model
@@ -103,9 +105,13 @@ class AdminController {
         $scope.createPost = function () {
             PostService.createPost($scope.postFormModel).then(function (data) {
                 //todo: put a flash message here
-                // MessageUtilsService.notify($translate('admin.success_create_post.message'));
-                JL().info("Post Created" + data);
                 $state.go('posts');
+                ngNotify.set("Created New Post", {
+                    position: "top",
+                    type: "success",
+                    target: "#notification",
+                    sticky: false
+                });
             });
         };
 

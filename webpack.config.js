@@ -8,11 +8,10 @@ var APP = path.resolve(__dirname + '/app/');
 var BUILD = path.resolve(__dirname + '/dist/');
 var NODE_MODULES_PATH = path.resolve(__dirname + '/node_modules/');
 var BOWER_COMPONENTS_PATH = path.resolve(__dirname + '/bower_components/');
-var ASSETS_PATH = path.resolve(__dirname + '/assets')
+var ASSETS_PATH = path.resolve(__dirname + '/assets');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-
     context: APP,
     entry: {
         rgapp: './core/bootstrap.js'
@@ -22,13 +21,10 @@ module.exports = {
         path: BUILD,
         filename: '[name].js'
     },
-
-
     // process.NODE.ENV === 'production';
-
     module: {
         // devtool
-        // devtool: 'eval',
+        devtool: 'eval',
 
         // preloaders
         preLoaders: [{
@@ -58,21 +54,22 @@ module.exports = {
             test: /\.html$/,
             loader: 'html-loader'
         }, {
-            test: /\.jsx?$/,
-            loader: 'babel',
-            exclude: /node_modules|bower_components/
-        }, {
             test: /ui-select/,
             loader: 'exports?"ui.select"'
+        },{
+            include: require.resolve(BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js'),
+            loader: 'exports?"ngNotify"'
         }]
     },
     resolveLoader: {
-        fallback: __dirname + "/node_modules"
+        fallback: NODE_MODULES_PATH
     },
     resolve: {
         root: [],
         extensions: ["", ".js", ".jsx", ".node"],
         alias: {
+            "angular": BOWER_COMPONENTS_PATH + '/angular/angular.min.js',
+            "angular-ui-router": BOWER_COMPONENTS_PATH + '/angular-ui-router/release/angular-ui-router.min.js',
             "jquery": BOWER_COMPONENTS_PATH + '/jquery/dist/jquery.js',
             "bootstrap.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap.css",
             "bootstrap-theme.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap-theme.css",
@@ -87,10 +84,11 @@ module.exports = {
             "showdown": BOWER_COMPONENTS_PATH + '/showdown/dist/showdown.min.js',
             "ngSanitize": BOWER_COMPONENTS_PATH + '/angular-sanitize/angular-sanitize.min.js',
             "angular-formly-templates-bootstrap": BOWER_COMPONENTS_PATH + '/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
-            "angular-formly": BOWER_COMPONENTS_PATH + '/angular-formly/dist/formly.min.js'
+            "angular-formly": BOWER_COMPONENTS_PATH + '/angular-formly/dist/formly.min.js',
+            "ng-notify": BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js',
+            "ngNotify.css": BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.css'
         },
-        modulesDirectories: ['assets', 'node_modules', path.resolve(__dirname + '/bower_components')]
-
+        modulesDirectories: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
     plugins: [
         // new webpack.HotModuleReplacementPlugin()
@@ -101,5 +99,4 @@ module.exports = {
             _: "underscore"
         })
     ]
-
 }

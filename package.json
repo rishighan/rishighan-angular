@@ -32,6 +32,7 @@
     "bcrypt": "^0.8.5",
     "bindings": "^1.2.1",
     "body-parser": "^1.14.2",
+    "bower-webpack-plugin": "^0.1.9",
     "cookie-parser": "^1.4.1",
     "css-loader": "^0.18.0",
     "exports-loader": "^0.6.2",
@@ -57,16 +58,16 @@
     "style-loader": "^0.12.4",
     "testem": "^0.9.9",
     "url-loader": "^0.5.6",
-    "webpack": "^1.12.2",
+    "webpack": "^1.13.2",
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "bunyan": "^1.8.1",
     "ejs": "^2.4.1",
     "googleapis": "^2.1.6",
-    "jsnlog": "^2.20.1",
-    "jsnlog-nodejs": "^2.20.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^4.0.0"
+    "passport-local-mongoose": "^4.0.0",
+    "webpack": "^1.13.2"
   }
 }

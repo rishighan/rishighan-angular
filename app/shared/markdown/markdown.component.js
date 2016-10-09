@@ -1,4 +1,3 @@
-import ngSanitize from 'ngSanitize';
 import showdown from 'showdown';
 import showdownPrettify from 'showdown-prettify';
 import footnotes from '../utils/showdown.footnotes.extension';
@@ -30,5 +29,4 @@ let markdownComponent = function($sanitize, $sce) {
     }
 };
 
-export
-default markdownComponent;
+export default markdownComponent;

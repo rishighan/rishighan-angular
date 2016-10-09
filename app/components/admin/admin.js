@@ -1,16 +1,17 @@
-import formly from "angular-formly";
-import ngMessages from "angular-messages";
 import adminComponent from "./admin.component";
 import allPostsComponent from "./posts/allposts.component";
 import editPostComponent from "./edit/edit.post.component";
 import repeatSectionController from "./repeat.section.controller";
 import ngSanitize from "angular-sanitize";
 import formlyBootstrap from "angular-formly-templates-bootstrap";
-
-var uiselect = require('ui-select');
-var Dropzone = require('dropzone');
+import ngMessages from "angular-messages";
+import formly from "angular-formly";
+const uiselect = require('ui-select');
+const Dropzone = require('dropzone');
+const ngNotify = require("ng-notify");
 require('bootstrap.css');
 require('bootstrap');
+require('ngNotify.css');
 
 let adminModule = angular.module('admin', [
     'ui.router',
@@ -18,7 +19,8 @@ let adminModule = angular.module('admin', [
     formlyBootstrap,
     ngMessages,
     ngSanitize,
-    uiselect
+    uiselect,
+    ngNotify
 ])
 
     .config(($stateProvider, $urlRouterProvider) => {
@@ -58,10 +60,16 @@ let adminModule = angular.module('admin', [
         };
     })
     // formly config
-    .run(function (formlyConfig) {
+    .run(function (formlyConfig, ngNotify) {
+        ngNotify.config({
+            theme: 'pastel',
+            position: 'top',
+            duration: 2000,
+            sticky: false,
+            html: false
+        });
         // NOTE: This next line is highly recommended. Otherwise Chrome's autocomplete will appear over your options!
         formlyConfig.extras.removeChromeAutoComplete = true;
-
         formlyConfig.setType({
             name: 'input',
             template: '<label>{{options.templateOptions.label}}</label><input class="{{options.templateOptions.className}}" ng-model="model[options.key]" />',

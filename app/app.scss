@@ -116,6 +116,15 @@ textarea {
   clear: both;
 }
 
+#notification {
+  position: absolute;
+  margin: 0px 0 0 0;
+  width: 100%;
+  padding: 10px 0;
+  height: 20px;
+  text-align:left;
+}
+
 // Normal Post container
 .container {
   .body {
@@ -192,5 +201,4 @@ textarea {
     @include simpleUnderline(1px, solid, $lightBackground);
     background: 0 none;
   }
-
 }

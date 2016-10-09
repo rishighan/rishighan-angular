@@ -5,7 +5,6 @@ class AllPostsController {
 
         $scope.posts = {};
         $scope.navItems = NavUtilsService.getAdminNavItems();
-
         PostService.getPosts().then(function (posts) {
             $scope.posts = posts.data;
         });

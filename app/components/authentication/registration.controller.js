@@ -5,6 +5,7 @@ class RegistrationController {
         this.error = false;
         this.errorMessage = {};
         this.disabled = false;
+        this._$state = $state;
     }
 //todo: getters and setters
     register() {
@@ -13,7 +14,7 @@ class RegistrationController {
             .then(function () {
                 this.disabled = false;
                 this.registerForm = {};
-                $state.go('login');
+                this._$state.go('login');
             })
             .catch(function (data) {
                 this.error = true;

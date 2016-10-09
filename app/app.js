@@ -1,16 +1,14 @@
 import Shared from "./shared/shared";
 import Components from "./components/components";
 import AppComponent from "./app.component";
-import $translateProvider from "pascalprecht.translate";
-import $translateStaticFilesLoader from "translate.static.file.loader";
+const $translateProvider = require("pascalprecht.translate");
+require("angular-translate-loader-static-files");
 require('./app.scss');
 
 module.exports = angular.module('rgApp', [
-    'ui.router',
-    $translateProvider,
-    $translateStaticFilesLoader,
     Shared.name,
-    Components.name
+    Components.name,
+    $translateProvider
 ])
     .directive('rgApp', AppComponent)
     .constant('LOCALES', {

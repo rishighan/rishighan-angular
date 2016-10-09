@@ -9,7 +9,7 @@ class NavbarController {
             .then(() => {
                 this._$state.go('login');
             });
-    };
+    }
 
     isLoggedIn(){
         return this._authService.isLoggedIn();

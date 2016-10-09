@@ -1,8 +1,7 @@
 /*jslint browser:true */
 'use strict';
-
-// run the function that loads the dependencies
-// require('./vendor.js')();
+require("angular");
+require("angular-ui-router");
 
 var appModule = require('../app');
 

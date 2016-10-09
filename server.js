@@ -20,7 +20,6 @@ var db = require('./config/database.connection.js');
 var postRoutes = require('./routes/post.routes');
 var fileRoutes = require('./routes/file.routes');
 var authenticationRoutes = require('./routes/authentication.routes');
-var logRoutes = require('./routes/log.routes');
 var app = express();
 
 // Google API
@@ -66,7 +65,6 @@ app.all('/', function (req, res) {
 app.use('/', fileRoutes);
 app.use('/db', postRoutes);
 app.use('/user', authenticationRoutes);
-app.use('/', logRoutes);
 
 var publicPath = path.resolve(__dirname, 'public');
 app.use('/bower', express.static(path.resolve(__dirname, 'bower_components')));
