@@ -25,10 +25,9 @@ class PostService {
             params: {
                 id: id
             }
-        })
-            .then(function (post) {
-                return post;
-            });
+        }).then(function (post) {
+            return post;
+        });
     }
 
     updatePost(id, data, upsertToggle) {
@@ -37,10 +36,9 @@ class PostService {
                 id: id,
                 upsertToggle: upsertToggle
             }
-        })
-            .then(function (result) {
-                return result;
-            });
+        }).then(function (result) {
+            return result;
+        });
     }
 
     deleteFile(file) {
@@ -49,8 +47,6 @@ class PostService {
                 return result;
             });
     }
-
-
 }
 
 export

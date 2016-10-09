@@ -4,6 +4,7 @@ import _ from "underscore";
 class AdminController {
     constructor($scope,
                 $state,
+                $translate,
                 formlyValidationMessages,
                 analyticsService,
                 PostService,
@@ -104,20 +105,25 @@ class AdminController {
 
         $scope.createPost = function () {
             PostService.createPost($scope.postFormModel).then(function (data) {
-                //todo: put a flash message here
-                $state.go('posts');
-                ngNotify.set("Created New Post", {
+                $state.go('posts').then(function () {
+                    ngNotify.set($translate.instant('admin.success_create_post.message'), {
+                        position: "top",
+                        type: "success",
+                        target: "#notification",
+                        sticky: false
+                    });
+                });
+            }, function (error) {
+                ngNotify.set($translate.instant('admin.error_create_post.message'), {
+                    type: "error",
                     position: "top",
-                    type: "success",
-                    target: "#notification",
-                    sticky: false
+                    target: "#notification"
                 });
             });
         };
 
         // validation
         this.options = {};
-
         formlyValidationMessages.addTemplateOptionValueMessage('maxlength', 'maxlength', '', 'is the maximum length', 'Too long');
         formlyValidationMessages.addTemplateOptionValueMessage('minlength', 'minlength', '', 'is the minimum length', 'Too short');
         formlyValidationMessages.messages.required = 'to.label + " is required"';
