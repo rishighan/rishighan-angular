@@ -54,7 +54,7 @@ module.exports = {
             test: /\.html$/,
             loader: 'html-loader'
         }, {
-            test: /ui-select/,
+            include: require.resolve(BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js"),
             loader: 'exports?"ui.select"'
         },{
             include: require.resolve(BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js'),

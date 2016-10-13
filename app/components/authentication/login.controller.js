@@ -13,10 +13,7 @@ class LoginController {
                 .then(function () {
                     $state.go(ADMIN_PAGE).then(function () {
                         ngNotify.set($translate.instant('admin.login_success.message'), {
-                            position: "top",
                             type: "success",
-                            target: "#notification",
-                            sticky: false
                         });
                     });
                     $scope._disabled = false;

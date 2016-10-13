@@ -85,8 +85,8 @@ class AdminController {
                     // make api call to delete file from fs
                     PostService.deleteFile({
                         file: file.customData.fileName
-                        // todo : flash alert
                     }).then((result) => {
+                        // todo : flash alert
                     }, (error) => {
                         // todo: flash alert
                     });
@@ -107,17 +107,12 @@ class AdminController {
             PostService.createPost($scope.postFormModel).then(function (data) {
                 $state.go('posts').then(function () {
                     ngNotify.set($translate.instant('admin.success_create_post.message'), {
-                        position: "top",
-                        type: "success",
-                        target: "#notification",
-                        sticky: false
+                        type: "success"
                     });
                 });
             }, function (error) {
                 ngNotify.set($translate.instant('admin.error_create_post.message'), {
-                    type: "error",
-                    position: "top",
-                    target: "#notification"
+                    type: "error"
                 });
             });
         };

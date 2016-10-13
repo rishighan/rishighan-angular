@@ -23,9 +23,41 @@ var authenticationRoutes = require('./routes/authentication.routes');
 var app = express();
 
 // Google API
-var googleApi = require('googleapis');
-var OAuth2 = googleApi.auth.OAuth2;
-console.log("Google API:" + OAuth2)
+const google = require('googleapis');
+const key = require('./config/key.json');
+
+let jwtClient = new google.auth.JWT(key.client_email,
+    null,
+    key.private_key,
+    ['https://www.googleapis.com/auth/analytics.readonly'],
+    null);
+jwtClient.authorize(function (err, tokens) {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    let analytics = google.analytics('v3');
+    queryData(analytics);
+});
+
+function queryData(analytics) {
+    analytics.data.ga.get({
+        'auth': jwtClient,
+        'ids': 'ga:17894417',
+        'start-date': '30daysAgo',
+        'end-date': 'yesterday',
+        'metrics': 'ga:uniquePageviews',
+        'dimensions': 'ga:pagePath',
+        'filters': 'ga:pagePath=~/post/*',
+        'max-results': 25
+    }, function (err, response) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log(JSON.stringify(response, null, 4));
+    });
+}
 
 // connect to db
 db.connect();

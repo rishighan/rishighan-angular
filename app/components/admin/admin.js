@@ -11,6 +11,7 @@ const Dropzone = require('dropzone');
 const ngNotify = require("ng-notify");
 require('bootstrap.css');
 require('bootstrap');
+require('select.css');
 require('ngNotify.css');
 
 let adminModule = angular.module('admin', [
@@ -36,7 +37,7 @@ let adminModule = angular.module('admin', [
                 access: {restricted: true}
             })
             .state('edit', {
-                url: '/admin/post/edit?id',
+                url: '/admin/post/edit/:id',
                 template: '<editpost></editpost>',
                 access: {restricted: true}
             });
@@ -64,7 +65,8 @@ let adminModule = angular.module('admin', [
         ngNotify.config({
             theme: 'pastel',
             position: 'top',
-            duration: 2000,
+            target: "#notification",
+            duration: 1500,
             sticky: false,
             html: false
         });
