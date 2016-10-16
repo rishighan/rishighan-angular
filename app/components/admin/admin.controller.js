@@ -1,4 +1,5 @@
 import FormlyDataService from "../../shared/utils/formlydata.service";
+import FriendlyUrlService from "../../shared/utils/friendlyurl.service";
 import _ from "underscore";
 
 class AdminController {
@@ -86,7 +87,9 @@ class AdminController {
                     PostService.deleteFile({
                         file: file.customData.fileName
                     }).then((result) => {
-                        // todo : flash alert
+                        ngNotify.set($translate.instant('admin.file_deleted_success.message'), {
+                            type: "success"
+                        });
                     }, (error) => {
                         // todo: flash alert
                     });

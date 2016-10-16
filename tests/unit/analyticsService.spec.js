@@ -1,11 +1,10 @@
 "use strict";
-describe('Hello', function() {
+describe('AnalyticsService Tests', function() {
     var analyticsService;
     beforeEach(window.module('analytics'));
 
     beforeEach(inject(function(_analyticsService_) {
         analyticsService = _analyticsService_;
-        spyOn(analyticsService, 'spawnAnalytics').andReturn('hello');
     }));
 
 

@@ -7,3 +7,4 @@ npm-debug.log
 key.json
 *.pem
 *.p12
+*.docx

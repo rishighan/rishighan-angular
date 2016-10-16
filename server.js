@@ -46,10 +46,10 @@ function queryData(analytics) {
         'ids': 'ga:17894417',
         'start-date': '30daysAgo',
         'end-date': 'yesterday',
-        'metrics': 'ga:uniquePageviews',
-        'dimensions': 'ga:pagePath',
-        'filters': 'ga:pagePath=~/post/*',
-        'max-results': 25
+        'metrics': 'ga:pageviews',
+        'dimensions': 'ga:date',
+        'filters': 'ga:pagePath=~/post/configuring-clover-for-handoff-and-continuity-in-yosemite',
+        'max-results': 30
     }, function (err, response) {
         if (err) {
             console.log(err);
