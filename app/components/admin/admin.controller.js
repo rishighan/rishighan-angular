@@ -1,5 +1,4 @@
 import FormlyDataService from "../../shared/utils/formlydata.service";
-import FriendlyUrlService from "../../shared/utils/friendlyurl.service";
 import _ from "underscore";
 
 class AdminController {
@@ -7,12 +6,11 @@ class AdminController {
                 $state,
                 $translate,
                 formlyValidationMessages,
-                analyticsService,
                 PostService,
                 NavUtilsService,
+                FriendlyUrlService,
                 ngNotify) {
 
-        analyticsService.spawnAnalytics();
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
         $scope.postFormModel = {
             attachedFile: []
@@ -83,7 +81,6 @@ class AdminController {
 
                 },
                 removedfile: function (file) {
-                    // make api call to delete file from fs
                     PostService.deleteFile({
                         file: file.customData.fileName
                     }).then((result) => {
@@ -105,6 +102,15 @@ class AdminController {
                 }
             }
         };
+
+        let slugify = function(oldValue, newValue){
+            if(oldValue !== newValue){
+                $scope.postFormModel.slug = FriendlyUrlService.createSlug(newValue);
+                console.log(newValue)
+            }
+        };
+
+        $scope.$watch('postFormModel.title', _.debounce(slugify, 300));
 
         $scope.createPost = function () {
             PostService.createPost($scope.postFormModel).then(function (data) {

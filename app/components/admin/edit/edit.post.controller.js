@@ -117,6 +117,7 @@ class EditPostController {
             }
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
                 .then(function (result) {
+                    //todo flash alert
                     $state.go('posts');
                 });
         };

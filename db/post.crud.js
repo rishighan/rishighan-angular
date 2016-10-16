@@ -4,6 +4,7 @@ var Q = require('q');
 
 var PostSchema = new Schema({
     title: String,
+    slug: String,
     tags: [{
         id: String,
         name: String
@@ -31,6 +32,7 @@ PostSchema.statics.createPost = function (data) {
     var deferred = Q.defer();
     this.create({
         title: data.title,
+        slug: data.slug,
         tags: data.tags,
         date_created: new Date(),
         date_updated: new Date(),
@@ -90,6 +92,7 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
         }, {
             $set: {
                 title: updates.title,
+                slug: updates.slug,
                 tags: updates.tags,
                 date_created: updates.date_created,
                 date_modified: new Date(),
@@ -112,7 +115,7 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
         });
 
     return deferred.promise;
-}
+};
 
 
 var Post = mongoose.model('Post', PostSchema);

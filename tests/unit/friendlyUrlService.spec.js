@@ -4,8 +4,7 @@ describe('FriendlyUrlService Service Tests', function() {
     testTitle = 'The Day The Earth Stood Still';
     singleWordTitle = 'Fargo';
     preHyphenatedTitle = 'rumble-in-the-bronx';
-    crazyTitle = '*!@#!@#!@$_A-Series*} - {+_!@#of&unfortunate#events_!@@#!@#';
-
+    crazyTitle = '*!@#!@#!@$_A-Series*} -&% {+_!@#of&unfortunate#events_!@@#!@#';
 
     beforeEach(window.module('app.shared'));
     beforeEach(inject(function(_FriendlyUrlService_) {

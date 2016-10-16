@@ -24,6 +24,13 @@ class FormlyDataService {
                 className: 'col-md-6 col-xs-6'
             }
         }, {
+            key: 'slug',
+            type: 'readonly',
+            templateOptions:{
+                required: true,
+                className: 'col-md-8 col-xs-8'
+            }
+        }, {
             key: 'tags',
             type: 'ui-select-multiple',
             className: 'row margin20',

@@ -79,6 +79,12 @@ let adminModule = angular.module('admin', [
         });
 
         formlyConfig.setType({
+            name: 'readonly',
+            template: '<input class="{{options.templateOptions.className}}" ng-model="model[options.key]" disabled>',
+            overwriteOk: true
+        });
+
+        formlyConfig.setType({
             name: 'textareaTabs',
             templateUrl: 'textarea.tpl.html',
             overwriteOk: true
