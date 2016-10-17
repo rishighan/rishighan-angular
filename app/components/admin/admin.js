@@ -80,7 +80,7 @@ let adminModule = angular.module('admin', [
 
         formlyConfig.setType({
             name: 'readonly',
-            template: '<input class="{{options.templateOptions.className}}" ng-model="model[options.key]" disabled>',
+            template: '<label>{{options.templateOptions.label}}</label><input class="{{options.templateOptions.className}}" ng-model="model[options.key]" disabled />',
             overwriteOk: true
         });
 

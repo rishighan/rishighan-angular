@@ -103,16 +103,8 @@ class AdminController {
             }
         };
 
-        let slugify = function(oldValue, newValue){
-            if(oldValue !== newValue){
-                $scope.postFormModel.slug = FriendlyUrlService.createSlug(newValue);
-                console.log(newValue)
-            }
-        };
-
-        $scope.$watch('postFormModel.title', _.debounce(slugify, 300));
-
         $scope.createPost = function () {
+            $scope.postFormModel.slug = FriendlyUrlService.createSlug($scope.postFormModel.title);
             PostService.createPost($scope.postFormModel).then(function (data) {
                 $state.go('posts').then(function () {
                     ngNotify.set($translate.instant('admin.success_create_post.message'), {

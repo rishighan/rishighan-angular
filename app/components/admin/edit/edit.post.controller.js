@@ -8,6 +8,7 @@ class EditPostController {
                 $stateParams,
                 NavUtilsService,
                 PostService,
+                FriendlyUrlService,
                 $translate) {
 
         const ASSETS_FOLDER = '/assets/images/';
@@ -115,6 +116,7 @@ class EditPostController {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
+            $scope.post[0].slug = FriendlyUrlService.createSlug($scope.post[0].title);
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
                 .then(function (result) {
                     //todo flash alert
@@ -126,12 +128,14 @@ class EditPostController {
         var timeout = null;
         var saveUpdates = function () {
             // call to save/upsert as draft
-            PostService.updatePost($scope.post[0]._id, $scope.post[0], true).then(function (result) {
-                $scope.autosaveStatus = 'Saved';
-                $timeout(function () {
-                    $scope.autosaveStatus = '';
-                }, 3000);
-            });
+            $scope.post[0].slug = FriendlyUrlService.createSlug($scope.post[0].title);
+            PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
+                .then(function (result) {
+                    $scope.autosaveStatus = 'Saved';
+                    $timeout(function () {
+                        $scope.autosaveStatus = '';
+                    }, 3000);
+                });
         };
 
         var debounceUpdates = function (newValue, oldValue) {

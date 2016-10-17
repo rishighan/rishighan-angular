@@ -26,10 +26,12 @@ class FormlyDataService {
         }, {
             key: 'slug',
             type: 'readonly',
+            className: 'clearfix',
             templateOptions:{
-                required: true,
-                className: 'col-md-8 col-xs-8'
+                label: 'Slug',
+                className: 'col-md-6 col-xs-6'
             }
+
         }, {
             key: 'tags',
             type: 'ui-select-multiple',
