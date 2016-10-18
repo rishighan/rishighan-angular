@@ -17,47 +17,11 @@ var mongoose = require('mongoose');
 var db = require('./config/database.connection.js');
 
 // routes
-var postRoutes = require('./routes/post.routes');
-var fileRoutes = require('./routes/file.routes');
-var authenticationRoutes = require('./routes/authentication.routes');
+const postRoutes = require('./routes/post.routes');
+const fileRoutes = require('./routes/file.routes');
+const authenticationRoutes = require('./routes/authentication.routes');
+const analyticsRoutes = require('./routes/analytics.routes');
 var app = express();
-
-// Google API
-const google = require('googleapis');
-const key = require('./config/key.json');
-
-let jwtClient = new google.auth.JWT(key.client_email,
-    null,
-    key.private_key,
-    ['https://www.googleapis.com/auth/analytics.readonly'],
-    null);
-jwtClient.authorize(function (err, tokens) {
-    if (err) {
-        console.log(err);
-        return;
-    }
-    let analytics = google.analytics('v3');
-    queryData(analytics);
-});
-
-function queryData(analytics) {
-    analytics.data.ga.get({
-        'auth': jwtClient,
-        'ids': 'ga:17894417',
-        'start-date': '30daysAgo',
-        'end-date': 'yesterday',
-        'metrics': 'ga:pageviews',
-        'dimensions': 'ga:date',
-        'filters': 'ga:pagePath=~/post/configuring-clover-for-handoff-and-continuity-in-yosemite',
-        'max-results': 30
-    }, function (err, response) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log(JSON.stringify(response, null, 4));
-    });
-}
 
 // connect to db
 db.connect();
@@ -97,6 +61,7 @@ app.all('/', function (req, res) {
 app.use('/', fileRoutes);
 app.use('/db', postRoutes);
 app.use('/user', authenticationRoutes);
+app.use('/', analyticsRoutes);
 
 var publicPath = path.resolve(__dirname, 'public');
 app.use('/bower', express.static(path.resolve(__dirname, 'bower_components')));

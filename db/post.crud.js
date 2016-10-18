@@ -53,10 +53,10 @@ PostSchema.statics.createPost = function (data) {
 
 
 // retrieve by id
-PostSchema.statics.getPost = function (id) {
+PostSchema.statics.getPost = function (id, slug) {
     var deferred = Q.defer();
     this.find({
-        _id: id
+        $or: [{_id: id}, {slug: slug}]
     }, function (error, data) {
         if (error) {
             deferred.reject(new Error(error));

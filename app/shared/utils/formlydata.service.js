@@ -26,7 +26,7 @@ class FormlyDataService {
         }, {
             key: 'slug',
             type: 'readonly',
-            className: 'clearfix',
+            className: 'clearfix margin20',
             templateOptions:{
                 label: 'Slug',
                 className: 'col-md-6 col-xs-6'

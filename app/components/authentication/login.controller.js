@@ -4,7 +4,7 @@ class LoginController {
                 $translate,
                 AuthenticationService,
                 ngNotify) {
-        const ADMIN_PAGE = 'admin';
+        const ADMIN_PAGE = 'posts';
         $scope._disabled = false;
         $scope.error = false;
 

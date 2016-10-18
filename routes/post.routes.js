@@ -11,6 +11,7 @@ router.post('/createpost', function (req, res, next) {
         .done();
 });
 
+// todo: enable find by slug
 router.get('/getallposts', function (req, res, next) {
     var promise = Post.getAllPosts();
     promise.then(function (data) {
