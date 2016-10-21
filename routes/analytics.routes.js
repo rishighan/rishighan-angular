@@ -42,6 +42,7 @@ function queryData(analytics) {
         'max-results': 30
     }, function (err, response) {
         if (err) {
+            //todo: winston logging
             deferred.reject(new Error(err));
         } else {
             deferred.resolve(JSON.stringify(response, null, 4));

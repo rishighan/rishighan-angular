@@ -1,6 +1,7 @@
 class AllPostsController {
     constructor($scope,
                 NavUtilsService,
+                AnalyticsService,
                 PostService) {
 
         $scope.posts = {};
@@ -8,6 +9,9 @@ class AllPostsController {
         PostService.getPosts().then(function (posts) {
             $scope.posts = posts.data;
         });
+        $scope.analytics = AnalyticsService;
+        console.log($scope.analytics)
+
 
     }
 }
