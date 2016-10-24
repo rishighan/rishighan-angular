@@ -19,7 +19,7 @@ router.get('/getAnalytics', function (req, res, next) {
             return;
         }
         let analytics = google.analytics('v3');
-        var dataPromise = queryData(analytics);
+        var dataPromise = queryData(analytics, req.query.slug);
         dataPromise.then(function (data) {
             res.send(data);
         }, function (err) {
@@ -29,7 +29,8 @@ router.get('/getAnalytics', function (req, res, next) {
 });
 
 // todo: parameterize this method
-function queryData(analytics) {
+function queryData(analytics, slug) {
+    let pattern = slug || '*';
     var deferred = Q.defer();
     analytics.data.ga.get({
         'auth': jwtClient,
@@ -38,8 +39,8 @@ function queryData(analytics) {
         'end-date': 'yesterday',
         'metrics': 'ga:pageviews',
         'dimensions': 'ga:date, ga:pagePath',
-        'filters': 'ga:pagePath=~/post/*',
-        'max-results': 30
+        'filters': 'ga:pagePath=~/post/'+ pattern,
+        'max-results': 150
     }, function (err, response) {
         if (err) {
             //todo: winston logging

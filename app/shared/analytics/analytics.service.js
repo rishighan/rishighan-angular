@@ -6,15 +6,14 @@ class AnalyticsService {
 
     getAnalytics(query) {
         return this._$http.get('/getAnalytics', {
-            params: {slug: query.slug}
+            params: {slug: query.slug || ''}
         })
             .then(function (data) {
                 return data;
             }, function (error) {
                 // todo: winston
-            })
+            });
     }
-
 }
 
 export

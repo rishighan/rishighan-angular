@@ -9,6 +9,7 @@ import formly from "angular-formly";
 const uiselect = require('ui-select');
 const Dropzone = require('dropzone');
 const ngNotify = require("ng-notify");
+
 require('bootstrap.css');
 require('bootstrap');
 require('select.css');
@@ -21,7 +22,7 @@ let adminModule = angular.module('admin', [
     ngMessages,
     ngSanitize,
     uiselect,
-    ngNotify
+    ngNotify,
 ])
 
     .config(($stateProvider, $urlRouterProvider) => {

@@ -8,8 +8,6 @@ var APP = path.resolve(__dirname + '/app/');
 var BUILD = path.resolve(__dirname + '/dist/');
 var NODE_MODULES_PATH = path.resolve(__dirname + '/node_modules/');
 var BOWER_COMPONENTS_PATH = path.resolve(__dirname + '/bower_components/');
-var ASSETS_PATH = path.resolve(__dirname + '/assets');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     context: APP,
@@ -70,7 +68,7 @@ module.exports = {
         alias: {
             "angular": BOWER_COMPONENTS_PATH + '/angular/angular.min.js',
             "angular-ui-router": BOWER_COMPONENTS_PATH + '/angular-ui-router/release/angular-ui-router.min.js',
-            "jquery": BOWER_COMPONENTS_PATH + '/jquery/dist/jquery.js',
+            "jquery": BOWER_COMPONENTS_PATH + '/jquery/dist/jquery.min.js',
             "bootstrap.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap.css",
             "bootstrap-theme.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap-theme.css",
             "select.css": BOWER_COMPONENTS_PATH + '/ui-select/dist/select.css',
@@ -86,7 +84,13 @@ module.exports = {
             "angular-formly-templates-bootstrap": BOWER_COMPONENTS_PATH + '/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
             "angular-formly": BOWER_COMPONENTS_PATH + '/angular-formly/dist/formly.min.js',
             "ng-notify": BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js',
-            "ngNotify.css": BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.css'
+            "ngNotify.css": BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.css',
+            "angulartics": BOWER_COMPONENTS_PATH + '/angulartics/dist/angulartics.min.js',
+            "angulartics-ga": BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js',
+            "nvd3": BOWER_COMPONENTS_PATH + '/nvd3/build/nv.d3.min.js',
+            "nvd3.css": BOWER_COMPONENTS_PATH + '/nvd3/build/nv.d3.min.css',
+            "d3": BOWER_COMPONENTS_PATH + '/d3/d3.min.js',
+            "angular-busy": BOWER_COMPONENTS_PATH + '/angular-busy/dist/angular-busy.min.js'
         },
         modulesDirectories: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
@@ -96,7 +100,8 @@ module.exports = {
             $: "jquery",
             jQuery: "jquery",
             "window.jQuery": "jquery",
-            _: "underscore"
+            _: "underscore",
+            nvd3: "nvd3",
         })
     ]
 }
