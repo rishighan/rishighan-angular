@@ -12,21 +12,23 @@ let sparklineComponent = function () {
         transclude: true,
         template: '<svg id="jugni"></svg>',
         link: function (scope, el, attrs, ctrl) {
-            scope.$watch('data', function(newValue, oldValue){
-                // data -> [{x: 1, y: 123},  {x: 123, y: 132}]
+            scope.$watch('data', function (newValue, oldValue) {
                 defaultChartConfig("#jugni", newValue);
             });
 
             function defaultChartConfig(containerId, data) {
                 nvd3.addGraph(function () {
                     var chart = nvd3.models.sparklinePlus();
-                    chart.margin({left: 0})
+                    chart.margin({left: 5})
                         .x(function (d, i) {
                             return i;
                         })
                         .showLastValue(true)
                         .xTickFormat(function (d) {
                             return data[d].x;
+                        })
+                        .y(function(d){
+                            return d.y;
                         })
                         .width(200)
                         .height(40);

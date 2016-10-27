@@ -54,9 +54,15 @@ module.exports = {
         }, {
             include: require.resolve(BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js"),
             loader: 'exports?"ui.select"'
-        },{
+        }, {
             include: require.resolve(BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js'),
             loader: 'exports?"ngNotify"'
+        }, {
+            include: require.resolve(BOWER_COMPONENTS_PATH + '/angulartics/dist/angulartics.min.js'),
+            loader: 'exports?angulartics'
+        }, {
+            include: require.resolve(BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js'),
+            loader: 'exports?"angulartics.google.analytics"'
         }]
     },
     resolveLoader: {
@@ -85,23 +91,22 @@ module.exports = {
             "angular-formly": BOWER_COMPONENTS_PATH + '/angular-formly/dist/formly.min.js',
             "ng-notify": BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js',
             "ngNotify.css": BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.css',
-            "angulartics": BOWER_COMPONENTS_PATH + '/angulartics/dist/angulartics.min.js',
-            "angulartics-ga": BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js',
             "nvd3": BOWER_COMPONENTS_PATH + '/nvd3/build/nv.d3.min.js',
             "nvd3.css": BOWER_COMPONENTS_PATH + '/nvd3/build/nv.d3.min.css',
             "d3": BOWER_COMPONENTS_PATH + '/d3/d3.min.js',
-            "angular-busy": BOWER_COMPONENTS_PATH + '/angular-busy/dist/angular-busy.min.js'
+            "angular-busy": BOWER_COMPONENTS_PATH + '/angular-busy/dist/angular-busy.min.js',
+            "angulartics": BOWER_COMPONENTS_PATH + '/angulartics/dist/angulartics.min.js',
+            "angulartics.google.analytics": BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js'
         },
         modulesDirectories: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
     plugins: [
-        // new webpack.HotModuleReplacementPlugin()
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
             "window.jQuery": "jquery",
             _: "underscore",
-            nvd3: "nvd3",
+            nvd3: "nvd3"
         })
     ]
 }

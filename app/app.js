@@ -4,11 +4,13 @@ import AppComponent from "./app.component";
 const $translateProvider = require("pascalprecht.translate");
 require("angular-translate-loader-static-files");
 require('./app.scss');
-
+require("angulartics");
+import googleAnalytics from "angulartics.google.analytics";
 module.exports = angular.module('rgApp', [
     Shared.name,
     Components.name,
-    $translateProvider
+    $translateProvider,
+    googleAnalytics
 ])
     .directive('rgApp', AppComponent)
     .constant('LOCALES', {
@@ -17,14 +19,14 @@ module.exports = angular.module('rgApp', [
         },
         'preferredLocale': 'en_US'
     })
-    .config(function ($translateProvider) {
+    .config(function ($translateProvider, $analyticsProvider) {
         $translateProvider.useStaticFilesLoader({
             prefix: '/locale/locale-',
             suffix: '.json'
         });
         $translateProvider.preferredLanguage('en_US');
         $translateProvider.useSanitizeValueStrategy(null);
-
+        console.log($analyticsProvider)
     })
     .run(function ($rootScope, $location, $state, AuthenticationService) {
         $rootScope.$on('$stateChangeSuccess', function (event, toState) {

@@ -10,6 +10,8 @@ class AllPostsController {
             $scope.posts = posts.data;
         });
         $scope.analyticsData = [];
+        // get data for each slug
+        // {x: 12, y: 2016-11-2, slug: 'sinking-in-the-quicksand'}
         $scope.query = {
             slug: 'configuring-clover-for-handoff-and-continuity-in-yosemite'
         };
