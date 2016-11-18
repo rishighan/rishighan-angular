@@ -10,7 +10,8 @@ let workModule = angular.module('work', [
     $stateProvider
       .state('work', {
         url: '/work',
-        template: '<work></work>'
+        template: '<work></work>',
+        access: {restricted: false}
       });
 })
 

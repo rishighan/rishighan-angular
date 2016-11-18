@@ -24,7 +24,7 @@ router.get('/getAnalytics', function (req, res, next) {
             res.send(data);
         }, function (err) {
             res.send(err);
-        })
+        });
     });
 });
 

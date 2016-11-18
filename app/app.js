@@ -1,11 +1,12 @@
-import Shared from "./shared/shared";
-import Components from "./components/components";
-import AppComponent from "./app.component";
-const $translateProvider = require("pascalprecht.translate");
-require("angular-translate-loader-static-files");
+import Shared from './shared/shared';
+import Components from './components/components';
+import AppComponent from './app.component';
+const $translateProvider = require('pascalprecht.translate');
+require('angular-translate-loader-static-files');
 require('./app.scss');
-require("angulartics");
-import googleAnalytics from "angulartics.google.analytics";
+require('angulartics');
+import googleAnalytics from 'angulartics.google.analytics';
+
 module.exports = angular.module('rgApp', [
     Shared.name,
     Components.name,
@@ -26,7 +27,7 @@ module.exports = angular.module('rgApp', [
         });
         $translateProvider.preferredLanguage('en_US');
         $translateProvider.useSanitizeValueStrategy(null);
-        console.log($analyticsProvider)
+        $analyticsProvider.virtualPageviews(false);
     })
     .run(function ($rootScope, $location, $state, AuthenticationService) {
         $rootScope.$on('$stateChangeSuccess', function (event, toState) {
