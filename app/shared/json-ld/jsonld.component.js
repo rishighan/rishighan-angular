@@ -1,4 +1,3 @@
-
 let jsonld = function($sanitize, $sce, $filter){
     return {
         restrict: 'AE',
