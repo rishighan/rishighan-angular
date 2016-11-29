@@ -3,7 +3,7 @@ node_modules
 npm-debug.log
 .tmp
 .idea
-.iml
+*.iml
 .DS_Store
 key.json
 *.pem
