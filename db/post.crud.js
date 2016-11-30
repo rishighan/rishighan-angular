@@ -21,10 +21,6 @@ var PostSchema = new Schema({
     is_draft: Boolean,
     content: String,
     excerpt: String,
-    citation: [{
-        name: String,
-        source: String
-    }]
 });
 
 // create
@@ -40,7 +36,6 @@ PostSchema.statics.createPost = function (data) {
         is_draft: false,
         content: data.content,
         excerpt: data.excerpt,
-        citation: data.citations,
     }, function (error, data) {
         if (error) {
             deferred.reject(new Error(error));
@@ -99,9 +94,7 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
                 attachment: updates.attachment,
                 is_draft: false,
                 content: updates.content,
-                excerpt: updates.excerpt,
-                citation: updates.citation
-
+                excerpt: updates.excerpt
             }
         }, {
             upsert: upsertValue

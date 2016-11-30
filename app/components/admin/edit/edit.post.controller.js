@@ -151,7 +151,6 @@ class EditPostController {
         $scope.$watch('post[0].title', debounceUpdates);
         $scope.$watch('post[0].excerpt', debounceUpdates);
         $scope.$watchCollection('post[0].tags', debounceUpdates);
-        $scope.$watchCollection('post[0].citation', debounceUpdates);
         $scope.$watchCollection('post[0].attachment', debounceUpdates);
     }
 

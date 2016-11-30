@@ -27,7 +27,7 @@ class FormlyDataService {
             key: 'slug',
             type: 'readonly',
             className: 'clearfix margin20',
-            templateOptions:{
+            templateOptions: {
                 label: 'Slug',
                 className: 'col-md-6 col-xs-6'
             }
@@ -67,37 +67,7 @@ class FormlyDataService {
                 required: true,
                 className: 'col-md-10 col-xs-12'
             }
-        }, {
-            key: 'citation',
-            type: 'repeatSection',
-            className: 'margin20',
-            templateOptions: {
-                btnText: 'Add another citation',
-                fields: [{
-                    fieldGroup: [{
-                        key: 'name',
-                        type: 'input',
-                        className: 'formly-repeatSection',
-                        templateOptions: {
-                            className: 'col-md-10 col-xs-6',
-                            label: 'Citation:',
-                            required: false
-                        }
-                    }, {
-                        key: 'source',
-                        type: 'input',
-                        className: 'formly-repeatSection',
-                        templateOptions: {
-                            className: 'col-md-12 col-xs-6',
-                            label: 'Source or hyperlink:',
-                            placeholder: 'http://thisthatortheother.com/docs/papersonhysteria',
-                            required: false
-                        }
-                    }]
-                }]
-            }
         }];
-
     }
 
     static formlyDataFactory() {

@@ -1,7 +1,6 @@
 import adminComponent from "./admin.component";
 import allPostsComponent from "./posts/allposts.component";
 import editPostComponent from "./edit/edit.post.component";
-import repeatSectionController from "./repeat.section.controller";
 import ngSanitize from "angular-sanitize";
 import formlyBootstrap from "angular-formly-templates-bootstrap";
 import ngMessages from "angular-messages";
@@ -121,20 +120,11 @@ let adminModule = angular.module('admin', [
             templateUrl: 'ui-select-multiple.html'
         });
 
-
         formlyConfig.setWrapper({
             name: 'validation',
             types: ['input', 'textarea', 'customInput', 'ui-select-multiple'],
             templateUrl: 'error-messages.html'
         });
-
-
-        formlyConfig.setType({
-            name: 'repeatSection',
-            templateUrl: 'repeatSection.html',
-            controller: repeatSectionController
-        });
-
     });
 
 export
