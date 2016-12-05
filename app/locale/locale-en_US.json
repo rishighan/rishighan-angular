@@ -11,6 +11,7 @@
     "admin.file_added_success.message": "File Added Successfully",
     "admin.file_deleted_success.message": "File Deleted Successfully",
     "admin.save_publish_post.button": "Save and Publish",
+    "admin.save_as_draft.button": "Save as Draft",
     "admin.save_changes.button": "Save Changes",
 
     "admin.success_edit.message": "Changes Saved Successfully",
