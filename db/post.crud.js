@@ -78,10 +78,10 @@ PostSchema.statics.getAllPosts = function () {
 
 // update or
 // Todo: upsert a post
-PostSchema.statics.updatePost = function (id, data, upsertValue, isDraft) {
+PostSchema.statics.updatePost = function (id, data, upsertValue) {
     var deferred = Q.defer();
     var updates = data;
-
+    console.log(data);
     this.update({
             _id: id
         }, {
@@ -92,7 +92,7 @@ PostSchema.statics.updatePost = function (id, data, upsertValue, isDraft) {
                 date_created: updates.date_created,
                 date_modified: new Date(),
                 attachment: updates.attachment,
-                is_draft: isDraft,
+                is_draft: updates.is_draft,
                 content: updates.content,
                 excerpt: updates.excerpt
             }
@@ -106,7 +106,6 @@ PostSchema.statics.updatePost = function (id, data, upsertValue, isDraft) {
                 deferred.resolve(data);
             }
         });
-
     return deferred.promise;
 };
 

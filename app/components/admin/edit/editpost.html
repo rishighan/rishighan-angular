@@ -20,8 +20,14 @@
                                     ng-disabled="form.$invalid || form.$pristine">{{'admin.save_changes.button' |translate }}
                             </button>
                             <button class="btn btn-default" type="submit" ng-click="updatePost(post, true)"
-                                    ng-disabled="form.$invalid">{{'admin.save_as_draft.button' | translate }}
+                                    ng-if="!post[0].is_draft" ng-disabled="form.$invalid">
+                                {{'admin.save_as_draft.button' | translate }}
                             </button>
+                            <button class="btn btn-default" type="submit" ng-click="updatePost(post, false)"
+                                    ng-if="post[0].is_draft" ng-disabled="form.$invalid">
+                                {{'admin.unmark_draft.button' | translate }}
+                            </button>
+
                         </div>
                     </formly-form>
                 </form>

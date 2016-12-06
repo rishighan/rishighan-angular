@@ -31,6 +31,7 @@ router.get('/getpost/:id', function (req, res, next) {
 });
 
 router.post('/updatepost/:id', function (req, res, next) {
+    console.log(req.params);
     var promise = Post.updatePost(req.params.id, req.body, req.params.upsertToggle);
     promise.then(function (result) {
             res.send(result);

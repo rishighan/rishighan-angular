@@ -117,7 +117,8 @@ class EditPostController {
                 $timeout.cancel(timeout);
             }
             $scope.post[0].slug = FriendlyUrlService.createSlug($scope.post[0].title);
-            PostService.updatePost($scope.post[0]._id, $scope.post[0], true, isDraft)
+            $scope.post[0].is_draft = isDraft;
+            PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
                 .then(function (result) {
                     //todo flash alert
                     $state.go('posts');
