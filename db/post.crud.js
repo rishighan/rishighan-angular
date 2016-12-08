@@ -109,6 +109,11 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
     return deferred.promise;
 };
 
+PostSchema.statics.deletePost = function(id){
+
+
+};
+
 
 var Post = mongoose.model('Post', PostSchema);
 

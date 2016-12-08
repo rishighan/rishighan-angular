@@ -14,6 +14,7 @@
     "admin.save_as_draft.button": "Save as Draft",
     "admin.unmark_draft.button": "Unmark Draft",
     "admin.save_changes.button": "Save Changes",
+    "admin.delete_post.button": "Delete Post",
 
     "admin.success_edit.message": "Changes Saved Successfully",
     "admin.success_create_post.message": "New Post Created Successfully",

@@ -11,11 +11,11 @@
                 <ul class="col-md-10">
                     <li ng-repeat="post in posts">
                         <h3><a ui-sref="edit({id: post._id})">{{post.title}}</a></h3>
-                        <span class="label label-info" ng-if="post.is_draft">Draft</span>
                         <h4>{{post.excerpt}}</h4>
                         <div>
                             <small>{{post.date_created | date: "dd MMMM, yyyy" }}</small>
                         </div>
+                        <span class="label label-default" ng-if="post.is_draft">Draft</span>
                         <span ng-repeat="tag in post.tags">
                             <span class="label label-info">{{tag.id}}</span>
                         </span>

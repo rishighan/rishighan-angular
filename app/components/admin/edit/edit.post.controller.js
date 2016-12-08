@@ -125,6 +125,18 @@ class EditPostController {
                 });
         };
 
+        $scope.deletePost = function(id){
+            if(timeout){
+                $timeout.cancel(timeout);
+            }
+            PostService.deletePost($scope.post[0].id)
+                .then(function(result){
+                    $state.go('posts');
+                }, function(error){
+                    console.log(error);
+                });
+        };
+
         // autosave
         var timeout = null;
         var saveUpdates = function () {

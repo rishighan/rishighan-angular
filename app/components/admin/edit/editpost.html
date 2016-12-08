@@ -16,7 +16,10 @@
                             <span class="clearfix">{{'admin.drag_and_drop.message' | translate }}</span>
                         </div>
                         <div class="margin20">
-                            <button class="btn btn-primary" type="submit" ng-click="updatePost(post)"
+                            <button class="btn btn-danger" type="submit" ng-click="deletePost(post[0].id)" ng-disabled="form.$invalid">
+                                {{'admin.delete_post.button' | translate }}
+                            </button>
+                            <button class="btn btn-primary pull-right" type="submit" ng-click="updatePost(post)"
                                     ng-disabled="form.$invalid || form.$pristine">{{'admin.save_changes.button' |translate }}
                             </button>
                             <button class="btn btn-default" type="submit" ng-click="updatePost(post, true)"
@@ -27,6 +30,7 @@
                                     ng-if="post[0].is_draft" ng-disabled="form.$invalid">
                                 {{'admin.unmark_draft.button' | translate }}
                             </button>
+
 
                         </div>
                     </formly-form>

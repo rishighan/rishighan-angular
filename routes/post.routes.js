@@ -5,8 +5,8 @@ const Post = require('../db/post.crud.js');
 router.post('/createpost', function (req, res, next) {
     var promise = Post.createPost(req.body);
     promise.then(function (data) {
-            res.send(data);
-        })
+        res.send(data);
+    })
         .catch(console.log)
         .done();
 });
@@ -15,8 +15,8 @@ router.post('/createpost', function (req, res, next) {
 router.get('/getallposts', function (req, res, next) {
     var promise = Post.getAllPosts();
     promise.then(function (data) {
-            res.send(data);
-        })
+        res.send(data);
+    })
         .catch(console.log)
         .done();
 });
@@ -24,21 +24,29 @@ router.get('/getallposts', function (req, res, next) {
 router.get('/getpost/:id', function (req, res, next) {
     var promise = Post.getPost(req.params.id);
     promise.then(function (post) {
-            res.send(post);
-        })
+        res.send(post);
+    })
         .catch(console.log)
         .done();
 });
 
 router.post('/updatepost/:id', function (req, res, next) {
-    console.log(req.params);
     var promise = Post.updatePost(req.params.id, req.body, req.params.upsertToggle);
     promise.then(function (result) {
-            res.send(result);
-        })
+        res.send(result);
+    })
         .catch(console.log)
         .done();
 });
 
+router.delete('/deletepost/:id', function (req, res, next) {
+    var promise = Post.deletePost(req.params.id);
+    promise.then(function (result) {
+        res.send(result);
+    })
+        .catch(console.log)
+        .done();
+
+})
 module.exports = router;
 

@@ -41,6 +41,16 @@ class PostService {
         });
     }
 
+    deletePost(id){
+        return this._$http.post('/db/deletepost' + id, {
+            params: {
+                id: id
+            }
+        }).then(function(result){
+            return result;
+        });
+    }
+
     deleteFile(file) {
         return this._$http.post('/api/files/delete', file)
             .then(function (result) {
