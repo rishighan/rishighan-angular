@@ -125,11 +125,11 @@ class EditPostController {
                 });
         };
 
-        $scope.deletePost = function(id){
+        $scope.deletePost = function(post){
             if(timeout){
                 $timeout.cancel(timeout);
             }
-            PostService.deletePost($scope.post[0].id)
+            PostService.deletePost(post[0]._id)
                 .then(function(result){
                     $state.go('posts');
                 }, function(error){

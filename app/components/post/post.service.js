@@ -41,12 +41,13 @@ class PostService {
         });
     }
 
-    deletePost(id){
-        return this._$http.post('/db/deletepost' + id, {
+    deletePost(id) {
+        console.log("Id: " + id);
+        return this._$http.post('/db/deletepost', {
             params: {
-                id: id
+                post_id: id
             }
-        }).then(function(result){
+        }).then(function (result) {
             return result;
         });
     }

@@ -39,14 +39,14 @@ router.post('/updatepost/:id', function (req, res, next) {
         .done();
 });
 
-router.delete('/deletepost/:id', function (req, res, next) {
-    var promise = Post.deletePost(req.params.id);
+router.post('/deletepost', function (req, res, next) {
+    var promise = Post.deletePost(req.body.params.post_id);
     promise.then(function (result) {
         res.send(result);
     })
         .catch(console.log)
         .done();
 
-})
+});
 module.exports = router;
 
