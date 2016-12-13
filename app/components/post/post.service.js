@@ -42,7 +42,6 @@ class PostService {
     }
 
     deletePost(id) {
-        console.log("Id: " + id);
         return this._$http.post('/db/deletepost', {
             params: {
                 post_id: id

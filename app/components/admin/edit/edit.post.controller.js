@@ -125,14 +125,19 @@ class EditPostController {
                 });
         };
 
-        $scope.deletePost = function(post){
-            if(timeout){
+        $scope.deletePost = function (post) {
+            if (timeout) {
                 $timeout.cancel(timeout);
             }
+            //TODO: delete attached files
             PostService.deletePost(post[0]._id)
-                .then(function(result){
-                    $state.go('posts');
-                }, function(error){
+                .then(function (result) {
+                    $state.go('posts').then(function () {
+                        ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
+                            type: "success"
+                        });
+                    });
+                }, function (error) {
                     console.log(error);
                 });
         };

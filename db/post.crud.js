@@ -109,18 +109,15 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
 };
 
 PostSchema.statics.deletePost = function (id) {
-    console.log("post id:" + id);
     var deferred = Q.defer();
     this.findByIdAndRemove(id, function (error, data) {
         if (error) {
             return deferred.reject(new Error(data));
-        }
-        else {
+        }else {
             return deferred.resolve(data);
         }
     });
     return deferred.promise;
-
 };
 
 
