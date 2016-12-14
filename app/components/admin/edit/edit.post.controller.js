@@ -3,6 +3,7 @@ import _ from "underscore";
 
 class EditPostController {
     constructor($scope,
+                $q,
                 $state,
                 $timeout,
                 $stateParams,
@@ -130,25 +131,25 @@ class EditPostController {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
+            var promises = [];
             _.each(post[0].attachment, function (file) {
-                PostService.deleteFile({
-                    file: file.name
-                }).then(function (result) {
-                    console.log(result);
-                });
+                var promise = PostService.deleteFile({file: file.name});
+                promises.push(promise);
             });
-            PostService.deletePost(post[0]._id)
-                .then(function (result) {
-                    $state.go('posts').then(function () {
-                        ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
-                            type: "success"
-                        });
-                    });
-                }, function (error) {
-                    console.log(error);
-                });
-        };
 
+            $q.all(promises).then(function () {
+                PostService.deletePost(post[0]._id)
+                    .then(function () {
+                        $state.go('posts').then(function () {
+                            ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
+                                type: "success"
+                            });
+                        });
+                    }, function (error) {
+                        console.log(error);
+                    });
+            });
+        };
         // autosave
         var timeout = null;
         var saveUpdates = function () {
@@ -182,4 +183,5 @@ class EditPostController {
 }
 
 export
-default EditPostController;
+default
+EditPostController;
