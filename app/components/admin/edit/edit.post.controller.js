@@ -9,7 +9,8 @@ class EditPostController {
                 NavUtilsService,
                 PostService,
                 FriendlyUrlService,
-                $translate) {
+                $translate,
+                ngNotify) {
 
         const ASSETS_FOLDER = '/assets/images/';
         // admin nav
@@ -129,7 +130,13 @@ class EditPostController {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
-            //TODO: delete attached files
+            _.each(post[0].attachment, function (file) {
+                PostService.deleteFile({
+                    file: file.name
+                }).then(function (result) {
+                    console.log(result);
+                });
+            });
             PostService.deletePost(post[0]._id)
                 .then(function (result) {
                     $state.go('posts').then(function () {

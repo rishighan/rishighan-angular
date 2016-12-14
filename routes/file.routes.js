@@ -29,9 +29,9 @@ router.post('/api/files/upload', function (req, res) {
             error_code: 0,
             err_desc: null,
             files: req.files
-        })
+        });
 
-    })
+    });
 });
 
 // Delete File
