@@ -4,6 +4,9 @@ class AnalyticsService {
         this._$http = $http;
     }
 
+    spawnAnalytics(){
+        return "This be Analytics.";
+    }
     getAnalytics(query) {
         return this._$http.get('/getAnalytics', {
             params: {slug: query.slug || ''}
