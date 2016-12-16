@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 var Schema = mongoose.Schema;
 var Q = require('q');
 
@@ -22,6 +23,11 @@ var PostSchema = new Schema({
     content: String,
     excerpt: String,
 });
+
+PostSchema.plugin(mongoosePaginate);
+//indices
+PostSchema.index({date_created: -1, date_updated: -1});
+PostSchema.set('autoIndex', false);
 
 // create
 PostSchema.statics.createPost = function (data) {
@@ -47,7 +53,7 @@ PostSchema.statics.createPost = function (data) {
 };
 
 
-// retrieve by id
+// retrieve by id or by slug
 PostSchema.statics.getPost = function (id, slug) {
     var deferred = Q.defer();
     this.find({
@@ -63,10 +69,15 @@ PostSchema.statics.getPost = function (id, slug) {
 };
 
 // retrieve all posts
-// todo: paginate requests
+// todo: paginate requests, sorting them in descending order
 PostSchema.statics.getAllPosts = function () {
     var deferred = Q.defer();
-    this.find({}, function (error, data) {
+    var options = {
+        sort: {date_updated: -1},
+        offset: 0, // \ __ passed in from frontend
+        limit: 5   // /
+    };
+    this.paginate({}, options, function (error, data) {
         if (error) {
             deferred.reject(new Error(error));
         } else {
@@ -113,7 +124,7 @@ PostSchema.statics.deletePost = function (id) {
     this.findByIdAndRemove(id, function (error, data) {
         if (error) {
             return deferred.reject(new Error(data));
-        }else {
+        } else {
             return deferred.resolve(data);
         }
     });

@@ -58,9 +58,7 @@ class EditPostController {
                                 _dropzoneInstance.createThumbnailFromUrl(mockFile, ASSETS_FOLDER + mockFile.name);
                             });
                         }
-
                     });
-
                 }
             },
             eventHandlers: {
