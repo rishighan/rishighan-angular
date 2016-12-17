@@ -24,18 +24,18 @@ module.exports = () => [
 
         text = text.replace(end_regex, function (match, n, content) {
             if (n === "n") n = i + 1;
-            var s = '<small><li class="footnote" id="fn:' + n + '">' +
+            var s = '<li id="fn:' + n + '">' +
                     content + '<a href="#fnref:' + n +
                     '" title="return to article"> ↩</a>' +
-                    '</li></small>';
+                    '</li>';
             if (i === 0) {
-                s = '<div class="footnotes"><ol>' + s;
+                s = '<div><ol>' + s;
             }
             if (i === total - 1) {
                 s = s + '</ol></div>';
             }
             i += 1;
-            return s;
+            return converter.makeHtml(s);
         });
 
         return text;
