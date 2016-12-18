@@ -8,7 +8,7 @@ import formly from "angular-formly";
 const uiselect = require('ui-select');
 const Dropzone = require('dropzone');
 const ngNotify = require("ng-notify");
-
+require('github.css');
 require('bootstrap.css');
 require('bootstrap');
 require('select.css');

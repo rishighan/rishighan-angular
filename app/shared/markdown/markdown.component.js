@@ -1,26 +1,44 @@
-import showdown from 'showdown';
-import showdownPrettify from 'showdown-prettify';
-import footnotes from '../utils/showdown.footnotes.extension';
-
-let markdownComponent = function($sanitize, $sce) {
+const Remarkable = require('remarkable');
+const hljs = require('highlightjs');
+let markdown = function ($sanitize, $sce) {
     return {
-        restrict: 'A',
         scope: {
             data: '='
         },
-        template: '<div ng-bind-html="trustedHtml"></div>',
-        link: getLinkFn($sanitize, $sce)
+        restrict: 'AE',
+        link: parseMarkdown($sanitize, $sce),
+        template: '<div ng-bind-html="trustedHtml"></div>'
     };
 
-    function getLinkFn($sanitize, $sce) {
-        return function(scope, element, attrs) {
-            scope.$watch('data', function(newValue) {
-                var converter = new showdown.Converter({extensions:['prettify', footnotes]});
-                converter.setOption('tables', true);
-                var showdownHTML;
+    function parseMarkdown($sanitize, $sce) {
+        return function (scope, element, attributes, controller) {
+            scope.$watch('data', function (newValue) {
+                let html = '';
+                let md = new Remarkable({
+                    html: true,
+                    xhtmlOut: false,
+                    breaks: false,
+                    langPrefix: 'language-',
+                    linkify: true,
+                    typographer: true,
+                    highlight: function (str, lang) {
+                        if (lang && hljs.getLanguage(lang)) {
+                            try {
+                                return hljs.highlight(lang, str).value;
+                            } catch (err) {
+                            }
+                        }
+                        try {
+                            return hljs.highlightAuto(str).value;
+                        } catch (err) {
+                        }
+                        return ''; // use external default escaping
+                    }
+                });
+
                 if (typeof newValue === 'string') {
-                    showdownHTML = converter.makeHtml(newValue);
-                    scope.trustedHtml = (converter.getOption('sanitize')) ? $sanitize(showdownHTML) : $sce.trustAsHtml(showdownHTML);
+                    html = md.render(newValue);
+                    scope.trustedHtml = $sce.trustAsHtml(html);
                 } else {
                     scope.trustedHtml = typeof newValue;
                 }
@@ -28,5 +46,4 @@ let markdownComponent = function($sanitize, $sce) {
         };
     }
 };
-
-export default markdownComponent;
+export default markdown;

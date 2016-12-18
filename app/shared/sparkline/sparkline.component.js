@@ -41,7 +41,7 @@ let sparklineComponent = function () {
 
 
         }
-    }
+    };
 };
 
 export default sparklineComponent;

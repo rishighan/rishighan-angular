@@ -84,8 +84,6 @@ module.exports = {
             "pascalprecht.translate": BOWER_COMPONENTS_PATH + "/angular-translate/angular-translate.js",
             "translate.static.file.loader": BOWER_COMPONENTS_PATH + '/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
             "ngMessages": BOWER_COMPONENTS_PATH + '/angular-messages/angular-messages.min.js',
-            "showdown-prettify": BOWER_COMPONENTS_PATH + '/showdown-prettify/dist/showdown-prettify.min.js',
-            "showdown": BOWER_COMPONENTS_PATH + '/showdown/dist/showdown.min.js',
             "ngSanitize": BOWER_COMPONENTS_PATH + '/angular-sanitize/angular-sanitize.min.js',
             "angular-formly-templates-bootstrap": BOWER_COMPONENTS_PATH + '/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
             "angular-formly": BOWER_COMPONENTS_PATH + '/angular-formly/dist/formly.min.js',
@@ -96,7 +94,10 @@ module.exports = {
             "d3": BOWER_COMPONENTS_PATH + '/d3/d3.min.js',
             "angular-busy": BOWER_COMPONENTS_PATH + '/angular-busy/dist/angular-busy.min.js',
             "angulartics": BOWER_COMPONENTS_PATH + '/angulartics/dist/angulartics.min.js',
-            "angulartics.google.analytics": BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js'
+            "angulartics.google.analytics": BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js',
+            "remarkable": BOWER_COMPONENTS_PATH + '/remarkable/dist/remarkable.min.js',
+            "highlightjs": BOWER_COMPONENTS_PATH + '/highlightjs/highlight.pack.min.js',
+            "github.css": BOWER_COMPONENTS_PATH + '/highlightjs/styles/github.css'
         },
         modulesDirectories: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
@@ -109,4 +110,4 @@ module.exports = {
             nvd3: "nvd3"
         })
     ]
-}
+};
