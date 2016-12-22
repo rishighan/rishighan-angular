@@ -97,7 +97,9 @@ module.exports = {
             "angulartics.google.analytics": BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js',
             "remarkable": BOWER_COMPONENTS_PATH + '/remarkable/dist/remarkable.min.js',
             "highlightjs": BOWER_COMPONENTS_PATH + '/highlightjs/highlight.pack.min.js',
-            "github.css": BOWER_COMPONENTS_PATH + '/highlightjs/styles/github.css'
+            "github.css": BOWER_COMPONENTS_PATH + '/highlightjs/styles/github.css',
+            "ng-paging": BOWER_COMPONENTS_PATH + '/angular-paging/dist/paging.min.js'
+
         },
         modulesDirectories: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },

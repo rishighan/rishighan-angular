@@ -8,6 +8,7 @@ import formly from "angular-formly";
 const uiselect = require('ui-select');
 const Dropzone = require('dropzone');
 const ngNotify = require("ng-notify");
+require('ng-paging');
 require('github.css');
 require('bootstrap.css');
 require('bootstrap');
@@ -16,6 +17,7 @@ require('ngNotify.css');
 
 let adminModule = angular.module('admin', [
     'ui.router',
+    'bw.paging',
     formly,
     formlyBootstrap,
     ngMessages,

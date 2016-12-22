@@ -9,6 +9,12 @@
             </header>
             <section class="row">
                 <ul class="col-md-10">
+                    <div paging
+                         page="35"
+                         page-size="10"
+                         total="1000"
+                         paging-action="foo('bar', page)">
+                    </div>
                     <li ng-repeat="post in posts.docs">
                         <h3><a ui-sref="edit({id: post._id})">{{post.title}}</a></h3>
                         <h4>{{post.excerpt}}</h4>
