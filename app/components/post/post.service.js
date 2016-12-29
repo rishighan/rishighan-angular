@@ -13,11 +13,15 @@ class PostService {
             });
     }
 
-    getPosts() {
-        return this._$http.get('/db/getallposts')
-            .then(function (result) {
-                return result;
-            });
+    getPosts(pageOffset, pageLimit) {
+        return this._$http.get('/db/getallposts', {
+                params: {
+                    pageOffset: pageOffset,
+                    pageLimit: pageLimit
+                }
+            }).then(function (result) {
+            return result;
+        });
     }
 
     getPost(id) {

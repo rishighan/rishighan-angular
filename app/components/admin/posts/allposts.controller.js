@@ -6,9 +6,15 @@ class AllPostsController {
                 PostService) {
         $scope.posts = {};
         $scope.navItems = NavUtilsService.getAdminNavItems();
-        PostService.getPosts().then(function (posts) {
-            $scope.posts = posts.data;
-        });
+
+        // get all posts
+        $scope.page = function(text, page, pageSize, total){
+            PostService.getPosts().then(function (posts) {
+                $scope.posts = posts.data;
+                console.log($scope.posts.total);
+            });
+        };
+
         $scope.analyticsData = [];
         // get data for each slug
         // {x: 12, y: 2016-11-2, slug: 'sinking-in-the-quicksand'}

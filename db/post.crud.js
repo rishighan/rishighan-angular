@@ -70,7 +70,7 @@ PostSchema.statics.getPost = function (id, slug) {
 
 // retrieve all posts
 // todo: paginate requests, sorting them in descending order
-PostSchema.statics.getAllPosts = function () {
+PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {
     var deferred = Q.defer();
     var options = {
         sort: {date_updated: -1},
