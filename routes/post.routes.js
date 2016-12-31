@@ -13,7 +13,7 @@ router.post('/createpost', function (req, res, next) {
 
 // todo: enable find by slug
 router.get('/getallposts', function (req, res, next) {
-    var promise = Post.getAllPosts();
+    var promise = Post.getAllPosts(req.query.pageOffset, req.query.pageSize);
     promise.then(function (data) {
         res.send(data);
     })

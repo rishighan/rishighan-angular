@@ -15,11 +15,11 @@ class PostService {
 
     getPosts(pageOffset, pageLimit) {
         return this._$http.get('/db/getallposts', {
-                params: {
-                    pageOffset: pageOffset,
-                    pageLimit: pageLimit
-                }
-            }).then(function (result) {
+            params: {
+                pageOffset: pageOffset,
+                pageSize: pageLimit
+            }
+        }).then(function (result) {
             return result;
         });
     }

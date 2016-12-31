@@ -6,13 +6,21 @@ class AllPostsController {
                 PostService) {
         $scope.posts = {};
         $scope.navItems = NavUtilsService.getAdminNavItems();
+        $scope.pagerDefaults = {
+            page: 1,
+            pageSize: 5
+        };
 
-        // get all posts
-        $scope.page = function(text, page, pageSize, total){
-            PostService.getPosts().then(function (posts) {
+        PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
+            .then(function (posts) {
                 $scope.posts = posts.data;
-                console.log($scope.posts.total);
             });
+
+        $scope.getMore = function (page, pageOffset, total) {
+            PostService.getPosts(page, pageOffset)
+                .then(function (posts) {
+                    $scope.posts = posts.data;
+                });
         };
 
         $scope.analyticsData = [];

@@ -8,13 +8,13 @@
                 <h2>{{ 'admin.posts.header' | translate }}</h2>
             </header>
             <section class="row">
-                <ul class="col-md-10">
+                <ul class="col-md-8">
                     <div paging
                          class="small"
-                         page="1"
-                         page-size="10"
+                         page="pagerDefaults.page"
+                         page-size="pagerDefaults.pageSize"
                          total="posts.total"
-                         paging-action="page('bar', page)">
+                         paging-action="getMore(page, pageSize, total)">
                     </div>
                     <li ng-repeat="post in posts.docs">
                         <h3><a ui-sref="edit({id: post._id})">{{post.title}}</a></h3>

@@ -74,8 +74,8 @@ PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {
     var deferred = Q.defer();
     var options = {
         sort: {date_updated: -1},
-        offset: 0, // \ __ passed in from frontend
-        limit: 5   // /
+        page: parseInt(pageOffset, 10), // { \ __ passed in from frontend
+        limit: parseInt(pageLimit, 10)    // { /
     };
     this.paginate({}, options, function (error, data) {
         if (error) {
