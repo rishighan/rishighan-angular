@@ -26,7 +26,12 @@ var PostSchema = new Schema({
 
 PostSchema.plugin(mongoosePaginate);
 //indices
-PostSchema.index({date_created: -1, date_updated: -1});
+PostSchema.index({
+    date_created: -1,
+    date_updated: -1,
+    content: "text",
+    excerpt: "text"
+});
 PostSchema.set('autoIndex', false);
 
 // create
@@ -68,18 +73,34 @@ PostSchema.statics.getPost = function (id, slug) {
     return deferred.promise;
 };
 
-// retrieve all posts
-// todo: paginate requests, sorting them in descending order
+// retrieve all posts, paginated
+// todo: parameterize sort criteria
 PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {
     var deferred = Q.defer();
     var options = {
         sort: {date_updated: -1},
-        page: parseInt(pageOffset, 10), // { \ __ passed in from frontend
-        limit: parseInt(pageLimit, 10)    // { /
+        page: parseInt(pageOffset, 10), //  \ __ passed in from frontend
+        limit: parseInt(pageLimit, 10)  //  /
     };
     this.paginate({}, options, function (error, data) {
         if (error) {
             deferred.reject(new Error(error));
+        } else {
+            deferred.resolve(data);
+        }
+    });
+    return deferred.promise;
+};
+
+
+// search
+PostSchema.statics.searchPost = function (searchText) {
+    var deferred = Q.defer();
+    this.find({
+        $text: {$search: searchText}
+    }, function (error, data) {
+        if (error) {
+            deferred.reject(new Error());
         } else {
             deferred.resolve(data);
         }
@@ -119,6 +140,7 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
     return deferred.promise;
 };
 
+// delete
 PostSchema.statics.deletePost = function (id) {
     var deferred = Q.defer();
     this.findByIdAndRemove(id, function (error, data) {

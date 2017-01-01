@@ -34,6 +34,16 @@ class PostService {
         });
     }
 
+    searchPost(searchText) {
+        return this._$http.post('/db/searchpost', {
+            params: {
+                searchText: searchText
+            }
+        }).then(function (data) {
+            return data;
+        });
+    }
+
     updatePost(id, data, upsertToggle) {
         return this._$http.post('/db/updatepost/' + id, data, {
             params: {

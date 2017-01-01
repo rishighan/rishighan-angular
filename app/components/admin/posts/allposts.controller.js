@@ -1,6 +1,8 @@
 const moment = require('moment');
 class AllPostsController {
     constructor($scope,
+                $filter,
+                $interval,
                 NavUtilsService,
                 AnalyticsService,
                 PostService) {
@@ -10,6 +12,7 @@ class AllPostsController {
             page: 1,
             pageSize: 5
         };
+        $scope.searchTerm = '';
 
         PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then(function (posts) {
@@ -20,6 +23,13 @@ class AllPostsController {
             PostService.getPosts(page, pageOffset)
                 .then(function (posts) {
                     $scope.posts = posts.data;
+                });
+        };
+
+        $scope.searchPost = function(){
+            PostService.searchPost($scope.searchTerm)
+                .then(function(result){
+                    $scope.posts = result;
                 });
         };
 

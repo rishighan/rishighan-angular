@@ -168,6 +168,9 @@ textarea {
 .admin {
   font-family: $proximaRegular;
   color: $bodyCopyLight;
+  ul{
+    list-style: none;
+  }
 
   label {
     font-weight: normal;

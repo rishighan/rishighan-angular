@@ -30,6 +30,16 @@ router.get('/getpost/:id', function (req, res, next) {
         .done();
 });
 
+router.post('/searchpost', function (req, res, next) {
+    console.log(req.query)
+    var promise = Post.searchPost(req.query.searchText);
+    promise.then(function (result) {
+        res.send(result);
+    })
+        .catch(console.log)
+        .done();
+});
+
 router.post('/updatepost/:id', function (req, res, next) {
     var promise = Post.updatePost(req.params.id, req.body, req.params.upsertToggle);
     promise.then(function (result) {
