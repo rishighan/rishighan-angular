@@ -34,10 +34,12 @@ class PostService {
         });
     }
 
-    searchPost(searchText) {
+    searchPost(searchText, pageOffset, pageLimit) {
         return this._$http.post('/db/searchpost', {
             params: {
-                searchText: searchText
+                searchText: searchText,
+                pageOffset: pageOffset,
+                pageLimit: pageLimit
             }
         }).then(function (data) {
             return data;

@@ -31,8 +31,7 @@ router.get('/getpost/:id', function (req, res, next) {
 });
 
 router.post('/searchpost', function (req, res, next) {
-    console.log(req.query)
-    var promise = Post.searchPost(req.query.searchText);
+    var promise = Post.searchPost(req.body.params.searchText, req.body.params.pageOffset, req.body.params.pageLimit);
     promise.then(function (result) {
         res.send(result);
     })

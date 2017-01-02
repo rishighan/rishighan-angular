@@ -29,6 +29,7 @@ PostSchema.plugin(mongoosePaginate);
 PostSchema.index({
     date_created: -1,
     date_updated: -1,
+    title: "text",
     content: "text",
     excerpt: "text"
 });
@@ -94,11 +95,13 @@ PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {
 
 
 // search
-PostSchema.statics.searchPost = function (searchText) {
+PostSchema.statics.searchPost = function (searchText, pageOffset, pageLimit) {
     var deferred = Q.defer();
-    this.find({
-        $text: {$search: searchText}
-    }, function (error, data) {
+    var options = {
+        page: parseInt(pageOffset, 10),
+        limit: parseInt(pageLimit, 10)
+    };
+    this.paginate({$text: {$search: searchText}}, options, function (error, data) {
         if (error) {
             deferred.reject(new Error());
         } else {

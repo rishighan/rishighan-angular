@@ -1,8 +1,6 @@
 const moment = require('moment');
 class AllPostsController {
     constructor($scope,
-                $filter,
-                $interval,
                 NavUtilsService,
                 AnalyticsService,
                 PostService) {
@@ -13,7 +11,6 @@ class AllPostsController {
             pageSize: 5
         };
         $scope.searchTerm = '';
-
         PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then(function (posts) {
                 $scope.posts = posts.data;
@@ -26,12 +23,14 @@ class AllPostsController {
                 });
         };
 
-        $scope.searchPost = function(){
-            PostService.searchPost($scope.searchTerm)
-                .then(function(result){
-                    $scope.posts = result;
+        $scope.searchPost = function (pageOffset, pageSize) {
+            var searchTerm = $scope.searchTerm;
+            PostService.searchPost(searchTerm, pageOffset, pageSize)
+                .then(function (result) {
+                    $scope.posts = result.data;
                 });
         };
+        $scope.search = _.debounce($scope.searchPost, 500);
 
         $scope.analyticsData = [];
         // get data for each slug

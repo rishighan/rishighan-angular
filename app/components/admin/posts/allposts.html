@@ -9,7 +9,7 @@
             </header>
             <section class="row">
                <div class="col-md-8">
-                     <input placeholder="Search Posts" ng-model="searchTerm" ng-change="searchPost()" class="col-md-8"/>
+                     <input placeholder="Search Posts" ng-model="searchTerm" ng-change="search(pagerDefaults.page, pagerDefaults.pageSize)" class="col-md-8"/>
                </div>
                 <ul class="col-md-8">
                     <div paging
