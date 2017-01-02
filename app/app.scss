@@ -200,6 +200,12 @@ textarea {
     margin: 20px 0 0px 0;
   }
 
+  pre{
+    code{
+      font-size: $code;
+    }
+  }
+
   input {
     @include simpleUnderline(1px, solid, $lightBackground);
     background: 0 none;

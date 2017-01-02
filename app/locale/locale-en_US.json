@@ -6,6 +6,7 @@
 
     "admin.edit_posts.header": "Editing",
     "admin.add_new_posts.header": "Write Something",
+    "admin.search_posts.placeholder": "Search Posts",
 
     "admin.drag_and_drop.message": "Drag and Drop files here or Click to Upload",
     "admin.file_added_success.message": "File Added Successfully",

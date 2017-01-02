@@ -8,9 +8,10 @@
                 <h2>{{ 'admin.posts.header' | translate }}</h2>
             </header>
             <section class="row">
-               <div class="col-md-8">
-                     <input placeholder="Search Posts" ng-model="searchTerm" ng-change="search(pagerDefaults.page, pagerDefaults.pageSize)" class="col-md-8"/>
-               </div>
+                <div class="col-md-8">
+                    <input placeholder="{{'admin.search_posts.placeholder' | translate }}" ng-model="searchTerm"
+                           ng-change="search(pagerDefaults.page, pagerDefaults.pageSize)" class="col-md-8"/>
+                </div>
                 <ul class="col-md-8">
                     <div paging
                          class="small"
