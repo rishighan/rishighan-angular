@@ -16,7 +16,7 @@ class AllPostsController {
                 $scope.posts = posts.data;
             });
 
-        $scope.getMore = function (page, pageOffset, total) {
+        $scope.getMore = function (page, pageOffset) {
             PostService.getPosts(page, pageOffset)
                 .then(function (posts) {
                     $scope.posts = posts.data;
@@ -25,10 +25,16 @@ class AllPostsController {
 
         $scope.searchPost = function (pageOffset, pageSize) {
             var searchTerm = $scope.searchTerm;
-            PostService.searchPost(searchTerm, pageOffset, pageSize)
-                .then(function (result) {
-                    $scope.posts = result.data;
-                });
+            // if search box is empty and no change is detected
+            // populate with all posts
+            if ($scope.searchTerm === '') {
+                $scope.getMore($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize);
+            } else {
+                PostService.searchPost(searchTerm, pageOffset, pageSize)
+                    .then(function (result) {
+                        $scope.posts = result.data;
+                    });
+            }
         };
         $scope.search = _.debounce($scope.searchPost, 500);
 
