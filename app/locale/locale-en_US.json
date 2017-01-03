@@ -19,6 +19,7 @@
 
     "admin.success_edit.message": "Changes Saved Successfully",
     "admin.success_create_post.message": "New Post Created Successfully",
+    "admin.success_create_draft.message": "Draft Created Successfully",
     "admin.error_create_post.message": "Error Creating Post",
     "admin.autosave_success.message": "Autosaved Changes",
     "admin.post_deleted_success.message": "Post Deleted Successfully",

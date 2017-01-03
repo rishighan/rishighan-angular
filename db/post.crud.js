@@ -45,7 +45,7 @@ PostSchema.statics.createPost = function (data) {
         date_created: new Date(),
         date_updated: new Date(),
         attachment: data.attachedFile,
-        is_draft: false,
+        is_draft: data.isDraft,
         content: data.content,
         excerpt: data.excerpt,
     }, function (error, data) {

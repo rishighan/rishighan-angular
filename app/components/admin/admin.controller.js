@@ -103,13 +103,22 @@ class AdminController {
             }
         };
 
-        $scope.createPost = function () {
+        $scope.createPost = function (isDraft) {
+            if (isDraft) {
+                $scope.postFormModel.isDraft = isDraft;
+            }
             $scope.postFormModel.slug = FriendlyUrlService.createSlug($scope.postFormModel.title);
-            PostService.createPost($scope.postFormModel).then(function (data) {
+            PostService.createPost($scope.postFormModel).then(function () {
                 $state.go('posts').then(function () {
-                    ngNotify.set($translate.instant('admin.success_create_post.message'), {
-                        type: "success"
-                    });
+                    if ($scope.postFormModel.isDraft) {
+                        ngNotify.set($translate.instant('admin.success_create_draft.message'), {
+                            type: "success"
+                        });
+                    } else {
+                        ngNotify.set($translate.instant('admin.success_create_post.message'), {
+                            type: "success"
+                        });
+                    }
                 });
             }, function (error) {
                 ngNotify.set($translate.instant('admin.error_create_post.message'), {
