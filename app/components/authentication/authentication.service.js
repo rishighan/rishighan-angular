@@ -1,19 +1,19 @@
 class AuthenticationService {
     constructor($http) {
         this.$http = $http;
-        this._appUser = null;
+        this._isAuthenticated = null;
     }
 
-    get user() {
-        return this._appUser;
+    get loggedIn() {
+        return this._isAuthenticated;
     }
 
-    set user(value) {
-        this._appUser = value;
+    set loggedIn(value) {
+        this._isAuthenticated = value;
     }
 
     isLoggedIn() {
-        if (this.user) {
+        if (this.loggedIn) {
             return true;
         } else {
             return false;
@@ -24,13 +24,13 @@ class AuthenticationService {
         return this.$http.get('/user/status')
             .success((data) => {
                 if (data.status) {
-                    this.user = true;
+                    this.loggedIn = true;
                 } else {
-                    this.user = false;
+                    this.loggedIn = false;
                 }
             })
             .error((data) => {
-                this.user = false;
+                this.loggedIn = false;
             });
     }
 
@@ -42,20 +42,20 @@ class AuthenticationService {
             })
             .then((data) => {
                 if (data.status && data.status === 200) {
-                    this.user = true;
+                    this.loggedIn = true;
                 } else {
-                    this.user = false;
+                    this.loggedIn = false;
                 }
             }, (data) => {
                 //todo: winston logging
-                this.user = false;
+                this.loggedIn = false;
             });
     }
 
     logout() {
         return this.$http.get('/user/logout')
             .then(() => {
-                this.user = false;
+                this.loggedIn = false;
             });
     }
 

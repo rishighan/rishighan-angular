@@ -24,6 +24,7 @@
     "admin.post_deleted_success.message": "Post Deleted Successfully",
 
     "admin.login.header": "Login",
+    "admin.logged_in_as.status": "Logged in as",
     "admin.login.button": "Sign In",
     "admin.login_success.message": "Successfully Logged In",
 

@@ -1,10 +1,11 @@
 <ul class="navigation" ng-class="{vertical: 'vertical', horizontal: 'horizontal'}[nv.orientation]">
     <li ng-repeat="item in nv.menuItems">
-        <a href="{{item.link}}" ui-sref="{{item.stateReference}}" analytics-on="click" analytics-event="Navigate to {{item.displayName}}" analytics-category="whatever">{{item.displayName}}</a>
+        <a href="{{item.link}}" ui-sref="{{item.stateReference}}" analytics-on="click"
+           analytics-event="Navigate to {{item.displayName}}" analytics-category="whatever">{{item.displayName}}</a>
     </li>
     <li ng-if="nv.isLoggedIn()">
         <span>
-            <small>{{nv.isLoggedIn()}}</small>
+            <small>{{'admin.logged_in_as.status' | translate}} {{details.data.user}}</small>
         </span>
         <a ng-click="nv.logout()" class="alert-link">Logout</a>
     </li>

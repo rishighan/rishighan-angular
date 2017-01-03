@@ -50,11 +50,12 @@ router.get('/status', function (req, res) {
         });
     }
     res.status(200).json({
-        status: true
+        status: true,
+        user: req.user.username
     });
 });
 
-router.get('/logout', function(req, res) {
+router.get('/logout', function (req, res) {
     req.logout();
     res.status(200).json({
         status: 'Bye!'
