@@ -5,13 +5,7 @@ let postComponent = function(){
   return{
     restrict: 'AE',
     scope:{
-        title: '=',
-        excerpt: '=',
-        body: '=',
-        citations: '=',
-        dateCreated: '=',
-        dateModified: '=',
-        attachments: '='
+        type: '&', // normal, highlight, hero illustration, recipe
     },
     template,
     controller,

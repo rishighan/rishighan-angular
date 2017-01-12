@@ -1,5 +1,6 @@
 import FormlyDataService from "../../shared/utils/formlydata.service";
 import _ from "underscore";
+import dropzonePreviewTemplate from './dropzone/dropzone-preview.html';
 
 class AdminController {
     constructor($scope,
@@ -49,6 +50,7 @@ class AdminController {
                 uploadMultiple: true,
                 parallelUploads: 1,
                 maxFiles: 5,
+                previewTemplate: dropzonePreviewTemplate,
                 addRemoveLinks: true,
                 accept: function (file, done) {
                     file.customData = {};
@@ -78,7 +80,8 @@ class AdminController {
                     this.removeFile(file);
                 },
                 addedfile: function (file) {
-
+                    $scope.hero.isHero = file;
+                    console.log("hereee");
                 },
                 removedfile: function (file) {
                     PostService.deleteFile({
@@ -95,10 +98,10 @@ class AdminController {
                     var del = _.where($scope.postFormModel.attachedFile, {
                         name: file.customData.fileName
                     });
-                    var _ref = '';
                     $scope.postFormModel.attachedFile = _.without($scope.postFormModel.attachedFile, del[0]);
                     $scope.$digest();
-                    return (_ref = file.previewElement) !== null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                    var _ref = file.previewElement;
+                    return _.isNull(_ref) ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
             }
         };
@@ -125,6 +128,12 @@ class AdminController {
                     type: "error"
                 });
             });
+        };
+
+        $scope.hero = {isHero: false};
+        $scope.makeHero = function (evt) {
+            console.log("here");
+            console.log(evt);
         };
 
         // validation

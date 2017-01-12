@@ -5,7 +5,7 @@
   "authors": [
     "Rishi Ghan"
   ],
-  "description": "Rishi Ghan's personal website",
+  "description": "Rishi Ghan's website",
   "main": "app.js",
   "moduleType": [
     "amd",

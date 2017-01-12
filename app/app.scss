@@ -10,8 +10,8 @@ $bodyCopyLight: #6d6d6d;
 $lightBackground: #F3F3F3;
 
 // Font sizes
-$megaHeadline: 2em;
-$headline: 2.2em;
+$megaHeadline: 2.2em;
+$headline: 2em;
 $subheading1: 1.3em;
 $subheading2: 1.1em;
 $caption: 0.8em;
@@ -160,6 +160,11 @@ textarea {
     .caption {
       @include setPointSize($caption);
       font-style: italic;
+    }
+    pre{
+      code{
+        font-size: $code;
+      }
     }
   }
 }

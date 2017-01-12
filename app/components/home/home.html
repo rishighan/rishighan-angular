@@ -16,6 +16,12 @@
                 <span class="caption">This is an literary exercise.</span>
             </div>
         </div>
+        <div class="post">
+            <div ng-repeat="post in posts.docs track by $index">
+                <h2>{{post.title}}</h2>
+                <div markdown data="post.content"></div>
+            </div>
+        </div>
     </div>
 </div>
 </div>
