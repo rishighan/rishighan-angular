@@ -14,6 +14,7 @@ var PostSchema = new Schema({
     date_updated: Date,
     attachment: [{
         name: String,
+        isHero: Boolean,
         size: Number,
         date_created: Date,
         date_updated: Date

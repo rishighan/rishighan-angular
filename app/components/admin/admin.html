@@ -52,25 +52,6 @@
                 </div>
             </script>
 
-            <script type="text/ng-template" id="repeatSection.html">
-                <!--loop through each element in model array-->
-                <div class="row">
-                    <div class="{{hideRepeat}} col-md-8">
-                        <div class="repeatsection" ng-repeat="element in model[options.key]"
-                             ng-init="fields = copyFields(to.fields)">
-                            <formly-form fields="fields" model="element" form="form"></formly-form>
-                            <div class="row">
-                                <button class="btn btn-xs btn-danger pull-right"
-                                        ng-click="model[options.key].splice($index, 1)"> Remove
-                                </button>
-                            </div>
-                        </div>
-                        <div>
-                            <button class="btn btn-default btn-sm" ng-click="addNew()">{{to.btnText}}</button>
-                        </div>
-                    </div>
-                </div>
-            </script>
 
             <script type="text/ng-template" id="textarea.tpl.html">
                 <ul class="nav nav-tabs col-md-10 col-xs-12">

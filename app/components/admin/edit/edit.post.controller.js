@@ -103,10 +103,10 @@ class EditPostController {
                     var del = _.where($scope.post[0].attachment, {
                         name: fileToDelete
                     });
-                    var _ref = '';
                     $scope.post[0].attachment = _.without($scope.post[0].attachment, del[0]);
                     $scope.$digest();
-                    return (_ref = file.previewElement) !== null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                    var _ref = file.previewElement;
+                    return _.isNull(_ref) ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
             }
         };

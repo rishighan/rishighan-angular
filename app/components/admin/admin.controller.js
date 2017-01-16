@@ -5,11 +5,13 @@ import dropzonePreviewTemplate from './dropzone/dropzone-preview.html';
 class AdminController {
     constructor($scope,
                 $state,
+                $compile,
                 $translate,
                 formlyValidationMessages,
                 PostService,
                 NavUtilsService,
                 FriendlyUrlService,
+                DomHelperService,
                 ngNotify) {
 
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
@@ -64,24 +66,24 @@ class AdminController {
                     formData.append("newFileName", newFileName);
                 },
                 success: function (file, response) {
+                    $compile($(file.previewTemplate))($scope);
                     // update the form model with the correct filename
                     file.customData.fileName = response.files[0].filename;
+                    var fileNameElement = document.createElement('div');
+                    fileNameElement.className = 'dz-metadata';
+                    fileNameElement.appendChild(document.createTextNode(file.customData.fileName));
+                    file.previewTemplate.appendChild(fileNameElement);
                     var fileObj = {
                         name: file.customData.fileName,
                         size: file.size,
                         date_created: Date.now(),
                         date_modified: Date.now()
                     };
-
                     $scope.postFormModel.attachedFile.push(fileObj);
                     $scope.$digest();
                 },
                 maxfilesexceeded: function (file) {
                     this.removeFile(file);
-                },
-                addedfile: function (file) {
-                    $scope.hero.isHero = file;
-                    console.log("hereee");
                 },
                 removedfile: function (file) {
                     PostService.deleteFile({
@@ -104,6 +106,25 @@ class AdminController {
                     return _.isNull(_ref) ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
             }
+        };
+        $scope.makeHero = function (event) {
+            // todo: find a reliable way to get .dz-filename
+            var anchorElement = DomHelperService.findParentBySelector(event.target, '#preview-container');
+            var fileName = anchorElement.querySelector('div.dz-metadata').innerText;
+            if (event.target.checked) {
+                _.each($scope.postFormModel.attachedFile, function (fileObject, index) {
+                    if (fileObject.name === fileName) {
+                        $scope.postFormModel.attachedFile[index].isHero = true;
+                    }
+                });
+            } else {
+                _.each($scope.postFormModel.attachedFile, function (fileObject, index) {
+                    if (fileObject.name === fileName) {
+                        $scope.postFormModel.attachedFile[index].isHero = false;
+                    }
+                });
+            }
+
         };
 
         $scope.createPost = function (isDraft) {
@@ -130,11 +151,6 @@ class AdminController {
             });
         };
 
-        $scope.hero = {isHero: false};
-        $scope.makeHero = function (evt) {
-            console.log("here");
-            console.log(evt);
-        };
 
         // validation
         this.options = {};
