@@ -9,16 +9,20 @@
             <form name="form" novalidate enctype="multipart/form-data">
                 <formly-form model="postFormModel" fields="postFormFields" form="form" class="admin">
                     <div dropzone="dropzoneConfig" class="well clearfix margin20">
-                        <span class="clearfix">{{'admin.drag_and_drop.message' | translate }}</span>
+                        <span class="clearfix"><h5>{{'admin.drag_and_drop.message' | translate }}</h5></span>
                     </div>
                     <div class="margin20">
-                        <button class="btn btn-primary" type="submit" ng-click="createPost()" ng-disabled="form.$invalid">{{ 'admin.save_publish_post.button' | translate }}</button>
-                        <button class="btn btn-primary" type="submit" ng-click="createPost(true)" ng-disabled="form.$invalid">{{ 'admin.save_as_draft.button' | translate }}</button>
+                        <button class="btn btn-primary" type="submit" ng-click="createPost()"
+                                ng-disabled="form.$invalid">{{ 'admin.save_publish_post.button' | translate }}
+                        </button>
+                        <button class="btn btn-primary" type="submit" ng-click="createPost(true)"
+                                ng-disabled="form.$invalid">{{ 'admin.save_as_draft.button' | translate }}
+                        </button>
                     </div>
                 </formly-form>
             </form>
             <p>
-      <pre>
+            <pre>
                     {{postFormModel | json}}
       </pre>
             </p>

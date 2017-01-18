@@ -1,15 +1,18 @@
 import FormlyDataService from "../../../shared/utils/formlydata.service";
+import previewTemplate from "../dropzone/dropzone-preview.html";
 import _ from "underscore";
 
 class EditPostController {
     constructor($scope,
                 $q,
+                $compile,
                 $state,
                 $timeout,
                 $stateParams,
                 NavUtilsService,
                 PostService,
                 FriendlyUrlService,
+                DomHelperService,
                 $translate,
                 ngNotify) {
 
@@ -32,6 +35,7 @@ class EditPostController {
         $scope.dropzoneConfig = {
             options: {
                 url: "/api/files/upload",
+                previewTemplate: previewTemplate,
                 maxFilesize: 9000000,
                 paramName: "attachedFile",
                 maxThumbnailFilesize: 5,
@@ -56,6 +60,11 @@ class EditPostController {
                                 };
                                 _dropzoneInstance.options.addedfile.call(_dropzoneInstance, mockFile);
                                 _dropzoneInstance.createThumbnailFromUrl(mockFile, ASSETS_FOLDER + mockFile.name);
+                                $compile($(mockFile.previewTemplate))($scope);
+                                if(postData[0].attachment[index].isHero){
+                                    var heroCheckbox = mockFile.previewTemplate.querySelector('.hero-checkbox');
+                                    heroCheckbox.checked = true;
+                                }
                             });
                         }
                     });
@@ -68,8 +77,11 @@ class EditPostController {
                     formData.append("newFileName", newFileName);
                 },
                 success: function (file, response) {
+                    $compile($(file.previewTemplate))($scope);
                     // update the form model with the correct filename
                     file.customData.fileName = response.files[0].filename;
+                    var fileNameElement = file.previewTemplate.querySelector('.dz-filename');
+                    fileNameElement.innerHTML = file.customData.fileName;
                     var fileObj = {
                         name: file.customData.fileName,
                         size: file.size,
@@ -95,7 +107,7 @@ class EditPostController {
                     PostService.deleteFile({
                         file: fileToDelete
                     }).then(function (result) {
-                        //todo: winston login
+                        //todo: winston logging
                         console.log(result);
                     });
 
@@ -108,6 +120,24 @@ class EditPostController {
                     var _ref = file.previewElement;
                     return _.isNull(_ref) ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
+            }
+        };
+        $scope.makeHero = function (event) {
+            // todo: find a reliable way to get .dz-filename
+            var anchorElement = DomHelperService.findParentBySelector(event.target, '#preview-container');
+            var fileName = anchorElement.querySelector('div.dz-filename').innerText;
+            if (event.target.checked) {
+                _.each($scope.post[0].attachment, function (fileObject, index) {
+                    if (fileObject.name === fileName) {
+                        $scope.post[0].attachment[index].isHero = true;
+                    }
+                });
+            } else {
+                _.each($scope.post[0].attachment, function (fileObject, index) {
+                    if (fileObject.name === fileName) {
+                        $scope.post[0].attachment[index].isHero = false;
+                    }
+                });
             }
         };
 
@@ -175,7 +205,7 @@ class EditPostController {
         $scope.$watch('post[0].title', debounceUpdates);
         $scope.$watch('post[0].excerpt', debounceUpdates);
         $scope.$watchCollection('post[0].tags', debounceUpdates);
-        $scope.$watchCollection('post[0].attachment', debounceUpdates);
+        $scope.$watch('post[0].attachment', debounceUpdates, true);
     }
 
 }

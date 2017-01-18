@@ -124,7 +124,6 @@ class AdminController {
                     }
                 });
             }
-
         };
 
         $scope.createPost = function (isDraft) {
