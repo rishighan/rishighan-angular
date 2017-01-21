@@ -141,8 +141,9 @@ textarea {
     }
   }
   .post {
+    color: #646565;
     letter-spacing: 0.01em;
-    line-height: 1.4em;
+    line-height: 1.5em;
     @include setPointSize($bodyCopy);
 
     h2 {
@@ -165,6 +166,11 @@ textarea {
       code{
         font-size: $code;
       }
+    }
+
+    .published-date{
+      font-style: italic;
+      color: #656565;
     }
   }
 }
