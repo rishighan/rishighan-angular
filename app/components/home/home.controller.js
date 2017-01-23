@@ -5,9 +5,16 @@ class HomeController {
             pageSize: 10
         };
         $scope.posts = {};
+        $scope.heroPost = {};
         PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then(function (result) {
                 $scope.posts = result.data;
+                $scope.heroPost = _.pick($scope.posts.docs, function(val, key){
+                    if(!_.isEmpty(_.where(val.tags, {id: "Hero"}))){
+                        return _.where(val.tags, {id: "Hero"});
+                    }
+                    return false;
+                });
             });
         this.navItems = [{
             displayName: "Home",
