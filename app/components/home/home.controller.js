@@ -6,16 +6,19 @@ class HomeController {
         };
         $scope.posts = {};
         $scope.heroPost = {};
+        $scope.mastheadImage = {};
         PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then(function (result) {
                 $scope.posts = result.data;
-                $scope.heroPost = _.pick($scope.posts.docs, function(val, key){
-                    if(!_.isEmpty(_.where(val.tags, {id: "Hero"}))){
+                $scope.heroPost = _.pick($scope.posts.docs, function (val, key) {
+                    if (!_.isEmpty(_.where(val.tags, {id: "Hero"}))) {
                         return _.where(val.tags, {id: "Hero"});
                     }
                     return false;
                 });
+                $scope.mastheadImage = _.where($scope.heroPost[0].attachment, {isHero: true});
             });
+
         this.navItems = [{
             displayName: "Home",
             stateReference: "home"

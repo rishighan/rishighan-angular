@@ -9,7 +9,7 @@ let postModule = angular.module('post', [
     $stateProvider
         .state('post', {
             url: '/post',
-            template: '<post></post>'
+            // template: '<post></post>'
         });
 })
 

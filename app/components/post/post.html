@@ -1,2 +1,10 @@
-<div>
+<div ng-switch on="kind">
+    <div ng-switch-when="masthead">
+        Hero. {{kind}}
+    </div>
+    <div ng-switch-when="text">
+        Text. {{kind}}
+    </div>
 </div>
+
+
