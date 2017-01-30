@@ -1,3 +1,4 @@
+
 class HomeController {
     constructor($scope, PostService) {
         $scope.pagerDefaults = {
@@ -7,7 +8,7 @@ class HomeController {
         $scope.posts = {};
         $scope.heroPost = {};
         $scope.mastheadImage = {};
-        PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
+        $scope.postPromise = PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then(function (result) {
                 $scope.posts = result.data;
                 $scope.heroPost = _.pick($scope.posts.docs, function (val, key) {

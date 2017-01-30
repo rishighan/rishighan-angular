@@ -1,6 +1,8 @@
 <div ng-switch on="kind">
     <div ng-switch-when="masthead">
-        Hero. {{kind}}
+       <div class="masthead">
+           <span class="title col-md-2 col-md-offset-10">{{postData[0].title}}</span>
+       </div>
     </div>
     <div ng-switch-when="text">
         Text. {{kind}}

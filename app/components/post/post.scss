@@ -1,7 +1,14 @@
-// post styles biotch
-.hero-post{
+// post styles
+.masthead {
+  position: absolute;
+  z-index: -9;
+  left: 0;
+  height: 500px;
   background-size: cover;
   width: 100%;
   overflow: hidden;
 
+  .title {
+    top: 90%;
+  }
 }
