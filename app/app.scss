@@ -140,37 +140,40 @@ textarea {
       }
     }
   }
-  .post {
-    color: #646565;
-    letter-spacing: 0.01em;
-    line-height: 1.5em;
-    @include setPointSize($bodyCopy);
+  .post-container {
+    margin: 490px 0 0 0;
+    .post {
+      color: #646565;
+      letter-spacing: 0.01em;
+      line-height: 1.5em;
+      @include setPointSize($bodyCopy);
 
-    h2 {
-      font-family: $proximaRegular;
-      @include setPointSize($headline);
-    }
-    h3 {
-      font-family: $proximaLightRegular;
-      @include setPointSize($subheading1);
-    }
-    h4 {
-      font-family: $proximaLightRegular;
-      @include setPointSize($subheading2);
-    }
-    .caption {
-      @include setPointSize($caption);
-      font-style: italic;
-    }
-    pre{
-      code{
-        font-size: $code;
+      h2 {
+        font-family: $proximaRegular;
+        @include setPointSize($headline);
       }
-    }
+      h3 {
+        font-family: $proximaLightRegular;
+        @include setPointSize($subheading1);
+      }
+      h4 {
+        font-family: $proximaLightRegular;
+        @include setPointSize($subheading2);
+      }
+      .caption {
+        @include setPointSize($caption);
+        font-style: italic;
+      }
+      pre {
+        code {
+          font-size: $code;
+        }
+      }
 
-    .published-date{
-      font-style: italic;
-      color: #656565;
+      .published-date {
+        font-style: italic;
+        color: #656565;
+      }
     }
   }
 }
