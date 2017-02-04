@@ -21,8 +21,17 @@ router.get('/getallposts', function (req, res, next) {
         .done();
 });
 
+router.get('/getpostsbytagname', function(req, res, next){
+   var promise = Post.getPostsByTagName(req.query.tag);
+   promise.then(function(data){
+     res.send(data);
+   })
+       .catch(console.log)
+       .done();
+});
+
 router.get('/getpost/:id', function (req, res, next) {
-    var promise = Post.getPost(req.params.id);
+    var promise = Post.getPost(req.params.id, req.params.slug);
     promise.then(function (post) {
         res.send(post);
     })

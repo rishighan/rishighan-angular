@@ -76,6 +76,21 @@ PostSchema.statics.getPost = function (id, slug) {
     return deferred.promise;
 };
 
+PostSchema.statics.getPostsByTagName = function(tagName){
+    var deferred = Q.defer();
+    this.find({
+        tags: {$elemMatch: {id: tagName}}
+    }, function(error, data){
+        if(error){
+            deferred.reject(new Error(error));
+        }
+        else {
+            deferred.resolve(data);
+        }
+    });
+    return deferred.promise;
+};
+
 // retrieve all posts, paginated
 // todo: parameterize sort criteria
 PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {

@@ -24,13 +24,24 @@ class PostService {
         });
     }
 
-    getPost(id) {
+    getPost(id, slug) {
         return this._$http.get('/db/getpost/' + id, {
             params: {
-                id: id
+                id: id,
+                slug: slug
             }
         }).then(function (post) {
             return post;
+        });
+    }
+
+    getPostsByTagName(tag) {
+        return this._$http.get('/db/getpostsbytagname', {
+            params: {
+                tag: tag
+            }
+        }).then(function (posts) {
+            return posts;
         });
     }
 

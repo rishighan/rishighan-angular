@@ -6,27 +6,35 @@ class HomeController {
         };
         $scope.posts = {};
         $scope.filteredPosts = {};
+        $scope.featuredPosts = {};
         $scope.heroPost = {};
         $scope.mastheadImage = {};
+
         //filter out hero, work tags
-        let tagsToFilter = ['Hero', 'Work', 'colophon'];
+        let tagsToFilter = ['hero', 'work', 'colophon'];
+
+        PostService.getPostsByTagName('Featured')
+            .then(function (posts) {
+                $scope.featuredPosts = posts.data;
+            });
+
+        PostService.getPostsByTagName('Hero')
+            .then(function (post) {
+                console.log(post);
+                $scope.heroPost = post.data;
+                $scope.mastheadImage = _.where($scope.heroPost[0].attachment, {isHero: true});
+            });
+
         // todo: streamline this ghetto shit.
         $scope.postPromise = PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then(function (result) {
                 $scope.posts = result.data;
                 $scope.filteredPosts = _.reject($scope.posts.docs, function (post) {
                     let rejectedTags = _.filter(post.tags, function (tag) {
-                        return _.contains(tagsToFilter, tag.id);
+                        return _.contains(tagsToFilter, tag.id.toLowerCase());
                     });
                     return rejectedTags.length === 1;
                 });
-                $scope.heroPost = _.pick($scope.posts.docs, function (val, key) {
-                    if (!_.isEmpty(_.where(val.tags, {id: "Hero"}))) {
-                        return _.where(val.tags, {id: "Hero"});
-                    }
-                    return false;
-                });
-                $scope.mastheadImage = _.where($scope.heroPost[0].attachment, {isHero: true});
             });
 
         this.navItems = [{
