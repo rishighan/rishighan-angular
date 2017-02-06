@@ -1,4 +1,7 @@
 <ul class="navigation" ng-class="{vertical: 'vertical', horizontal: 'horizontal'}[nv.orientation]">
+    <li ng-if="nv.isLogoPresent()">
+        <div class="sprite sprite-logo"></div>
+    </li>
     <li ng-repeat="item in nv.menuItems">
         <a href="{{item.link}}" ui-sref="{{item.stateReference}}" analytics-on="click"
            analytics-event="Navigate to {{item.displayName}}" analytics-category="whatever">{{item.displayName}}</a>

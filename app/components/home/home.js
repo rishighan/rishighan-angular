@@ -13,6 +13,10 @@ let homeModule = angular.module('home', [
             url: '/',
             template: '<home></home>',
             access: {restricted: false}
+        })
+        .state('single',{
+            url: '/post/:slug',
+            template: '<post></post>'
         });
 })
 

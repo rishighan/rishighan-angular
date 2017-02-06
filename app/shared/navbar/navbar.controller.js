@@ -8,6 +8,10 @@ class NavbarController {
         });
     }
 
+    isLogoPresent(){
+        return this.logo;
+    }
+
     logout() {
         this._authService.logout()
             .then(() => {

@@ -11,7 +11,7 @@ class HomeController {
         $scope.mastheadImage = {};
 
         //filter out hero, work tags
-        let tagsToFilter = ['hero', 'work', 'colophon'];
+        let tagsToFilter = ['hero', 'work', 'colophon', 'trampoline'];
 
         PostService.getPostsByTagName('Featured')
             .then(function (posts) {
@@ -20,7 +20,6 @@ class HomeController {
 
         PostService.getPostsByTagName('Hero')
             .then(function (post) {
-                console.log(post);
                 $scope.heroPost = post.data;
                 $scope.mastheadImage = _.where($scope.heroPost[0].attachment, {isHero: true});
             });

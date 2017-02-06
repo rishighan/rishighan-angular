@@ -7,6 +7,7 @@ let navbarComponent = function(){
     restrict: 'AE',
     scope:{
       orientation: '@',
+      logo: '=',
       menuItems: '='
     },
     template,

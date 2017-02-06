@@ -1,21 +1,24 @@
+<div class="hero col-md-12" cg-busy="{promise:postPromise,message:'Loading',backdrop:true}">
+    <post kind="masthead" masthead-image="{{mastheadImage[0].name}}" post-data="heroPost"></post>
+</div>
 <div class="container">
     <jsonld data-json="hc.jsonId"></jsonld>
-    <div class="hero" cg-busy="{promise:postPromise,message:'Loading',backdrop:true}">
-        <post kind="masthead" masthead-image="{{mastheadImage[0].name}}" post-data="heroPost"></post>
-    </div>
+
     <div class="body row">
         <div class="col-md-2">
-            <navbar menu-items="hc.navItems" orientation="vertical"></navbar>
+            <navbar menu-items="hc.navItems" orientation="vertical" logo="true"></navbar>
         </div>
 
         <div class="col-md-8 post-container">
-            <div class="post" cg-busy="{promise:postPromise, message: 'Loading...', backdrop: true}">
-                <div ng-repeat="featuredPost in featuredPosts track by $index">
-                    <h5>{{::featuredPost.title}}</h5>
+            <div cg-busy="{promise:postPromise, message: 'Loading...', backdrop: true}">
+                <div ng-repeat="featuredPost in featuredPosts track by $index" class="featured-posts">
+                    <a href="">{{::featuredPost.title}}</a>
                 </div>
-                <div ng-repeat="post in filteredPosts track by $index">
-                    <h2>{{::post.title}}</h2>
-                    <small class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy" }}</small>
+                <div ng-repeat="post in filteredPosts track by $index" class="post">
+                    <div class="header-region">
+                        <h2>{{::post.title}}</h2>
+                        <small class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy" }}</small>
+                    </div>
                     <div markdown data="post.content"></div>
                 </div>
             </div>
