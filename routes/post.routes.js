@@ -30,8 +30,8 @@ router.get('/getpostsbytagname', function(req, res, next){
        .done();
 });
 
-router.get('/getpost/:id', function (req, res, next) {
-    var promise = Post.getPost(req.params.id, req.params.slug);
+router.get('/getpost', function (req, res, next) {
+    var promise = Post.getPost(req.query.id, req.query.slug);
     promise.then(function (post) {
         res.send(post);
     })

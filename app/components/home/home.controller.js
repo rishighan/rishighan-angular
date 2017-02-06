@@ -47,8 +47,8 @@ class HomeController {
             stateReference: "post"
         },
             {
-                displayName: "Thesis",
-                stateReference: "thesis"
+                displayName: "Illustrations",
+                stateReference: "illustrations"
             }];
 
         this.jsonId = {

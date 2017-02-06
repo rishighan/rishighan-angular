@@ -16,7 +16,7 @@
                 </div>
                 <div ng-repeat="post in filteredPosts track by $index" class="post">
                     <div class="header-region">
-                        <h2>{{::post.title}}</h2>
+                        <a ui-sref="single({slug: post.slug})"><h2>{{::post.title}}</h2></a>
                         <small class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy" }}</small>
                     </div>
                     <div markdown data="post.content"></div>
