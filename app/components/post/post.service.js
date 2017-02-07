@@ -25,8 +25,6 @@ class PostService {
     }
 
     getPost(id, slug) {
-        console.log(id);
-        console.log(slug);
         return this._$http.get('/db/getpost' , {
             params: {
                 id: id,

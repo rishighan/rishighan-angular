@@ -17,7 +17,7 @@ let homeModule = angular.module('home', [
         .state('single',{
             url: '/post/:slug',
             params: {id: undefined},
-            template: '<post></post>',
+            template: '<post kind="single"></post>',
             access: {restricted: false}
         });
 })

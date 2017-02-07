@@ -1,12 +1,24 @@
 <div ng-switch on="kind">
     <div ng-switch-when="masthead">
-       <div class="masthead">
-           <span class="title col-md-2 col-md-offset-10">{{postData[0].title}}</span>
-       </div>
+        <div class="masthead">
+            <span class="title col-md-2 col-md-offset-10">{{postData[0].title}}</span>
+        </div>
+    </div>
+    <div ng-switch-when="single">
+        <section class="container">
+            <div class="col-md-9">
+                <h2>{{post.data[0].title}}</h2>
+                <small>{{'main.donate_patreon.message' | translate}}</small>
+                <article markdown data="post.data[0].content">
+                    {{post.data[0].content}}
+                </article>
+            </div>
+        </section>
     </div>
     <div ng-switch-when="text">
         Text. {{kind}}
     </div>
+
 </div>
 
 

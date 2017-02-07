@@ -63,10 +63,15 @@ PostSchema.statics.createPost = function (data) {
 
 // retrieve by id or by slug
 PostSchema.statics.getPost = function (id, slug) {
+    let queryObject = {};
+    if (id) {
+        queryObject = {_id: id};
+    }
+    else if (slug) {
+      queryObject = {slug: slug};
+    }
     var deferred = Q.defer();
-    this.find({
-        $or: [{_id: id}, {slug: slug}]
-    }, function (error, data) {
+    this.find(queryObject, function (error, data) {
         if (error) {
             deferred.reject(new Error(error));
         } else {
@@ -76,12 +81,12 @@ PostSchema.statics.getPost = function (id, slug) {
     return deferred.promise;
 };
 
-PostSchema.statics.getPostsByTagName = function(tagName){
+PostSchema.statics.getPostsByTagName = function (tagName) {
     var deferred = Q.defer();
     this.find({
         tags: {$elemMatch: {id: tagName}}
-    }, function(error, data){
-        if(error){
+    }, function (error, data) {
+        if (error) {
             deferred.reject(new Error(error));
         }
         else {
