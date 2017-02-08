@@ -9,7 +9,7 @@ class EditPostController {
                 $state,
                 $timeout,
                 $stateParams,
-                NavUtilsService,
+                NavbarService,
                 PostService,
                 FriendlyUrlService,
                 DomHelperService,
@@ -18,7 +18,7 @@ class EditPostController {
 
         const ASSETS_FOLDER = '/assets/images/';
         // admin nav
-        $scope.navItems = NavUtilsService.getAdminNavItems();
+        $scope.navItems = NavbarService.getNavItems('admin');
 
         // form model
         $scope.post = {};

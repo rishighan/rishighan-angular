@@ -1,5 +1,5 @@
 class HomeController {
-    constructor($scope, PostService) {
+    constructor($scope, PostService, NavbarService) {
         $scope.pagerDefaults = {
             page: 1,
             pageSize: 10
@@ -24,7 +24,6 @@ class HomeController {
                 $scope.mastheadImage = _.where($scope.heroPost[0].attachment, {isHero: true});
             });
 
-        // todo: streamline this ghetto shit.
         $scope.postPromise = PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then(function (result) {
                 $scope.posts = result.data;
@@ -36,20 +35,7 @@ class HomeController {
                 });
             });
 
-        this.navItems = [{
-            displayName: "Home",
-            stateReference: "home"
-        }, {
-            displayName: "Work",
-            stateReference: "work"
-        }, {
-            displayName: "Trampoline",
-            stateReference: "post"
-        },
-            {
-                displayName: "Illustrations",
-                stateReference: "illustrations"
-            }];
+        this.navItems = NavbarService.getNavItems('home');
 
         this.jsonId = {
             "@context": "http://schema.org",

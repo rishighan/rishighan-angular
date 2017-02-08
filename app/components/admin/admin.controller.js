@@ -7,9 +7,8 @@ class AdminController {
                 $state,
                 $compile,
                 $translate,
+                NavbarService,
                 formlyValidationMessages,
-                PostService,
-                NavUtilsService,
                 FriendlyUrlService,
                 DomHelperService,
                 ngNotify) {
@@ -20,7 +19,7 @@ class AdminController {
         };
 
         // admin nav
-        this.navItems = NavUtilsService.getAdminNavItems();
+        this.navItems = NavbarService.getNavItems('admin');
         const FILE_UPLOAD_URL = "/api/files/upload";
         // todo: should come from a service
         const testData = [{

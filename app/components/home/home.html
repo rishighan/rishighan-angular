@@ -9,10 +9,12 @@
             <navbar menu-items="hc.navItems" orientation="vertical" logo="true"></navbar>
         </div>
 
-        <div class="col-md-8 post-container">
+        <div class="col-md-9 post-container">
             <div cg-busy="{promise:postPromise, message: 'Loading...', backdrop: true}">
-                <div ng-repeat="featuredPost in featuredPosts track by $index" class="featured-posts">
-                    <a href="">{{::featuredPost.title}}</a>
+                <div class="featured-posts">
+                    <div ng-repeat="featuredPost in featuredPosts track by $index">
+                        <a href="">{{::featuredPost.title}}</a>
+                    </div>
                 </div>
                 <div ng-repeat="post in filteredPosts track by $index" class="post">
                     <div class="header-region">

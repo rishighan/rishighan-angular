@@ -1,4 +1,6 @@
 import homeComponent from './home.component';
+import singleComponent from '../single/single.component';
+
 require('angular-busy');
 
 let homeModule = angular.module('home', [
@@ -17,11 +19,17 @@ let homeModule = angular.module('home', [
         .state('single',{
             url: '/post/:slug',
             params: {id: undefined},
-            template: '<post kind="single"></post>',
+            template: '<single></single>',
+            access: {restricted: false}
+        })
+        .state('work', {
+            url: '/work',
+            template: '<work></work>',
             access: {restricted: false}
         });
 })
 
-.directive('home', homeComponent);
+.directive('home', homeComponent)
+.directive('single', singleComponent);
 
 export default homeModule;

@@ -1,11 +1,11 @@
 const moment = require('moment');
 class AllPostsController {
     constructor($scope,
-                NavUtilsService,
+                NavbarService,
                 AnalyticsService,
                 PostService) {
         $scope.posts = {};
-        $scope.navItems = NavUtilsService.getAdminNavItems();
+        $scope.navItems = NavbarService.getNavItems('admin');
         $scope.pagerDefaults = {
             page: 1,
             pageSize: 5

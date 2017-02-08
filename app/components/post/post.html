@@ -5,15 +5,11 @@
         </div>
     </div>
     <div ng-switch-when="single">
-        <section class="container">
-            <div class="col-md-9">
-                <h2>{{post.data[0].title}}</h2>
-                <small>{{'main.donate_patreon.message' | translate}}</small>
-                <article markdown data="post.data[0].content">
-                    {{post.data[0].content}}
-                </article>
-            </div>
-        </section>
+        <h2>{{postData.data[0].title}}</h2>
+        <span class="patreon-message">
+            <small>{{'main.donate_patreon.message' | translate}}</small>
+        </span>
+        <article markdown data="postData.data[0].content"></article>
     </div>
     <div ng-switch-when="text">
         Text. {{kind}}

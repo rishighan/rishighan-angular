@@ -1,6 +1,5 @@
 // import angular from 'angular';
 import Navbar from './navbar/navbar';
-import NavUtilsService from './utils/navutils.service';
 import FriendlyUrlService from './utils/friendlyurl.service';
 import FormlyDataService from './utils/formlydata.service';
 import AnalyticsService from './analytics/analytics.service';
@@ -16,7 +15,6 @@ let sharedModule = angular.module('app.shared', [
     .directive('markdown', markdown)
     .directive('sparkline', sparklineComponent)
     .service('AnalyticsService', AnalyticsService)
-    .service('NavUtilsService', NavUtilsService)
     .service('DomHelperService', DomHelperService)
     .service('FormlyDataService', FormlyDataService)
     .service('FriendlyUrlService', FriendlyUrlService)
