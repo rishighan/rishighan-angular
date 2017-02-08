@@ -10,6 +10,7 @@ let authenticationModule = angular.module('authentication', [])
                 url: '/login',
                 templateUrl: 'components/authentication/partials/login.html',
                 controller: LoginController,
+                params: {redirectTo: 'posts'},
                 access: {restricted: false}
             })
             .state('register', {
@@ -17,11 +18,13 @@ let authenticationModule = angular.module('authentication', [])
                 templateUrl: 'components/authentication/partials/register.html',
                 controller: RegistrationController,
                 controllerAs: 'regCtrl',
+                params: {redirectTo: 'login'},
                 access: {restricted: true}
             })
             .state('logout', {
                 url: '/logout',
                 controller: LogoutController,
+                params: {redirectTo: 'home'},
                 access: {restricted: true}
             });
     })

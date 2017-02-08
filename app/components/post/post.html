@@ -4,11 +4,17 @@
             <span class="title col-md-2 col-md-offset-10">{{postData[0].title}}</span>
         </div>
     </div>
-    <div ng-switch-when="single">
-        <h2>{{postData.data[0].title}}</h2>
-        <span class="patreon-message">
-            <small>{{'main.donate_patreon.message' | translate}}</small>
-        </span>
+    <div ng-switch-when="single" class="post">
+        <div ng-if="" class="masthead">
+            <span class="title col-md-2 col-md-offset-10">{{postData[0].title}}</span>
+        </div>
+        <div class="single header-region">
+            <h2>{{postData.data[0].title}}</h2>
+            <small>{{postData.data[0].date_updated | date: "dd MMMM, yyyy" }}</small>
+            <span class="patreon-message">
+                <small>{{'main.donate_patreon.message' | translate}}</small>
+            </span>
+        </div>
         <article markdown data="postData.data[0].content"></article>
     </div>
     <div ng-switch-when="text">

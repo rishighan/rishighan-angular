@@ -2,12 +2,13 @@
 // October 18, 2015
 
 // Colors
-$link: #8D898A ;
+$link: #8D898A;
 $link-hover: #FF8000;
 $buttonTextDark: #000;
 $buttonTextLight: #FFF;
 $bodyCopyLight: #6d6d6d;
 $lightBackground: #F3F3F3;
+$lightGray: #CCC;
 
 // Font sizes
 $megaHeadline: 2.2em;
@@ -139,7 +140,7 @@ textarea {
   width: 100%;
   padding: 10px 0;
   height: 20px;
-  text-align:left;
+  text-align: left;
 }
 
 // Normal Post container
@@ -157,66 +158,69 @@ textarea {
       }
     }
   }
-  .patreon-message{
-    border: 1px solid $bodyCopyLight;
-    padding: 4px;
+  .project{
+    background: $lightBackground;
   }
-  .featured-posts{
+  .patreon-message {
+    color: $lightGray;
+  }
+  .featured-posts {
     margin: 0 0 30px 0;
     line-height: 1.5em;
     text-decoration: underline;
   }
   .post-container {
     margin: 490px 0 0 0;
-    .post {
+  }
+  .post {
+    color: #8D898A;
+    letter-spacing: 0.01em;
+    line-height: 1.5em;
+    margin: 0 0 40px 0;
+    @include setPointSize($bodyCopy);
 
+    .header-region {
+      margin: 10px 0 10px 0;
+    }
+    .published-date {
+      font-style: italic;
+      color: #CCC;
+    }
+
+    h2 {
+      margin: 0 0 5px 0;
       color: #8D898A;
-      letter-spacing: 0.01em;
-      line-height: 1.5em;
-      margin: 0 0 40px 0;
-      @include setPointSize($bodyCopy);
-
-      .header-region{
-        margin: 10px 0 10px 0;
+      font-family: $proximaRegular;
+      @include setPointSize($headline);
+    }
+    h3 {
+      font-family: $proximaLightRegular;
+      @include setPointSize($subheading1);
+    }
+    h4 {
+      font-family: $proximaLightRegular;
+      @include setPointSize($subheading2);
+    }
+    .caption {
+      @include setPointSize($caption);
+      font-style: italic;
+    }
+    pre {
+      code {
+        font-size: $code;
       }
-
-      h2 {
-        margin: 0 0 5px 0;
-        color: #8D898A;
-        font-family: $proximaRegular;
-        @include setPointSize($headline);
-      }
-      h3 {
-        font-family: $proximaLightRegular;
-        @include setPointSize($subheading1);
-      }
-      h4 {
-        font-family: $proximaLightRegular;
-        @include setPointSize($subheading2);
-      }
-      .caption {
-        @include setPointSize($caption);
-        font-style: italic;
-      }
-      pre {
-        code {
-          font-size: $code;
-        }
-      }
-
-      .published-date {
-        font-style: italic;
-        color: #CCC;
-      }
+    }
+    .footnotes{
+     @include setPointSize($caption);
     }
   }
 }
 
-// form styles
+// ADMIN
 .admin {
   font-family: $proximaRegular;
   color: $bodyCopyLight;
-  ul{
+  ul {
     list-style: none;
   }
 
@@ -248,8 +252,8 @@ textarea {
     margin: 20px 0 0px 0;
   }
 
-  pre{
-    code{
+  pre {
+    code {
       font-size: $code;
     }
   }

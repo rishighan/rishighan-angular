@@ -1,1 +1,15 @@
-YOLO hence you work.
+<div class="container">
+    <div class="body row">
+        <div class="col-md-2">
+            <navbar menu-items="wc.navItems" orientation="vertical" logo="true"></navbar>
+        </div>
+        <div class="col-md-9">
+            <div ng-repeat="post in posts track by $index">
+                <div>
+                    <h2>{{post[0].title}}</h2>
+                    {{post[0].excerpt}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

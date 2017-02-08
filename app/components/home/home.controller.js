@@ -37,10 +37,11 @@ class HomeController {
 
         this.navItems = NavbarService.getNavItems('home');
 
-        this.jsonId = {
+        this.jsonLd = {
             "@context": "http://schema.org",
             "@type": "WebSite",
             "name": "Rishi Ghan",
+            "jobTitle": "Javascript Developer",
             "alternateName": "Ninth Muse",
             "url": "http://rishighan.com"
         };

@@ -11,11 +11,15 @@ class NavbarService {
             },
             {
                 displayName: "Trampoline",
-                stateReference: "post"
+                stateReference: "trampoline"
             },
             {
                 displayName: "Illustrations",
                 stateReference: "illustrations"
+            },
+            {
+                displayName: "Colophon",
+                stateReference: "colophon"
             }
         ];
         this.adminNavItems = [

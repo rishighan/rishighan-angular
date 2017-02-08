@@ -1,7 +1,7 @@
+require('angular-busy');
 import homeComponent from './home.component';
 import singleComponent from '../single/single.component';
-
-require('angular-busy');
+import trampolineComponent from '../trampoline/trampoline.component';
 
 let homeModule = angular.module('home', [
     'cgBusy',
@@ -26,10 +26,16 @@ let homeModule = angular.module('home', [
             url: '/work',
             template: '<work></work>',
             access: {restricted: false}
+        })
+        .state('trampoline', {
+            url: '/trampoline',
+            template: '<trampoline></trampoline>',
+            access: {restricted: false}
         });
 })
 
 .directive('home', homeComponent)
-.directive('single', singleComponent);
+.directive('single', singleComponent)
+.directive('trampoline', trampolineComponent);
 
 export default homeModule;

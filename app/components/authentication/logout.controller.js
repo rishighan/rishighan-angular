@@ -1,13 +1,13 @@
 class LogoutController {
-    constructor($scope, $state, AuthenticationService) {
-        const LOGIN_PAGE = 'login';
+    constructor($scope, $state, $stateParams, AuthenticationService) {
+        const redirectTo = $stateParams.redirectTo;
         $scope._disabled = false;
         $scope.error = false;
 
         $scope.logout = function () {
             AuthenticationService.logout()
                 .then(function () {
-                    $state.go(LOGIN_PAGE);
+                    $state.go(redirectTo);
                 });
         };
     }
