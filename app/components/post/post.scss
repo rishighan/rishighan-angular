@@ -3,6 +3,7 @@
   position: absolute;
   z-index: -9;
   left: 0;
+  top: 0;
   height: 500px;
   background-size: cover;
   width: 100%;
@@ -10,9 +11,18 @@
 
   .title {
     top: 90%;
+    position: relative;
     color: #CCC;
     font-style: italic;
     text-decoration: underline;
     font-size: 0.8em;
   }
+}
+
+.post-offset {
+  margin: 530px 0 0 0;
+}
+
+.post-no-offset{
+  margin: 0 0 0 0;
 }

@@ -7,7 +7,8 @@ function SingleController($scope,
     $scope.post = {};
     this.navItems = NavbarService.getNavItems('home');
     $scope.jsonLd = {};
-    PostService.getPost($stateParams.id, $stateParams.slug)
+    $scope.heroImage = '';
+    $scope.postPromise = PostService.getPost($stateParams.id, $stateParams.slug)
         .then(function (data) {
             $scope.post = data;
             $scope.jsonLd = {
@@ -25,8 +26,12 @@ function SingleController($scope,
                     "name": "Rishi Ghan"
                 }
             };
+            $scope.heroImage = _.where($scope.post.data[0].attachment, {isHero: true});
 
+        }, function(error){
+            $scope.heroImage = {};
         });
+
 }
 
 

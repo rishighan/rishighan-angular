@@ -1,19 +1,11 @@
 import postComponent from './post.component';
+import mastheadComponent from './masthead.component';
 import postService from './post.service';
 
-let postModule = angular.module('post', [
-    'ui.router'
-])
-
-.config(($stateProvider, $urlRouterProvider) => {
-    $stateProvider
-        .state('post', {
-            url: '/post',
-            // template: '<post></post>'
-        });
-})
+let postModule = angular.module('post', [])
 
 .directive('post', postComponent)
+.directive('masthead', mastheadComponent)
 .service('PostService', postService);
 
 export default postModule;
