@@ -36,6 +36,11 @@ class HomeController {
             });
 
         this.navItems = NavbarService.getNavItems('home');
+        $scope.isTag = function (tags, tagname) {
+            return _.contains(_.map(tags, function (tag) {
+                return tag.id.toLowerCase() === tagname ? true : false;
+            }), true);
+        };
 
         this.jsonLd = {
             "@context": "http://schema.org",

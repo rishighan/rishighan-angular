@@ -7,6 +7,7 @@ class AdminController {
                 $state,
                 $compile,
                 $translate,
+                PostService,
                 NavbarService,
                 formlyValidationMessages,
                 FriendlyUrlService,
