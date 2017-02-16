@@ -7,8 +7,8 @@ class WorkController {
 
         this.navItems = NavbarService.getNavItems('home');
         PostService.getPostsByTagName('Work')
-            .then(function (data) {
-                $scope.posts = data;
+            .then(function (result){
+                $scope.posts = result.data.docs;
             });
     }
 }

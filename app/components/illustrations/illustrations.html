@@ -3,8 +3,8 @@
         <div class="col-md-2">
             <navbar menu-items="ic.navItems" orientation="vertical" logo="true"></navbar>
         </div>
-        <div class="col-md-9">
-            <div ng-repeat="post in illustrations.data track by $index">
+        <div class="col-md-9" cg-busy="{promise: illustrationsPromise, message: 'Loading...', backdrop: true}">
+            <div ng-repeat="post in illustrations track by $index">
                 <div>
                     <h2>{{::post.title}}</h2>
                     {{::post.excerpt}}
