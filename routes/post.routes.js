@@ -22,7 +22,7 @@ router.get('/getallposts', function (req, res, next) {
 });
 
 router.get('/getpostsbytagname', function(req, res, next){
-   var promise = Post.getPostsByTagName(req.query.tag);
+   var promise = Post.getPostsByTagName(req.query.tag, req.query.pageOffset, req.query.pageLimit);
    promise.then(function(data){
      res.send(data);
    })

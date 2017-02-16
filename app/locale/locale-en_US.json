@@ -36,7 +36,19 @@
     "admin.user_logged_in.status": "Logged In As",
     "admin.user_logged_out.status": "Logged Out",
 
-    "main.donate_patreon.message": "Please consider supporting me on Patreon"
+    "main.donate_patreon.message": "Please consider supporting me on Patreon",
+
+    "home.trending_posts.heading": "Trending Posts",
+    "home.featured_posts.heading": "Featured Posts",
+    "home.posts_series.heading": "{{tagname}} Series",
+
+    "colophon.job_title.fragment": "Javascript Developer",
+    "colophon.current_employer.fragment": "Yodle, Inc.",
+    "colophon.author_name.fragment": "Rishi Ghan",
+
+    "footer.copyright_years.fragment": "2017-18",
+    "footer.copyright_message.fragment": "All Rights Reserved"
+
 
 
 }

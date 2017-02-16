@@ -35,10 +35,12 @@ class PostService {
         });
     }
 
-    getPostsByTagName(tag) {
+    getPostsByTagName(tag, pageOffset, pageLimit) {
         return this._$http.get('/db/getpostsbytagname', {
             params: {
-                tag: tag
+                tag: tag,
+                pageOffset: pageOffset,
+                pageLimit: pageLimit
             }
         }).then(function (posts) {
             return posts;

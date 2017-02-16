@@ -11,15 +11,16 @@
 
         <div class="col-md-9 post-container">
             <div cg-busy="{promise:postPromise, message: 'Loading...', backdrop: true}">
-                <div class="featured-posts">
-                    <div ng-repeat="featuredPost in featuredPosts track by $index">
+                <ul class="featured-posts">
+                    <li>{{'home.featured_posts.heading' | translate }}</li>
+                    <li ng-repeat="featuredPost in featuredPosts track by $index">
                         <a href="">{{::featuredPost.title}}</a>
-                    </div>
-                </div>
-                <div ng-repeat="post in filteredPosts track by $index" class="post">
+                    </li>
+                </ul>
+                <div ng-repeat="post in blogPosts track by $index" class="post">
                     <div ng-if="isTag(post.tags, 'highlight')" class="highlight">
                         {{::post.content}}
-                    <small class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy"}}</small>
+                    <span class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy"}}</span>
                     </div>
                     <div ng-if="!isTag(post.tags, 'highlight')">
                         <div class="header-region">

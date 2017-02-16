@@ -1,41 +1,32 @@
 class HomeController {
     constructor($scope, PostService, NavbarService) {
-        $scope.pagerDefaults = {
+        let pagerDefaults = {
             page: 1,
-            pageSize: 10
+            pageSize: 20
         };
         $scope.posts = {};
-        $scope.filteredPosts = {};
+        $scope.blogPosts = {};
         $scope.featuredPosts = {};
         $scope.heroPost = {};
         $scope.mastheadImage = {};
 
-        //filter out hero, work tags
-        let tagsToFilter = ['hero', 'work', 'colophon', 'trampoline'];
-
+        this.navItems = NavbarService.getNavItems('home');
         PostService.getPostsByTagName('Featured')
             .then(function (posts) {
-                $scope.featuredPosts = posts.data;
+                $scope.featuredPosts = posts.data.docs;
             });
 
-        PostService.getPostsByTagName('Hero')
+        PostService.getPostsByTagName('Hero', 1, 1)
             .then(function (post) {
-                $scope.heroPost = post.data;
+                $scope.heroPost = post.data.docs;
                 $scope.mastheadImage = _.where($scope.heroPost[0].attachment, {isHero: true});
             });
 
-        $scope.postPromise = PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
-            .then(function (result) {
-                $scope.posts = result.data;
-                $scope.filteredPosts = _.reject($scope.posts.docs, function (post) {
-                    let rejectedTags = _.filter(post.tags, function (tag) {
-                        return _.contains(tagsToFilter, tag.id.toLowerCase());
-                    });
-                    return rejectedTags.length === 1;
-                });
+        $scope.postPromise = PostService.getPostsByTagName('Blog', pagerDefaults.page, pagerDefaults.pageSize)
+            .then(function(posts){
+                $scope.blogPosts = posts.data.docs;
             });
 
-        this.navItems = NavbarService.getNavItems('home');
         $scope.isTag = function (tags, tagname) {
             return _.contains(_.map(tags, function (tag) {
                 return tag.id.toLowerCase() === tagname ? true : false;

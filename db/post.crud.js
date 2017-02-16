@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
-var mongoosePaginate = require('mongoose-paginate');
-var Schema = mongoose.Schema;
-var Q = require('q');
+let mongoose = require('mongoose');
+let mongoosePaginate = require('mongoose-paginate');
+let Schema = mongoose.Schema;
+let Q = require('q');
+let _ = require('underscore');
 
 var PostSchema = new Schema({
     title: String,
@@ -33,6 +34,8 @@ PostSchema.index({
     title: "text",
     content: "text",
     excerpt: "text"
+}, {
+    collation: {locale: "en", strength: 2}
 });
 PostSchema.set('autoIndex', false);
 
@@ -68,7 +71,7 @@ PostSchema.statics.getPost = function (id, slug) {
         queryObject = {_id: id};
     }
     else if (slug) {
-      queryObject = {slug: slug};
+        queryObject = {slug: slug};
     }
     var deferred = Q.defer();
     this.find(queryObject, function (error, data) {
@@ -81,26 +84,32 @@ PostSchema.statics.getPost = function (id, slug) {
     return deferred.promise;
 };
 
-PostSchema.statics.getPostsByTagName = function (tagName) {
-    var deferred = Q.defer();
-    this.find({
-        tags: {$elemMatch: {id: tagName}}
-    }, function (error, data) {
-        if (error) {
-            deferred.reject(new Error(error));
-        }
-        else {
-            deferred.resolve(data);
-        }
-    });
+// paginated, defaults to page 1, 5 results
+PostSchema.statics.getPostsByTagName = function (tagName, pageOffset, pageLimit) {
+    let deferred = Q.defer();
+    let options = {
+        sort: {date_updated : -1},
+        page: parseInt(pageOffset, 10) || 1,
+        limit: parseInt(pageLimit, 10) || 5
+    };
+    let query = {tags: {$elemMatch: {id: tagName}}};
+    this.paginate(query, options,
+        function (error, data) {
+            if (error) {
+                deferred.reject(new Error(error));
+            }
+            else {
+                deferred.resolve(data);
+            }
+        });
     return deferred.promise;
 };
 
 // retrieve all posts, paginated
 // todo: parameterize sort criteria
 PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {
-    var deferred = Q.defer();
-    var options = {
+    let deferred = Q.defer();
+    let options = {
         sort: {date_updated: -1},
         page: parseInt(pageOffset, 10), //  \ __ passed in from frontend
         limit: parseInt(pageLimit, 10)  //  /
@@ -118,8 +127,8 @@ PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {
 
 // search
 PostSchema.statics.searchPost = function (searchText, pageOffset, pageLimit) {
-    var deferred = Q.defer();
-    var options = {
+    let deferred = Q.defer();
+    let options = {
         page: parseInt(pageOffset, 10),
         limit: parseInt(pageLimit, 10)
     };
@@ -136,8 +145,8 @@ PostSchema.statics.searchPost = function (searchText, pageOffset, pageLimit) {
 // update or
 // Todo: upsert a post
 PostSchema.statics.updatePost = function (id, data, upsertValue) {
-    var deferred = Q.defer();
-    var updates = data;
+    let deferred = Q.defer();
+    let updates = data;
     this.update({
             _id: id
         }, {
@@ -167,7 +176,7 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
 
 // delete
 PostSchema.statics.deletePost = function (id) {
-    var deferred = Q.defer();
+    let deferred = Q.defer();
     this.findByIdAndRemove(id, function (error, data) {
         if (error) {
             return deferred.reject(new Error(data));
