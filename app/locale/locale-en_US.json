@@ -47,8 +47,10 @@
     "colophon.author_name.fragment": "Rishi Ghan",
 
     "footer.copyright_years.fragment": "2017-18",
-    "footer.copyright_message.fragment": "All Rights Reserved"
+    "footer.copyright_message.fragment": "All Rights Reserved",
 
+    "illustrations.order_prints.button": "Order Prints",
+    "illustrations.contact_for_prints.button": "Contact Me for Prints"
 
 
 }

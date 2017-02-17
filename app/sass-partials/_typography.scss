@@ -10,13 +10,23 @@ $goldenRatio: 0.61804697156984; // 1:1.618
 
 // returns a number
 @mixin setPointSize($pointSize) {
-    $calculatedPointSize: $pointSize / $goldenRatio;
-    font-size: $calculatedPointSize;
-    font-size: calculateRem($calculatedPointSize);
+  $calculatedPointSize: $pointSize / $goldenRatio;
+  font-size: $calculatedPointSize;
+  font-size: calculateRem($calculatedPointSize);
 }
 
 // Calculate rem
 @function calculateRem($size) {
-    $remSize: $size / $baseFontSize;
-    @return $remSize * 1rem;
+  $remSize: $size / $baseFontSize;
+  @return $remSize * 1rem;
+}
+
+@mixin font-smoothing($value: on) {
+  @if $value == on {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  } @else {
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+  }
 }

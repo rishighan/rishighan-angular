@@ -3,12 +3,15 @@
         <div class="col-md-2">
             <navbar menu-items="ic.navItems" orientation="vertical" logo="true"></navbar>
         </div>
-        <div class="col-md-9" cg-busy="{promise: illustrationsPromise, message: 'Loading...', backdrop: true}">
-            <div ng-repeat="post in illustrations track by $index">
-                <div>
+        <div class="col-md-8 post" cg-busy="{promise: illustrationsPromise, message: 'Loading...', backdrop: true}">
+            <div ng-repeat="post in posts track by $index">
+                <img ng-src="/assets/images/{{illustration[0].name}}" class="illustrations"/>
+                <div class="artist-statement">
                     <h2>{{::post.title}}</h2>
-                    {{::post.excerpt}}
+                    <span class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy" }}</span>
+                    <div markdown data="post.content"></div>
                 </div>
+                <span class="order-prints text-muted">{{'illustrations.contact_for_prints.button' | translate }}</span>
             </div>
         </div>
     </div>

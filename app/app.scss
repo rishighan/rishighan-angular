@@ -147,6 +147,7 @@ textarea {
 // POST
 .container {
   .body {
+    @include font-smoothing(off);
     font-family: $proximaRegular;
 
     a {
@@ -183,14 +184,14 @@ textarea {
   }
   .post {
     margin: 0 0 40px 0;
-    color: #8D898A;
+    color: $bodyCopyLight;
     letter-spacing: 0.02em;
     line-height: 1.5em;
-    font-family: $proximaLightRegular;
-    @include setPointSize($bodyCopy);
+    font-family: $proximaRegular;
+    //@include setPointSize($bodyCopy);
 
     .header-region {
-      margin: 10px 0 20px 0;
+      margin: 10px 0 10px 0;
     }
     .published-date {
       color: #CCC;
@@ -200,6 +201,7 @@ textarea {
       background: $lighterGray;
       padding: 10px;
       border-radius: 3px;
+     color: $lightGray;
       line-height: 1.3em;
       font-family: $proximaLightRegular;
       @include setPointSize($headline);
@@ -233,7 +235,6 @@ textarea {
       }
     }
     table {
-      @include setPointSize($code);
       background: $lighterGray;
       margin: 20px 0 20px 0;
       thead {
@@ -262,6 +263,10 @@ textarea {
   color: $bodyCopyLight;
   ul {
     list-style: none;
+  }
+
+  h4{
+    line-height: 1.4em;
   }
 
   label {

@@ -1,5 +1,6 @@
 import template from './illustrations.html';
 import controller from './illustrations.controller';
+import illustrationStyles from './illustrations.scss';
 
 let IllustrationsComponent = function(){
     return {
