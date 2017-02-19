@@ -1,35 +1,28 @@
-<div class="hero col-md-12" cg-busy="{promise:postPromise,message:'Loading',backdrop:true}">
+<div>
     <masthead masthead-image="{{mastheadImage[0].name}}" masthead-title="{{heroPost[0].title}}"></masthead>
 </div>
-<div class="container">
-    <jsonld data-json="hc.jsonLd"></jsonld>
+<jsonld data-json="hc.jsonLd"></jsonld>
 
-    <div class="body row">
-        <div class="col-md-2">
-            <navbar menu-items="hc.navItems" orientation="vertical" logo="true"></navbar>
-        </div>
 
-        <div class="col-md-9 post-container">
-            <div cg-busy="{promise:postPromise, message: 'Loading...', backdrop: true}">
-                <ul class="featured-posts">
-                    <li>{{'home.featured_posts.heading' | translate }}</li>
-                    <li ng-repeat="featuredPost in featuredPosts track by $index">
-                        <a href="">{{::featuredPost.title}}</a>
-                    </li>
-                </ul>
-                <div ng-repeat="post in blogPosts track by $index" class="post">
-                    <div ng-if="isTag(post.tags, 'highlight')" class="highlight">
-                        {{::post.content}}
-                    <span class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy"}}</span>
-                    </div>
-                    <div ng-if="!isTag(post.tags, 'highlight')">
-                        <div class="header-region">
-                            <a ui-sref="single({slug: post.slug})"><h2>{{::post.title}}</h2></a>
-                            <span class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy" }}</span>
-                        </div>
-                        <div markdown data="post.content"></div>
-                    </div>
+<div class="col-md-9 post-container">
+    <div cg-busy="{promise:postPromise, message: 'Loading...', backdrop: true}">
+        <ul class="featured-posts">
+            <li>{{'home.featured_posts.heading' | translate }}</li>
+            <li ng-repeat="featuredPost in featuredPosts track by $index">
+                <a href="">{{::featuredPost.title}}</a>
+            </li>
+        </ul>
+        <div ng-repeat="post in blogPosts track by $index" class="post">
+            <div ng-if="isTag(post.tags, 'highlight')" class="highlight">
+                {{::post.content}}
+                <span class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy"}}</span>
+            </div>
+            <div ng-if="!isTag(post.tags, 'highlight')">
+                <div class="header-region">
+                    <a ui-sref="single({slug: post.slug})"><h2>{{::post.title}}</h2></a>
+                    <sl class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy" }}</small>
                 </div>
+                <div markdown data="post.content"></div>
             </div>
         </div>
     </div>

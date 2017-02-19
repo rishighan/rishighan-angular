@@ -30,6 +30,11 @@ class NavbarService {
             {
                 displayName: "Browse",
                 stateReference: 'posts'
+            },
+            {
+                displayName: "Export Posts",
+                stateReference: 'export'
+
             }];
     }
 

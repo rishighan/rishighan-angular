@@ -9,7 +9,9 @@ $buttonTextLight: #FFF;
 $bodyCopyLight: #6d6d6d;
 $lightBackground: #F3F3F3;
 $lightGray: #CCC;
-$lighterGray: #FDFAFA;
+$lighterGray: #FCFDFC;
+$subtleGray: #F5F5F5;
+$darkerGray: #e8e8e8;
 
 // Font sizes
 $megaHeadline: 2.2em;
@@ -119,6 +121,9 @@ $sourceCodeProRegular: 'Source Code Pro';
 // Styles should apply to both the horizontal and vertical nav.
 
 // Generic Styles
+body{
+  background: $lighterGray;
+}
 code, kbd, samp, pre {
   font-family: $sourceCodeProRegular;
   @include setPointSize($code);
@@ -173,6 +178,7 @@ textarea {
     color: $lightGray;
     border: 1px solid $lightGray;
     padding: 3px;
+    margin: 0 0 0 10px;
     clear: both;
   }
   .featured-posts {
@@ -208,7 +214,7 @@ textarea {
       display: block;
     }
     .highlight {
-      background: $lighterGray;
+      background: $subtleGray;
       padding: 10px;
       border-radius: 3px;
       color: $lightGray;
@@ -245,7 +251,7 @@ textarea {
       }
     }
     table {
-      background: $lighterGray;
+      background: $subtleGray;
       margin: 20px 0 20px 0;
       thead {
         th {
@@ -255,7 +261,7 @@ textarea {
       }
       tr {
         padding: 4px 0 4px 0;
-        border-bottom: 1px solid $lightBackground;
+        border-bottom: 1px solid $darkerGray;
         td {
           padding: 10px;
         }
@@ -263,6 +269,13 @@ textarea {
     }
     .footnotes {
       @include setPointSize($caption);
+    }
+  }
+  .trampoline {
+    .trampoline-header {
+      padding: 0 0 10px 0;
+      margin: 10px 0 20px 0;
+      border-bottom: 1px solid $subtleGray;
     }
   }
 }

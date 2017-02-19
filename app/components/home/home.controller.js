@@ -1,5 +1,5 @@
 class HomeController {
-    constructor($scope, PostService, NavbarService) {
+    constructor($scope, PostService) {
         let pagerDefaults = {
             page: 1,
             pageSize: 20
@@ -10,7 +10,6 @@ class HomeController {
         $scope.heroPost = {};
         $scope.mastheadImage = {};
 
-        this.navItems = NavbarService.getNavItems('home');
         PostService.getPostsByTagName('Featured')
             .then(function (posts) {
                 $scope.featuredPosts = posts.data.docs;

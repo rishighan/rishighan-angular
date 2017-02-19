@@ -26,7 +26,7 @@ module.exports = angular.module('rgApp', [
             suffix: '.json'
         });
         $translateProvider.preferredLanguage('en_US');
-        $translateProvider.useSanitizeValueStrategy(null);
+        $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
         $analyticsProvider.virtualPageviews(false);
     })
     .run(function ($rootScope, $location, $state, AuthenticationService) {

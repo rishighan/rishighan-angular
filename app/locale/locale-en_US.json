@@ -1,58 +1,55 @@
 {
-    "main.debug.button": "Debug",
+  "main.debug.button": "Debug",
 
-    "admin.posts.header": "Posts",
-    "admin.drafts.header": "Drafts",
+  "admin.posts.header": "Posts",
+  "admin.drafts.header": "Drafts",
+  "admin.edit_posts.header": "Editing",
+  "admin.add_new_posts.header": "Write Something",
+  "admin.search_posts.placeholder": "Search Posts",
+  "admin.drag_and_drop.message": "Drag and Drop files here or Click to Upload",
+  "admin.file_added_success.message": "File Added Successfully",
+  "admin.file_deleted_success.message": "File Deleted Successfully",
+  "admin.save_publish_post.button": "Save and Publish",
+  "admin.save_as_draft.button": "Save as Draft",
+  "admin.unmark_draft.button": "Unmark Draft",
+  "admin.save_changes.button": "Save Changes",
+  "admin.delete_post.button": "Delete Post",
+  "admin.success_edit.message": "Changes Saved Successfully",
+  "admin.success_create_post.message": "New Post Created Successfully",
+  "admin.success_create_draft.message": "Draft Created Successfully",
+  "admin.error_create_post.message": "Error Creating Post",
+  "admin.autosave_success.message": "Autosaved Changes",
+  "admin.post_deleted_success.message": "Post Deleted Successfully",
 
-    "admin.edit_posts.header": "Editing",
-    "admin.add_new_posts.header": "Write Something",
-    "admin.search_posts.placeholder": "Search Posts",
+  "admin.login.header": "Login",
+  "admin.logged_in_as.status": "Logged in as",
+  "admin.login.button": "Sign In",
+  "admin.login_success.message": "Successfully Logged In",
+  "admin.register.header": "Register a New User",
+  "admin.register.button": "Sign Up",
+  "admin.register_success.message": "Created a New User",
+  "admin.user_logged_in.status": "Logged In As",
+  "admin.user_logged_out.status": "Logged Out",
 
-    "admin.drag_and_drop.message": "Drag and Drop files here or Click to Upload",
-    "admin.file_added_success.message": "File Added Successfully",
-    "admin.file_deleted_success.message": "File Deleted Successfully",
-    "admin.save_publish_post.button": "Save and Publish",
-    "admin.save_as_draft.button": "Save as Draft",
-    "admin.unmark_draft.button": "Unmark Draft",
-    "admin.save_changes.button": "Save Changes",
-    "admin.delete_post.button": "Delete Post",
+  "main.donate_patreon.message": "Please consider supporting me on Patreon",
 
-    "admin.success_edit.message": "Changes Saved Successfully",
-    "admin.success_create_post.message": "New Post Created Successfully",
-    "admin.success_create_draft.message": "Draft Created Successfully",
-    "admin.error_create_post.message": "Error Creating Post",
-    "admin.autosave_success.message": "Autosaved Changes",
-    "admin.post_deleted_success.message": "Post Deleted Successfully",
+  "home.trending_posts.heading": "Trending Posts",
+  "home.featured_posts.heading": "Featured Posts",
+  "home.posts_series.heading": "{{tagname}} Series",
 
-    "admin.login.header": "Login",
-    "admin.logged_in_as.status": "Logged in as",
-    "admin.login.button": "Sign In",
-    "admin.login_success.message": "Successfully Logged In",
+  "trampoline.disavowed_posts.header": "Trampoline",
+  "trampoline.disclaimer_text.message": "All content published here reflects my personal opinion and not my employer's.",
 
-    "admin.register.header": "Register a New User",
-    "admin.register.button": "Sign Up",
-    "admin.register_success.message": "Created a New User",
+  "colophon.job_title.fragment": "Javascript Developer",
+  "colophon.current_employer.fragment": "Yodle, Inc.",
+  "colophon.author_name.fragment": "Rishi Ghan",
 
-    "admin.user_logged_in.status": "Logged In As",
-    "admin.user_logged_out.status": "Logged Out",
+  "work.selected_work.header": "Selected Work",
 
-    "main.donate_patreon.message": "Please consider supporting me on Patreon",
+  "footer.copyright_symbol.fragment": "&copy;",
+  "footer.copyright_years.fragment": "2014-2018",
+  "footer.copyright_message.fragment": "All Content is copyright",
 
-    "home.trending_posts.heading": "Trending Posts",
-    "home.featured_posts.heading": "Featured Posts",
-    "home.posts_series.heading": "{{tagname}} Series",
-
-    "colophon.job_title.fragment": "Javascript Developer",
-    "colophon.current_employer.fragment": "Yodle, Inc.",
-    "colophon.author_name.fragment": "Rishi Ghan",
-
-    "work.selected_work.header": "Selected Work",
-
-    "footer.copyright_years.fragment": "2017-18",
-    "footer.copyright_message.fragment": "All Rights Reserved",
-
-    "illustrations.order_prints.button": "Order Prints",
-    "illustrations.contact_for_prints.button": "Contact Me for Prints"
-
-
+  "illustrations.order_prints.button": "Order Prints",
+  "illustrations.contact_for_prints.button": "Contact Me for Prints"
 }

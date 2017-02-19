@@ -12,16 +12,14 @@
                     <input placeholder="{{'admin.search_posts.placeholder' | translate }}" ng-model="searchTerm"
                            ng-change="search(pagerDefaults.page, pagerDefaults.pageSize)" class="col-md-8"/>
                 </div>
+                <div paging
+                     class="small col-md-12"
+                     page="pagerDefaults.page"
+                     page-size="pagerDefaults.pageSize"
+                     total="posts.total"
+                     paging-action="getMore(page, pageSize)">
+                </div>
                 <ul class="col-md-8">
-                    <div paging
-                         class="small"
-                         page="pagerDefaults.page"
-                         page-size="pagerDefaults.pageSize"
-                         total="posts.total"
-                         paging-action="getMore(page, pageSize)">
-                    </div>
-
-
                     <li ng-repeat="post in posts.docs track by $index">
                         <h3><a ui-sref="edit({id: post._id})">{{post.title}}</a></h3>
                         <h4>{{post.excerpt}}</h4>

@@ -2,9 +2,7 @@ import PostService from '../post/post.service';
 
 class IllustrationController {
     constructor($scope,
-                NavbarService,
                 PostService) {
-        this.navItems = NavbarService.getNavItems('home');
         $scope.posts = {};
         $scope.illustration = {};
         $scope.illustrationsPromise = PostService.getPostsByTagName('Illustrations')
