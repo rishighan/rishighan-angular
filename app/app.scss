@@ -150,6 +150,10 @@ textarea {
     @include font-smoothing(off);
     font-family: $proximaRegular;
 
+    h1{
+      font-family: $proximaLightRegular;
+      color: $bodyCopyLight;
+    }
     a {
       color: $link;
       text-decoration: none;
@@ -161,8 +165,10 @@ textarea {
     }
   }
   .project {
-    background: $lightBackground;
+    margin: 10px 0 20px 0;
+    font-family: $proximaLightRegular;
   }
+
   .patreon-message {
     color: $lightGray;
     border: 1px solid $lightGray;
@@ -196,12 +202,16 @@ textarea {
     .published-date {
       color: #CCC;
     }
-
+    .caption {
+      margin: 3px 0 20px 0;
+      clear: both;
+      display: block;
+    }
     .highlight {
       background: $lighterGray;
       padding: 10px;
       border-radius: 3px;
-     color: $lightGray;
+      color: $lightGray;
       line-height: 1.3em;
       font-family: $proximaLightRegular;
       @include setPointSize($headline);
@@ -265,8 +275,9 @@ textarea {
     list-style: none;
   }
 
-  h4{
+  h4 {
     line-height: 1.4em;
+    margin: 0px;
   }
 
   label {
@@ -285,6 +296,12 @@ textarea {
     border: 1px solid $lightBackground;
     border-radius: 3px;
     padding: 5px;
+  }
+
+  .caption {
+    margin: 3px 0 20px 0;
+    clear: both;
+    display: block;
   }
 
   .label {
