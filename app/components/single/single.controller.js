@@ -2,10 +2,8 @@ import PostService from '../post/post.service';
 
 function SingleController($scope,
                           $stateParams,
-                          NavbarService,
                           PostService) {
     $scope.post = {};
-    this.navItems = NavbarService.getNavItems('home');
     $scope.jsonLd = {};
     $scope.heroImage = '';
     $scope.postPromise = PostService.getPost($stateParams.id, $stateParams.slug)
@@ -28,7 +26,7 @@ function SingleController($scope,
             };
             $scope.heroImage = _.where($scope.post.data[0].attachment, {isHero: true});
 
-        }, function(error){
+        }, function (error) {
             $scope.heroImage = {};
         });
 

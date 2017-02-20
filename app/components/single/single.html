@@ -2,13 +2,6 @@
 <div ng-if="heroImage[0].name!== ''">
     <masthead masthead-image="{{heroImage[0].name}}"></masthead>
 </div>
-<div class="container" cg-busy="{promise: postPromise, message: 'Loading', backdrop: true}">
-    <div class="body row">
-        <div class="col-md-2">
-            <navbar menu-items="sc.navItems" orientation="vertical" logo="true"></navbar>
-        </div>
-        <div class="col-md-9" ng-class="heroImage.length !== 0 ? 'post-offset' : 'post-no-offset'">
-            <post post-data="post.data" kind="single"></post>
-        </div>
-    </div>
+<div class="col-md-9" ng-class="heroImage.length !== 0 ? 'post-offset' : 'post-no-offset'">
+    <post post-data="post.data" kind="single"></post>
 </div>
