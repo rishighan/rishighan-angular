@@ -1,14 +1,13 @@
-import FormlyDataService from "../../shared/utils/formlydata.service";
+import FormlyDataService from "../../../shared/utils/formlydata.service";
 import _ from "underscore";
-import dropzonePreviewTemplate from './dropzone/dropzone-preview.html';
+import dropzonePreviewTemplate from '../dropzone/dropzone-preview.html';
 
-class AdminController {
+class CreatePostController {
     constructor($scope,
                 $state,
                 $compile,
                 $translate,
                 PostService,
-                NavbarService,
                 formlyValidationMessages,
                 FriendlyUrlService,
                 DomHelperService,
@@ -20,7 +19,6 @@ class AdminController {
         };
 
         // admin nav
-        this.navItems = NavbarService.getNavItems('admin');
         const FILE_UPLOAD_URL = "/api/files/upload";
         // todo: should come from a service
         const testData = [{
@@ -165,4 +163,4 @@ class AdminController {
 }
 
 export
-default AdminController;
+default CreatePostController;

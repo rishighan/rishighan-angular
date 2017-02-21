@@ -47,8 +47,8 @@
   "work.selected_work.header": "Selected Work",
 
   "footer.copyright_symbol.fragment": "&copy;",
-  "footer.copyright_years.fragment": "2014-2018",
-  "footer.copyright_message.fragment": "All Content is copyright",
+  "footer.copyright_years.fragment": "{{yearsRange}}",
+  "footer.copyright_message.fragment": "All Content is copyright of {{authorName}}",
 
   "illustrations.order_prints.button": "Order Prints",
   "illustrations.contact_for_prints.button": "Contact Me for Prints"

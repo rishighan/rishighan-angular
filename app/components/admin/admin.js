@@ -1,6 +1,8 @@
-import adminComponent from "./admin.component";
+import createPostComponent from "./create/create.post.component";
 import allPostsComponent from "./posts/allposts.component";
 import editPostComponent from "./edit/edit.post.component";
+import createTemplate from './create/create.post.html';
+import adminLayout from './admin.layout.html';
 import ngSanitize from "angular-sanitize";
 import formlyBootstrap from "angular-formly-templates-bootstrap";
 import ngMessages from "angular-messages";
@@ -29,23 +31,29 @@ let adminModule = angular.module('admin', [
     .config(($stateProvider, $urlRouterProvider) => {
         $stateProvider
             .state('admin', {
+                abstract: true,
                 url: '/admin',
-                template: '<admin></admin>',
+                template: adminLayout
+            })
+
+            .state('admin.create', {
+                url: '/create',
+                template: createTemplate,
                 access: {restricted: true}
             })
-            .state('posts', {
-                url: '/admin/posts',
+            .state('admin.posts', {
+                url: '/posts',
                 template: '<allposts></allposts>',
                 access: {restricted: true}
             })
-            .state('edit', {
-                url: '/admin/post/edit/:id',
+            .state('admin.edit', {
+                url: '/edit/:id',
                 template: '<editpost></editpost>',
                 access: {restricted: true}
             });
     })
 
-    .directive('admin', adminComponent)
+    .directive('createpost', createPostComponent)
     .directive('allposts', allPostsComponent)
     .directive('editpost', editPostComponent)
 
