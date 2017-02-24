@@ -5,7 +5,7 @@ let workModule = angular.module('work', [
 ])
     .config(($stateProvider) => {
         $stateProvider
-            .state('project', {
+            .state('main.project', {
                 url: '/work/:slug',
                 template: '<single></single>',
                 params: {id: undefined},

@@ -3,23 +3,23 @@ class NavbarService {
         this.navItems = [
             {
                 displayName: "Home",
-                stateReference: "home"
+                stateReference: "main.home"
             },
             {
                 displayName: "Work",
-                stateReference: "work"
+                stateReference: "main.work"
             },
             {
                 displayName: "Trampoline",
-                stateReference: "trampoline"
+                stateReference: "main.trampoline"
             },
             {
                 displayName: "Illustrations",
-                stateReference: "illustrations"
+                stateReference: "main.illustrations"
             },
             {
                 displayName: "Colophon",
-                stateReference: "colophon"
+                stateReference: "main.colophon"
             }
         ];
         this.adminNavItems = [
