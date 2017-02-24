@@ -32,11 +32,9 @@ let adminModule = angular.module('admin', [
             .state('admin',{
                 url: '/admin',
                 abstract: true,
-                templateUrl: './components/admin/sudi.html',
+                templateUrl: './components/admin/admin.layout.html',
                 controller: AdminController,
                 controllerAs: 'adc'
-                // template: '<admin></admin>'
-
             })
             .state('admin.create', {
                 url: '/create',

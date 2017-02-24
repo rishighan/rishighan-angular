@@ -10,6 +10,7 @@ let authenticationModule = angular.module('authentication', [])
                 url: '/login',
                 templateUrl: 'components/authentication/partials/login.html',
                 controller: LoginController,
+                params: {redirectedTo: 'admin.posts'},
                 access: {restricted: false}
             })
             .state('register', {
@@ -23,7 +24,7 @@ let authenticationModule = angular.module('authentication', [])
             .state('logout', {
                 url: '/logout',
                 controller: LogoutController,
-                params: {redirectTo: 'home'},
+                params: {redirectTo: 'main.home'},
                 access: {restricted: true}
             });
     })

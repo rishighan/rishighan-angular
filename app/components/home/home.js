@@ -14,32 +14,30 @@ let homeModule = angular.module('home', [
     $stateProvider
         .state('main', {
             abstract: true,
-            templateUrl: './components/home/main.html'
-            // template: '<ui-view/>'
+            templateUrl: './components/home/main.layout.html'
         })
         .state('main.home', {
             url: '/home',
-            // templateUrl: './components/home/main.home.html',
             template: '<home></home>',
             access: {restricted: false}
         })
-        .state('single',{
+        .state('main.single',{
             url: '/post/:slug',
             params: {id: undefined},
             template: '<single></single>',
             access: {restricted: false}
         })
-        .state('work', {
+        .state('main.work', {
             url: '/work',
             template: '<work></work>',
             access: {restricted: false}
         })
-        .state('trampoline', {
+        .state('main.trampoline', {
             url: '/trampoline',
             template: '<trampoline></trampoline>',
             access: {restricted: false}
         })
-        .state('illustrations', {
+        .state('main.illustrations', {
             url: '/illustrations',
             template: '<illustrations></illustrations>',
             access: {restricted: false}
