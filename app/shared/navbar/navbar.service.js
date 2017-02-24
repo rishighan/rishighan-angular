@@ -25,15 +25,15 @@ class NavbarService {
         this.adminNavItems = [
             {
                 displayName: "Write",
-                stateReference: 'admin'
+                stateReference: 'admin.create'
             },
             {
                 displayName: "Browse",
-                stateReference: 'posts'
+                stateReference: 'admin.posts'
             },
             {
                 displayName: "Export Posts",
-                stateReference: 'export'
+                stateReference: 'admin.export'
 
             }];
     }
@@ -43,6 +43,7 @@ class NavbarService {
             return this.navItems;
         }
         else if (!_.isEmpty(this.adminNavItems) && type.toLowerCase() === 'admin') {
+            console.log("here");
             return this.adminNavItems;
         }
     }

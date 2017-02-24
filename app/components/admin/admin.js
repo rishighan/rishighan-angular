@@ -1,8 +1,7 @@
 import createPostComponent from "./create/create.post.component";
 import allPostsComponent from "./posts/allposts.component";
 import editPostComponent from "./edit/edit.post.component";
-import createTemplate from './create/create.post.html';
-import adminLayout from './admin.layout.html';
+import AdminController from './admin.controller';
 import ngSanitize from "angular-sanitize";
 import formlyBootstrap from "angular-formly-templates-bootstrap";
 import ngMessages from "angular-messages";
@@ -30,16 +29,19 @@ let adminModule = angular.module('admin', [
 
     .config(($stateProvider, $urlRouterProvider) => {
         $stateProvider
-            .state('admin', {
-                abstract: true,
+            .state('admin',{
                 url: '/admin',
-                template: adminLayout
-            })
+                abstract: true,
+                templateUrl: './components/admin/sudi.html',
+                controller: AdminController,
+                controllerAs: 'adc'
+                // template: '<admin></admin>'
 
+            })
             .state('admin.create', {
                 url: '/create',
-                template: createTemplate,
-                access: {restricted: true}
+                template: '<createpost></createpost>',
+                access: {restricted: false}
             })
             .state('admin.posts', {
                 url: '/posts',
@@ -56,7 +58,6 @@ let adminModule = angular.module('admin', [
     .directive('createpost', createPostComponent)
     .directive('allposts', allPostsComponent)
     .directive('editpost', editPostComponent)
-
     .directive('dropzone', function () {
         return function (scope, element, attrs) {
             var config, dropzone;

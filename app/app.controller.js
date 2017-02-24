@@ -1,8 +1,7 @@
 class AppController {
     constructor($scope,
-                NavbarService){
+                NavbarService) {
         this.navItems = NavbarService.getNavItems('Home');
-
     }
 }
 

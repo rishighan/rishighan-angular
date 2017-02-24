@@ -17,8 +17,6 @@ class EditPostController {
                 ngNotify) {
 
         const ASSETS_FOLDER = '/assets/images/';
-        // admin nav
-        $scope.navItems = NavbarService.getNavItems('admin');
 
         // form model
         $scope.post = {};

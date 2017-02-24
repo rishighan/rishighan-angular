@@ -1,4 +1,4 @@
-import template from './allposts.html';
+import template from './admin.posts.html';
 import controller from './allposts.controller';
 
 

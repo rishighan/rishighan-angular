@@ -1,4 +1,4 @@
-import template from './create.post.html';
+import template from './admin.create.html';
 import controller from './create.post.controller';
 
 let createPostComponent = function(){

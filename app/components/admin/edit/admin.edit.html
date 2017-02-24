@@ -1,29 +1,37 @@
-<navbar menu-items="newpostc.navItems" orientation="horizontal" logo="false"></navbar>
-<div id="notification"></div>
-<div class="container admin">
-    <div class="row">
-        <div class="col-md-10">
-            <header>
-                <h2>{{'admin.add_new_posts.header' | translate}}</h2>
-            </header>
+<div class="row">
+    <div class="col-md-10">
+        <header>
+            <div ng-if="autosaveStatus" class="full-circle"></div>
+            <h2 style="float:left;">{{'admin.edit_posts.header' | translate}} {{post[0].title}}</h2>
+        </header>
+
+        <section>
             <form name="form" novalidate enctype="multipart/form-data">
-                <formly-form model="postFormModel" fields="postFormFields" form="form" class="admin">
+                <formly-form model="post[0]" fields="postFormFields" form="form" class="admin">
                     <div dropzone="dropzoneConfig" class="well clearfix margin20">
-                        <span class="clearfix"><h5>{{'admin.drag_and_drop.message' | translate }}</h5></span>
+                        <span class="clearfix">{{'admin.drag_and_drop.message' | translate }}</span>
                     </div>
                     <div class="margin20">
-                        <button class="btn btn-primary" type="submit" ng-click="createPost()"
-                                ng-disabled="form.$invalid">{{ 'admin.save_publish_post.button' | translate }}
+                        <button class="btn btn-danger" type="submit" ng-click="deletePost(post)"
+                                ng-disabled="form.$invalid">
+                            {{'admin.delete_post.button' | translate }}
                         </button>
-                        <button class="btn btn-primary" type="submit" ng-click="createPost(true)"
-                                ng-disabled="form.$invalid">{{ 'admin.save_as_draft.button' | translate }}
+                        <button class="btn btn-primary pull-right" type="submit" ng-click="updatePost(post)"
+                                ng-disabled="form.$invalid || form.$pristine">{{'admin.save_changes.button' |translate
+                            }}
+                        </button>
+                        <button class="btn btn-default" type="submit" ng-click="updatePost(post, true)"
+                                ng-if="!post[0].is_draft" ng-disabled="form.$invalid">
+                            {{'admin.save_as_draft.button' | translate }}
+                        </button>
+                        <button class="btn btn-default" type="submit" ng-click="updatePost(post, false)"
+                                ng-if="post[0].is_draft" ng-disabled="form.$invalid">
+                            {{'admin.unmark_draft.button' | translate }}
                         </button>
                     </div>
                 </formly-form>
             </form>
-            <p>
-            <pre>{{postFormModel | json}}</pre>
-            </p>
+            <pre>{{post | json}}</pre>
             <script type="text/ng-template" id="ui-select-multiple.html">
                 <div class="row">
                     <div class="col-md-6 form-group">
@@ -43,7 +51,6 @@
                     </div>
                 </div>
             </script>
-
             <script type="text/ng-template" id="error-messages.html">
                 <formly-transclude></formly-transclude>
                 <div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">
@@ -54,28 +61,26 @@
                 </div>
             </script>
 
-
             <script type="text/ng-template" id="textarea.tpl.html">
-                <ul class="nav nav-tabs col-md-10 col-xs-12">
+                <ul class="nav nav-tabs {{options.templateOptions.className}}">
                     <li class="active"><a href="#home" data-toggle="tab">{{options.templateOptions.label}}</a></li>
                     <li><a href="#md-preview" data-toggle="tab">Markdown Preview</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active fade in" id="home">
                         <div>
-                            <textarea class="{{options.templateOptions.className}}"
-                                      rows="{{options.templateOptions.rows}}" ng-model="model[options.key]"> </textarea>
+                                <textarea class="{{options.templateOptions.className}}"
+                                          rows="{{options.templateOptions.rows}}"
+                                          ng-model="model[options.key]"> </textarea>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="md-preview">
-                        <div class="row">
-                            <div markdown data="model[options.key]" class="col-md-8"></div>
+                        <div class="{{options.templateOptions.className}} margin20">
+                            <div markdown data="model[options.key]"></div>
                         </div>
                     </div>
                 </div>
             </script>
-
-
-        </div>
+        </section>
     </div>
 </div>

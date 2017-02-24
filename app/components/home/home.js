@@ -12,8 +12,14 @@ let homeModule = angular.module('home', [
 .config(($stateProvider, $urlRouterProvider) => {
     $urlRouterProvider.otherwise('/');
     $stateProvider
-        .state('home', {
-            url: '/',
+        .state('main', {
+            abstract: true,
+            templateUrl: './components/home/main.html'
+            // template: '<ui-view/>'
+        })
+        .state('main.home', {
+            url: '/home',
+            // templateUrl: './components/home/main.home.html',
             template: '<home></home>',
             access: {restricted: false}
         })

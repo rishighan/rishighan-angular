@@ -1,4 +1,4 @@
-import template from './home.html';
+import template from './main.home.html';
 import controller from './home.controller.js';
 
 let homeComponent = function(){

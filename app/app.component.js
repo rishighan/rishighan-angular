@@ -1,5 +1,5 @@
 import controller from './app.controller';
-import template from './app.html';
+import template from './components/admin/admin.html';
 
 let AppComponent = () => {
   return{

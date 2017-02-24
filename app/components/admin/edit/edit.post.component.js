@@ -1,6 +1,5 @@
-import template from "./editpost.html";
+import template from "./admin.edit.html";
 import controller from "./edit.post.controller";
-
 
 let editPostComponent = function () {
     return {
