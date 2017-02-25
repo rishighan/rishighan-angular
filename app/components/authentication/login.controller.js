@@ -12,7 +12,6 @@ class LoginController {
         $scope.login = function () {
             AuthenticationService.login($scope.loginForm.username, $scope.loginForm.password)
                 .then(function () {
-                    console.log(redirectTo);
                     $state.go(redirectTo).then(function () {
                         ngNotify.set($translate.instant('admin.login_success.message'), {
                             type: "success",

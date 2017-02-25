@@ -10,7 +10,7 @@ let authenticationModule = angular.module('authentication', [])
                 url: '/login',
                 templateUrl: 'components/authentication/partials/login.html',
                 controller: LoginController,
-                params: {redirectedTo: 'admin.posts'},
+                params: {redirectTo: 'admin.posts'},
                 access: {restricted: false}
             })
             .state('register', {

@@ -2,7 +2,7 @@ class NavbarController {
     constructor($scope, $state, $stateParams, AuthenticationService) {
         this._authService = AuthenticationService;
         this._$state = $state;
-        this.redirectTo = 'home';
+        this.redirectTo = 'main.home';
         $scope.details = '';
         this._authService.getUserStatus().then(function(data){
            $scope.details = data;

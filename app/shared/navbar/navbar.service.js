@@ -32,7 +32,7 @@ class NavbarService {
                 stateReference: 'admin.posts'
             },
             {
-                displayName: "Export Posts",
+                displayName: "Export Data",
                 stateReference: 'admin.export'
 
             }];
@@ -43,7 +43,6 @@ class NavbarService {
             return this.navItems;
         }
         else if (!_.isEmpty(this.adminNavItems) && type.toLowerCase() === 'admin') {
-            console.log("here");
             return this.adminNavItems;
         }
     }
