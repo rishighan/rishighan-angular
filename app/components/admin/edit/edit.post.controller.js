@@ -9,7 +9,6 @@ class EditPostController {
                 $state,
                 $timeout,
                 $stateParams,
-                NavbarService,
                 PostService,
                 FriendlyUrlService,
                 DomHelperService,
@@ -59,7 +58,7 @@ class EditPostController {
                                 _dropzoneInstance.options.addedfile.call(_dropzoneInstance, mockFile);
                                 _dropzoneInstance.createThumbnailFromUrl(mockFile, ASSETS_FOLDER + mockFile.name);
                                 $compile($(mockFile.previewTemplate))($scope);
-                                if(postData[0].attachment[index].isHero){
+                                if (postData[0].attachment[index].isHero) {
                                     var heroCheckbox = mockFile.previewTemplate.querySelector('.hero-checkbox');
                                     heroCheckbox.checked = true;
                                 }
@@ -95,7 +94,7 @@ class EditPostController {
                 },
                 removedfile: function (file) {
                     // find what to delete
-                    var fileToDelete = '';
+                    let fileToDelete = '';
                     if (!_.isUndefined(file.customData)) {
                         fileToDelete = file.customData.fileName;
                     } else {
@@ -149,7 +148,12 @@ class EditPostController {
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
                 .then(function (result) {
                     //todo flash alert
-                    $state.go('posts');
+                    $state.go('admin.posts')
+                        .then(function () {
+                            ngNotify.set($translate.instant('admin.success_edit.message'), {
+                                type: "success"
+                            });
+                        });
                 });
         };
 
@@ -166,11 +170,12 @@ class EditPostController {
             $q.all(promises).then(function () {
                 PostService.deletePost(post[0]._id)
                     .then(function () {
-                        $state.go('posts').then(function () {
-                            ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
-                                type: "success"
+                        $state.go('admin.posts')
+                            .then(function () {
+                                ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
+                                    type: "success"
+                                });
                             });
-                        });
                     }, function (error) {
                         console.log(error);
                     });

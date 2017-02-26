@@ -130,7 +130,7 @@ class CreatePostController {
             }
             $scope.postFormModel.slug = FriendlyUrlService.createSlug($scope.postFormModel.title);
             PostService.createPost($scope.postFormModel).then(function () {
-                $state.go('posts').then(function () {
+                $state.go('admin.posts').then(function () {
                     if ($scope.postFormModel.isDraft) {
                         ngNotify.set($translate.instant('admin.success_create_draft.message'), {
                             type: "success"

@@ -4,7 +4,6 @@ class HomeController {
             page: 1,
             pageSize: 20
         };
-        $scope.posts = {};
         $scope.blogPosts = {};
         $scope.featuredPosts = {};
         $scope.heroPost = {};

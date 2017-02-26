@@ -121,9 +121,10 @@ $sourceCodeProRegular: 'Source Code Pro';
 // Styles should apply to both the horizontal and vertical nav.
 
 // Generic Styles
-body{
+body {
   background: $lighterGray;
 }
+
 code, kbd, samp, pre {
   font-family: $sourceCodeProRegular;
   @include setPointSize($code);
@@ -155,7 +156,7 @@ textarea {
     @include font-smoothing(off);
     font-family: $proximaRegular;
 
-    h1{
+    h1 {
       font-family: $proximaLightRegular;
       color: $bodyCopyLight;
     }
@@ -209,8 +210,11 @@ textarea {
       color: #CCC;
     }
     .caption {
-      margin: 3px 0 20px 0;
+      margin: 0px 0 20px 0;
       clear: both;
+      @include setPointSize($tinyCaption);
+      padding: 5px 0 0 0;
+      line-height: 1.4em;
       display: block;
     }
     .highlight {

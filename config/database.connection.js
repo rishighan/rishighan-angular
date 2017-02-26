@@ -10,7 +10,6 @@ module.exports = {
                 }
             }
         };
-        // var shoo = mongoose.createConnection(dbConfig.db);
         mongoose.connect('mongodb://localhost/rishighan');
         var db = mongoose.connection;
         db.on('error', function(err) {

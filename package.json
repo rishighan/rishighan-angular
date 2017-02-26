@@ -43,6 +43,7 @@
     "jasmine": "^2.3.2",
     "jshint": "^2.8.0",
     "jshint-loader": "^0.8.3",
+    "migrate-mongoose": "^3.2.1",
     "mongoose": "^4.1.9",
     "mongoose-paginate": "^5.0.3",
     "multer": "^1.1.0",
