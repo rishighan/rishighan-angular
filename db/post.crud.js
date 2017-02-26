@@ -1,43 +1,10 @@
 let mongoose = require('mongoose');
-let mongoosePaginate = require('mongoose-paginate');
-let Schema = mongoose.Schema;
 let Q = require('q');
 let _ = require('underscore');
-
-var PostSchema = new Schema({
-    title: String,
-    slug: String,
-    tags: [{
-        id: String,
-        name: String
-    }],
-    date_created: Date,
-    date_updated: Date,
-    attachment: [{
-        name: String,
-        isHero: Boolean,
-        size: Number,
-        date_created: Date,
-        date_updated: Date
-
-    }],
-    is_draft: Boolean,
-    content: String,
-    excerpt: String,
-});
+let PostSchema = require('./post.schema');
+let mongoosePaginate = require('mongoose-paginate');
 
 PostSchema.plugin(mongoosePaginate);
-//indices
-PostSchema.index({
-    date_created: -1,
-    date_updated: -1,
-    title: "text",
-    content: "text",
-    excerpt: "text"
-}, {
-    collation: {locale: "en", strength: 2}
-});
-PostSchema.set('autoIndex', false);
 
 // create
 PostSchema.statics.createPost = function (data) {
