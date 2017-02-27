@@ -13,4 +13,4 @@ RUN npm i -g bower  && \
 EXPOSE 3000
 
 # This starts the app
-CMD["node", "server.js"]
+CMD ["node", "server.js"]
