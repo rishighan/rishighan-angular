@@ -3,6 +3,7 @@ node_modules
 npm-debug.log
 .tmp
 .idea
+rishighan-angular.iml
 *.iml
 .DS_Store
 key.json
