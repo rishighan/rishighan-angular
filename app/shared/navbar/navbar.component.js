@@ -1,6 +1,6 @@
 import template from './navbar.html';
 import controller from './navbar.controller.js';
-import navbarStyles from './navbar.scss';
+require('./navbar.scss');
 
 let navbarComponent = function(){
   return{

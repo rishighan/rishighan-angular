@@ -11,3 +11,4 @@ key.json
 *.p12
 *.docx
 dist/*
+db/dump

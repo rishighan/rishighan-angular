@@ -2,12 +2,18 @@ db:
   image: mongo
   ports:
     - "27017:27017"
+  volumes_from:
+    - mongodata
   command: "--smallfiles --logpath=/dev/null"
+mongodata:
+  image: tianon/true
+  volumes:
+    - /data/db
 web:
   build: .
-  command: node app.js
+  command: node server.js
   volumes:
-    - .:/myapp
+    - .:/usr/src/rishighan
   ports:
     - "3000:3000"
   links:
