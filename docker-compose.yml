@@ -1,3 +1,4 @@
+# find a way to seed the mongo db
 db:
   image: mongo
   ports:
