@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - '0.12.7'
 sudo: required
-before_script:
+install:
   - npm i
   - npm i bower -g
   - bower install

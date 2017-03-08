@@ -1,8 +1,8 @@
 {
     "framework": ["jasmine2"],
     "src_files": [
-        "node_modules/polyfill-function-prototype-bind/bind.js",
         "bower_components/angular/angular.js",
+        "node_modules/polyfill-function-prototype-bind/bind.js",
         "bower_components/angular-ui-router/release/angular-ui-router.js",
         "bower_components/angular-mocks/angular-mocks.js",
         "dist/rgapp.js",
