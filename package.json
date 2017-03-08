@@ -7,8 +7,7 @@
     "dev": "webpack-dev-server --content-base app/ --hot --inline",
     "start": "webpack -w --debug --devtool eval --output-pathinfo",
     "local-dev": "node server.js",
-    "testlocal": "testem",
-    "testci": "testem ci",
+    "test": "testem ci",
     "pretest:func": "npm i && ./bin/webdriver-manager update",
     "test:func": "./bin/protractor tests/functional/protractor.config.js"
   },

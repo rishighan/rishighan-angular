@@ -7,6 +7,6 @@ before_script:
   - npm i bower -g
   - bower install
 script:
-  - testem ci
+  - npm test
 notifications:
   slack: runawayunicorns:Rb8Q5qVgP2cLjaLBVPv3o7S1#random
