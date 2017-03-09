@@ -12,8 +12,8 @@ var BOWER_COMPONENTS_PATH = path.resolve(__dirname + '/bower_components/');
 module.exports = {
     context: APP,
     entry: {
-        rgapp: './core/bootstrap.js'
-        // test:'../tests/specs.js'
+        rgapp: './core/bootstrap.js',
+        test:'../tests/specs.js'
     },
     output: {
         path: BUILD,

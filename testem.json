@@ -5,9 +5,10 @@
         "node_modules/polyfill-function-prototype-bind/bind.js",
         "bower_components/angular-ui-router/release/angular-ui-router.js",
         "bower_components/angular-mocks/angular-mocks.js",
-        "dist/rgapp.js",
-        "tests/unit/**/*.js"
+        "dist/rgapp.js"
     ],
+    "serve_files": ["test-bundle.js"],
+    "before_tests": "webpack --config ./tests/webpack.test.config.js",
     "debug": true,
     "launch_in_dev": ["PhantomJS", "Chrome"],
     "launch_in_ci": ["PhantomJS"]
