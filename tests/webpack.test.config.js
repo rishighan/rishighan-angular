@@ -1,5 +1,5 @@
 module.exports = {
-    entry: './tests/unit/analyticsService.spec.js',
+    entry: './tests/*.js',
     output: {
         path: __dirname,
         filename: 'test-bundle.js'

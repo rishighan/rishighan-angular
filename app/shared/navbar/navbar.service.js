@@ -3,7 +3,7 @@ class NavbarService {
         this.navItems = [
             {
                 displayName: "Home",
-                stateReference: "main.home"
+                stateReference: "/"
             },
             {
                 displayName: "Work",

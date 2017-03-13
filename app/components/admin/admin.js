@@ -28,6 +28,7 @@ let adminModule = angular.module('admin', [
 ])
 
     .config(($stateProvider, $urlRouterProvider) => {
+        //todo: Figure out how to land user on the login page for /admin 
         $stateProvider
             .state('admin',{
                 url: '/admin',

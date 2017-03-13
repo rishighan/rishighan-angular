@@ -24,7 +24,7 @@ let authenticationModule = angular.module('authentication', [])
             .state('logout', {
                 url: '/logout',
                 controller: LogoutController,
-                params: {redirectTo: 'main.home'},
+                params: {redirectTo: '/'},
                 access: {restricted: true}
             });
     })

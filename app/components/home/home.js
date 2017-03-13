@@ -16,8 +16,9 @@ let homeModule = angular.module('home', [
             abstract: true,
             templateUrl: './components/home/main.layout.html'
         })
-        .state('main.home', {
-            url: '/home',
+        .state('/', {
+            url: '/',
+            parent: 'main',
             template: '<home></home>',
             access: {restricted: false}
         })
