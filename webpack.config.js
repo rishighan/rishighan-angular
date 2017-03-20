@@ -1,13 +1,12 @@
 // Renuka Devi Prasanna
 // Webpack config
 
-var webpack = require('webpack');
-var path = require('path');
+let webpack = require('webpack');
+let path = require('path');
 
-var APP = path.resolve(__dirname + '/app/');
-var BUILD = path.resolve(__dirname + '/dist/');
-var NODE_MODULES_PATH = path.resolve(__dirname + '/node_modules/');
-var BOWER_COMPONENTS_PATH = path.resolve(__dirname + '/bower_components/');
+let APP = path.resolve(__dirname + '/app/');
+let BUILD = path.resolve(__dirname + '/dist/');
+let BOWER_COMPONENTS_PATH = path.resolve(__dirname + '/bower_components/');
 
 module.exports = {
     context: APP,
@@ -21,55 +20,52 @@ module.exports = {
     // process.NODE.ENV === 'production';
     module: {
         // devtool
-        devtool: 'eval',
-
-        // preloaders
-        preLoaders: [{
+        // devtool: 'eval',
+        rules: [
+        {
             test: /\.js$/,
+            enforce: "pre",
             exclude: /node_modules|tests|bower_components/,
-            loader: 'jshint-loader'
-        }],
-
-        loaders: [{
+            use: 'jshint-loader'
+        },
+        {
             test: /\.css$/,
-            loader: "style-loader!css-loader"
+            use: ["style-loader", "css-loader"]
         }, {
             test: /\.(png|woff|ttf|eot|woff2|svg)$/,
-            loader: 'url-loader?limit=100000'
+            use: 'url-loader?limit=100000'
         }, {
             test: /\.scss$/,
-            loaders: ["style",
-                "css",
-                "resolve-url",
-                "sass?includePaths[]=" + BUILD + '/assets/css/'
+            use: ["style-loader",
+                "css-loader",
+                "resolve-url-loader",
+                "sass-loader?includePaths[]=" + BUILD + '/assets/css/'
             ]
         }, {
             test: /\.js$/,
-            loader: 'ng-annotate!babel!jshint',
+            use: ["ng-annotate-loader",
+                "babel-loader",
+                "jshint-loader"],
             exclude: /node_modules|tests|bower_components/
         }, {
             test: /\.html$/,
-            loader: 'html-loader'
+            use: 'html-loader'
         }, {
             include: require.resolve(BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js"),
-            loader: 'exports?"ui.select"'
+            use: 'exports-loader?"ui.select"'
         }, {
             include: require.resolve(BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js'),
-            loader: 'exports?"ngNotify"'
+            use: 'exports-loader?"ngNotify"'
         }, {
             include: require.resolve(BOWER_COMPONENTS_PATH + '/angulartics/dist/angulartics.min.js'),
-            loader: 'exports?angulartics'
+            use: 'exports-loader?angulartics'
         }, {
             include: require.resolve(BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js'),
-            loader: 'exports?"angulartics.google.analytics"'
+            use: 'exports-loader?"angulartics.google.analytics"'
         }]
     },
-    resolveLoader: {
-        fallback: NODE_MODULES_PATH
-    },
     resolve: {
-        root: [],
-        extensions: ["", ".js", ".jsx", ".node"],
+        extensions: [".js", ".jsx", ".node"],
         alias: {
             "angular": BOWER_COMPONENTS_PATH + '/angular/angular.min.js',
             "angular-ui-router": BOWER_COMPONENTS_PATH + '/angular-ui-router/release/angular-ui-router.min.js',
@@ -100,7 +96,7 @@ module.exports = {
             "ng-paging": BOWER_COMPONENTS_PATH + '/angular-paging/dist/paging.min.js'
 
         },
-        modulesDirectories: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
+        modules: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
     plugins: [
         new webpack.ProvidePlugin({

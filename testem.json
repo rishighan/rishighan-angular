@@ -1,17 +1,8 @@
+
+
+
 {
-  "framework": [
-    "jasmine2"
-  ],
-  "serve_files": [
-    "./tests/test-bundle.js"
-  ],
-  "before_tests": "webpack --config ./tests/webpack.test.config.js",
-  "debug": true,
-  "launch_in_dev": [
-    "PhantomJS",
-    "Chrome"
-  ],
-  "launch_in_ci": [
-    "PhantomJS"
-  ]
+  "framework": "jasmine2",
+  "src_files": ["build/test.js"],
+  "launch_in_dev": [ "chrome" ]
 }
