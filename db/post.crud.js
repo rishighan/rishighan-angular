@@ -1,6 +1,5 @@
 let mongoose = require('mongoose');
 let Q = require('q');
-let _ = require('underscore');
 let PostSchema = require('./post.schema');
 let mongoosePaginate = require('mongoose-paginate');
 

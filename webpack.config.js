@@ -79,7 +79,6 @@ module.exports = {
             "pascalprecht.translate": BOWER_COMPONENTS_PATH + "/angular-translate/angular-translate.js",
             "translate.static.file.loader": BOWER_COMPONENTS_PATH + '/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
             "ngMessages": BOWER_COMPONENTS_PATH + '/angular-messages/angular-messages.min.js',
-            "ngSanitize": BOWER_COMPONENTS_PATH + '/angular-sanitize/angular-sanitize.min.js',
             "angular-formly-templates-bootstrap": BOWER_COMPONENTS_PATH + '/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
             "angular-formly": BOWER_COMPONENTS_PATH + '/angular-formly/dist/formly.min.js',
             "ng-notify": BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js',

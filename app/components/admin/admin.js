@@ -2,7 +2,6 @@ import createPostComponent from "./create/create.post.component";
 import allPostsComponent from "./posts/allposts.component";
 import editPostComponent from "./edit/edit.post.component";
 import AdminController from './admin.controller';
-import ngSanitize from "angular-sanitize";
 import formlyBootstrap from "angular-formly-templates-bootstrap";
 import ngMessages from "angular-messages";
 import formly from "angular-formly";
@@ -10,6 +9,7 @@ const uiselect = require('ui-select');
 const Dropzone = require('dropzone');
 const ngNotify = require("ng-notify");
 require('ng-paging');
+require('../../../bower_components/angular-sanitize/angular-sanitize.min');
 require('github.css');
 require('bootstrap.css');
 require('bootstrap');
@@ -19,16 +19,16 @@ require('ngNotify.css');
 let adminModule = angular.module('admin', [
     'ui.router',
     'bw.paging',
+    'ngSanitize',
     formly,
     formlyBootstrap,
     ngMessages,
-    ngSanitize,
     uiselect,
-    ngNotify,
+    ngNotify
 ])
 
     .config(($stateProvider, $urlRouterProvider) => {
-        //todo: Figure out how to land user on the login page for /admin 
+        //todo: Figure out how to land user on the login page for /admin
         $stateProvider
             .state('admin',{
                 url: '/admin',

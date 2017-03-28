@@ -27,8 +27,8 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.5.8",
-    "angular-sanitize": "^1.5.8",
+    "angular": "#1.5.8",
+    "angular-sanitize": "#1.5.8",
     "angular-messages": "#1.5.8",
     "angular-ui-router": "ui-router#~0.3.1",
     "ui-select": "angular-ui-select#~0.13.2",

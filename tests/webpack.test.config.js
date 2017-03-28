@@ -3,7 +3,7 @@ let path = require('path');
 
 module.exports = {
     entry: {
-        test: [path.join(__dirname, 'webpack.test.bootstrap.js')]
+        test: path.join(__dirname, 'webpack.test.bootstrap.js')
     },
 
     output: {
@@ -12,18 +12,18 @@ module.exports = {
     },
 
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.jsx?$/,
+                test: /\.*.spec.js$/,
                 exclude: /node_modules/,
-                loader: 'babel'
+                use: 'babel-loader'
             }
         ]
     },
 
     resolve: {
-        extensions: ['', '.js', '.jsx'],
-        modulesDirectories: ['src', 'node_modules']
+        extensions: ['.js', '.jsx'],
+        modules: ['src', 'node_modules']
     },
 
     node: {
