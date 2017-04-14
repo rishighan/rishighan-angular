@@ -10,5 +10,6 @@ key.json
 *.pem
 *.p12
 *.docx
-dist/*
+dist/*.svg
+dist/*.ttf
 db/dump
