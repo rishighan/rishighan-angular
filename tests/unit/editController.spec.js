@@ -31,7 +31,7 @@ describe("Edit Post Controller Tests ", function () {
         "excerpt": "aqsdasd"
     };
 
-    beforeEach(window.module('app.components'));
+    beforeEach(module('app.components'));
     beforeEach(function($controller){
         inject(function (_$compile_, $rootScope, $q, $timeout, _PostService_) {
             $compile = _$compile_;

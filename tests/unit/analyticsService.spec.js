@@ -1,7 +1,7 @@
 "use strict";
 describe('AnalyticsService Tests', function() {
     var analyticsService;
-    beforeEach(window.module('app.shared'));
+    beforeEach(module('app.shared'));
 
     beforeEach(inject(function(_AnalyticsService_) {
         analyticsService = _AnalyticsService_;

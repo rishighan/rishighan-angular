@@ -7,7 +7,7 @@ describe('FriendlyUrlService Service Tests', function() {
     crazyTitle = '*!@#!@#!@$_A-Series*} -&% {+_!@#of&unfortunate#events_!@@#!@#';
 
     beforeEach(function(){
-        angular.mock.module('app.shared');
+        module('app.shared');
     });
     beforeEach(inject(function(_FriendlyUrlService_) {
         underTest = _FriendlyUrlService_;
