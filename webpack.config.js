@@ -22,47 +22,47 @@ module.exports = {
         // devtool
         // devtool: 'eval',
         rules: [
-        {
-            test: /\.js$/,
-            enforce: "pre",
-            exclude: /node_modules|tests|bower_components/,
-            use: 'jshint-loader'
-        },
-        {
-            test: /\.css$/,
-            use: ["style-loader", "css-loader"]
-        }, {
-            test: /\.(png|woff|ttf|eot|woff2|svg)$/,
-            use: 'url-loader?limit=100000'
-        }, {
-            test: /\.scss$/,
-            use: ["style-loader",
-                "css-loader",
-                "resolve-url-loader",
-                "sass-loader?includePaths[]=" + BUILD + '/assets/css/'
-            ]
-        }, {
-            test: /\.js$/,
-            use: ["ng-annotate-loader",
-                "babel-loader",
-                "jshint-loader"],
-            exclude: /node_modules|tests|bower_components/
-        }, {
-            test: /\.html$/,
-            use: 'html-loader'
-        }, {
-            include: require.resolve(BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js"),
-            use: 'exports-loader?"ui.select"'
-        }, {
-            include: require.resolve(BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js'),
-            use: 'exports-loader?"ngNotify"'
-        }, {
-            include: require.resolve(BOWER_COMPONENTS_PATH + '/angulartics/dist/angulartics.min.js'),
-            use: 'exports-loader?angulartics'
-        }, {
-            include: require.resolve(BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js'),
-            use: 'exports-loader?"angulartics.google.analytics"'
-        }]
+            {
+                test: /\.js$/,
+                enforce: "pre",
+                exclude: /node_modules|tests|bower_components/,
+                use: 'jshint-loader'
+            },
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"]
+            }, {
+                test: /\.(png|woff|ttf|eot|woff2|svg)$/,
+                use: 'url-loader?limit=100000'
+            }, {
+                test: /\.scss$/,
+                use: ["style-loader",
+                    "css-loader",
+                    "resolve-url-loader",
+                    "sass-loader?includePaths[]=" + BUILD + '/assets/css/'
+                ]
+            }, {
+                test: /\.js$/,
+                use: ["ng-annotate-loader",
+                    "babel-loader",
+                    "jshint-loader"],
+                exclude: /(node_modules|test|bower_components|\.spec\.js)/
+            }, {
+                test: /\.html$/,
+                use: 'html-loader'
+            }, {
+                include: require.resolve(BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js"),
+                use: 'exports-loader?"ui.select"'
+            }, {
+                include: require.resolve(BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js'),
+                use: 'exports-loader?"ngNotify"'
+            }, {
+                include: require.resolve(BOWER_COMPONENTS_PATH + '/angulartics/dist/angulartics.min.js'),
+                use: 'exports-loader?angulartics'
+            }, {
+                include: require.resolve(BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js'),
+                use: 'exports-loader?"angulartics.google.analytics"'
+            }]
     },
     resolve: {
         extensions: [".js", ".jsx", ".node"],

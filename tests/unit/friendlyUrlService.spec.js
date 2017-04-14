@@ -6,7 +6,9 @@ describe('FriendlyUrlService Service Tests', function() {
     preHyphenatedTitle = 'rumble-in-the-bronx';
     crazyTitle = '*!@#!@#!@$_A-Series*} -&% {+_!@#of&unfortunate#events_!@@#!@#';
 
-    beforeEach(window.module('app.shared'));
+    beforeEach(function(){
+        angular.mock.module('app.shared');
+    });
     beforeEach(inject(function(_FriendlyUrlService_) {
         underTest = _FriendlyUrlService_;
     }));

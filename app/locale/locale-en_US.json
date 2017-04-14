@@ -48,7 +48,7 @@
 
   "footer.copyright_symbol.fragment": "&copy;",
   "footer.copyright_years.fragment": "{{startYear}}-{{endYear}}",
-  "footer.copyright_message.fragment": "All Content is copyright of {{authorName}}",
+  "footer.copyright_message.fragment": "All content is copyright of Rishi Ghan",
 
   "illustrations.order_prints.button": "Order Prints",
   "illustrations.contact_for_prints.button": "Contact Me for Prints"
