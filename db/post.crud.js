@@ -121,7 +121,7 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
                 slug: updates.slug,
                 tags: updates.tags,
                 date_created: updates.date_created,
-                date_modified: new Date(),
+                date_updated: new Date(),
                 attachment: updates.attachment,
                 is_draft: updates.is_draft,
                 content: updates.content,

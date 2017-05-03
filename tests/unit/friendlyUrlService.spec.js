@@ -31,5 +31,5 @@ describe('FriendlyUrlService Service Tests', function() {
     it('Given a sentence with a combination of special characters then it returns a correctly formatted slug', function(){
         var expected = 'a-series-of-unfortunate-events';
         expect(underTest.createSlug(crazyTitle)).toEqual(expected);
-    })
+    });
 });
