@@ -1,3 +1,4 @@
+//todo: create a node microservice
 let mongoose = require('mongoose');
 let Q = require('q');
 let PostSchema = require('./post.schema');
