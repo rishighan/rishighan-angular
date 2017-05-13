@@ -2,3 +2,5 @@
 
 # rishighan.com
 Personal website on AngularJS and mongodb
+
+Build and deployment through Gitlab and Stackahoy
