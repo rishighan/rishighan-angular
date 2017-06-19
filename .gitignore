@@ -4,10 +4,12 @@ npm-debug.log
 .tmp
 .idea
 rishighan-angular.iml
+aws.env
 *.iml
 .DS_Store
 *.pem
 *.p12
+*.aes
 *.docx
 dist/*.svg
 dist/*.ttf
