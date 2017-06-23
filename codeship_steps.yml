@@ -1,0 +1,6 @@
+# codeship-steps.yml
+- type: push
+  service: app
+  registry: https://034201676830.dkr.ecr.us-east-1.amazonaws.com
+  image_name:  034201676830.dkr.ecr.us-east-1.amazonaws.com/rishighan/rishighanapp
+  dockercfg_service: aws_generator
