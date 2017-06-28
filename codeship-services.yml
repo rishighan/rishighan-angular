@@ -1,9 +1,0 @@
-app:
-  build:
-    image: 034201676830.dkr.ecr.us-east-1.amazonaws.com/rishighan/rishighanapp
-    dockerfile_path: ./Dockerfile
-  dockercfg_service: aws_generator
-  cached: true
-aws_generator:
-  image: codeship/aws-ecr-dockrcfg-generator
-  encrypted_env_file: aws.env.encrypted
