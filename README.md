@@ -1,6 +1,6 @@
 # rishighan.com
 
-[ ![Codeship Status for rishighan/rishighan-angular](https://circleci.com/gh/:owner/:repo.png?circle-token=:circle-token)](https://circleci.com/gh/:owner/:repo.png?circle-token=:circle-token)
+[![CircleCI](https://circleci.com/gh/rishighan/rishighan-angular/tree/master.svg?style=svg)](https://circleci.com/gh/rishighan/rishighan-angular/tree/master)
 
 Personal website on AngularJS and mongodb
 
