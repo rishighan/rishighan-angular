@@ -6,7 +6,7 @@ jobs:
     docker:
       - image: circleci/node:6
       - image: mongo:3.2.9
-      - image: mongodata/tianon
+      - image: tianon
     steps:
       - checkout
       - run: echo "hello world"
