@@ -1,9 +1,12 @@
 version: 2
 jobs:
   build:
+    machine: false
     working_directory: ~/rishighan-angular
     docker:
       - image: circleci/node:6
+      - image: mongo:3.2.9
+      - image: mongodata/tianon
     steps:
       - checkout
       - run: echo "hello world"
