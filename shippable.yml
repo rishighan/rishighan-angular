@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - 6.7.0
+branches:
+  only:
+      master
+build:
+  ci:
+    - shippable_retry npm i
+    - npm test
