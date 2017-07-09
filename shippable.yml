@@ -7,4 +7,5 @@ branches:
 build:
   ci:
     - shippable_retry npm i
+    - bower i
     - npm test
