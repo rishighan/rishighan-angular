@@ -1,23 +1,24 @@
 # find a way to seed the mongo db
-db:
-  image: mongo
-  ports:
-    - "27017:27017"
-  volumes_from:
-    - mongodata
-  command: "--smallfiles --logpath=/dev/null"
-mongodata:
-  image: tianon/true
-  volumes:
-    - /data/db
-web:
-  build: .
-  command: node server.js
-  volumes:
-    - .:/usr/src/rishighan
-  ports:
-    - "3000:3000"
-  links:
-    - db
-  environment:
-    PORT: 3000 # this is optional, allows express to use process.env.PORT instead of a raw 3000
+version: '2'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+  mongo-seed:
+    build:
+      context: ./
+      dockerfile: mongo-seed/Dockerfile
+    depends_on:
+      - mongodb
+  web:
+    build: .
+    command: node server.js
+    volumes:
+      - .:/usr/src/rishighan
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      PORT: 3000 # this is optional, allows express to use process.env.PORT instead of a raw 3000

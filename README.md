@@ -1,6 +1,6 @@
 # rishighan.com
 
-[![CircleCI](https://circleci.com/gh/rishighan/rishighan-angular/tree/master.svg?style=svg)](https://circleci.com/gh/rishighan/rishighan-angular/tree/master)
+[![Run Status](https://api.shippable.com/projects/5952dfb44bce2607003af5f0/badge?branch=master)](https://app.shippable.com/github/rishighan/rishighan-angular)
 
 Personal website on AngularJS and mongodb
 
