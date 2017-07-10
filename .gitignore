@@ -14,4 +14,3 @@ key.json
 *.docx
 dist/*.svg
 dist/*.ttf
-db/dump
