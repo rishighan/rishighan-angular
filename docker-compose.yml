@@ -2,15 +2,9 @@
 version: '3.2'
 services:
   mongodb:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-  mongo-seed:
     build:
       context: ./
       dockerfile: mongo-seed/Dockerfile
-    links:
-      - mongodb
   web:
     build: .
     command: node server.js
