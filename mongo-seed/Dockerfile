@@ -1,6 +1,7 @@
-FROM mongo
-RUN mkdir /dump
+FROM mongo:latest
 
-COPY db/dump /dump
-ENTRYPOINT mongod
-CMD mongorestore --host rishighanangular_mongodb_1 --drop -d rishighan /dump/rishighan
+COPY db/dump /home/dump
+COPY mongo-seed/mongo.sh /home/mongo.sh
+RUN chmod 777 /home/mongo.sh
+
+CMD /home/mongo.sh
