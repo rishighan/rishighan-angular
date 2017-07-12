@@ -7,7 +7,6 @@ rishighan-angular.iml
 aws.env
 *.iml
 .DS_Store
-key.json
 *.pem
 *.p12
 *.aes
