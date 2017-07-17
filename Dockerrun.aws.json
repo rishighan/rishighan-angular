@@ -1,12 +1,12 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "abhijitkini/sample_node_eb_docker:nativeEBDeployment",
+    "Name": "frishi/rishighanangular_web:nativeEBDeployment",
     "Update": "true"
   },
   "Ports": [
     {
-      "ContainerPort": "80"
+      "ContainerPort": "3000"
     }
   ],
   "Volumes": [
