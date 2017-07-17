@@ -6,6 +6,7 @@ WORKDIR /usr/src/rishighan
 
 COPY package.json /usr/src/rishighan
 COPY bower.json /usr/src/rishighan
+
 #Install dependencies
 RUN npm i -g bower  && \
     npm i  && \
