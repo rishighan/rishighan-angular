@@ -17,4 +17,4 @@ COPY . /usr/src/rishighan
 EXPOSE 3000
 
 # This starts the app
-CMD ["npm run", "server.js"]
+CMD ["node", "server.js"]

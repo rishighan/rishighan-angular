@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "frishi/rishighanangular_web:latest",
+    "Name": "frishi/rishighanangular_web:nativeEBDeployment",
     "Update": "true"
   },
   "Ports": [
