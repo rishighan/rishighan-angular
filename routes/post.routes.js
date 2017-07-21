@@ -3,7 +3,7 @@ const router = express.Router();
 const Post = require('../db/post.crud.js');
 
 router.post('/createpost', function (req, res, next) {
-    var promise = Post.createPost(req.body);
+    let promise = Post.createPost(req.body);
     promise.then(function (data) {
         res.send(data);
     })
@@ -13,7 +13,7 @@ router.post('/createpost', function (req, res, next) {
 
 // todo: enable find by slug
 router.get('/getallposts', function (req, res, next) {
-    var promise = Post.getAllPosts(req.query.pageOffset, req.query.pageSize);
+    let promise = Post.getAllPosts(req.query.pageOffset, req.query.pageSize);
     promise.then(function (data) {
         res.send(data);
     })
@@ -22,7 +22,7 @@ router.get('/getallposts', function (req, res, next) {
 });
 
 router.get('/getpostsbytagname', function(req, res, next){
-   var promise = Post.getPostsByTagName(req.query.tag, req.query.pageOffset, req.query.pageLimit);
+   let promise = Post.getPostsByTagName(req.query.tag, req.query.pageOffset, req.query.pageLimit);
    promise.then(function(data){
      res.send(data);
    })
@@ -31,7 +31,7 @@ router.get('/getpostsbytagname', function(req, res, next){
 });
 
 router.get('/getpost', function (req, res, next) {
-    var promise = Post.getPost(req.query.id, req.query.slug);
+    let promise = Post.getPost(req.query.id, req.query.slug);
     promise.then(function (post) {
         res.send(post);
     })
@@ -40,7 +40,7 @@ router.get('/getpost', function (req, res, next) {
 });
 
 router.post('/searchpost', function (req, res, next) {
-    var promise = Post.searchPost(req.body.params.searchText, req.body.params.pageOffset, req.body.params.pageLimit);
+    let promise = Post.searchPost(req.body.params.searchText, req.body.params.pageOffset, req.body.params.pageLimit);
     promise.then(function (result) {
         res.send(result);
     })
@@ -49,7 +49,7 @@ router.post('/searchpost', function (req, res, next) {
 });
 
 router.post('/updatepost/:id', function (req, res, next) {
-    var promise = Post.updatePost(req.params.id, req.body, req.params.upsertToggle);
+    let promise = Post.updatePost(req.params.id, req.body, req.params.upsertToggle);
     promise.then(function (result) {
         res.send(result);
     })
@@ -58,7 +58,7 @@ router.post('/updatepost/:id', function (req, res, next) {
 });
 
 router.post('/deletepost', function (req, res, next) {
-    var promise = Post.deletePost(req.body.params.post_id);
+    let promise = Post.deletePost(req.body.params.post_id);
     promise.then(function (result) {
         res.send(result);
     })

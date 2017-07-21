@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+const dockerHost = 'rishighanangular_mongodb_1:27017';
 // connect to the database
 module.exports = {
     connect: function () {
@@ -10,13 +10,15 @@ module.exports = {
                 }
             }
         };
-        console.log(process.env);
         let MONGO_DB;
-        let DOCKER_DB = process.env.RISHIGHANANGULAR_DB_1_PORT;
+        let DOCKER_DB = process.env.DB_PORT;
+        console.log(process.env);
+        console.log("mongo db", MONGO_DB);
+        console.log("docker db", DOCKER_DB);
         if (DOCKER_DB) {
-            MONGO_DB = DOCKER_DB.replace('tcp', 'mongodb') + '/rishighan';
+            MONGO_DB = 'mongodb://' + dockerHost + '/rishighan';
         } else {
-            MONGO_DB = 'mongodb://rishighanangular_mongodb_1:27017/rishighan';
+            MONGO_DB = 'mongodb://localhost/rishighan';
         }
 
         mongoose.connect(MONGO_DB);

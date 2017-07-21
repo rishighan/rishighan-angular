@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Here we go"
+echo "Seeding Data..."
 # Initialize a mongo data folder and logfile
 mkdir -p /data/db
 touch /var/log/mongodb.log
