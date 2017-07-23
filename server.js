@@ -76,7 +76,7 @@ app.use(function (req, res, next) {
 });
 
 // Start Server on 3000
-app.listen(3000, function () {
+app.listen(process.env.PORT, function () {
     console.log("Server listening on port 3000");
 });
 
