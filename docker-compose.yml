@@ -7,7 +7,7 @@ services:
       dockerfile: mongo-seed/Dockerfile
   web:
     build: .
-    command: node ./server/www
+    command: node server.js
     volumes:
       - .:/usr/src/rishighan
     ports:

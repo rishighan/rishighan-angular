@@ -1,6 +1,5 @@
-FROM node:6
+FROM node:7
 RUN mkdir -p /usr/src/rishighan
-RUN npm i nodemon -g
 
 WORKDIR /usr/src/rishighan
 
@@ -12,9 +11,11 @@ RUN npm i -g bower  && \
     npm i  && \
     bower i --config.interactive=false --allow-root
 
+RUN npm rebuild node-sass
+
 
 COPY . /usr/src/rishighan
 EXPOSE 3000
 
 # This starts the app
-ENTRYPOINT ["npm", "start"]
+CMD npm start

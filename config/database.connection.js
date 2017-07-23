@@ -18,7 +18,7 @@ module.exports = {
         if (DOCKER_DB) {
             MONGO_DB = 'mongodb://' + dockerHost + '/rishighan';
         } else {
-            MONGO_DB = 'mongodb://localhost/rishighan';
+            MONGO_DB = 'mongodb://rishighanangular_mongodb_1:27017/rishighan';
         }
 
         mongoose.connect(MONGO_DB);
