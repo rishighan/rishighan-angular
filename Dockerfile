@@ -15,7 +15,7 @@ RUN npm rebuild node-sass
 
 
 COPY . /usr/src/rishighan
-EXPOSE 3000
+EXPOSE 80
 
 # This starts the app
 CMD npm start
