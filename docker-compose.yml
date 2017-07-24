@@ -11,7 +11,7 @@ services:
     volumes:
       - .:/usr/src/rishighan
     ports:
-      - "3000"
+      - "3000:3000"
     links:
       - mongodb
     environment:
