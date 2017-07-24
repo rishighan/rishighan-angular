@@ -11,8 +11,8 @@ services:
     volumes:
       - .:/usr/src/rishighan
     ports:
-      - "80:80"
+      - "3000"
     links:
       - mongodb
     environment:
-      PORT: 80 # this is optional, allows express to use process.env.PORT instead of a raw 3000
+      PORT: 3000 # this is optional, allows express to use process.env.PORT instead of a raw 3000

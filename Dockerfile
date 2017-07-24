@@ -11,11 +11,9 @@ RUN npm i -g bower  && \
     npm i  && \
     bower i --config.interactive=false --allow-root
 
-RUN npm rebuild node-sass
-
 
 COPY . /usr/src/rishighan
-EXPOSE 80
+EXPOSE 3000
 
 # This starts the app
 CMD npm start
