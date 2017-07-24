@@ -76,7 +76,7 @@ app.use(function (req, res, next) {
 });
 
 // Start Server on 3000
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 80;
 app.listen(port, function () {
     console.log("Server listening on port ", port);
 });
