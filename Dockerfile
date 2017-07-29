@@ -15,4 +15,4 @@ COPY . /usr/src/rishighan
 
 # This starts the app
 CMD npm start
-EXPOSE 3000
+EXPOSE 8080
