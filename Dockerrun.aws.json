@@ -1,14 +1,54 @@
 {
-  "AWSEBDockerrunVersion": "1",
-  "Image": {
-    "Name": "frishi/rishighanangular_web:nativeEBDeployment",
-    "Update": "true"
-  },
-  "Ports": [
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
     {
-      "ContainerPort": "30"
+      "name": "nodejs-app",
+      "host": {
+        "sourcePath": "/var/app/current/"
+      }
+    },
+    {
+      "name": "mongo-seed",
+      "host": {
+        "sourcePath": "/var/app/current/mongo-seed"
+      }
     }
   ],
-  "Volumes": [
+  "containerDefinitions": [
+    {
+      "name": "nodejs-app",
+      "image": "frishi/rishighanangular_web",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ],
+      "command": [
+        "sh -c; /usr/local/bin/npm start"
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "nodejs-app",
+          "containerPath": "/usr/src/rishighan"
+        }
+      ],
+      "links": [
+        "mongo-seed:rishighanangular_mongodb_1"
+      ]
+    },
+    {
+      "name": "mongo-seed",
+      "image": "rameshmimit/mongo-seed",
+      "essential": true,
+      "memory": 256,
+      "portMappings": [
+        {
+          "containerPort": 27017
+        }
+      ]
+    }
   ]
 }
