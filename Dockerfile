@@ -1,4 +1,4 @@
-FROM node:7
+FROM node:7.10
 RUN mkdir -p /usr/src/rishighan
 
 WORKDIR /usr/src/rishighan
@@ -14,5 +14,5 @@ RUN npm i -g bower  && \
 COPY . /usr/src/rishighan
 
 # This starts the app
-CMD npm start
+ENTRYPOINT npm start
 EXPOSE 8080

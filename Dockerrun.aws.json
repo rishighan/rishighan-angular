@@ -26,14 +26,9 @@
           "containerPort": 8080
         }
       ],
+      "workingDirectory": "/usr/src/rishighan",
       "command": [
-        "sh -c; /usr/local/bin/npm start"
-      ],
-      "mountPoints": [
-        {
-          "sourceVolume": "nodejs-app",
-          "containerPath": "/usr/src/rishighan"
-        }
+        "npm", "start"
       ],
       "links": [
         "mongo-seed:rishighanangular_mongodb_1"
@@ -41,7 +36,7 @@
     },
     {
       "name": "mongo-seed",
-      "image": "rameshmimit/mongo-seed",
+      "image": "frishi/rishighanangular_mongodb",
       "essential": true,
       "memory": 256,
       "portMappings": [
