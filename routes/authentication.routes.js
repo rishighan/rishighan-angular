@@ -1,7 +1,7 @@
 const passport = require('passport');
 const express = require('express');
 const router = express.Router();
-const User = require('../db/user.schema');
+const User = require('../mongo-seed/db/user.schema');
 
 router.post('/register', function (req, res) {
     User.register(new User({username: req.body.username}),

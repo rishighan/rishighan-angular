@@ -10,7 +10,7 @@ let webpack = require('webpack');
 let config = require('./webpack.config.js');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
-const User = require('./db/user.schema');
+const User = require('./mongo-seed/db/user.schema');
 
 // db 
 let mongoose = require('mongoose');

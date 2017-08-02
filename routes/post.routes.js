@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Post = require('../db/post.crud.js');
+const Post = require('../mongo-seed/db/post.crud.js');
 
 router.post('/createpost', function (req, res, next) {
     let promise = Post.createPost(req.body);
