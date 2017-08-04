@@ -17,7 +17,7 @@
   "containerDefinitions": [
     {
       "name": "nodejs-app",
-      "image": "frishi/rishighanangular_web",
+      "image": "<IMAGE_NAME>:<TAG>",
       "essential": true,
       "memory": 128,
       "portMappings": [
