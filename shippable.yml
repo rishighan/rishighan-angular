@@ -1,16 +1,33 @@
+# Language settings
 language: node_js
 node_js:
   - 6.7.0
 branches:
   only:
-      master
+    master
 build:
   ci:
+    - echo 'CI is running'
     - shippable_retry npm i
-post_ci:
-  - echo "$SHIPPABLE_BUILD_DIR"
-  - echo "$SHIPPABLE_REPO_DIR"
-  - if [ $IS_PULL_REQUEST == "false" ] ; then BUCKETKEY="$DEPLOYNODECLUSTERBASICAPPFILE_NAME.tar.gz"; fi;
-  - if [ $IS_PULL_REQUEST == "false" ] ; then pushd $SHIPPABLE_REPO_DIR && tar cfz /tmp/$BUCKETKEY . && popd; fi;
-  - if [ $IS_PULL_REQUEST == "false" ] ; then pushd /tmp && aws s3 cp $BUCKETKEY s3://$BUCKETNAME/ --acl public-read && popd; fi;
-  - if [ $IS_PULL_REQUEST == "false" ] ; then echo "versionName=$COMMIT" > $JOB_STATE/deploy-nodecluster-basic-appfile.env; fi;
+
+  post_ci:
+      # DockerHub
+      - docker build -t="frishi/rishighanangular_web:$BRANCH.$BUILD_NUMBER" .
+      - docker push frishi/rishighanangular_web:$BRANCH.$BUILD_NUMBER
+      # Addresses botocore version mismatch errors
+      - pip install --upgrade botocore
+
+integrations:
+  deploy:
+    # AWS Integration to deploy Docker image
+    - integrationName: "rg-aws-integration"
+      type: aws
+      application_name: "rishighan-angular"
+      env_name: "rishighan-angular-dev"
+      region: "us-east-1"
+      image_name: "frishi/rishighanangular_web"
+      image_tag: "$BRANCH.$BUILD_NUMBER"
+
+  hub:
+    - integrationName: "rg-dockerhub-integration"
+      type: docker
