@@ -11,24 +11,24 @@ To spin up a local instance,
 + In the terminal, run `docker-compose up`. This will spin up the frontend and the server.
 + Access `http://localhost` in the browser.
 
-###Local Development
+### Local Development
 + `npm i`
 + `bower i`
 + Make sure your node version is at least 7
 + `npm start` starts the backend on port `8080`
 + `npm run frontend` starts the frontend
 
-###Unit Tests
+### Unit Tests
 
 From the root, first install all dependencies:
 
 + `npm test` or `testem ci`
 
-###Docker Images
+### Docker Images
 
 To build each of the images, 
 + Node.js and Angular app
-  + From the project root `docker build -t frishi/rishighanangular_web:latest .`
+  + In project root, run `docker build -t frishi/rishighanangular_web:latest .`
   + Then push it to Docker Hub with `docker push frishi/rishighanangular_web:latest`
 + MongoDB Seed
   + From the project root `docker build -f mongo-seed/Dockerfile -t frishi/rishighanangular_mongodb:latest .`
@@ -36,7 +36,7 @@ To build each of the images,
 
 The `docker-compose` command is tested for `Docker v17.03.1-ce-rc1`.
 
-###Deployment
+### Deployment
 
 Continuous Deployment is done through Shippable to Amazon's Elastic Beanstalk.
 
