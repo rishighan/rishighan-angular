@@ -12,7 +12,6 @@ module.exports = {
         };
         let MONGO_DB;
         let DOCKER_DB = process.env.DB_PORT;
-        console.log(process.env);
         console.log("mongo db", MONGO_DB);
         console.log("docker db", DOCKER_DB);
         if (DOCKER_DB) {

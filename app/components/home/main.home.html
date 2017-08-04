@@ -13,7 +13,7 @@
             </li>
         </ul>
         <div ng-repeat="post in blogPosts track by $index" class="post">
-            <div ng-if="isTag(post.tags, 'highlight')" class="highlight">
+            <div ng-if="isTag(post.tags, 'highlight')" class="highlight clearboth">
                 {{::post.content}}
                 <span class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy"}}</span>
             </div>
