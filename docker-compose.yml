@@ -16,3 +16,4 @@ services:
       - mongodb
     environment:
       PORT: 8080 # this is optional, allows express to use process.env.PORT instead of a raw 3000
+      DOCKER_MONGO_HOST:

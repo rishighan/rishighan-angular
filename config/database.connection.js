@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
-const dockerHost = 'rishighanangular_mongodb_1:27017';
 // connect to the database
+let DB_PORT = '27017';
+let DB_NAME = 'rishighan';
 module.exports = {
     connect: function () {
         var options = {
@@ -11,17 +12,16 @@ module.exports = {
             }
         };
         let MONGO_DB;
-        let DOCKER_DB = process.env.DB_PORT;
-        console.log("mongo db", MONGO_DB);
-        console.log("docker db", DOCKER_DB);
-        if (DOCKER_DB) {
-            MONGO_DB = 'mongodb://' + dockerHost + '/rishighan';
+        console.log("local mongo db", process.env.MONGO_HOST);
+        console.log("docker db", process.env.DOCKER_MONGO_HOST);
+        if (process.env.DOCKER_MONGO_HOST) {
+            MONGO_DB = 'mongodb://'+ process.env.DOCKER_MONGO_HOST + ':' + DB_PORT + '/' + DB_NAME;
         } else {
-            MONGO_DB = 'mongodb://rishighanangular_mongodb_1:27017/rishighan';
+            MONGO_DB = 'mongodb://'+ process.env.MONGO_HOST + ':' + DB_PORT + '/' + DB_NAME;
         }
 
         mongoose.connect(MONGO_DB);
-        var db = mongoose.connection;
+        let db = mongoose.connection;
         db.on('error', function (err) {
             console.log('Connection Error', err);
         });

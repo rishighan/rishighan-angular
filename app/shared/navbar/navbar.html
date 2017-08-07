@@ -3,8 +3,12 @@
         <div class="sprite sprite-logo"></div>
     </li>
     <li ng-repeat="item in nv.menuItems track by $index">
-        <a href="{{item.link}}" ui-sref="{{item.stateReference}}" analytics-on="click"
-           analytics-event="Navigate to {{item.displayName}}" analytics-category="whatever">{{item.displayName}}</a>
+        <a href="{{item.link}}"
+           class="nav-items"
+           ui-sref="{{item.stateReference}}"
+           analytics-on="click"
+           analytics-event="Navigate to {{item.displayName}}"
+           analytics-category="whatever">{{item.displayName}}</a>
     </li>
     <li ng-if="nv.isLoggedIn()">
         <span>

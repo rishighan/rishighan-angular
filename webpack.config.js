@@ -20,7 +20,7 @@ module.exports = {
     // process.NODE.ENV === 'production';
     module: {
         // devtool
-        // devtool: 'eval',
+        // devtool: 'source-map',
         rules: [
             {
                 test: /\.js$/,
@@ -51,7 +51,7 @@ module.exports = {
                 test: /\.html$/,
                 use: 'html-loader'
             }, {
-                include: require.resolve(BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js"),
+                include: require.resolve(BOWER_COMPONENTS_PATH + "/ui-select/dist/select.min.js"),
                 use: 'exports-loader?"ui.select"'
             }, {
                 include: require.resolve(BOWER_COMPONENTS_PATH + '/ng-notify/dist/ng-notify.min.js'),
@@ -70,13 +70,13 @@ module.exports = {
             "angular": BOWER_COMPONENTS_PATH + '/angular/angular.min.js',
             "angular-ui-router": BOWER_COMPONENTS_PATH + '/angular-ui-router/release/angular-ui-router.min.js',
             "jquery": BOWER_COMPONENTS_PATH + '/jquery/dist/jquery.min.js',
-            "bootstrap.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap.css",
-            "bootstrap-theme.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap-theme.css",
-            "select.css": BOWER_COMPONENTS_PATH + '/ui-select/dist/select.css',
-            "ui-select": BOWER_COMPONENTS_PATH + "/ui-select/dist/select.js",
-            "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/dropzone.js",
+            "bootstrap.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap.min.css",
+            "bootstrap-theme.css": BOWER_COMPONENTS_PATH + "/bootstrap/dist/css/bootstrap-theme.min.css",
+            "select.css": BOWER_COMPONENTS_PATH + '/ui-select/dist/select.min.css',
+            "ui-select": BOWER_COMPONENTS_PATH + "/ui-select/dist/select.min.js",
+            "dropzone": BOWER_COMPONENTS_PATH + "/dropzone/dist/min/dropzone.min.js",
             "underscore": BOWER_COMPONENTS_PATH + "/underscore/underscore-min.js",
-            "pascalprecht.translate": BOWER_COMPONENTS_PATH + "/angular-translate/angular-translate.js",
+            "pascalprecht.translate": BOWER_COMPONENTS_PATH + "/angular-translate/angular-translate.min.js",
             "translate.static.file.loader": BOWER_COMPONENTS_PATH + '/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
             "ngMessages": BOWER_COMPONENTS_PATH + '/angular-messages/angular-messages.min.js',
             "angular-formly-templates-bootstrap": BOWER_COMPONENTS_PATH + '/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
@@ -89,7 +89,7 @@ module.exports = {
             "angular-busy": BOWER_COMPONENTS_PATH + '/angular-busy/dist/angular-busy.min.js',
             "angulartics": BOWER_COMPONENTS_PATH + '/angulartics/dist/angulartics.min.js',
             "angulartics.google.analytics": BOWER_COMPONENTS_PATH + '/angulartics-google-analytics/dist/angulartics-ga.min.js',
-            "remarkable": BOWER_COMPONENTS_PATH + '/remarkable/dist/remarkable.js',
+            "remarkable": BOWER_COMPONENTS_PATH + '/remarkable/dist/remarkable.min.js',
             "highlightjs": BOWER_COMPONENTS_PATH + '/highlightjs/highlight.pack.min.js',
             "github.css": BOWER_COMPONENTS_PATH + '/highlightjs/styles/github.css',
             "ng-paging": BOWER_COMPONENTS_PATH + '/angular-paging/dist/paging.min.js'
@@ -98,6 +98,10 @@ module.exports = {
         modules: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
     plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            compress: { warnings: true }
+        }),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",

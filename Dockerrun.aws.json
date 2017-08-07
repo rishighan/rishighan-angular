@@ -26,6 +26,12 @@
           "containerPort": 8080
         }
       ],
+      "environment": [
+        {
+          "name": "DOCKER_MONGO_HOST",
+          "value": "rishighanangular_mongodb_1"
+        }
+      ],
       "workingDirectory": "/usr/src/rishighan",
       "command": [
         "npm", "start"
