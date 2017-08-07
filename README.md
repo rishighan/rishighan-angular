@@ -8,14 +8,15 @@ To spin up a local instance,
 
 + Make sure you have MongoDB installed and running on port 27017
 + Ensure that you have `Docker v17.03.1-ce-rc1` installed
-+ In the terminal, run `docker-compose up`. This will spin up the frontend and the server.
++ You need to pass in MongoDB hostname as an environment variable to the container. Currently, it `DOCKER_MONGO_HOST` is passed as `rishighanangular_mongodb_1` to the `docker-compose up` command. 
++ In the terminal, run `DOCKER_MONGO_HOST=rishighanangular_mongodb_1 docker-compose up`. This will spin up the frontend and the node.js server.
 + Access `http://localhost` in the browser.
 
 ### Local Development
 + `npm i`
 + `bower i`
 + Make sure your node version is at least 7
-+ `npm start` starts the backend on port `8080`
++ `MONGO_HOST=localhost npm start` starts the backend on port `8080`
 + `npm run frontend` starts the frontend
 
 ### Unit Tests

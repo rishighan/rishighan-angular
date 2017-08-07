@@ -7,7 +7,7 @@ branches:
     master
 build:
   ci:
-    - echo 'CI is running'
+    - echo 'CI is happening...'
     - shippable_retry npm i
 
   post_ci:
