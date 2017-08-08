@@ -3,7 +3,10 @@
   "node": true,
   "globals": {
     "angular": true,
-    "console": true
+    "console": true,
+    "_": true,
+    "$": false,
+    "document": false
   },
   "predef": [
     "jasmine",
