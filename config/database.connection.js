@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
+mongoose.Promise = require('q').Promise;
 // connect to the database
 let DB_PORT = '27017';
 let DB_NAME = 'rishighan';
@@ -20,7 +21,7 @@ module.exports = {
             MONGO_DB = 'mongodb://'+ process.env.MONGO_HOST + ':' + DB_PORT + '/' + DB_NAME;
         }
 
-        mongoose.connect(MONGO_DB);
+        mongoose.connect(MONGO_DB, {useMongoClient: true});
         let db = mongoose.connection;
         db.on('error', function (err) {
             console.log('Connection Error', err);
@@ -29,4 +30,4 @@ module.exports = {
             console.log('Connected to Mongo');
         });
     }
-}
+};

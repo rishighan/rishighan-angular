@@ -59,7 +59,7 @@ PostSchema.statics.getPostsByTagName = function (tagName, pageOffset, pageLimit)
         page: parseInt(pageOffset, 10) || 1,
         limit: parseInt(pageLimit, 10) || 5
     };
-    let query = {tags: {$elemMatch: {id: tagName}}};
+    let query = {tags: {$elemMatch: {id: tagName}}, is_draft: false};
     this.paginate(query, options,
         function (error, data) {
             if (error) {
