@@ -10,7 +10,7 @@ COPY bower.json /usr/src/rishighan
 
 RUN npm i -g bower  && \
     npm i  && \
-    bower cache clean && \
+    bower cache clean --allow-root && \
     bower i --config.interactive=false --allow-root
 
 COPY . /usr/src/rishighan
