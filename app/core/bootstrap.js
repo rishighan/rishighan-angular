@@ -1,11 +1,10 @@
-/*jslint browser:true */
-'use strict';
-require("angular");
-require("angular-ui-router");
+/* jslint browser:true */
+require('angular');
+require('angular-ui-router');
 
-var appModule = require('../app');
+let appModule = require('../app');
 
-angular.element(document).ready(function(){
-    angular.bootstrap(document, [appModule.name], {
+angular.element(document).ready(() => {
+    angular.bootstrap(document, [ appModule.name ], {
     });
 });

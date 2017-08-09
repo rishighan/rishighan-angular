@@ -7,6 +7,7 @@ let path = require('path');
 let APP = path.resolve(`${__dirname }/app/`);
 let BUILD = path.resolve(`${__dirname }/dist/`);
 let BOWER_COMPONENTS_PATH = path.resolve(`${__dirname }/bower_components/`);
+let NODE_MODULES_PATH = path.resolve(`${__dirname}/node_modules`);
 
 module.exports = {
     context: APP,
@@ -91,10 +92,11 @@ module.exports = {
             'angulartics': `${BOWER_COMPONENTS_PATH }/angulartics/dist/angulartics.min.js`,
             'angulartics.google.analytics': `${BOWER_COMPONENTS_PATH }/angulartics-google-analytics/dist/angulartics-ga.min.js`,
             'remarkable': `${BOWER_COMPONENTS_PATH }/remarkable/dist/remarkable.min.js`,
+            'littlefoot': `${NODE_MODULES_PATH}/littlefoot/dist/littlefoot.min.js`,
+            'littlefoot.css': `${NODE_MODULES_PATH}/littlefoot/dist/littlefoot.css`,
             'highlightjs': `${BOWER_COMPONENTS_PATH }/highlightjs/highlight.pack.min.js`,
             'github.css': `${BOWER_COMPONENTS_PATH }/highlightjs/styles/github.css`,
             'ng-paging': `${BOWER_COMPONENTS_PATH }/angular-paging/dist/paging.min.js`
-
         },
         modules: [ 'assets', 'node_modules', BOWER_COMPONENTS_PATH ]
     },

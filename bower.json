@@ -47,7 +47,7 @@
     "nvd3": "^1.8.4",
     "angulartics": "^1.2.1",
     "angulartics-google-analytics": "^0.3.0",
-    "remarkable": "^1.7.1",
+    "remarkable": "git://github.com/rishighan/remarkable#master",
     "highlightjs": "^9.8.0",
     "angular-paging": "^2.2.2"
   },

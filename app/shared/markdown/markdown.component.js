@@ -11,7 +11,7 @@ let markdown = function ($sanitize, $sce) {
     };
 
     function parseMarkdown($sanitize, $sce) {
-        return function (scope, element, attributes, controller) {
+        return function (scope) {
             scope.$watch('data', function (newValue) {
                 let html = '';
                 let md = new Remarkable({

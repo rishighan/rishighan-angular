@@ -21,7 +21,7 @@ class EditPostController {
         $scope.post = {};
         $scope.formlyDataService = FormlyDataService.formlyDataFactory();
 
-        $scope.postDataPromise = PostService.getPost($stateParams.id).then(function (post) {
+        $scope.postDataPromise = PostService.getPost($stateParams.id).then((post) => {
             $scope.post = post.data;
             // Form Fields, pass in the tags model
             $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel($scope.post[0].tags);
@@ -48,7 +48,7 @@ class EditPostController {
                 },
                 init: function (file, done) {
                     var _dropzoneInstance = this;
-                    $scope.postDataPromise.then(function (postData) {
+                    $scope.postDataPromise.then((postData) => {
                         if (!_.isUndefined(postData[0].attachment)) {
                             _.each(postData[0].attachment, function (file, index) {
                                 var mockFile = {

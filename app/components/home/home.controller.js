@@ -1,5 +1,15 @@
+let littlefoot = require('littlefoot').default;
+require('littlefoot.css');
+
 class HomeController {
-    constructor($scope, PostService) {
+    constructor($scope, $element, PostService) {
+        angular.element(document).ready(() => {
+            littlefoot({
+                allowDuplicates: false,
+                activateOnHover: true,
+
+            }).activate();
+        });
         let pagerDefaults = {
             page: 1,
             pageSize: 20
@@ -35,7 +45,7 @@ class HomeController {
             "@context": "http://schema.org",
             "@type": "WebSite",
             "name": "Rishi Ghan",
-            "jobTitle": "Javascript Developer",
+            "jobTitle": "Javascript Engineer",
             "alternateName": "Ninth Muse",
             "url": "http://rishighan.com"
         };
