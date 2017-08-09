@@ -2,8 +2,8 @@ let littlefoot = require('littlefoot').default;
 require('littlefoot.css');
 
 class HomeController {
-    constructor($scope, $element, PostService) {
-        angular.element(document).ready(() => {
+    constructor($scope, $document, PostService) {
+        $document.ready(() => {
             littlefoot({
                 allowDuplicates: false,
                 activateOnHover: true,

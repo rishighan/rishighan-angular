@@ -7,8 +7,10 @@ COPY package.json /usr/src/rishighan
 COPY bower.json /usr/src/rishighan
 
 #Install dependencies
+
 RUN npm i -g bower  && \
     npm i  && \
+    bower cache clean && \
     bower i --config.interactive=false --allow-root
 
 COPY . /usr/src/rishighan
