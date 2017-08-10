@@ -12,7 +12,7 @@ class AllPostsController {
         };
         $scope.searchTerm = '';
         PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
-            .then(function (posts) {
+            .then((posts) => {
                 $scope.posts = posts.data;
             });
 
@@ -24,14 +24,14 @@ class AllPostsController {
         };
 
         $scope.searchPost = function (pageOffset, pageSize) {
-            var searchTerm = $scope.searchTerm;
+            let searchTerm = $scope.searchTerm;
             // if search box is empty and no change is detected
             // populate with all posts
             if ($scope.searchTerm === '') {
                 $scope.getMore($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize);
             } else {
                 PostService.searchPost(searchTerm, pageOffset, pageSize)
-                    .then(function (result) {
+                    .then((result) => {
                         $scope.posts = result.data;
                     });
             }

@@ -1,6 +1,7 @@
 // Server config
 let path = require('path');
 const express = require('express');
+let compression = require('compression');
 
 let session = require('express-session');
 let cookieParser = require('cookie-parser');
@@ -12,7 +13,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const User = require('./db/user.schema');
 
-// db 
+// db
 let mongoose = require('mongoose');
 let db = require('./config/database.connection.js');
 
@@ -25,6 +26,9 @@ let app = express();
 
 // connect to db
 db.connect();
+
+// compress all requests
+app.use(compression());
 
 // for parsing application/json
 app.use(bodyParser.json());
@@ -51,7 +55,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // catch-all
-app.all('/', function (req, res) {
+app.all('/', (req, res) => {
     res.sendFile('index.html', {
         root: path.join(__dirname, './app')
     });
@@ -69,16 +73,16 @@ app.use('/dist', express.static(path.resolve(__dirname, 'dist')));
 app.use('/', express.static(path.resolve(__dirname, 'app')));
 app.use('/assets', express.static(path.resolve(__dirname, 'assets')));
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
 
 // Start Server on 3000
 let port = process.env.PORT || 8080;
-app.listen(port, function () {
-    console.log("Server listening on port ", port);
+app.listen(port, () => {
+    console.log('Server listening on port ', port);
 });
 
 module.exports = app;

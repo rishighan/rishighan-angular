@@ -31,6 +31,8 @@
     "bcrypt": "^0.8.5",
     "bindings": "^1.2.1",
     "body-parser": "^1.14.2",
+    "compression": "^1.7.0",
+    "compression-webpack-plugin": "^1.0.0",
     "cookie-parser": "^1.4.1",
     "css-loader": "^0.18.0",
     "exports-loader": "^0.6.2",

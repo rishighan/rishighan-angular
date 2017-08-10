@@ -2,6 +2,7 @@
 // Webpack config
 
 let webpack = require('webpack');
+let CompressionPlugin = require('compression-webpack-plugin');
 let path = require('path');
 
 let APP = path.resolve(`${__dirname }/app/`);
@@ -94,7 +95,7 @@ module.exports = {
             'littlefoot': `${NODE_MODULES_PATH}/littlefoot/dist/littlefoot.min.js`,
             'littlefoot.css': `${NODE_MODULES_PATH}/littlefoot/dist/littlefoot.css`,
             'highlightjs': `${BOWER_COMPONENTS_PATH }/highlightjs/highlight.pack.min.js`,
-            'github.css': `${BOWER_COMPONENTS_PATH }/highlightjs/styles/github.css`,
+            'github.css': `${BOWER_COMPONENTS_PATH }/highlightjs/styles/atelier-sulphurpool-light.css`,
             'ng-paging': `${BOWER_COMPONENTS_PATH }/angular-paging/dist/paging.min.js`
         },
         modules: [ 'assets', 'node_modules', BOWER_COMPONENTS_PATH ]
@@ -103,6 +104,14 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
             minimize: true,
             compress: { warnings: true }
+        }),
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.(js|html)$/,
+            threshold: 10240,
+            minRatio: 0.8
         }),
         new webpack.ProvidePlugin({
             '$': 'jquery',
