@@ -3,13 +3,7 @@ require('littlefoot.css');
 
 class HomeController {
     constructor($scope, $document, PostService) {
-        $document.ready(() => {
-            littlefoot({
-                allowDuplicates: false,
-                activateOnHover: true,
 
-            }).activate();
-        });
         let pagerDefaults = {
             page: 1,
             pageSize: 20
@@ -32,6 +26,13 @@ class HomeController {
 
         $scope.postPromise = PostService.getPostsByTagName('Blog', pagerDefaults.page, pagerDefaults.pageSize)
             .then(function(posts){
+                $document.ready(() => {
+                    littlefoot({
+                        allowDuplicates: false,
+                        activateOnHover: true,
+
+                    }).activate();
+                });
                 $scope.blogPosts = posts.data.docs;
             });
 

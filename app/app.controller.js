@@ -1,7 +1,5 @@
 class AppController {
-    constructor($scope,
-                $filter,
-                $translate,
+    constructor($filter,
                 NavbarService) {
         this.navItems = NavbarService.getNavItems('Home');
         this.copyrightYearRange = {
