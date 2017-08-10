@@ -7,6 +7,7 @@ $link-hover: #FF8000;
 $buttonTextDark: #000;
 $buttonTextLight: #FFF;
 $bodyCopyLight: #6d6d6d;
+$smallCopyLoCon: #808069;
 $lightBackground: #F3F3F3;
 $lightGray: #CCC;
 $lighterGray: #FCFDFC;
@@ -19,6 +20,7 @@ $headline: 2em;
 $subheading1: 1.3em;
 $subheading2: 1.1em;
 $caption: 0.8em;
+$footnotes: 0.7em;
 $tinyCaption: 0.3em;
 $bodyCopy: 1em;
 $code: 0.9em;
@@ -202,6 +204,32 @@ textarea {
     line-height: 1.5em;
     font-family: $proximaRegular;
     //@include setPointSize($bodyCopy);
+
+    // littlefoot footnote style overrides
+    .littlefoot-footnote {
+      border-radius: .2em;
+      box-shadow: none;
+      border: 1px solid $darkerGray;
+    }
+
+    .littlefoot-footnote__wrapper {
+      background: none transparent;
+      border-radius: .5em;
+    }
+
+    .littlefoot-footnote__content {
+      background: $lighterGray;
+      padding: 0.6em;
+      line-height: 1.5em;
+      color: $smallCopyLoCon;
+      @include setPointSize($footnotes);
+    }
+
+    .littlefoot-footnote__tooltip {
+      background: $lighterGray;
+      box-shadow: none;
+      border: 1px solid $darkerGray;
+    }
 
     .header-region {
       margin: 10px 0 10px 0;

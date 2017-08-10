@@ -30,7 +30,7 @@ class HomeController {
                     littlefoot({
                         allowDuplicates: false,
                         activateOnHover: true,
-
+                        hoverDelay: 10
                     }).activate();
                 });
                 $scope.blogPosts = posts.data.docs;
