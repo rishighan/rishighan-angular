@@ -1,5 +1,5 @@
 class AdminController {
-    constructor($scope, NavbarService) {
+    constructor(NavbarService) {
         this.navItems = NavbarService.getNavItems('admin');
     }
 }

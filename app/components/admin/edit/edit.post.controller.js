@@ -47,11 +47,11 @@ class EditPostController {
                     return done();
                 },
                 init: function (file, done) {
-                    var _dropzoneInstance = this;
+                    let _dropzoneInstance = this;
                     $scope.postDataPromise.then((postData) => {
                         if (!_.isUndefined(postData[0].attachment)) {
                             _.each(postData[0].attachment, function (file, index) {
-                                var mockFile = {
+                                let mockFile = {
                                     name: postData[0].attachment[index].name,
                                     size: postData[0].attachment[index].size
                                 };
@@ -59,7 +59,7 @@ class EditPostController {
                                 _dropzoneInstance.createThumbnailFromUrl(mockFile, ASSETS_FOLDER + mockFile.name);
                                 $compile($(mockFile.previewTemplate))($scope);
                                 if (postData[0].attachment[index].isHero) {
-                                    var heroCheckbox = mockFile.previewTemplate.querySelector('.hero-checkbox');
+                                    let heroCheckbox = mockFile.previewTemplate.querySelector('.hero-checkbox');
                                     heroCheckbox.checked = true;
                                 }
                             });
@@ -70,16 +70,16 @@ class EditPostController {
             eventHandlers: {
                 sending: function (file, xhr, formData) {
                     // renaming the file before sending
-                    var newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
+                    let newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
                     formData.append("newFileName", newFileName);
                 },
                 success: function (file, response) {
                     $compile($(file.previewTemplate))($scope);
                     // update the form model with the correct filename
                     file.customData.fileName = response.files[0].filename;
-                    var fileNameElement = file.previewTemplate.querySelector('.dz-filename');
+                    let fileNameElement = file.previewTemplate.querySelector('.dz-filename');
                     fileNameElement.innerHTML = file.customData.fileName;
-                    var fileObj = {
+                    let fileObj = {
                         name: file.customData.fileName,
                         size: file.size,
                         date_created: Date.now(),
@@ -109,20 +109,20 @@ class EditPostController {
                     });
 
                     // update the form model
-                    var del = _.where($scope.post[0].attachment, {
+                    let del = _.where($scope.post[0].attachment, {
                         name: fileToDelete
                     });
                     $scope.post[0].attachment = _.without($scope.post[0].attachment, del[0]);
                     $scope.$digest();
-                    var _ref = file.previewElement;
+                    let _ref = file.previewElement;
                     return _.isNull(_ref) ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
             }
         };
         $scope.makeHero = function (event) {
             // todo: find a reliable way to get .dz-filename
-            var anchorElement = DomHelperService.findParentBySelector(event.target, '#preview-container');
-            var fileName = anchorElement.querySelector('div.dz-filename').innerText;
+            let anchorElement = DomHelperService.findParentBySelector(event.target, '#preview-container');
+            let fileName = anchorElement.querySelector('div.dz-filename').innerText;
             if (event.target.checked) {
                 _.each($scope.post[0].attachment, function (fileObject, index) {
                     if (fileObject.name === fileName) {
@@ -161,9 +161,9 @@ class EditPostController {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
-            var promises = [];
+            let promises = [];
             _.each(post[0].attachment, function (file) {
-                var promise = PostService.deleteFile({file: file.name});
+                let promise = PostService.deleteFile({file: file.name});
                 promises.push(promise);
             });
 
@@ -182,8 +182,8 @@ class EditPostController {
             });
         };
         // autosave
-        var timeout = null;
-        var saveUpdates = function () {
+        let timeout = null;
+        let saveUpdates = function () {
             // call to save/upsert as draft
             $scope.post[0].slug = FriendlyUrlService.createSlug($scope.post[0].title);
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
@@ -195,7 +195,7 @@ class EditPostController {
                 });
         };
 
-        var debounceUpdates = function (newValue, oldValue) {
+        let debounceUpdates = function (newValue, oldValue) {
             if (newValue !== oldValue) {
                 if (timeout) {
                     $timeout.cancel(timeout);

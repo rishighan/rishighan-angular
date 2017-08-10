@@ -18,7 +18,6 @@ module.exports = {
         path: BUILD,
         filename: '[name].js'
     },
-    // process.NODE.ENV === 'production';
     module: {
         // devtool
         // devtool: 'source-map',

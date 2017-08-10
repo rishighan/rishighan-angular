@@ -59,10 +59,9 @@ let adminModule = angular.module('admin', [
     .directive('editpost', editPostComponent)
     .directive('dropzone', function () {
         return function (scope, element, attrs) {
-            var config, dropzone;
-            config = scope[attrs.dropzone];
+            let config = scope[attrs.dropzone];
             // create a Dropzone for the element with the given options
-            dropzone = new Dropzone(element[0], config.options);
+            let dropzone = new Dropzone(element[0], config.options);
 
             // bind the given event handlers
             angular.forEach(config.eventHandlers, function (handler, event) {
@@ -115,7 +114,7 @@ let adminModule = angular.module('admin', [
                     $scope.options.data.getValidationMessage = getValidationMessage;
 
                     function getValidationMessage(key) {
-                        var message = $scope.options.validation.messages[key];
+                        let message = $scope.options.validation.messages[key];
                         if (message) {
                             return message($scope.fc.$viewValue, $scope.fc.$modelValue, $scope);
                         }

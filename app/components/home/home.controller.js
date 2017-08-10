@@ -3,7 +3,6 @@ require('littlefoot.css');
 
 class HomeController {
     constructor($scope, $document, PostService) {
-
         let pagerDefaults = {
             page: 1,
             pageSize: 20
@@ -14,18 +13,19 @@ class HomeController {
         $scope.mastheadImage = {};
 
         PostService.getPostsByTagName('Featured')
-            .then(function (posts) {
+            .then((posts) => {
                 $scope.featuredPosts = posts.data.docs;
             });
 
         PostService.getPostsByTagName('Hero', 1, 1)
-            .then(function (post) {
+            .then((post) => {
                 $scope.heroPost = post.data.docs;
                 $scope.mastheadImage = _.where($scope.heroPost[0].attachment, {isHero: true});
             });
 
         $scope.postPromise = PostService.getPostsByTagName('Blog', pagerDefaults.page, pagerDefaults.pageSize)
-            .then(function(posts){
+            .then((posts) => {
+                //init littlefoot footnotes
                 $document.ready(() => {
                     littlefoot({
                         allowDuplicates: false,
@@ -37,7 +37,7 @@ class HomeController {
             });
 
         $scope.isTag = function (tags, tagname) {
-            return _.contains(_.map(tags, function (tag) {
+            return _.contains(_.map(tags, (tag) => {
                 return tag.id.toLowerCase() === tagname ? true : false;
             }), true);
         };
