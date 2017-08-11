@@ -4,6 +4,7 @@
             <h2>{{ 'admin.posts.header' | translate }}</h2>
         </header>
         <section class="row">
+            <!--Posts listing -->
             <div class="col-md-8">
                 <input placeholder="{{'admin.search_posts.placeholder' | translate }}" ng-model="searchTerm"
                        ng-change="search(pagerDefaults.page, pagerDefaults.pageSize)" class="col-md-8"/>
@@ -28,8 +29,15 @@
                         </span>
                 </li>
             </ul>
+
+            <!--Trending posts-->
+            <div class="col-md-8">
+                <ul>
+                    <li ng-repeat="">
+                        <sparkline data="analyticsData" options="options"></sparkline>
+                    </li>
+                </ul>
+            </div>
         </section>
-        <sparkline data="analyticsData" options="options"></sparkline>
-        <pre>{{analyticsData | json}}</pre>
     </div>
 </div>
