@@ -1,5 +1,6 @@
 let littlefoot = require('littlefoot').default;
 require('littlefoot.css');
+import HelperService from '../../shared/utils/helper.service';
 
 class HomeController {
     constructor($scope, $document, PostService) {
@@ -7,11 +8,11 @@ class HomeController {
             page: 1,
             pageSize: 20
         };
+        $scope.helperUtils = HelperService.helperFactory();
         $scope.blogPosts = {};
         $scope.featuredPosts = {};
         $scope.heroPost = {};
         $scope.mastheadImage = {};
-
         PostService.getPostsByTagName('Featured')
             .then((posts) => {
                 $scope.featuredPosts = posts.data.docs;
@@ -35,12 +36,6 @@ class HomeController {
                 });
                 $scope.blogPosts = posts.data.docs;
             });
-
-        $scope.isTag = function (tags, tagname) {
-            return _.contains(_.map(tags, (tag) => {
-                return tag.id.toLowerCase() === tagname ? true : false;
-            }), true);
-        };
 
         this.jsonLd = {
             "@context": "http://schema.org",

@@ -12,11 +12,11 @@
             </li>
         </ul>
         <div ng-repeat="post in blogPosts track by $index" class="post">
-            <div ng-if="isTag(post.tags, 'highlight')" class="highlight">
+            <div ng-if="helperUtils.isTag(post.tags, 'highlight')" class="highlight">
                 {{::post.content}}
                 <div class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy"}}</div>
             </div>
-            <div ng-if="!isTag(post.tags, 'highlight')">
+            <div ng-if="!helperUtils.isTag(post.tags, 'highlight')">
                 <div class="header-region">
                     <a ui-sref="main.single({slug: post.slug})"><h2>{{::post.title}}</h2></a>
                     <small class="published-date">{{::post.date_updated | date: "dd MMMM, yyyy" }}</small>

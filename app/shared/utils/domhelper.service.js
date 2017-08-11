@@ -1,5 +1,4 @@
 class DomHelperService {
-
     constructor() {
 
     }
