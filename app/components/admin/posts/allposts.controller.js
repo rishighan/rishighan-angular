@@ -21,16 +21,15 @@ class AllPostsController {
                 _.each($scope.posts.docs, (post)  => {
                     AnalyticsService.getAnalytics({slug: post.slug})
                         .then((data) => {
-                            console.log(post);
                             post.pageviews = $scope.calculatePageViews(data)
                         })
                 });
-            })
+            });
 
-
-        $scope.analyticsData = [];
-
-
+        PostService.getPosts()
+            .then((post) => {
+                console.log(post);
+            });
         $scope.calculatePageViews = function (result) {
             return _.map(result.data.rows, function (item) {
                 // data -> [{x: 1, y: 123},  {x: 123, y: 132}]
@@ -62,8 +61,6 @@ class AllPostsController {
             }
         };
         $scope.search = _.debounce($scope.searchPost, 500);
-
-
     }
 }
 export default AllPostsController;

@@ -196,10 +196,10 @@ textarea {
   }
 
   // illustrations
-  .illustrations-container{
+  .illustrations-container {
     margin: 0 0 30px 0;
 
-    .illustration{
+    .illustration {
 
     }
   }
@@ -212,33 +212,6 @@ textarea {
     letter-spacing: 0.02em;
     line-height: 1.5em;
     font-family: $proximaRegular;
-    //@include setPointSize($bodyCopy);
-
-    // littlefoot footnote style overrides
-    .littlefoot-footnote {
-      border-radius: .2em;
-      box-shadow: none;
-      border: 1px solid $darkerGray;
-    }
-
-    .littlefoot-footnote__wrapper {
-      background: none transparent;
-      border-radius: .5em;
-    }
-
-    .littlefoot-footnote__content {
-      background: $lighterGray;
-      padding: 0.6em;
-      line-height: 1.5em;
-      color: $smallCopyLoCon;
-      @include setPointSize($footnotes);
-    }
-
-    .littlefoot-footnote__tooltip {
-      background: $lighterGray;
-      box-shadow: none;
-      border: 1px solid $darkerGray;
-    }
 
     .header-region {
       margin: 10px 0 10px 0;
@@ -310,6 +283,32 @@ textarea {
     }
     .footnotes {
       @include setPointSize($caption);
+    }
+
+    // littlefoot footnote style overrides
+    .littlefoot-footnote {
+      border-radius: .2em;
+      box-shadow: none;
+      border: 1px solid $darkerGray;
+    }
+
+    .littlefoot-footnote__wrapper {
+      background: none transparent;
+      border-radius: .5em;
+    }
+
+    .littlefoot-footnote__content {
+      background: $lighterGray;
+      padding: 0.6em;
+      line-height: 1.5em;
+      color: $smallCopyLoCon;
+      @include setPointSize($footnotes);
+    }
+
+    .littlefoot-footnote__tooltip {
+      background: $lighterGray;
+      box-shadow: none;
+      border: 1px solid $darkerGray;
     }
   }
   .trampoline {
