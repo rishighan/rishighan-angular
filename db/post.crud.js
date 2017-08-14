@@ -79,24 +79,13 @@ PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {
         page: parseInt(pageOffset, 10), //  \ __ passed in from frontend
         limit: parseInt(pageLimit, 10)  //  /
     };
-    // unpaginated
-    if (pageOffset === undefined && pageLimit === undefined) {
-        this.find({}, (error, data) => {
-            if (error) {
-                deferred.reject(error);
-            } else {
-                deferred.resolve(data);
-            }
-        });
-    } else {
-        this.paginate({}, options, (error, data) => {
-            if (error) {
-                deferred.reject(new Error(error));
-            } else {
-                deferred.resolve(data);
-            }
-        });
-    }
+    this.paginate({}, options, (error, data) => {
+        if (error) {
+            deferred.reject(new Error(error));
+        } else {
+            deferred.resolve(data);
+        }
+    });
     return deferred.promise;
 };
 
