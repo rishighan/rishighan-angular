@@ -48,4 +48,9 @@ _To deploy, simply push to master_.
 + Selects the environment you specify in the `shippable.yaml` configuration
 + Deploys this app to Elastic Beanstalk
 
+### Analytics
+
+This project is basically a blog with a homegrown CMS that integrates with Google Analytics API to fetch pageviews.
+
+
 gg

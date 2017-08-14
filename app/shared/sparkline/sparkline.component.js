@@ -10,15 +10,13 @@ let sparklineComponent = function () {
             options: '='
         },
         transclude: true,
-        template: '<svg id="jugni"></svg>',
-        link: function (scope, el, attrs, ctrl) {
-            scope.$watch('data', function (newValue, oldValue) {
-                defaultChartConfig("#jugni", newValue);
-            });
-
+        template: '<svg id="sparkline"></svg>',
+        compile: function (scope, attrs) {
+            console.log(attrs.$$element[0].firstChild.id)
+            defaultChartConfig(attrs.$$element[0].firstChild.id, scope.data);
             function defaultChartConfig(containerId, data) {
                 nvd3.addGraph(function () {
-                    var chart = nvd3.models.sparklinePlus();
+                    let chart = nvd3.models.sparklinePlus();
                     chart.margin({left: 5})
                         .x(function (d, i) {
                             return i;

@@ -1,35 +1,46 @@
 const moment = require('moment');
+const Q = require('q');
 class AllPostsController {
     constructor($scope,
                 NavbarService,
                 AnalyticsService,
                 PostService) {
         $scope.posts = {};
+        $scope.unpaginatedPosts = {};
         $scope.navItems = NavbarService.getNavItems('admin');
         $scope.pagerDefaults = {
             page: 1,
             pageSize: 5
         };
+        $scope.options = {
+            chart: {
+                type: 'sparklinePlus',
+                height: 150,
+                showValues: false
+            }
+        };
         $scope.searchTerm = '';
         PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then((posts) => {
                 $scope.posts = posts.data;
-                // Analytics for trending posts
-                // get data for each slug
-                // {x: 12, y: 2016-11-2, slug: 'sinking-in-the-quicksand'}
-                console.log($scope.posts)
-                _.each($scope.posts.docs, (post)  => {
-                    AnalyticsService.getAnalytics({slug: post.slug})
-                        .then((data) => {
-                            post.pageviews = $scope.calculatePageViews(data)
-                        })
-                });
             });
 
         PostService.getPosts()
-            .then((post) => {
-                console.log(post);
+            .then((posts) => {
+                return posts;
+            }).then((posts) => {
+            $scope.unpaginatedPosts = posts;
+            // Analytics for trending posts
+            // get data for each slug
+            // {x: 12, y: 2016-11-2, slug: 'sinking-in-the-quicksand'}
+            _.each($scope.unpaginatedPosts.data, (post) => {
+                AnalyticsService.getAnalytics({slug: post.slug})
+                    .then((data) => {
+                        post.pageviews = $scope.calculatePageViews(data)
+                    })
             });
+
+        });
         $scope.calculatePageViews = function (result) {
             return _.map(result.data.rows, function (item) {
                 // data -> [{x: 1, y: 123},  {x: 123, y: 132}]

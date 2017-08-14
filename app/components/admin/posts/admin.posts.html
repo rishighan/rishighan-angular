@@ -16,7 +16,7 @@
                  total="posts.total"
                  paging-action="getMore(page, pageSize)">
             </div>
-            <ul class="col-md-8">
+            <ul class="col-md-7">
                 <li ng-repeat="post in posts.docs track by $index">
                     <h3><a ui-sref="admin.edit({id: post._id})">{{post.title}}</a></h3>
                     <h4>{{post.excerpt}}</h4>
@@ -31,10 +31,11 @@
             </ul>
 
             <!--Trending posts-->
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <ul>
-                    <li>
-                        <sparkline data="analyticsData" options="options"></sparkline>
+                    <li ng-repeat="post in unpaginatedPosts.data track by $index">
+                        <h3>{{::post.title}}</h3> {{post.pageviews}}
+                        <sparkline data="post.pageviews" options="options"></sparkline>
                     </li>
                 </ul>
             </div>
