@@ -35,7 +35,16 @@
                 <ul>
                     <li ng-repeat="post in unpaginatedPosts.data track by $index">
                         <h3>{{::post.title}}</h3> {{post.pageviews}}
-                        <sparkline data="post.pageviews" options="options"></sparkline>
+                        <!--<sparkline data="post.pageviews" options="options"></sparkline>-->
+                        <nvd3-sparkline-chart
+                                data="post.pageviews"
+                                id="example_{{$id}}"
+                                width="550"
+                                height="150"
+                                x="xFunction()"
+                                y="yFunction()">
+                            <svg></svg>
+                        </nvd3-sparkline-chart>
                     </li>
                 </ul>
             </div>

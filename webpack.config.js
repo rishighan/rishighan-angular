@@ -88,6 +88,7 @@ module.exports = {
             'nvd3': `${BOWER_COMPONENTS_PATH }/nvd3/build/nv.d3.min.js`,
             'nvd3.css': `${BOWER_COMPONENTS_PATH }/nvd3/build/nv.d3.min.css`,
             'd3': `${BOWER_COMPONENTS_PATH }/d3/d3.min.js`,
+            'nvd3ChartDirectives': `${BOWER_COMPONENTS_PATH}/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js`,
             'angular-busy': `${BOWER_COMPONENTS_PATH }/angular-busy/dist/angular-busy.min.js`,
             'angulartics': `${BOWER_COMPONENTS_PATH }/angulartics/dist/angulartics.min.js`,
             'angulartics.google.analytics': `${BOWER_COMPONENTS_PATH }/angulartics-google-analytics/dist/angulartics-ga.min.js`,

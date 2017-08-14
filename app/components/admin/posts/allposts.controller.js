@@ -19,6 +19,18 @@ class AllPostsController {
                 showValues: false
             }
         };
+
+        $scope.xFunction = function(){
+            return function(d){
+                return d[0];
+            };
+        }
+
+        $scope.yFunction = function(){
+            return function(d){
+                return d[1];
+            };
+        }
         $scope.searchTerm = '';
         PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then((posts) => {

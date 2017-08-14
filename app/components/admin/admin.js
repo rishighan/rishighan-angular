@@ -8,6 +8,7 @@ import formly from "angular-formly";
 const uiselect = require('ui-select');
 const Dropzone = require('dropzone');
 const ngNotify = require("ng-notify");
+import nvd3directives from 'nvd3ChartDirectives';
 require('ng-paging');
 require('../../../bower_components/angular-sanitize/angular-sanitize.min');
 require('github.css');
@@ -71,6 +72,7 @@ let adminModule = angular.module('admin', [
     })
     // formly config
     .run(function (formlyConfig, ngNotify) {
+        console.log(nvd3directives)
         ngNotify.config({
             theme: 'pastel',
             position: 'top',
