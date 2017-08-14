@@ -1,45 +1,42 @@
-const nvd3 = require("nvd3");
-const d3 = require("d3");
-require('nvd3.css');
-
-let sparklineComponent = function () {
+const d3 = require('d3');
+let sparklineComponent = function() {
     return {
         restrict: 'AE',
-        scope: {
-            data: '=',
-            options: '='
-        },
         transclude: true,
-        template: '<svg id="sparkline"></svg>',
-        compile: function (scope, attrs) {
-            console.log(attrs.$$element[0].firstChild.id)
-            defaultChartConfig(attrs.$$element[0].firstChild.id, scope.data);
-            function defaultChartConfig(containerId, data) {
-                nvd3.addGraph(function () {
-                    let chart = nvd3.models.sparklinePlus();
-                    chart.margin({left: 5})
-                        .x(function (d, i) {
-                            return i;
-                        })
-                        .showLastValue(true)
-                        .xTickFormat(function (d) {
-                            return data[d].x;
-                        })
-                        .y(function(d){
-                            return d.y;
-                        })
-                        .width(200)
-                        .height(40);
-                    d3.select(containerId)
-                        .datum(data)
-                        .call(chart);
-                    return chart;
-                });
-            }
-
-
-        }
+        replace: true,
+        link: renderSparkline(),
+        template: '<svg ng-transclude class="sl"></svg>'
     };
+
+    function renderSparkline() {
+        return function (scope, el, attr) {
+            el = d3.select(el[0]);
+            var svg = el;
+            var data = JSON.parse(el.text());
+            var min = attr.min !== undefined ? +attr.min : d3.min(data);
+            var max = attr.max !== undefined ? +attr.max : d3.max(data);
+            el.text(''); // remove the original data text
+            var r = attr.r || 0;
+            var m = r;
+            var w = svg.node().clientWidth;
+            var h = +getComputedStyle(el.node())['font-size'].replace('px', '');
+            svg.attr({width: w, height: h});
+            var x = d3.scale.linear().domain([0, data.length - 1]).range([m, w - m]);
+            var y = d3.scale.linear().domain([min, max]).range([h - m, m]);
+            var lines = svg.append('path').data(data)
+                .attr('d', 'M' + data.map(function (d, i) {
+                        return [x(i), y(d)]
+                    }).join('L'));
+            var circles = svg.selectAll('circle').data(data).enter().append('circle')
+                .attr('r', r)
+                .attr('cx', function (d, i) {
+                    return x(i)
+                })
+                .attr('cy', function (d) {
+                    return y(d)
+                });
+        };
+    }
 };
 
 export default sparklineComponent;

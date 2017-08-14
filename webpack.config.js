@@ -85,10 +85,6 @@ module.exports = {
             'angular-formly': `${BOWER_COMPONENTS_PATH }/angular-formly/dist/formly.min.js`,
             'ng-notify': `${BOWER_COMPONENTS_PATH }/ng-notify/dist/ng-notify.min.js`,
             'ngNotify.css': `${BOWER_COMPONENTS_PATH }/ng-notify/dist/ng-notify.min.css`,
-            'nvd3': `${BOWER_COMPONENTS_PATH }/nvd3/build/nv.d3.min.js`,
-            'nvd3.css': `${BOWER_COMPONENTS_PATH }/nvd3/build/nv.d3.min.css`,
-            'd3': `${BOWER_COMPONENTS_PATH }/d3/d3.min.js`,
-            'nvd3ChartDirectives': `${BOWER_COMPONENTS_PATH}/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js`,
             'angular-busy': `${BOWER_COMPONENTS_PATH }/angular-busy/dist/angular-busy.min.js`,
             'angulartics': `${BOWER_COMPONENTS_PATH }/angulartics/dist/angulartics.min.js`,
             'angulartics.google.analytics': `${BOWER_COMPONENTS_PATH }/angulartics-google-analytics/dist/angulartics-ga.min.js`,
@@ -97,7 +93,8 @@ module.exports = {
             'littlefoot.css': `${NODE_MODULES_PATH}/littlefoot/dist/littlefoot.css`,
             'highlightjs': `${BOWER_COMPONENTS_PATH }/highlightjs/highlight.pack.min.js`,
             'github.css': `${BOWER_COMPONENTS_PATH }/highlightjs/styles/atelier-sulphurpool-light.css`,
-            'ng-paging': `${BOWER_COMPONENTS_PATH }/angular-paging/dist/paging.min.js`
+            'ng-paging': `${BOWER_COMPONENTS_PATH }/angular-paging/dist/paging.min.js`,
+            'd3':`${BOWER_COMPONENTS_PATH}/d3/d3.min.js`
         },
         modules: [ 'assets', 'node_modules', BOWER_COMPONENTS_PATH ]
     },

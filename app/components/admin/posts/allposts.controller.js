@@ -1,5 +1,4 @@
 const moment = require('moment');
-const Q = require('q');
 class AllPostsController {
     constructor($scope,
                 NavbarService,
@@ -12,25 +11,7 @@ class AllPostsController {
             page: 1,
             pageSize: 5
         };
-        $scope.options = {
-            chart: {
-                type: 'sparklinePlus',
-                height: 150,
-                showValues: false
-            }
-        };
 
-        $scope.xFunction = function(){
-            return function(d){
-                return d[0];
-            };
-        }
-
-        $scope.yFunction = function(){
-            return function(d){
-                return d[1];
-            };
-        }
         $scope.searchTerm = '';
         PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then((posts) => {
@@ -49,17 +30,16 @@ class AllPostsController {
                 AnalyticsService.getAnalytics({slug: post.slug})
                     .then((data) => {
                         post.pageviews = $scope.calculatePageViews(data)
-                    })
+                    });
             });
 
         });
         $scope.calculatePageViews = function (result) {
             return _.map(result.data.rows, function (item) {
                 // data -> [{x: 1, y: 123},  {x: 123, y: 132}]
-                return {
-                    x: moment(item[0]).format("MMM Do YY"),
-                    y: parseInt(item[2], 10)
-                };
+                    // x: moment(item[0]).format("MMM Do YY"),
+                    return parseInt(item[2], 10)
+
             });
         };
 
