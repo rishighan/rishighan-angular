@@ -47,8 +47,7 @@
     "angulartics-google-analytics": "^0.3.0",
     "remarkable": "git://github.com/rishighan/remarkable#master",
     "highlightjs": "^9.8.0",
-    "angular-paging": "^2.2.2",
-    "d3": "^4.10.0"
+    "angular-paging": "^2.2.2"
   },
   "resolutions": {
     "d3": "3.5.17",

@@ -7,7 +7,7 @@ let mongoosePaginate = require('mongoose-paginate');
 PostSchema.plugin(mongoosePaginate);
 
 // create
-PostSchema.statics.createPost = function (data) {
+PostSchema.statics.createPost = function(data) {
     let deferred = Q.defer();
     this.create({
         title: data.title,
@@ -32,12 +32,12 @@ PostSchema.statics.createPost = function (data) {
 
 
 // retrieve by id or by slug
-PostSchema.statics.getPost = function (id, slug) {
+PostSchema.statics.getPost = function(id, slug) {
     let queryObject = {};
     if (id) {
-        queryObject = {_id: id};
+        queryObject = { _id: id };
     } else if (slug) {
-        queryObject = {slug: slug};
+        queryObject = { slug: slug };
     }
     let deferred = Q.defer();
     this.find(queryObject, (error, data) => {
@@ -51,14 +51,14 @@ PostSchema.statics.getPost = function (id, slug) {
 };
 
 // paginated, defaults to page 1, 5 results
-PostSchema.statics.getPostsByTagName = function (tagName, pageOffset, pageLimit) {
+PostSchema.statics.getPostsByTagName = function(tagName, pageOffset, pageLimit) {
     let deferred = Q.defer();
     let options = {
-        sort: {date_updated: -1},
+        sort: { date_updated: -1 },
         page: parseInt(pageOffset, 10) || 1,
         limit: parseInt(pageLimit, 10) || 5
     };
-    let query = {tags: {$elemMatch: {id: tagName}}, is_draft: false};
+    let query = { tags: { $elemMatch: { id: tagName } }, is_draft: false };
     this.paginate(query, options,
         (error, data) => {
             if (error) {
@@ -70,12 +70,29 @@ PostSchema.statics.getPostsByTagName = function (tagName, pageOffset, pageLimit)
     return deferred.promise;
 };
 
-// retrieve all posts, paginated
-// todo: parameterize sort criteria
-PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {
+// filter on tag(s)
+PostSchema.statics.filterOnTags = function(tagNames) {
     let deferred = Q.defer();
     let options = {
-        sort: {date_updated: -1},
+        sort: { date_updated: -1 }
+    };
+    let query = { 'tags.id': { $nin:  tagNames } };
+    this.find(query, (error, data) => {
+        if (error) {
+            deferred.reject(new Error(error));
+        } else {
+            deferred.resolve(data);
+        }
+    });
+    return deferred.promise;
+};
+
+// retrieve all posts, paginated
+// todo: parameterize sort criteria
+PostSchema.statics.getAllPosts = function(pageOffset, pageLimit) {
+    let deferred = Q.defer();
+    let options = {
+        sort: { date_updated: -1 },
         page: parseInt(pageOffset, 10), //  \ __ passed in from frontend
         limit: parseInt(pageLimit, 10)  //  /
     };
@@ -91,13 +108,13 @@ PostSchema.statics.getAllPosts = function (pageOffset, pageLimit) {
 
 
 // search
-PostSchema.statics.searchPost = function (searchText, pageOffset, pageLimit) {
+PostSchema.statics.searchPost = function(searchText, pageOffset, pageLimit) {
     let deferred = Q.defer();
     let options = {
         page: parseInt(pageOffset, 10),
         limit: parseInt(pageLimit, 10)
     };
-    this.paginate({$text: {$search: searchText}}, options, (error, data) => {
+    this.paginate({ $text: { $search: searchText } }, options, (error, data) => {
         if (error) {
             deferred.reject(new Error());
         } else {
@@ -109,26 +126,26 @@ PostSchema.statics.searchPost = function (searchText, pageOffset, pageLimit) {
 
 // update or
 // Todo: upsert a post
-PostSchema.statics.updatePost = function (id, data, upsertValue) {
+PostSchema.statics.updatePost = function(id, data, upsertValue) {
     let deferred = Q.defer();
     let updates = data;
     this.update({
-            _id: id
-        }, {
-            $set: {
-                title: updates.title,
-                slug: updates.slug,
-                tags: updates.tags,
-                date_created: updates.date_created,
-                date_updated: new Date(),
-                attachment: updates.attachment,
-                is_draft: updates.is_draft,
-                content: updates.content,
-                excerpt: updates.excerpt
-            }
-        }, {
-            upsert: upsertValue
-        },
+        _id: id
+    }, {
+        $set: {
+            title: updates.title,
+            slug: updates.slug,
+            tags: updates.tags,
+            date_created: updates.date_created,
+            date_updated: new Date(),
+            attachment: updates.attachment,
+            is_draft: updates.is_draft,
+            content: updates.content,
+            excerpt: updates.excerpt
+        }
+    }, {
+        upsert: upsertValue
+    },
         (error, data) => {
             if (error) {
                 deferred.reject(new Error(error));
@@ -140,7 +157,7 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
 };
 
 // delete
-PostSchema.statics.deletePost = function (id) {
+PostSchema.statics.deletePost = function(id) {
     let deferred = Q.defer();
     this.findByIdAndRemove(id, (error, data) => {
         if (error) {

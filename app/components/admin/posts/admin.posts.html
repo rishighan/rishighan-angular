@@ -32,10 +32,10 @@
 
             <!--Trending posts-->
             <div class="col-md-5">
-                <ul>
-                    <li ng-repeat="post in unpaginatedPosts.data track by $index">
-                        <h3>{{::post.title}}</h3> {{post.pageviews}}
-                        <sparkline r="1" style="stroke:green" min="0" max="500">{{post.pageviews}}</sparkline>
+                <ul cg-busy="trendingPostsPromise">
+                    <li ng-repeat="post in trendingPosts track by $index">
+                        <h3>{{::post.title}}</h3>
+                        <sparkline data="post.pageviews"></sparkline>
                     </li>
                 </ul>
             </div>

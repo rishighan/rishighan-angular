@@ -1,42 +1,111 @@
-const d3 = require('d3');
-let sparklineComponent = function() {
+import Highcharts from 'highcharts';
+let sparklineComponent = function () {
     return {
-        restrict: 'AE',
+        restrict: 'E',
+        scope: {
+            title: '@',
+            data: '='
+        },
         transclude: true,
         replace: true,
-        link: renderSparkline(),
-        template: '<svg ng-transclude class="sl"></svg>'
+        link: function (scope, element, attributes) {
+            scope.$watch('data', (newValue) => {
+                Highcharts.chart(element[0],
+                    {
+                        chart: {
+                            backgroundColor: null,
+                            borderWidth: 0,
+                            type: 'area',
+                            margin: [2, 0, 2, 0],
+                            width: 120,
+                            height: 20,
+                            style: {
+                                overflow: 'visible'
+                            },
+
+                            // small optimalization, saves 1-2 ms each sparkline
+                            skipClone: true
+                        },
+                        title: {
+                            text: ''
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        xAxis: {
+                            labels: {
+                                enabled: false
+                            },
+                            title: {
+                                text: null
+                            },
+                            startOnTick: false,
+                            endOnTick: false,
+                            tickPositions: []
+                        },
+                        yAxis: {
+                            endOnTick: false,
+                            startOnTick: false,
+                            labels: {
+                                enabled: false
+                            },
+                            title: {
+                                text: null
+                            },
+                            tickPositions: [0]
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            backgroundColor: null,
+                            borderWidth: 0,
+                            shadow: false,
+                            useHTML: true,
+                            hideDelay: 0,
+                            shared: true,
+                            padding: 0,
+                            positioner: function (w, h, point) {
+                                return {x: point.plotX - w / 2, y: point.plotY - h};
+                            }
+                        },
+                        plotOptions: {
+                            series: {
+                                animation: false,
+                                lineWidth: 1,
+                                shadow: false,
+                                states: {
+                                    hover: {
+                                        lineWidth: 1
+                                    }
+                                },
+                                marker: {
+                                    radius: 1,
+                                    states: {
+                                        hover: {
+                                            radius: 2
+                                        }
+                                    }
+                                },
+                                fillOpacity: 0.25
+                            },
+                            column: {
+                                negativeColor: '#910000',
+                                borderColor: 'silver'
+                            }
+                        },
+                        series: [{
+                            data: newValue
+                        }]
+
+                    })
+            });
+
+        },
+
+        template: '<div></div>'
     };
 
-    function renderSparkline() {
-        return function (scope, el, attr) {
-            el = d3.select(el[0]);
-            var svg = el;
-            var data = JSON.parse(el.text());
-            var min = attr.min !== undefined ? +attr.min : d3.min(data);
-            var max = attr.max !== undefined ? +attr.max : d3.max(data);
-            el.text(''); // remove the original data text
-            var r = attr.r || 0;
-            var m = r;
-            var w = svg.node().clientWidth;
-            var h = +getComputedStyle(el.node())['font-size'].replace('px', '');
-            svg.attr({width: w, height: h});
-            var x = d3.scale.linear().domain([0, data.length - 1]).range([m, w - m]);
-            var y = d3.scale.linear().domain([min, max]).range([h - m, m]);
-            var lines = svg.append('path').data(data)
-                .attr('d', 'M' + data.map(function (d, i) {
-                        return [x(i), y(d)]
-                    }).join('L'));
-            var circles = svg.selectAll('circle').data(data).enter().append('circle')
-                .attr('r', r)
-                .attr('cx', function (d, i) {
-                    return x(i)
-                })
-                .attr('cy', function (d) {
-                    return y(d)
-                });
-        };
-    }
 };
 
 export default sparklineComponent;

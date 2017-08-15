@@ -25,7 +25,7 @@ class PostService {
     }
 
     getPost(id, slug) {
-        return this._$http.get('/db/getpost' , {
+        return this._$http.get('/db/getpost', {
             params: {
                 id: id,
                 slug: slug
@@ -42,9 +42,20 @@ class PostService {
                 pageOffset: pageOffset,
                 pageLimit: pageLimit
             }
-        }).then(function (posts) {
-            return posts;
-        });
+        }).then(posts => posts);
+    }
+
+    filterOnTags(tagNames) {
+        return this._$http.get('/db/filterontags', {
+            params: {
+                tagNames: tagNames
+            }
+        })
+            .then((posts) => {
+                return posts;
+            }, (error) => {
+                return (new Error(error));
+            });
     }
 
     searchPost(searchText, pageOffset, pageLimit) {

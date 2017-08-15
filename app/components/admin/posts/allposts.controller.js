@@ -5,7 +5,7 @@ class AllPostsController {
                 AnalyticsService,
                 PostService) {
         $scope.posts = {};
-        $scope.unpaginatedPosts = {};
+        $scope.trendingPosts = [];
         $scope.navItems = NavbarService.getNavItems('admin');
         $scope.pagerDefaults = {
             page: 1,
@@ -18,28 +18,30 @@ class AllPostsController {
                 $scope.posts = posts.data;
             });
 
-        PostService.getPosts()
+        PostService.filterOnTags(["Highlight", "colophon"])
             .then((posts) => {
                 return posts;
-            }).then((posts) => {
-            $scope.unpaginatedPosts = posts;
-            // Analytics for trending posts
-            // get data for each slug
-            // {x: 12, y: 2016-11-2, slug: 'sinking-in-the-quicksand'}
-            _.each($scope.unpaginatedPosts.data, (post) => {
-                AnalyticsService.getAnalytics({slug: post.slug})
-                    .then((data) => {
-                        post.pageviews = $scope.calculatePageViews(data)
-                    });
+            })
+            .then((posts) => {
+                // get data for each slug
+                // [1,2,4,1,4,5,6]
+                _.each(posts.data, (post) => {
+                    AnalyticsService.getAnalytics({slug: post.slug})
+                        .then((data) => {
+                            if (!_.isUndefined(data) && data.data.totalResults > 0) {
+                                post.pageviews = $scope.calculatePageViews(data);
+                                post.totalPageViews = data.data.totalResults;
+                                $scope.trendingPosts.push(post);
+                            }
+                        });
+                });
             });
 
-        });
+
         $scope.calculatePageViews = function (result) {
             return _.map(result.data.rows, function (item) {
-                // data -> [{x: 1, y: 123},  {x: 123, y: 132}]
-                    // x: moment(item[0]).format("MMM Do YY"),
-                    return parseInt(item[2], 10)
-
+                // data -> [12,23,14,66,778,232,334]
+                return parseInt(item[2], 10);
             });
         };
 

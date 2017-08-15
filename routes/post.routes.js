@@ -26,8 +26,17 @@ router.get('/getpostsbytagname', (req, res, next) => {
     promise.then((data) => {
         res.send(data);
     })
-       .catch(console.log)
-       .done();
+        .catch(console.log)
+        .done();
+});
+
+router.get('/filterontags', (req, res, next) => {
+    let promise = Post.filterOnTags(req.query.tagNames);
+    promise.then((data) => {
+        res.send(data);
+    })
+        .catch(console.log)
+        .done();
 });
 
 router.get('/getpost', (req, res, next) => {
