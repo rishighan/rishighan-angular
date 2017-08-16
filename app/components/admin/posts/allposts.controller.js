@@ -19,6 +19,7 @@ class AllPostsController {
 
         // Fetches a subset of posts, then fetches Google Analytics pageviews
         // and then sorts the resultset based in descending order of total page views
+        // todo: sort by descending order of totalPageViews
         PostService.filterOnTags(["Highlight", "colophon"])
             .then((posts) => {
                 return posts;

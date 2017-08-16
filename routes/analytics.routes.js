@@ -7,11 +7,11 @@ const key = require('../config/key.json');
 let jwtClient = new google.auth.JWT(key.client_email,
     null,
     key.private_key,
-    ['https://www.googleapis.com/auth/analytics.readonly'],
+    [ 'https://www.googleapis.com/auth/analytics.readonly' ],
     null);
 
 
-router.get('/getAnalytics', function (req, res, next) {
+router.get('/getAnalytics', (req, res, next) => {
     jwtClient.authorize((err, tokens) => {
         if (err) {
             // todo: winston
@@ -20,18 +20,22 @@ router.get('/getAnalytics', function (req, res, next) {
         }
         let analytics = google.analytics('v3');
         let dataPromise = queryData(analytics, req.query.slug);
-        dataPromise.then(function (data) {
+        dataPromise.then((data) => {
             res.send(data);
-        }, function (err) {
+        }, (err) => {
             res.send(err);
         });
     });
 });
 
 // todo: parameterize this method
+// todo: refactor this to pull in top content
+// it doesn't make sense to massage the data making
+// an inordinate amount of HTTP requests to fetch analytics by looping over posts.
+// todo: make this sustainable
 function queryData(analytics, slug) {
     let pattern = slug || '*';
-    var deferred = Q.defer();
+    let deferred = Q.defer();
     analytics.data.ga.get({
         'auth': jwtClient,
         'ids': 'ga:17894417',
@@ -39,11 +43,11 @@ function queryData(analytics, slug) {
         'end-date': 'yesterday',
         'metrics': 'ga:pageviews',
         'dimensions': 'ga:date, ga:pagePath',
-        'filters': 'ga:pagePath=~/post/'+ pattern,
+        'filters': `ga:pagePath=~/post/${ pattern}`,
         'max-results': 150
-    }, function (err, response) {
+    }, (err, response) => {
         if (err) {
-            //todo: winston logging
+            // todo: winston logging
             deferred.reject(new Error(err));
         } else {
             deferred.resolve(JSON.stringify(response, null, 4));
@@ -52,4 +56,4 @@ function queryData(analytics, slug) {
     return deferred.promise;
 }
 
-module.exports = router
+module.exports = router;
