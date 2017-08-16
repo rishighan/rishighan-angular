@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../db/user.schema');
 
-router.post('/register', function (req, res) {
+router.post('/register', (req, res) => {
     User.register(new User({username: req.body.username}),
         req.body.password, function (err, account) {
             if (err) {
@@ -20,7 +20,7 @@ router.post('/register', function (req, res) {
 });
 
 
-router.post('/login', function (req, res, next) {
+router.post('/login', (req, res, next) => {
     passport.authenticate('local', function (err, user, info) {
         if (err) {
             return next(err);
@@ -30,7 +30,7 @@ router.post('/login', function (req, res, next) {
                 err: info
             });
         }
-        req.logIn(user, function (err) {
+        req.logIn(user, err => {
             if (err) {
                 return res.status(500).json({
                     err: 'Could not log in user'
@@ -55,7 +55,7 @@ router.get('/status', function (req, res) {
     });
 });
 
-router.get('/logout', function (req, res) {
+router.get('/logout', (req, res) => {
     req.logout();
     res.status(200).json({
         status: 'Bye!'

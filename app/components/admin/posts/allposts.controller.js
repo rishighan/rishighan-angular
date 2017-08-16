@@ -1,4 +1,3 @@
-const moment = require('moment');
 class AllPostsController {
     constructor($scope,
                 NavbarService,
@@ -18,6 +17,8 @@ class AllPostsController {
                 $scope.posts = posts.data;
             });
 
+        // Fetches a subset of posts, then fetches Google Analytics pageviews
+        // and then sorts the resultset based in descending order of total page views
         PostService.filterOnTags(["Highlight", "colophon"])
             .then((posts) => {
                 return posts;

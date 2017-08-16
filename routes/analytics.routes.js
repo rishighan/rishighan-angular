@@ -12,14 +12,14 @@ let jwtClient = new google.auth.JWT(key.client_email,
 
 
 router.get('/getAnalytics', function (req, res, next) {
-    jwtClient.authorize(function (err, tokens) {
+    jwtClient.authorize((err, tokens) => {
         if (err) {
             // todo: winston
             console.log(err);
             return;
         }
         let analytics = google.analytics('v3');
-        var dataPromise = queryData(analytics, req.query.slug);
+        let dataPromise = queryData(analytics, req.query.slug);
         dataPromise.then(function (data) {
             res.send(data);
         }, function (err) {
@@ -52,4 +52,4 @@ function queryData(analytics, slug) {
     return deferred.promise;
 }
 
-module.exports = router;
+module.exports = router

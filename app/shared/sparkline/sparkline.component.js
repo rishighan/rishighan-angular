@@ -8,6 +8,7 @@ let sparklineComponent = function () {
         },
         transclude: true,
         replace: true,
+        template: '<span style="display: inline-block"></span>',
         link: function (scope, element, attributes) {
             scope.$watch('data', (newValue) => {
                 Highcharts.chart(element[0],
@@ -80,7 +81,7 @@ let sparklineComponent = function () {
                                     }
                                 },
                                 marker: {
-                                    radius: 1,
+                                    radius: 1.5,
                                     states: {
                                         hover: {
                                             radius: 2
@@ -100,12 +101,8 @@ let sparklineComponent = function () {
 
                     })
             });
-
-        },
-
-        template: '<div></div>'
+        }
     };
-
 };
 
 export default sparklineComponent;

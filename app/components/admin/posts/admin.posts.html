@@ -31,14 +31,13 @@
             </ul>
 
             <!--Trending posts-->
-            <div class="col-md-5">
-                <ul cg-busy="trendingPostsPromise">
-                    <li ng-repeat="post in trendingPosts track by $index">
-                        <h3>{{::post.title}}</h3>
-                        <sparkline data="post.pageviews"></sparkline>
-                    </li>
-                </ul>
-            </div>
+            <ul cg-busy="trendingPostsPromise" class="col-md-5">
+                <li ng-repeat="post in trendingPosts track by $index">
+                    <h3>{{::post.title}}</h3>
+                    <sparkline data="post.pageviews"></sparkline>
+                    <span>{{post.totalPageViews}}</span>
+                </li>
+            </ul>
         </section>
     </div>
 </div>
