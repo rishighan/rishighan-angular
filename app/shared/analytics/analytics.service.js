@@ -8,9 +8,7 @@ class AnalyticsService {
         return "This be Analytics.";
     }
     getAnalytics(query) {
-        return this._$http.get('/getAnalytics', {
-            params: {slug: query.slug || ''}
-        })
+        return this._$http.get('/getAnalytics')
             .then(function (data) {
                 return data;
             }, function (error) {
@@ -19,5 +17,4 @@ class AnalyticsService {
     }
 }
 
-export
-default AnalyticsService;
+export default AnalyticsService;

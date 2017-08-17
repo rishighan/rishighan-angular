@@ -7,7 +7,7 @@ const key = require('../config/key.json');
 let jwtClient = new google.auth.JWT(key.client_email,
     null,
     key.private_key,
-    [ 'https://www.googleapis.com/auth/analytics.readonly' ],
+    ['https://www.googleapis.com/auth/analytics.readonly'],
     null);
 
 
@@ -33,18 +33,17 @@ router.get('/getAnalytics', (req, res, next) => {
 // it doesn't make sense to massage the data making
 // an inordinate amount of HTTP requests to fetch analytics by looping over posts.
 // todo: make this sustainable
-function queryData(analytics, slug) {
-    let pattern = slug || '*';
+function queryData(analytics, options) {
     let deferred = Q.defer();
+    // pass in 'filters': `ga:pagePath=~/post/${ pattern}`,
     analytics.data.ga.get({
         'auth': jwtClient,
         'ids': 'ga:17894417',
         'start-date': '30daysAgo',
         'end-date': 'yesterday',
         'metrics': 'ga:pageviews',
-        'dimensions': 'ga:date, ga:pagePath',
-        'filters': `ga:pagePath=~/post/${ pattern}`,
-        'max-results': 150
+        'dimensions': 'ga:date, ga:pageTitle',
+        'filter': 'ga:pagePath=~/post/*'
     }, (err, response) => {
         if (err) {
             // todo: winston logging

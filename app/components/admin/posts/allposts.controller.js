@@ -20,32 +20,43 @@ class AllPostsController {
         // Fetches a subset of posts, then fetches Google Analytics pageviews
         // and then sorts the resultset based in descending order of total page views
         // todo: sort by descending order of totalPageViews
-        PostService.filterOnTags(["Highlight", "colophon"])
-            .then((posts) => {
-                return posts;
-            })
-            .then((posts) => {
-                // get data for each slug
-                // [1,2,4,1,4,5,6]
-                _.each(posts.data, (post) => {
-                    AnalyticsService.getAnalytics({slug: post.slug})
-                        .then((data) => {
-                            if (!_.isUndefined(data) && data.data.totalResults > 0) {
-                                post.pageviews = $scope.calculatePageViews(data);
-                                post.totalPageViews = data.data.totalResults;
-                                $scope.trendingPosts.push(post);
+        AnalyticsService.getAnalytics()
+            .then((data) => {
+                let foo = _.chain(data.data.rows)
+                    .groupBy((row) => {
+                        return row[1]
+                    })
+                    .map((group) => {
+                         return _.map(group, (record) => {
+                            return {
+                                pageTitle: record[1],
+                                analytics: {
+                                    date: record[0],
+                                    pageviews: parseInt(record[2], 10)
+                                }
                             }
+                        })
+                    });
+
+                    let final = foo._wrapped.map((record) => {
+                        let analyticsObj = {};
+                        _.each(record, (item) => {
+                            let title = _.pick(item, 'pageTitle');
+                            analyticsObj[title.pageTitle] = [];
                         });
-                });
-            });
+                        return analyticsObj;
+                    });
 
+                    let shoo = foo._wrapped.map((record) => {
+                        _.each(record, (item) => {
+                           final[item.pageTitle].push(item.analytics);
+                        })
+                    });
+                    console.log(shoo);
 
-        $scope.calculatePageViews = function (result) {
-            return _.map(result.data.rows, function (item) {
-                // data -> [12,23,14,66,778,232,334]
-                return parseInt(item[2], 10);
+                return data.data.rows;
+
             });
-        };
 
         $scope.getMore = function (page, pageOffset) {
             PostService.getPosts(page, pageOffset)
@@ -70,4 +81,5 @@ class AllPostsController {
         $scope.search = _.debounce($scope.searchPost, 500);
     }
 }
+
 export default AllPostsController;
