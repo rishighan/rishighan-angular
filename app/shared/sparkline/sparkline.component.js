@@ -38,7 +38,7 @@ let sparklineComponent = function () {
                                 enabled: false
                             },
                             title: {
-                                text: null
+                                text:null
                             },
                             startOnTick: false,
                             endOnTick: false,

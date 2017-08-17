@@ -19,10 +19,10 @@ class AllPostsController {
             });
 
         // Todo: refactor this garbage fire
-        // In a nutshell, it gets data from GA in
-        // this form: ["20170719", "Clover, Handoff And Continuity In Yosemite", "1"]
+        // In a nutshell, it gets data from GA in this form:
+        // ["20170719", "Clover, Handoff And Continuity In Yosemite", "1"]
         // There is a row for pageviews per day, per post, which leads to duplicates
-        // We de-dupe that in the following manner:
+        // We de-dupe on page title in the following manner:
         AnalyticsService.getAnalytics()
             .then((data) => {
                 _.chain(data.data.rows)
@@ -38,11 +38,12 @@ class AllPostsController {
                     })
                     .map((group) => {
                      /* outputs rows:
+                        Note: The Highcharts sparkline config identifies pageviews as 'y'
                        ...[
                             pageTitle: "Rishi Ghan",
                             analytics: {
                                date: "20170718",
-                               pageviews: 4
+                               y: 4
                             }
                           ]... */
                         return _.map(group, (record) => {
@@ -50,7 +51,7 @@ class AllPostsController {
                                 pageTitle: record[1],
                                 analytics: {
                                     date: record[0],
-                                    pageviews: parseInt(record[2], 10)
+                                    y: parseInt(record[2], 10)
                                 }
                             }
                         })
@@ -77,9 +78,9 @@ class AllPostsController {
                              title: "Rishi Ghan"
                              data:
                                  [...
-                                     { date: "20170718", pageviews: 4},
-                                     { date: "20170720", pageviews: 3},
-                                     { date: "20170722", pageviews: 1}
+                                     { date: "20170718", y: 4},
+                                     { date: "20170720", y: 3},
+                                     { date: "20170722", y: 1}
                                  ...]  */
                         row.map((record) => {
                             let idx = _.findIndex($scope.temp, record.pageTitle);
@@ -91,9 +92,9 @@ class AllPostsController {
                     /*Finally the de-duped output, after removal of the redundant title key:
                       title: "Rishi Ghan"
                       data: [...
-                              {date: "20170718", pageviews: 4},
-                              {date: "20170720", pageviews: 3},
-                              {date: "20170722", pageviews: 1}
+                              {date: "20170718", y: 4},
+                              {date: "20170720", y: 3},
+                              {date: "20170722", y: 1}
                             ...] */
                     $scope.trendingPosts.push(post[_.keys(post)]);
                 });
