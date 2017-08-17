@@ -37,7 +37,7 @@ class AllPostsController {
                         return row[1]
                     })
                     .map((group) => {
-                     /* outputs:
+                     /* outputs rows:
                        ...[
                             pageTitle: "Rishi Ghan",
                             analytics: {
@@ -60,8 +60,8 @@ class AllPostsController {
                            Rishi Ghan:
                               title:"Rishi Ghan",
                               data: []
-                        and passes the result of the operation along to the next
-                        operation in the _.chain */
+                           and passes the result of the operation along to the next
+                           operation in the _.chain */
                         let analyticsObj = [];
                         let partialResult = _.each(record, (item) => {
                             let title = _.pick(item, 'pageTitle');
@@ -72,15 +72,15 @@ class AllPostsController {
                     })
                     .each((row) => {
                         /* Takes all the pageviews from the partial result and pushes them into the
-                         data key of the temp object
-                         Rishi Ghan:
-                           title: "Rishi Ghan"
-                           data:
-                               [...
-                                   { date: "20170718", pageviews: 4},
-                                   { date: "20170720", pageviews: 3},
-                                   { date: "20170722", pageviews: 1}
-                               ...]  */
+                           data key of the temp object
+                           Rishi Ghan:
+                             title: "Rishi Ghan"
+                             data:
+                                 [...
+                                     { date: "20170718", pageviews: 4},
+                                     { date: "20170720", pageviews: 3},
+                                     { date: "20170722", pageviews: 1}
+                                 ...]  */
                         row.map((record) => {
                             let idx = _.findIndex($scope.temp, record.pageTitle);
                             $scope.temp[idx][record.pageTitle].data.push(record.analytics);
@@ -88,7 +88,7 @@ class AllPostsController {
                     });
 
                 $scope.temp.map((post) => {
-                    /*Finally the output, after removal of the reduntant title key:
+                    /*Finally the de-duped output, after removal of the redundant title key:
                       title: "Rishi Ghan"
                       data: [...
                               {date: "20170718", pageviews: 4},
@@ -99,6 +99,7 @@ class AllPostsController {
                 });
             });
 
+        // pagination and searching
         $scope.getMore = function (page, pageOffset) {
             PostService.getPosts(page, pageOffset)
                 .then(function (posts) {
