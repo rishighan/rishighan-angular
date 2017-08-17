@@ -20,7 +20,7 @@ class AllPostsController {
 
         // Todo: refactor this garbage fire
         // In a nutshell, it gets data from GA in this form:
-        // ["20170719", "Clover, Handoff And Continuity In Yosemite", "1"]
+        // ["20170719", "Foo Bar", "1"]
         // There is a row for pageviews per day, per post, which leads to duplicates
         // We de-dupe on page title in the following manner:
         AnalyticsService.getAnalytics()
@@ -29,18 +29,18 @@ class AllPostsController {
                     .groupBy((row) => {
                      /* outputs:
                         array of arrays grouped by the post title
-                        [...
-                            ["20170718", "Rishi Ghan", "4"]
-                            ["20170720", "Rishi Ghan", "3"]
-                            ["20170722", "Rishi Ghan", "1"]
-                        ...] */
+                        0: [...
+                              ["20170718", "Foo Bar", "4"]
+                              ["20170720", "Foo Bar", "3"]
+                              ["20170722", "Foo Bar", "1"]
+                           ...] */
                         return row[1]
                     })
                     .map((group) => {
                      /* outputs rows:
                         Note: The Highcharts sparkline config identifies pageviews as 'y'
                        ...[
-                            pageTitle: "Rishi Ghan",
+                            pageTitle: "Foo Bar",
                             analytics: {
                                date: "20170718",
                                y: 4
@@ -58,8 +58,8 @@ class AllPostsController {
                     })
                     .map((record) => {
                         /* creates a temp object:
-                           Rishi Ghan:
-                              title:"Rishi Ghan",
+                           Foo Bar:
+                              title:"Foo Bar",
                               data: []
                            and passes the result of the operation along to the next
                            operation in the _.chain */
@@ -74,8 +74,8 @@ class AllPostsController {
                     .each((row) => {
                         /* Takes all the pageviews from the partial result and pushes them into the
                            data key of the temp object
-                           Rishi Ghan:
-                             title: "Rishi Ghan"
+                           Foo Bar:
+                             title: "Foo Bar"
                              data:
                                  [...
                                      { date: "20170718", y: 4},
@@ -90,7 +90,7 @@ class AllPostsController {
 
                 $scope.temp.map((post) => {
                     /*Finally the de-duped output, after removal of the redundant title key:
-                      title: "Rishi Ghan"
+                      title: "Foo Bar"
                       data: [...
                               {date: "20170718", y: 4},
                               {date: "20170720", y: 3},
