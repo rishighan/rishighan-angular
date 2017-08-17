@@ -5,6 +5,7 @@ class AllPostsController {
                 PostService) {
         $scope.posts = {};
         $scope.trendingPosts = [];
+        $scope.temp = [];
         $scope.navItems = NavbarService.getNavItems('admin');
         $scope.pagerDefaults = {
             page: 1,
@@ -17,17 +18,34 @@ class AllPostsController {
                 $scope.posts = posts.data;
             });
 
-        // Fetches a subset of posts, then fetches Google Analytics pageviews
-        // and then sorts the resultset based in descending order of total page views
-        // todo: sort by descending order of totalPageViews
+        // Todo: refactor this garbage fire
+        // In a nutshell, it gets data from GA in
+        // this form: ["20170719", "Clover, Handoff And Continuity In Yosemite", "1"]
+        // There is a row for pageviews per day, per post, which leads to duplicates
+        // We de-dupe that in the following manner:
         AnalyticsService.getAnalytics()
             .then((data) => {
-                let foo = _.chain(data.data.rows)
+                _.chain(data.data.rows)
                     .groupBy((row) => {
+                     /* outputs:
+                        array of arrays grouped by the post title
+                        [...
+                            ["20170718", "Rishi Ghan", "4"]
+                            ["20170720", "Rishi Ghan", "3"]
+                            ["20170722", "Rishi Ghan", "1"]
+                        ...] */
                         return row[1]
                     })
                     .map((group) => {
-                         return _.map(group, (record) => {
+                     /* outputs:
+                       ...[
+                            pageTitle: "Rishi Ghan",
+                            analytics: {
+                               date: "20170718",
+                               pageviews: 4
+                            }
+                          ]... */
+                        return _.map(group, (record) => {
                             return {
                                 pageTitle: record[1],
                                 analytics: {
@@ -36,26 +54,49 @@ class AllPostsController {
                                 }
                             }
                         })
-                    });
-
-                    let final = foo._wrapped.map((record) => {
-                        let analyticsObj = {};
-                        _.each(record, (item) => {
+                    })
+                    .map((record) => {
+                        /* creates a temp object:
+                           Rishi Ghan:
+                              title:"Rishi Ghan",
+                              data: []
+                        and passes the result of the operation along to the next
+                        operation in the _.chain */
+                        let analyticsObj = [];
+                        let partialResult = _.each(record, (item) => {
                             let title = _.pick(item, 'pageTitle');
-                            analyticsObj[title.pageTitle] = [];
+                            analyticsObj[title.pageTitle] = {title: title.pageTitle, data: []};
                         });
-                        return analyticsObj;
+                        $scope.temp.push(analyticsObj);
+                        return partialResult;
+                    })
+                    .each((row) => {
+                        /* Takes all the pageviews from the partial result and pushes them into the
+                         data key of the temp object
+                         Rishi Ghan:
+                           title: "Rishi Ghan"
+                           data:
+                               [...
+                                   { date: "20170718", pageviews: 4},
+                                   { date: "20170720", pageviews: 3},
+                                   { date: "20170722", pageviews: 1}
+                               ...]  */
+                        row.map((record) => {
+                            let idx = _.findIndex($scope.temp, record.pageTitle);
+                            $scope.temp[idx][record.pageTitle].data.push(record.analytics);
+                        });
                     });
 
-                    let shoo = foo._wrapped.map((record) => {
-                        _.each(record, (item) => {
-                           final[item.pageTitle].push(item.analytics);
-                        })
-                    });
-                    console.log(shoo);
-
-                return data.data.rows;
-
+                $scope.temp.map((post) => {
+                    /*Finally the output, after removal of the reduntant title key:
+                      title: "Rishi Ghan"
+                      data: [...
+                              {date: "20170718", pageviews: 4},
+                              {date: "20170720", pageviews: 3},
+                              {date: "20170722", pageviews: 1}
+                            ...] */
+                    $scope.trendingPosts.push(post[_.keys(post)]);
+                });
             });
 
         $scope.getMore = function (page, pageOffset) {
