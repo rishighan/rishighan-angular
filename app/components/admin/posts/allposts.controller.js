@@ -87,10 +87,10 @@ class AllPostsController {
                             $scope.temp[idx][record.pageTitle].data.push(record.analytics);
                         });
                     })
-                    .map((row) => {
-                        _.each(row, (datum) => {
-                            console.log("datum", datum.analytics)
-                        })
+                    .map((group, idx) => {
+                         group.map((item) => {
+                             console.log(item);
+                         })
                     })
 
                 $scope.temp.map((post) => {
