@@ -59,7 +59,7 @@ class AllPostsController {
                     .map((record) => {
                         /* creates a temp object:
                            Foo Bar:
-                              title:"Foo Bar",
+                              title: "Foo Bar",
                               data: []
                            and passes the result of the operation along to the next
                            operation in the _.chain */
@@ -82,20 +82,25 @@ class AllPostsController {
                                      { date: "20170720", y: 3},
                                      { date: "20170722", y: 1}
                                  ...]  */
-                        row.map((record) => {
+                        return row.map((record) => {
                             let idx = _.findIndex($scope.temp, record.pageTitle);
                             $scope.temp[idx][record.pageTitle].data.push(record.analytics);
                         });
-                    });
+                    })
+                    .map((row) => {
+                        _.each(row, (datum) => {
+                            console.log("datum", datum.analytics)
+                        })
+                    })
 
                 $scope.temp.map((post) => {
                     /*Finally the de-duped output, after removal of the redundant title key:
-                      title: "Foo Bar"
-                      data: [...
-                              {date: "20170718", y: 4},
-                              {date: "20170720", y: 3},
-                              {date: "20170722", y: 1}
-                            ...] */
+                        title: "Foo Bar"
+                        data: [...
+                                {date: "20170718", y: 4},
+                                {date: "20170720", y: 3},
+                                {date: "20170722", y: 1}
+                              ...] */
                     $scope.trendingPosts.push(post[_.keys(post)]);
                 });
             });
