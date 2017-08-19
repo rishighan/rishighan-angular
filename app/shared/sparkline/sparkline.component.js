@@ -16,7 +16,7 @@ let sparklineComponent = function () {
                         chart: {
                             backgroundColor: null,
                             borderWidth: 0,
-                            type: 'area',
+                            type: 'areaspline',
                             margin: [2, 0, 2, 0],
                             width: 120,
                             height: 20,
@@ -99,7 +99,7 @@ let sparklineComponent = function () {
                             data: newValue
                         }]
 
-                    })
+                    });
             });
         }
     };

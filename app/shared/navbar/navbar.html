@@ -10,7 +10,7 @@
            analytics-event="Navigate to {{item.displayName}}"
            analytics-category="whatever">{{item.displayName}}</a>
     </li>
-    <li ng-if="nv.isLoggedIn()">
+    <li ng-if="nv.isLoggedIn()" class="nav-items">
         <span>
             <small>{{'admin.logged_in_as.status' | translate}} {{details.data.user}}</small>
         </span>

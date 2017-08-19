@@ -33,7 +33,7 @@ class AnalyticsService {
                          ["20170720", "Foo Bar", "3"]
                          ["20170722", "Foo Bar", "1"]
                       ...] */
-                return row[1]
+                return row[1];
             })
             .map((group) => {
                 /* outputs rows:
@@ -52,8 +52,8 @@ class AnalyticsService {
                             date: record[0],
                             y: parseInt(record[2], 10)
                         }
-                    }
-                })
+                    };
+                });
             })
             .map((record) => {
                 /* creates a temp object:
@@ -61,8 +61,7 @@ class AnalyticsService {
                       title: "Foo Bar",
                       data: [],
                       totalPageViews: 23
-                   and passes the result of the operation along to the next
-                   operation in the _.chain */
+                */
                 let analyticsObj = [];
                 let pageViewSumArray = _.map(record, (row) => {
                     let sum = 0;

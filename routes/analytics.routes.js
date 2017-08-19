@@ -30,8 +30,6 @@ router.get('/getAnalytics', (req, res, next) => {
 
 // todo: parameterize this method
 // todo: refactor this to pull in top content
-// it doesn't make sense to massage the data making
-// an inordinate amount of HTTP requests to fetch analytics by looping over posts.
 // todo: make this sustainable
 function queryData(analytics, options) {
     let deferred = Q.defer();
