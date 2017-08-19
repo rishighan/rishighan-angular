@@ -5,7 +5,6 @@ class AllPostsController {
                 PostService) {
         $scope.posts = {};
         $scope.trendingPosts = [];
-        $scope.temp = [];
         $scope.navItems = NavbarService.getNavItems('admin');
         $scope.pagerDefaults = {
             page: 1,
@@ -18,89 +17,18 @@ class AllPostsController {
                 $scope.posts = posts.data;
             });
 
-        // Todo: refactor this garbage fire
-        // In a nutshell, it gets data from GA in this form:
-        // ["20170719", "Foo Bar", "1"]
-        // There is a row for pageviews per day, per post, which leads to duplicates
-        // We de-dupe on page title in the following manner:
-        AnalyticsService.getAnalytics()
+        $scope.trendingPostsPromise = AnalyticsService.getAnalytics()
             .then((data) => {
-                _.chain(data.data.rows)
-                    .groupBy((row) => {
-                     /* outputs:
-                        array of arrays grouped by the post title
-                        0: [...
-                              ["20170718", "Foo Bar", "4"]
-                              ["20170720", "Foo Bar", "3"]
-                              ["20170722", "Foo Bar", "1"]
-                           ...] */
-                        return row[1]
-                    })
-                    .map((group) => {
-                     /* outputs rows:
-                        Note: The Highcharts sparkline config identifies pageviews as 'y'
-                       ...[
-                            pageTitle: "Foo Bar",
-                            analytics: {
-                               date: "20170718",
-                               y: 4
-                            }
-                          ]... */
-                        return _.map(group, (record) => {
-                            return {
-                                pageTitle: record[1],
-                                analytics: {
-                                    date: record[0],
-                                    y: parseInt(record[2], 10)
-                                }
-                            }
-                        })
-                    })
-                    .map((record) => {
-                        /* creates a temp object:
-                           Foo Bar:
-                              title: "Foo Bar",
-                              data: []
-                           and passes the result of the operation along to the next
-                           operation in the _.chain */
-                        let analyticsObj = [];
-                        let partialResult = _.each(record, (item) => {
-                            let title = _.pick(item, 'pageTitle');
-                            analyticsObj[title.pageTitle] = {title: title.pageTitle, data: []};
-                        });
-                        $scope.temp.push(analyticsObj);
-                        return partialResult;
-                    })
-                    .each((row) => {
-                        /* Takes all the pageviews from the partial result and pushes them into the
-                           data key of the temp object
-                           Foo Bar:
-                             title: "Foo Bar"
-                             data:
-                                 [...
-                                     { date: "20170718", y: 4},
-                                     { date: "20170720", y: 3},
-                                     { date: "20170722", y: 1}
-                                 ...]  */
-                        return row.map((record) => {
-                            let idx = _.findIndex($scope.temp, record.pageTitle);
-                            $scope.temp[idx][record.pageTitle].data.push(record.analytics);
-                        });
-                    })
-                    .map((group, idx) => {
-                         group.map((item) => {
-                             console.log(item);
-                         })
-                    })
-
-                $scope.temp.map((post) => {
-                    /*Finally the de-duped output, after removal of the redundant title key:
+                let formattedResult = AnalyticsService.formatData(data.data.rows);
+                formattedResult.map((post) => {
+                    /* The de-duped output, after removal of the redundant title key:
                         title: "Foo Bar"
                         data: [...
                                 {date: "20170718", y: 4},
                                 {date: "20170720", y: 3},
                                 {date: "20170722", y: 1}
-                              ...] */
+                              ...],
+                        totalPageViews: 23 */
                     $scope.trendingPosts.push(post[_.keys(post)]);
                 });
             });

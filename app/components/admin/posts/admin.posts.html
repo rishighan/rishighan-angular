@@ -35,7 +35,7 @@
                 <li ng-repeat="post in trendingPosts track by $index">
                     <h3>{{::post.title}}</h3>
                     <sparkline data="post.data"></sparkline>
-                    <!--<span>{{post.totalPageViews}}</span>-->
+                    <span><h5>{{post.totalPageViews}}</h5></span>
                 </li>
             </ul>
         </section>
