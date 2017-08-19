@@ -8,8 +8,9 @@ class AnalyticsService {
         return "This be Analytics.";
     }
 
-    getAnalytics(query) {
-        return this._$http.get('/getAnalytics')
+    getAnalytics(analyticsQuery) {
+        return this._$http.get('/getAnalytics',
+            {params: analyticsQuery})
             .then(function (data) {
                 return data;
             }, function (error) {
@@ -87,7 +88,8 @@ class AnalyticsService {
                              { date: "20170718", y: 4},
                              { date: "20170720", y: 3},
                              { date: "20170722", y: 1}
-                         ...]  */
+                         ...],
+                    totalPageViews: 23 */
                 return row.map((record) => {
                     let idx = _.findIndex(temp, record.pageTitle);
                     temp[idx][record.pageTitle].data.push(record.analytics);

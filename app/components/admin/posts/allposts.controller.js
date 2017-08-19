@@ -4,6 +4,14 @@ class AllPostsController {
                 AnalyticsService,
                 PostService) {
         $scope.posts = {};
+        let analyticsQuery = {
+            'ids': 'ga:17894417',
+            'start-date': '30daysAgo',
+            'end-date': 'yesterday',
+            'metrics': 'ga:pageviews',
+            'dimensions': 'ga:date, ga:pageTitle',
+            'filter': 'ga:pagePath=~/post/*',
+        };
         $scope.trendingPosts = [];
         $scope.navItems = NavbarService.getNavItems('admin');
         $scope.pagerDefaults = {
@@ -17,7 +25,7 @@ class AllPostsController {
                 $scope.posts = posts.data;
             });
 
-        $scope.trendingPostsPromise = AnalyticsService.getAnalytics()
+        $scope.trendingPostsPromise = AnalyticsService.getAnalytics(analyticsQuery)
             .then((data) => {
                 let formattedResult = AnalyticsService.formatData(data.data.rows);
                 formattedResult.map((post) => {
