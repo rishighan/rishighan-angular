@@ -34,8 +34,10 @@
             <ul cg-busy="trendingPostsPromise" class="col-md-5">
                 <li ng-repeat="post in trendingPosts track by $index">
                     <h3>{{::post.title}}</h3>
-                    <sparkline data="post.data"></sparkline>
-                    <span><h5>{{post.totalPageViews}}</h5></span>
+                    <span class="sparkline-graph">
+                        <sparkline data="post.data" class="sparkline-item"></sparkline>
+                        <span class="sparkline-item"><h5>{{post.totalPageViews}}</h5></span>
+                    </span>
                 </li>
             </ul>
         </section>

@@ -377,4 +377,18 @@ textarea {
     @include simpleUnderline(1px, solid, $lightBackground);
     background: 0 none;
   }
+
+  // sparkline graph and pageview total
+  .sparkline-graph{
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: baseline;
+
+    .sparkline-item{
+      margin: 0 10px 0 0;
+      flex: 0 0 auto;
+    }
+  }
 }

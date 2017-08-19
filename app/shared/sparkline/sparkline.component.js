@@ -8,7 +8,7 @@ let sparklineComponent = function () {
         },
         transclude: true,
         replace: true,
-        template: '<span style="display: inline-block"></span>',
+        template: '<span></span>',
         link: function (scope, element, attributes) {
             scope.$watch('data', (newValue) => {
                 Highcharts.chart(element[0],
