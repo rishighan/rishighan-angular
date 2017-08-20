@@ -13,6 +13,17 @@ const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const User = require('./db/user.schema');
 
+//logging
+let winston = require('winston');
+require('winston-loggly-bulk');
+
+winston.add(winston.transports.Loggly, {
+    inputToken: "562f07e1-08f7-4bec-93f9-0b683ad424b9",
+    subdomain: "frishi",
+    tags: ["Winston-NodeJS"],
+    json:true
+});
+
 // db
 let mongoose = require('mongoose');
 let db = require('./config/database.connection.js');
