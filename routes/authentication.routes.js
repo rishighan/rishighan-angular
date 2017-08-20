@@ -31,7 +31,7 @@ router.post('/login', (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            winston.log('info', 'Invalid credentials', {errorObj: user});
+            winston.log('info', 'Invalid credentials', {errorObj: user.username});
             return res.status(401).json({
                 err: info
             });
@@ -43,7 +43,7 @@ router.post('/login', (req, res, next) => {
                     err: 'Could not log in user'
                 });
             }
-            winston.log('info', 'User login successful', {details: res});
+            winston.log('info', 'User login successful', {username: user.username});
             res.status(200).json({
                 status: 'Login successful!'
             });
@@ -53,12 +53,11 @@ router.post('/login', (req, res, next) => {
 
 router.get('/status', (req, res) => {
     if (!req.isAuthenticated()) {
-        winston.log('info', 'Authentication failure', {errorObj: res});
         return res.status(200).json({
             status: false
         });
     }
-    winston.log('info', 'Authentication successful');
+    winston.log('info', 'Authentication successful', {username: req.user.username});
     res.status(200).json({
         status: true,
         user: req.user.username
@@ -67,10 +66,10 @@ router.get('/status', (req, res) => {
 
 router.get('/logout', (req, res) => {
     req.logout();
-    winston.log('info', 'User logged out', {details: res});
     res.status(200).json({
         status: 'Bye!'
     });
+    winston.log('info', 'User logged out');
 });
 
 module.exports = router;

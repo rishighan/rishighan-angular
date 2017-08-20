@@ -7,8 +7,8 @@ require('winston-loggly-bulk');
 router.post('/createpost', (req, res, next) => {
     let promise = Post.createPost(req.body);
     promise.then((data) => {
-        winston.log('info', 'Post created successfully', {responseObj: data});
         res.send(data);
+        winston.log('info', 'Post created successfully', {details: req.body});
     })
         .catch((err) => {
             winston.log('error', 'Error creating post', {errorObj: err});
@@ -86,6 +86,7 @@ router.post('/updatepost/:id', (req, res, next) => {
 router.post('/deletepost', (req, res, next) => {
     let promise = Post.deletePost(req.body.params.post_id);
     promise.then((result) => {
+        winston.log('info', 'Post deleted successfully', {details: req.body.params.post_id});
         res.send(result);
     })
         .catch((err) => {

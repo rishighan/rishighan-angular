@@ -162,10 +162,12 @@ class EditPostController {
                 $timeout.cancel(timeout);
             }
             let promises = [];
-            _.each(post[0].attachment, function (file) {
-                let promise = PostService.deleteFile({file: file.name});
-                promises.push(promise);
-            });
+            if(!_.isUndefined(post[0].attachment)) {
+                _.each(post[0].attachment, function (file) {
+                    let promise = PostService.deleteFile({file: file.name});
+                    promises.push(promise);
+                });
+            }
 
             $q.all(promises).then(function () {
                 PostService.deletePost(post[0]._id)
