@@ -8,7 +8,7 @@ router.post('/createpost', (req, res, next) => {
     let promise = Post.createPost(req.body);
     promise.then((data) => {
         res.send(data);
-        winston.log('info', 'Post created successfully', {details: req.body});
+        winston.log('info', 'Post created successfully', {details: req.body.title});
     })
         .catch((err) => {
             winston.log('error', 'Error creating post', {errorObj: err});
