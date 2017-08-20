@@ -13,7 +13,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const User = require('./db/user.schema');
 
-//logging
+// logging
 let winston = require('winston');
 require('winston-loggly-bulk');
 
@@ -90,7 +90,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Start Server on 3000
+// Start Server (default 8080)
 let port = process.env.PORT || 8080;
 app.listen(port, () => {
     console.log('Server listening on port ', port);

@@ -1,13 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../db/post.crud.js');
+const winston = require('winston');
+require('winston-loggly-bulk');
 
 router.post('/createpost', (req, res, next) => {
     let promise = Post.createPost(req.body);
     promise.then((data) => {
+        winston.log('info', 'Post created successfully', {responseObj: data});
         res.send(data);
     })
-        .catch(console.log)
+        .catch((err) => {
+            winston.log('error', 'Error creating post', {errorObj: err});
+        })
         .done();
 });
 
@@ -17,7 +22,9 @@ router.get('/getallposts', (req, res, next) => {
     promise.then((data) => {
         res.send(data);
     })
-        .catch(console.log)
+        .catch((err) => {
+            winston.log('error', 'Error retrieving posts', {errorObj: err});
+        })
         .done();
 });
 
@@ -26,7 +33,9 @@ router.get('/getpostsbytagname', (req, res, next) => {
     promise.then((data) => {
         res.send(data);
     })
-        .catch(console.log)
+        .catch((err) => {
+            winston.log('error', 'Error retrieving posts by tag: %s', req.query.tag, {errorObj: err});
+        })
         .done();
 });
 
@@ -35,7 +44,9 @@ router.get('/filterontags', (req, res, next) => {
     promise.then((data) => {
         res.send(data);
     })
-        .catch(console.log)
+        .catch((err) => {
+            winston.log('error', 'Error filtering on tags: %s', req.query.tagNames, {errorObj: err});
+        })
         .done();
 });
 
@@ -44,7 +55,9 @@ router.get('/getpost', (req, res, next) => {
     promise.then((post) => {
         res.send(post);
     })
-        .catch(console.log)
+        .catch((err) => {
+            winston.log('error', 'Error retrieving post: %s', req.query.id, {errorObj: err});
+        })
         .done();
 });
 
@@ -53,7 +66,9 @@ router.post('/searchpost', (req, res, next) => {
     promise.then((result) => {
         res.send(result);
     })
-        .catch(console.log)
+        .catch((err) => {
+            winston.log('error', 'Error searching for posts matching search text: %s', req.body.params.searchText, {errorObj: err});
+        })
         .done();
 });
 
@@ -62,7 +77,9 @@ router.post('/updatepost/:id', (req, res, next) => {
     promise.then((result) => {
         res.send(result);
     })
-        .catch(console.log)
+        .catch((err) => {
+            winston.log('error', 'Error updating post', {errorObj: err});
+        })
         .done();
 });
 
@@ -71,7 +88,9 @@ router.post('/deletepost', (req, res, next) => {
     promise.then((result) => {
         res.send(result);
     })
-        .catch(console.log)
+        .catch((err) => {
+            winston.log('error', 'Error deleting post id: %s', req.body.params.post_id, {errorObj: err});
+        })
         .done();
 });
 module.exports = router;

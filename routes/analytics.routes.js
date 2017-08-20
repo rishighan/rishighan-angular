@@ -13,14 +13,12 @@ let jwtClient = new google.auth.JWT(key.client_email,
     ['https://www.googleapis.com/auth/analytics.readonly'],
     null);
 
-// todo: make this sustainable
 function queryData(analytics, query) {
     let deferred = Q.defer();
     let queryConfig = _.extend({'auth': jwtClient}, query);
     analytics.data.ga.get(queryConfig, (err, response) => {
         if (err) {
-            // todo: winston logging
-            winston.log('error', 'Error: %s', err);
+            winston.log('error', 'Error fetching analytics data', {errorObj: err});
             deferred.reject(new Error(err));
         } else {
             winston.log('info', 'Fetched analytics response.')
@@ -33,9 +31,7 @@ function queryData(analytics, query) {
 router.get('/getAnalytics', (req, res, next) => {
     jwtClient.authorize((err, tokens) => {
         if (err) {
-            // todo: winston
             winston.log('error', 'Error: %s', err);
-            console.log(err);
             return;
         }
         let analytics = google.analytics('v3');
@@ -43,6 +39,7 @@ router.get('/getAnalytics', (req, res, next) => {
         dataPromise.then((data) => {
             res.send(data);
         }, (err) => {
+            winston.log('error', 'Error fetching analytics', {errorObj: err});
             res.send(err);
         });
     });
