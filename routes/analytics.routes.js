@@ -4,6 +4,8 @@ const Q = require('q');
 const google = require('googleapis');
 const key = require('../config/key.json');
 const _ = require('underscore');
+const winston = require('winston');
+require('winston-loggly-bulk');
 
 let jwtClient = new google.auth.JWT(key.client_email,
     null,
@@ -18,8 +20,10 @@ function queryData(analytics, query) {
     analytics.data.ga.get(queryConfig, (err, response) => {
         if (err) {
             // todo: winston logging
+            winston.log('error', 'Error: %s', err);
             deferred.reject(new Error(err));
         } else {
+            winston.log('info', 'Fetched analytics response.')
             deferred.resolve(JSON.stringify(response, null, 4));
         }
     });
@@ -30,6 +34,7 @@ router.get('/getAnalytics', (req, res, next) => {
     jwtClient.authorize((err, tokens) => {
         if (err) {
             // todo: winston
+            winston.log('error', 'Error: %s', err);
             console.log(err);
             return;
         }
