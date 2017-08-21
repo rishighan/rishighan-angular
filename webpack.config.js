@@ -34,7 +34,13 @@ module.exports = {
                 use: [ 'style-loader', 'css-loader' ]
             }, {
                 test: /\.(png|woff|ttf|eot|woff2|svg)$/,
-                use: 'url-loader?limit=100000'
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192,
+                        name: '../dist/fonts/[hash].[ext]'
+                    }
+                }]
             }, {
                 test: /\.scss$/,
                 use: [ 'style-loader',

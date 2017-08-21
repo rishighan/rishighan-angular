@@ -1,6 +1,6 @@
 import FormlyDataService from "../../../shared/utils/formlydata.service";
 import _ from "underscore";
-import dropzonePreviewTemplate from '../dropzone/dropzone-preview.html';
+import previewTemplate from '../dropzone/dropzone-preview.html';
 
 class CreatePostController {
     constructor($scope,
@@ -13,7 +13,7 @@ class CreatePostController {
                 DomHelperService,
                 ngNotify) {
 
-        $scope.formlyDataService = FormlyDataService.formlyDataFactory();
+        let formlyDataService = FormlyDataService.formlyDataFactory();
         $scope.postFormModel = {
             attachedFile: []
         };
@@ -43,6 +43,7 @@ class CreatePostController {
         $scope.dropzoneConfig = {
             options: {
                 url: FILE_UPLOAD_URL,
+                previewTemplate: previewTemplate,
                 maxFilesize: 9000000,
                 paramName: "attachedFile",
                 maxThumbnailFilesize: 5,
@@ -50,7 +51,6 @@ class CreatePostController {
                 uploadMultiple: true,
                 parallelUploads: 1,
                 maxFiles: 5,
-                previewTemplate: dropzonePreviewTemplate,
                 addRemoveLinks: true,
                 accept: function (file, done) {
                     file.customData = {};
@@ -60,18 +60,18 @@ class CreatePostController {
             eventHandlers: {
                 sending: function (file, xhr, formData) {
                     // renaming the file before sending
-                    var newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
+                    let newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
                     formData.append("newFileName", newFileName);
                 },
                 success: function (file, response) {
                     $compile($(file.previewTemplate))($scope);
                     // update the form model with the correct filename
                     file.customData.fileName = response.files[0].filename;
-                    var fileNameElement = document.createElement('div');
+                    let fileNameElement = document.createElement('div');
                     fileNameElement.className = 'dz-metadata';
                     fileNameElement.appendChild(document.createTextNode(file.customData.fileName));
                     file.previewTemplate.appendChild(fileNameElement);
-                    var fileObj = {
+                    let fileObj = {
                         name: file.customData.fileName,
                         size: file.size,
                         date_created: Date.now(),
@@ -95,20 +95,20 @@ class CreatePostController {
                     });
 
                     // update the form model
-                    var del = _.where($scope.postFormModel.attachedFile, {
+                    let del = _.where($scope.postFormModel.attachedFile, {
                         name: file.customData.fileName
                     });
                     $scope.postFormModel.attachedFile = _.without($scope.postFormModel.attachedFile, del[0]);
                     $scope.$digest();
-                    var _ref = file.previewElement;
+                    let _ref = file.previewElement;
                     return _.isNull(_ref) ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 }
             }
         };
         $scope.makeHero = function (event) {
             // todo: find a reliable way to get .dz-filename
-            var anchorElement = DomHelperService.findParentBySelector(event.target, '#preview-container');
-            var fileName = anchorElement.querySelector('div.dz-metadata').innerText;
+            let anchorElement = DomHelperService.findParentBySelector(event.target, '#preview-container');
+            let fileName = anchorElement.querySelector('div.dz-metadata').innerText;
             if (event.target.checked) {
                 _.each($scope.postFormModel.attachedFile, function (fileObject, index) {
                     if (fileObject.name === fileName) {
@@ -157,7 +157,7 @@ class CreatePostController {
         formlyValidationMessages.messages.email = '$viewValue + " is not a valid email address"';
 
         // Form Fields
-        $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel(testData);
+        $scope.postFormFields = formlyDataService.getFormlyDataModel(testData);
 
     }
 }

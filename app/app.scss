@@ -378,6 +378,14 @@ textarea {
     background: 0 none;
   }
 
+  .dz-filename {
+    pre{
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  }
+
   // sparkline graph and pageview total
   .sparkline-graph{
     display: inline-flex;

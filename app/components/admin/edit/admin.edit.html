@@ -17,8 +17,7 @@
                             {{'admin.delete_post.button' | translate }}
                         </button>
                         <button class="btn btn-primary pull-right" type="submit" ng-click="updatePost(post)"
-                                ng-disabled="form.$invalid || form.$pristine">{{'admin.save_changes.button' |translate
-                            }}
+                                ng-disabled="form.$invalid || form.$pristine">{{'admin.save_changes.button' |translate}}
                         </button>
                         <button class="btn btn-default" type="submit" ng-click="updatePost(post, true)"
                                 ng-if="!post[0].is_draft" ng-disabled="form.$invalid">

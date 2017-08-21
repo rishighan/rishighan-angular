@@ -20,6 +20,10 @@ class NavbarService {
             {
                 displayName: "Colophon",
                 stateReference: "main.colophon"
+            },
+            {
+                displayName: "Archive",
+                stateReference: "main.archive"
             }
         ];
         this.adminNavItems = [
