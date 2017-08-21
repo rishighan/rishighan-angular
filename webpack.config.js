@@ -31,7 +31,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [ 'style-loader', 'css-loader' ]
+                use: ['style-loader', 'css-loader']
             }, {
                 test: /\.(png|woff|ttf|eot|woff2|svg)$/,
                 use: [{
@@ -43,7 +43,7 @@ module.exports = {
                 }]
             }, {
                 test: /\.scss$/,
-                use: [ 'style-loader',
+                use: ['style-loader',
                     'css-loader',
                     'resolve-url-loader',
                     `sass-loader?includePaths[]=${ BUILD }/assets/css/`
@@ -53,7 +53,7 @@ module.exports = {
                 use: [
                     'ng-annotate-loader',
                     'jshint-loader',
-                    'babel-loader' ],
+                    'babel-loader'],
                 exclude: /(node_modules|test|bower_components|\.spec\.js)/
             }, {
                 test: /\.html$/,
@@ -70,10 +70,10 @@ module.exports = {
             }, {
                 include: require.resolve(`${BOWER_COMPONENTS_PATH }/angulartics-google-analytics/dist/angulartics-ga.min.js`),
                 use: 'exports-loader?"angulartics.google.analytics"'
-            } ]
+            }]
     },
     resolve: {
-        extensions: [ '.js', '.jsx', '.node' ],
+        extensions: ['.js', '.jsx', '.node'],
         alias: {
             'angular': `${BOWER_COMPONENTS_PATH }/angular/angular.min.js`,
             'angular-ui-router': `${BOWER_COMPONENTS_PATH }/angular-ui-router/release/angular-ui-router.min.js`,
@@ -100,14 +100,14 @@ module.exports = {
             'highlightjs': `${BOWER_COMPONENTS_PATH }/highlightjs/highlight.pack.min.js`,
             'github.css': `${BOWER_COMPONENTS_PATH }/highlightjs/styles/atelier-sulphurpool-light.css`,
             'ng-paging': `${BOWER_COMPONENTS_PATH }/angular-paging/dist/paging.min.js`,
-            'd3':`${BOWER_COMPONENTS_PATH}/d3/d3.min.js`
+            'd3': `${BOWER_COMPONENTS_PATH}/d3/d3.min.js`
         },
-        modules: [ 'assets', 'node_modules', BOWER_COMPONENTS_PATH ]
+        modules: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
             minimize: true,
-            compress: { warnings: true }
+            compress: {warnings: true}
         }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new CompressionPlugin({

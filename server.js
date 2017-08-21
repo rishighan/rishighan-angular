@@ -2,13 +2,10 @@
 let path = require('path');
 const express = require('express');
 let compression = require('compression');
-
 let session = require('express-session');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 
-let webpack = require('webpack');
-let config = require('./webpack.config.js');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const User = require('./db/user.schema');
