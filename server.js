@@ -10,6 +10,9 @@ const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const User = require('./db/user.schema');
 
+// zookeeper
+require('./config/zookeeper.config');
+
 // logging
 let winston = require('winston');
 require('winston-loggly-bulk');

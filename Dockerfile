@@ -1,4 +1,5 @@
 FROM node:7.10
+MAINTAINER Rishi Ghan <rishi.ghan@gmail.com>
 RUN mkdir -p /usr/src/rishighan
 
 WORKDIR /usr/src/rishighan
