@@ -17,5 +17,5 @@ RUN npm i -g bower  && \
 COPY . /usr/src/rishighan
 
 # This starts the app
-ENTRYPOINT npm start
+CMD ["npm", "start"]
 EXPOSE 8080
