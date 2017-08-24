@@ -1,6 +1,6 @@
-describe('AnalyticsService Tests', function () {
-    let analyticsService;
-    let analyticsQueryConfig = {
+describe('AnalyticsService Tests', function() {
+    var analyticsService;
+    var analyticsQueryConfig = {
         'ids': 'ga:17894417',
         'start-date': '30daysAgo',
         'end-date': 'yesterday',
@@ -10,15 +10,13 @@ describe('AnalyticsService Tests', function () {
     };
     beforeEach(module('app.shared'));
 
-    beforeEach(inject(function (_AnalyticsService_) {
+    beforeEach(inject(function(_AnalyticsService_) {
         analyticsService = _AnalyticsService_;
     }));
 
 
-    it('Should say analytics welcome message', function () {
+    it('Should say analytics welcome message', function() {
         // debugger
         expect(analyticsService.spawnAnalytics()).toBe('This be Analytics.');
     });
-
-
 });
