@@ -49,7 +49,7 @@ deploy:
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
-      repository: frishi/rishighanangular-web
+      repository: frishi/rishighanangular_web
       ports: "8080"
       cmd: "/bin/bash -c \"cd /pipeline/source && supervisor --watch ./src src/server.js\""
 
