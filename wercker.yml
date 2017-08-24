@@ -56,23 +56,23 @@ deploy:
     - add-ssh-key:
         keyname: $DIGITALOCEAN_PUBLIC
     - add-to-known_hosts:
-        hostname: 165.227.116.115
+        hostname: 165.227.72.4
     - script:
         name: pull latest image
-        code: ssh root@165.227.116.115 docker pull frishi/rishighanangular_web:latest
+        code: ssh root@165.227.72.4 docker pull frishi/rishighanangular_web:latest
     - script:
         name: stop running container
-        code: ssh root@165.227.116.115 docker stop rgapp || echo "failed to stop running container"
+        code: ssh root@165.227.72.4 docker stop rgapp || echo "failed to stop running container"
     - script:
         name: remove stopped container
-        code: ssh root@165.227.116.115 docker rm rgapp || echo "failed to remove stopped container"
+        code: ssh root@165.227.72.4 docker rm rgapp || echo "failed to remove stopped container"
     - script:
         name: remove image behind stopped container
-        code: ssh root@165.227.116.115 docker rmi -f frishi/rishighanangular_web:current || echo ‘failed to remove image behind stopped container’
+        code: ssh root@165.227.72.4 docker rmi -f frishi/rishighanangular_web:current || echo ‘failed to remove image behind stopped container’
     - script:
         name: tag newly pulled image
-        code: ssh root@165.227.116.115 docker tag frishi/rishighanangular_web:latest frishi/rishighanangular:current
+        code: ssh root@165.227.72.4 docker tag frishi/rishighanangular_web:latest frishi/rishighanangular:current
     - script:
         name: run new container
-        code: ssh root@165.227.116.115 docker run -d -p 8080:8080 --name rgapp frishi/rishighanangular_web:current
+        code: ssh root@165.227.72.4 docker run -d -p 8080:8080 --name rgapp frishi/rishighanangular_web:current
 
