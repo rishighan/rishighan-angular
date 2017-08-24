@@ -44,18 +44,19 @@ deploy:
   steps:
     - npm-install
     - script:
-      name: install superviosr
-      code: npm i -g supervisor
+        name: "install supervisor"
+        code: "npm i -g supervisor"
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
       repository: frishi/rishighanangular-web
       ports: "8080"
-      cmd: /bin/bash -c "cd /pipeline/source && supervisor --watch ./src src/server.js"
-      - add-ssh-key:
-          keyname: digitalocean_PUBLIC
-      - add-to-known_hosts:
-          hostname: 165.227.120.45
+      cmd: "/bin/bash -c \"cd /pipeline/source && supervisor --watch ./src src/server.js\""
+
+    - add-ssh-key:
+        keyname: digitalocean_PUBLIC
+    - add-to-known_hosts:
+        hostname: 165.227.120.45
     - script:
         name: pull latest image
         code: ssh root@165.227.120.45 docker pull frishi/rishighanangular_web:latest
