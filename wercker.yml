@@ -54,7 +54,7 @@ deploy:
       cmd: "/bin/bash -c \"cd /pipeline/source && supervisor --watch ./src src/server.js\""
 
     - add-ssh-key:
-        keyname: digitalocean_priv
+        keyname: $doprivatekey
     - add-to-known_hosts:
         hostname: 165.227.120.45
     - script:
