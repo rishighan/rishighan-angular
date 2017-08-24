@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Q = require('q');
 const google = require('googleapis');
-const key = require('../config/key.json');
+const key = require('../config/googleapi.key.json');
 const _ = require('underscore');
 const winston = require('winston');
 require('winston-loggly-bulk');

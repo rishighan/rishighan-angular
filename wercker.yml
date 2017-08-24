@@ -24,7 +24,11 @@ build:
   steps:
     # A step that executes `npm install` command
     - npm-install
-    - bower-install
+    - script:
+        name: echo python information
+        code: |
+          npm i -g bower
+          bower i --config.interactive=false --allow-root
     # A step that executes `npm test` command
     - npm-test
 
