@@ -70,9 +70,6 @@ deploy:
         name: remove image behind stopped container
         code: ssh root@165.227.124.215 docker rmi -f frishi/rishighanangular_web:latest || echo ‘failed to remove image behind stopped container’
     - script:
-        name: tag newly pulled image
-        code: ssh root@165.227.124.215 docker tag frishi/rishighanangular_web:current frishi/rishighanangular:latest
-    - script:
         name: run new container
-        code: ssh root@165.227.124.215 docker run -d -p 80:8080 --name rgapp frishi/rishighanangular_web:current
+        code: ssh root@165.227.124.215 docker run -d -p 80:8080 --name rgapp frishi/rishighanangular_web:latest
 
