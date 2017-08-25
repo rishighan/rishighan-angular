@@ -51,7 +51,7 @@ deploy:
       password: $DOCKER_PASSWORD
       repository: frishi/rishighanangular_web
       ports: "8080"
-      cmd: /bin/bash -c cd /pipeline/source && npm start
+      cmd: '/bin/bash -c cd /pipeline/source && npm start'
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
