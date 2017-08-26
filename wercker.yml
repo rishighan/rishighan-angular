@@ -49,27 +49,27 @@ deploy:
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
-      repository: frishi/$DOCKER_IMAGE
+      repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "8080"
       cmd: "/bin/bash -c \"cd /pipeline/source && npm start\""
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
     - add-to-known_hosts:
-        hostname: 165.227.124.215
+        hostname: $DIGITALOCEAN_HOST
     - script:
         name: pull latest image
-        code: ssh root@165.227.124.215 docker pull frishi/$DOCKER_IMAGE:latest
+        code: ssh root@$DIGITALOCEAN_HOST docker pull $DOCKER_USERNAME/$DOCKER_IMAGE:latest
     - script:
         name: stop running container
-        code: ssh root@165.227.124.215 docker stop rgapp || echo "failed to stop running container"
+        code: ssh root@$DIGITALOCEAN_HOST docker stop rgapp || echo "failed to stop running container"
     - script:
         name: remove stopped container
-        code: ssh root@165.227.124.215 docker rm rgapp || echo "failed to remove stopped container"
+        code: ssh root@$DIGITALOCEAN_HOST docker rm rgapp || echo "failed to remove stopped container"
     - script:
         name: remove image behind stopped container
-        code: ssh root@165.227.124.215 docker rmi -f frishi/$DOCKER_IMAGE:latest || echo ‘failed to remove image behind stopped container’
+        code: ssh root@$DIGITALOCEAN_HOST docker rmi -f $DOCKER_USERNAME/$DOCKER_IMAGE:latest || echo ‘failed to remove image behind stopped container’
     - script:
         name: run new container
-        code: ssh root@165.227.124.215 docker run -d -p 80:8080 --name rgapp frishi/$DOCKER_IMAGE:latest
+        code: ssh root@$DIGITALOCEAN_HOST docker run -d -p 80:8080 --name rgapp $DOCKER_USERNAME/$DOCKER_IMAGE:latest
 
