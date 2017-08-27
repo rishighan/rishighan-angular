@@ -43,15 +43,12 @@ build:
 deploy:
   steps:
     - npm-install
-    - script:
-        name: "install pm2"
-        code: "npm i -g pm2"
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "8080"
-      cmd: "/bin/bash -c \"cd /pipeline/source && pm2 start npm -- start\""
+      cmd: "/bin/bash -c \"cd /pipeline/source && npm start\""
 
     - add-ssh-key:
         keyname: DIGITALOCEAN

@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "rgapp",
+      "script": "npm",
+      "args" : "start"
+    }
+  ]
+}
