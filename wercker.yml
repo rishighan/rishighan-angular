@@ -43,6 +43,9 @@ build:
 deploy:
   steps:
     - npm-install
+    - script:
+        name: "install pm2"
+        code: "npm i -g pm2"
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
