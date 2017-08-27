@@ -48,7 +48,7 @@ deploy:
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "8080"
-      cmd: "/bin/bash -c \"cd /pipeline/source && npm start\""
+      cmd: "/bin/bash -c \"cd /pipeline/source && pm2 start --no-daemon rgapp-pm2.json\""
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
