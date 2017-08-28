@@ -1,6 +1,6 @@
 let zookeeper = require('node-zookeeper-client');
 
-// let client = zookeeper.createClient('http://eb2-docker-zookeeper-dev.us-east-1.elasticbeanstalk.com:2181');
+// let client = zookeeper.createClient('127.0.0.1:2181');
 // console.log(client);
 
 

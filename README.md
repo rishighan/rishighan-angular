@@ -1,5 +1,7 @@
 # rishighan.com
 
+[![wercker status](https://app.wercker.com/status/ef289d3c52954f8b01b52d8a2ee4f4af/s/master "wercker status")](https://app.wercker.com/project/byKey/ef289d3c52954f8b01b52d8a2ee4f4af)
+
 _Personal website built with AngularJS and MongoDB_
 
 To spin up a local instance, 
@@ -34,7 +36,8 @@ The `docker-compose` command is tested for `Docker v17.03.1-ce-rc1`.
 
 ### Deployment
 
-WIP
+The app is deployed via Wercker to a Digital Ocean droplet running a Docker host.
+
 
 ### Analytics
 
