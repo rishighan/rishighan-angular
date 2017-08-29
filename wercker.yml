@@ -41,9 +41,6 @@ build:
           echo "npm version $(npm -v) running"
 
 deploy:
-  services:
-    - redis
-      id: frishi/redis
   steps:
     - npm-install
     - script:
