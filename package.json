@@ -51,7 +51,7 @@
     "multer": "^1.1.0",
     "ng-annotate-loader": "0.0.10",
     "node-sass": "^3.3.3",
-    "node-zookeeper-client": "^0.2.2",
+    "node-zookeeper-client": "0.2.2",
     "passport-http": "^0.3.0",
     "phantomjs": "^2.1",
     "polyfill-function-prototype-bind": "0.0.1",
@@ -66,8 +66,7 @@
     "webpack": "^2.2.1",
     "webpack-dev-server": "^1.12.1",
     "webpack-node-externals": "^1.5.4",
-    "winston-loggly-bulk": "^2.0.0",
-    "node-zookeeper-client": "0.2.2"
+    "winston-loggly-bulk": "^2.0.0"
   },
   "dependencies": {
     "ejs": "^2.4.1",

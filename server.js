@@ -11,7 +11,7 @@ const localStrategy = require('passport-local').Strategy;
 const User = require('./db/user.schema');
 
 // zookeeper
-require('./config/zookeeper.config');
+require('./config/redis.config');
 
 // logging
 let winston = require('winston');
