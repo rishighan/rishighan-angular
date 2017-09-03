@@ -2,16 +2,20 @@ const express = require('express');
 const router = express.Router();
 const Q = require('q');
 const google = require('googleapis');
-const key = require('../config/googleapi.key.json');
+const redis = require('../config/redis.config');
 const _ = require('underscore');
 const winston = require('winston');
 require('winston-loggly-bulk');
 
-let jwtClient = new google.auth.JWT(key.client_email,
-    null,
-    key.private_key,
-    ['https://www.googleapis.com/auth/analytics.readonly'],
-    null);
+let jwtClient;
+redis.client.get('googleapi', (err, response) => {
+    let key = JSON.parse(response);
+    jwtClient = new google.auth.JWT(key.client_email,
+        null,
+        key.private_key,
+        ['https://www.googleapis.com/auth/analytics.readonly'],
+        null);
+});
 
 function queryData(analytics, query) {
     let deferred = Q.defer();

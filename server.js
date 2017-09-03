@@ -19,7 +19,7 @@ let winston = require('winston');
 require('winston-loggly-bulk');
 
 redis.client.get('logglyconfig', (err, response) => {
-    winston.add(winston.transports.Loggly, response);
+    winston.add(winston.transports.Loggly, JSON.parse(response));
 });
 
 // db
