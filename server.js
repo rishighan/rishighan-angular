@@ -10,8 +10,9 @@ const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const User = require('./db/user.schema');
 
-// zookeeper
-require('./config/redis.config');
+// redis
+let redis = require('./config/redis.config');
+redis.connect();
 
 // logging
 let winston = require('winston');
@@ -93,7 +94,7 @@ app.use((req, res, next) => {
 // Start Server (default 8080)
 let port = process.env.PORT || 8080;
 app.listen(port, () => {
-    console.log('Server listening on port ', port);
+    console.log('Express server listening on port', port);
 });
 
 module.exports = app;
