@@ -4,8 +4,6 @@
 
 _Personal website built with AngularJS and MongoDB_
 
-To spin up a local instance, 
-
 ### Local Development
 
 + Make sure your node version is at least 7 `nvm i 7` and `nvm use 7`
