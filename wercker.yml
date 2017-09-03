@@ -51,7 +51,7 @@ deploy:
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "8080"
-      cmd: "/bin/bash -c \"cd /pipeline/source && REDIS_HOST=165.227.112.248 pm2 start --no-daemon rgapp-pm2.json\""
+      cmd: "/bin/bash -c \"cd /pipeline/source && pm2 start --no-daemon rgapp-pm2.json\""
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
@@ -71,5 +71,5 @@ deploy:
         code: ssh root@$DIGITALOCEAN_HOST docker rmi -f $DOCKER_USERNAME/$DOCKER_IMAGE:latest || echo ‘failed to remove image behind stopped container’
     - script:
         name: run new container
-        code: ssh root@$DIGITALOCEAN_HOST docker run -d -p 80:8080 --name rgapp $DOCKER_USERNAME/$DOCKER_IMAGE:latest
+        code: ssh root@$DIGITALOCEAN_HOST docker run -p 80:8080 --name rgapp $DOCKER_USERNAME/$DOCKER_IMAGE:latest
 
