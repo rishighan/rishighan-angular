@@ -4,8 +4,7 @@
       "name": "rgapp",
       "script": "npm",
       "args" : "start",
-      "env": {
-        "NODE_ENV": "production",
+      "env_production": {
         "REDIS_HOST": "165.227.112.248"
       }
     }
