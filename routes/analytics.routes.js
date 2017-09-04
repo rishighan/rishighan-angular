@@ -25,7 +25,7 @@ function queryData(analytics, query) {
             winston.log('error', 'Error fetching analytics data', {errorObj: err});
             deferred.reject(new Error(err));
         } else {
-            winston.log('info', 'Fetched analytics response.')
+            winston.log('info', 'Fetched analytics response.');
             deferred.resolve(JSON.stringify(response, null, 4));
         }
     });

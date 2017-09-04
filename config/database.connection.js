@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 mongoose.Promise = require('q').Promise;
-let redis = require('./redis.config').client;
+let redis = require('./redis.config');
 
 // connect to the database
 let DB_PORT = '27017';
@@ -15,7 +15,7 @@ module.exports = {
             }
         };
         let MONGO_DB, MONGO_REMOTE_HOST;
-        redis.get('mongohost', function (err, response) {
+        redis.client.get('mongohost', function (err, response) {
             MONGO_REMOTE_HOST = response;
             MONGO_DB = `mongodb://${MONGO_REMOTE_HOST}:${DB_PORT}/${DB_NAME}` || `mongodb://localhost:${DB_PORT}/${DB_NAME}`;
 
