@@ -1,5 +1,3 @@
-import PostService from '../post/post.service';
-
 function SingleController($scope,
                           $stateParams,
                           PostService) {

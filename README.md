@@ -12,6 +12,7 @@ _Personal website built with AngularJS and MongoDB_
 + MongoDB host defaults to `localhost`. 
 + This project looks up configuration information from Redis.
 + In the terminal, run `REDIS_HOST=<redis host> npm start`. This will spin up the frontend and the node.js server.
++ Alternatively, configure the `pm2` configuration file, `rgapp-pm2.json` and pass in the `REDIS_HOST` environment variable.
 + Access `http://localhost:8080` in the browser.
 
 ### Unit Tests
@@ -28,12 +29,21 @@ To build the image,
 
 _To deploy, simply push to master_
 
-The app is deployed via Wercker to a Digital Ocean droplet running a Docker host.
-Wercker configuration is found in `wercker.yml`. Note that Wercker does not build from a Dockerfile, so the steps in `wercker.yml` are exactly the same as the Dockerfile, with relevant changes per Wercker's specific requirements.
+The app is deployed via `Wercker` to a `Digital Ocean` droplet running a Docker host.
+Wercker configuration is found in `wercker.yml`. Note that Wercker does not build from a Dockerfile, so the steps in `wercker.yml` are exactly the same as the Dockerfile, with relevant changes per Wercker's nuances.
 
+**Note:** _Since you are dealing with unmanaged droplets when it comes to Digital Ocean, you have to be careful of how much disk space the docker containers use up upon each deployment. Create a task in `/etc/cron.daily` to prune dangling, exited containers to keep the disk usage in check._ [See here](http://blog.yohanliyanage.com/2015/05/docker-clean-up-after-yourself/).
 
 ### Analytics
 
 This project is basically a blog with a homegrown CMS that integrates with Google Analytics API to fetch pageviews.
+
+### Addendum
+
+MongoDB and Redis are deployed independently as Docker containers via Wercker as well.
+The related repos are found here:
+
++ [mongo-docker](https://github.com/rishighan/mongo-docker)
++ [docker-redis](https://github.com/rishighan/docker-redis)
 
 gg
