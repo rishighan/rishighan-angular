@@ -2,22 +2,39 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const fs = require('fs');
+const aws = require('aws-sdk');
+const multerS3 = require('multer-s3');
 const winston = require('winston');
 require('winston-loggly-bulk');
+let s3 = new aws.S3();
+
 
 // multer config
-const storage = multer.diskStorage({
-    destination: function (req, res, cb) {
-        cb(null, __dirname + '/../assets/images');
-    },
-    filename: function (req, file, cb) {
-        cb(null, req.body.newFileName);
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: function (req, res, cb) {
+//         cb(null, __dirname + '/../assets/images');
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, req.body.newFileName);
+//     }
+// });
+//
+// const upload = multer({
+//     storage: storage
+// }).any();
 
 const upload = multer({
-    storage: storage
-}).any();
+    storage: multerS3({
+        s3: s3,
+        bucket: 'rishighan',
+        metadata: (req, file, cb) => {
+            cb(null, {fieldName: file.fieldname});
+        },
+        key: (req, file, cb) => {
+            cb(null, Date.now().toString());
+        }
+    })
+});
 
 router.post('/api/files/upload', function (req, res) {
     upload(req, res, function (err) {

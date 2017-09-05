@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/rishighan/rishighan-angular#readme",
   "devDependencies": {
+    "aws-sdk": "^2.108.0",
     "babel-core": "^5.8.25",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^5.3.2",
@@ -49,6 +50,7 @@
     "mongoose": "^4.1.9",
     "mongoose-paginate": "^5.0.3",
     "multer": "^1.1.0",
+    "multer-s3": "^2.7.0",
     "ng-annotate-loader": "0.0.10",
     "node-sass": "^3.3.3",
     "passport-http": "^0.3.0",
@@ -68,10 +70,12 @@
     "winston-loggly-bulk": "^2.0.0"
   },
   "dependencies": {
+    "aws-sdk": "^2.108.0",
     "ejs": "^2.4.1",
     "eslint": "^3.12.2",
     "google-auth-library": "^0.9.8",
     "googleapis": "^2.1.6",
+    "multer-s3": "^2.7.0",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
