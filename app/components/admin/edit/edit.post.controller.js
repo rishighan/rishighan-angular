@@ -36,7 +36,9 @@ class EditPostController {
                 url: "/api/files/upload",
                 previewTemplate: previewTemplate,
                 maxFilesize: 9000000,
-                paramName: "attachedFile",
+                paramName: () => {
+                    return "attachedFile";
+                },
                 maxThumbnailFilesize: 5,
                 autoProcessQueue: true,
                 uploadMultiple: true,
@@ -57,8 +59,9 @@ class EditPostController {
                                     name: postData[0].attachment[index].name,
                                     size: postData[0].attachment[index].size
                                 };
+                                console.log(postData[0].attachment[index]);
                                 _dropzoneInstance.options.addedfile.call(_dropzoneInstance, mockFile);
-                                _dropzoneInstance.createThumbnailFromUrl(mockFile, ASSETS_FOLDER + mockFile.name);
+                                _dropzoneInstance.createThumbnailFromUrl(mockFile, postData[0].attachment[index].url);
                                 $compile($(mockFile.previewTemplate))($scope);
                                 if (postData[0].attachment[index].isHero) {
                                     let heroCheckbox = mockFile.previewTemplate.querySelector('.hero-checkbox');
@@ -70,24 +73,19 @@ class EditPostController {
                 }
             },
             eventHandlers: {
-                sending: function (file, xhr, formData) {
-                    // renaming the file before sending
-                    let newFileName = helperService.renameFile(file.name);
-                    formData.append("newFileName", newFileName);
-                },
                 success: function (file, response) {
                     $compile($(file.previewTemplate))($scope);
                     // update the form model with the correct filename
-                    file.customData.fileName = response.files[0].filename;
+                    file.customData.fileName = response.file.originalname;
                     let fileNameElement = file.previewTemplate.querySelector('.dz-filename');
                     fileNameElement.innerHTML = file.customData.fileName;
                     let fileObj = {
                         name: file.customData.fileName,
+                        url: response.file.location,
                         size: file.size,
                         date_created: Date.now(),
                         date_modified: Date.now()
                     };
-
                     $scope.post[0].attachment.push(fileObj);
                     $scope.$digest();
                 },
@@ -163,7 +161,7 @@ class EditPostController {
                 $timeout.cancel(timeout);
             }
             let promises = [];
-            if(!_.isUndefined(post[0].attachment)) {
+            if (!_.isUndefined(post[0].attachment)) {
                 _.each(post[0].attachment, function (file) {
                     let promise = PostService.deleteFile({file: file.name});
                     promises.push(promise);

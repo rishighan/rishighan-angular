@@ -12,8 +12,9 @@ let PostSchema = new Schema({
     date_updated: Date,
     attachment: [{
         name: String,
-        isHero: Boolean,
         size: Number,
+        url: String,
+        isHero: Boolean,
         date_created: Date,
         date_updated: Date
 

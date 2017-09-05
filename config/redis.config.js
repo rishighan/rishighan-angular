@@ -7,6 +7,7 @@ let client = redis.createClient(PORT, REDIS_HOST);
 module.exports = {
     connect: function () {
         client.on('connect', () => {
+           //todo: winston
             console.log("Redis server found on", REDIS_HOST);
         });
     },
