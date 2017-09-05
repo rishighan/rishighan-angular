@@ -16,8 +16,6 @@ class EditPostController {
                 $translate,
                 ngNotify) {
 
-        const ASSETS_FOLDER = '/assets/images/';
-
         // form model
         $scope.post = {};
         let formlyDataService = FormlyDataService.formlyDataFactory();
@@ -59,9 +57,8 @@ class EditPostController {
                                     name: postData[0].attachment[index].name,
                                     size: postData[0].attachment[index].size
                                 };
-                                console.log(postData[0].attachment[index]);
                                 _dropzoneInstance.options.addedfile.call(_dropzoneInstance, mockFile);
-                                _dropzoneInstance.createThumbnailFromUrl(mockFile, postData[0].attachment[index].url);
+                                _dropzoneInstance.createThumbnailFromUrl(mockFile, postData[0].attachment[index].url, null, 'anonymous');
                                 $compile($(mockFile.previewTemplate))($scope);
                                 if (postData[0].attachment[index].isHero) {
                                     let heroCheckbox = mockFile.previewTemplate.querySelector('.hero-checkbox');
@@ -124,7 +121,8 @@ class EditPostController {
             let fileName = anchorElement.querySelector('div.dz-filename').innerText;
             if (event.target.checked) {
                 _.each($scope.post[0].attachment, function (fileObject, index) {
-                    if (fileObject.name === fileName) {
+                    console.log(index)
+                    if (fileName === fileObject.name) {
                         $scope.post[0].attachment[index].isHero = true;
                     }
                 });
