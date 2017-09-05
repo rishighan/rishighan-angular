@@ -53,7 +53,6 @@ router.post('/login', (req, res, next) => {
 
 router.get('/status', (req, res) => {
     if (!req.isAuthenticated()) {
-        winston.log('info', 'User not authenticated');
         return res.status(200).json({
             status: false
         });

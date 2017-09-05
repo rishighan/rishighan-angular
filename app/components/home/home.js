@@ -43,6 +43,11 @@ let homeModule = angular.module('home', [
             template: '<illustrations></illustrations>',
             access: {restricted: false}
         })
+        .state('main.illustration', {
+            url: '/illustration/:slug',
+            template: '<single></single>',
+            access: {restricted: false}
+        })
         .state('main.colophon', {
             url: '/colophon',
             template: '<div></div>',

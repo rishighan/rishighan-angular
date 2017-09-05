@@ -1,4 +1,5 @@
 import FormlyDataService from "../../../shared/utils/formlydata.service";
+import HelperService from "../../../shared/utils/helper.service";
 import previewTemplate from "../dropzone/dropzone-preview.html";
 import _ from "underscore";
 
@@ -19,12 +20,13 @@ class EditPostController {
 
         // form model
         $scope.post = {};
-        $scope.formlyDataService = FormlyDataService.formlyDataFactory();
+        let formlyDataService = FormlyDataService.formlyDataFactory();
+        let helperService = HelperService.helperFactory();
 
         $scope.postDataPromise = PostService.getPost($stateParams.id).then((post) => {
             $scope.post = post.data;
             // Form Fields, pass in the tags model
-            $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel($scope.post[0].tags);
+            $scope.postFormFields = formlyDataService.getFormlyDataModel($scope.post[0].tags);
             return post.data;
         });
 
@@ -70,7 +72,7 @@ class EditPostController {
             eventHandlers: {
                 sending: function (file, xhr, formData) {
                     // renaming the file before sending
-                    let newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
+                    let newFileName = helperService.renameFile(file.name);
                     formData.append("newFileName", newFileName);
                 },
                 success: function (file, response) {
@@ -104,7 +106,6 @@ class EditPostController {
                     PostService.deleteFile({
                         file: fileToDelete
                     }).then(function (result) {
-                        //todo: winston logging
                         console.log(result);
                     });
 

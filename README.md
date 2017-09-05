@@ -9,10 +9,12 @@ _Personal website built with AngularJS and MongoDB_
 + Make sure your node version is at least 7 `nvm i 7` and `nvm use 7`
 + Install dependencies with `npm i` and `bower i`
 + Make sure you have MongoDB installed and running on port 27017
-+ MongoDB host defaults to `localhost`. 
 + This project looks up configuration information from Redis.
-+ In the terminal, run `REDIS_HOST=<redis host> npm start`. This will spin up the frontend and the node.js server.
++ In the terminal, run `REDIS_HOST=<redis host> node server` to start the backend.
++ Run `npm run frontend` to start the frontend; Webpack will watch the files for changes.
 + Access `http://localhost:8080` in the browser.
+
+You can also run `REDIS_HOST=<redis host> npm start` to start both the frontend and the backend simultaneously.
 
 ### Unit Tests
 + `npm test` or `testem ci`

@@ -17,7 +17,7 @@ let markdown = function ($sanitize, $sce) {
                 let md = new Remarkable({
                     html: true,
                     xhtmlOut: false,
-                    breaks: false,
+                    breaks: true,
                     langPrefix: 'language-',
                     linkify: true,
                     typographer: true,

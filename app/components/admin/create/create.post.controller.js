@@ -1,4 +1,5 @@
 import FormlyDataService from "../../../shared/utils/formlydata.service";
+import HelperService from "../../../shared/utils/helper.service";
 import _ from "underscore";
 import previewTemplate from '../dropzone/dropzone-preview.html';
 
@@ -14,6 +15,8 @@ class CreatePostController {
                 ngNotify) {
 
         let formlyDataService = FormlyDataService.formlyDataFactory();
+        let helperService = HelperService.helperFactory();
+
         $scope.postFormModel = {
             attachedFile: []
         };
@@ -60,7 +63,7 @@ class CreatePostController {
             eventHandlers: {
                 sending: function (file, xhr, formData) {
                     // renaming the file before sending
-                    let newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
+                    let newFileName = helperService.renameFile(file.name);
                     formData.append("newFileName", newFileName);
                 },
                 success: function (file, response) {

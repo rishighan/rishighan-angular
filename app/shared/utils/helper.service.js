@@ -10,6 +10,10 @@ class HelperService {
         }), true);
     }
 
+    renameFile(filename){
+        return filename.split('.')[0] + '-' + Date.now() + '.' + filename.split('.')[filename.split('.').length - 1];
+    }
+
     static helperFactory(){
         return new HelperService();
     }
