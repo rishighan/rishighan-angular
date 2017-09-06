@@ -5,7 +5,6 @@ import _ from "underscore";
 
 class EditPostController {
     constructor($scope,
-                $q,
                 $compile,
                 $state,
                 $timeout,
@@ -67,7 +66,7 @@ class EditPostController {
                 }
             },
             eventHandlers: {
-                success: function (file, response) {
+                success: (file, response) => {
                     $compile($(file.previewTemplate))($scope);
                     // update the form model with the correct filename
                     let fileNameElement = file.previewTemplate.querySelector('.dz-filename');
@@ -88,18 +87,15 @@ class EditPostController {
                     this.removeFile(file);
                 },
                 removedfile: function (file) {
-                    // find what to delete
-                    let fileToDelete = file.name;
                     // api call to delete from s3
-                    PostService.deleteFile({
-                        file: fileToDelete
-                    }).then(function (result) {
+                    let params = [{'Key': file.name}];
+                    PostService.deleteFile(params).then(function (result) {
                         console.log(result);
                     });
 
                     // update the form model
                     let del = _.where($scope.post[0].attachment, {
-                        name: fileToDelete
+                        name: file.name
                     });
                     $scope.post[0].attachment = _.without($scope.post[0].attachment, del[0]);
                     $scope.$digest();
@@ -108,20 +104,20 @@ class EditPostController {
                 }
             }
         };
-        $scope.makeHero = function (event) {
+        $scope.makeHero = event => {
             let markedPost = _.where($scope.post[0].attachment, {name: event.target.dataset.filename})[0];
             markedPost.isHero = !!event.target.checked;
         };
 
         // update post
-        $scope.updatePost = function (data, isDraft) {
+        $scope.updatePost = (data, isDraft) => {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
             $scope.post[0].slug = helperService.createSlug($scope.post[0].title);
             $scope.post[0].is_draft = isDraft;
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
-                .then(function (result) {
+                .then(result => {
                     //todo flash alert
                     $state.go('admin.posts')
                         .then(function () {
@@ -132,32 +128,36 @@ class EditPostController {
                 });
         };
 
-        $scope.deletePost = function (post) {
+        $scope.deletePost = post => {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
             // let promises = [];
-            if (!_.isUndefined(post[0].attachment)) {
-                _.each(post[0].attachment, function (file) {
-                    console.log(file.name)
-                     PostService.deleteFile({file: file.name});
-                    // promises.push(promise);
-                });
-            }
 
-            // $q.all(promises).then(function () {
-                PostService.deletePost(post[0]._id)
-                    .then(function () {
-                        $state.go('admin.posts')
-                            .then(function () {
-                                ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
-                                    type: "success"
-                                });
+            if (!_.isUndefined(post[0].attachment)) {
+                let fileNames = _.pluck(post[0].attachment, 'name');
+                let params = [];
+                fileNames.map((filename) => {
+                    params.push({
+                        'Key': filename
+                    })
+                });
+                PostService.deleteFile(params)
+                    .then((result) => {
+                        console.log(result);
+                    })
+            }
+            PostService.deletePost(post[0]._id)
+                .then(function () {
+                    $state.go('admin.posts')
+                        .then(function () {
+                            ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
+                                type: "success"
                             });
-                    }, function (error) {
-                        console.log(error);
-                    });
-            // });
+                        });
+                }, function (error) {
+                    console.log(error);
+                });
         };
         // autosave
         let timeout = null;
