@@ -38,4 +38,11 @@ Wercker configuration is found in `wercker.yml`. Note that Wercker does not buil
 
 This project is basically a blog with a homegrown CMS that integrates with Google Analytics API to fetch pageviews.
 
+### Addendum
+
+The supporting services, along with their `wercker` configuration can be found here:
+
++ [Mongo](https://github.com/rishighan/mongo-docker)
++ [Redis](https://github.com/rishighan/docker-redis)
+
 gg

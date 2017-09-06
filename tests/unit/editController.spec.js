@@ -45,7 +45,7 @@ describe("Edit Post Controller Tests ", function () {
     });
     xit("Should make a call to update post when edits are made", function () {
         post.title = "This is a test";
-        // expect(PostService.updatePost(post)).toHaveBeenCalled();
+        expect(PostService.updatePost(post)).toHaveBeenCalled();
     });
 
 

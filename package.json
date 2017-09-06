@@ -47,6 +47,7 @@
     "jshint-loader": "^0.8.3",
     "littlefoot": "^1.0.0-alpha.14",
     "migrate-mongoose": "^3.2.1",
+    "mongodb-backup": "^1.6.9",
     "mongoose": "^4.1.9",
     "mongoose-paginate": "^5.0.3",
     "multer": "^1.1.0",
