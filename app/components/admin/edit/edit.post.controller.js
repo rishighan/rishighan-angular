@@ -71,6 +71,7 @@ class EditPostController {
                     // update the form model with the correct filename
                     let fileNameElement = file.previewTemplate.querySelector('.dz-filename');
                     fileNameElement.innerHTML = response.file.originalname;
+                    // mark an image as a hero
                     let checkBoxElement = file.previewTemplate.querySelector('.hero-checkbox');
                     checkBoxElement.setAttribute('data-filename', response.file.originalname);
                     let fileObj = {
@@ -90,9 +91,16 @@ class EditPostController {
                     // api call to delete from s3
                     let params = [{'Key': file.name}];
                     PostService.deleteFile(params).then(function (result) {
-                        console.log(result);
+                        if (result.status === 200) {
+                            ngNotify.set($translate.instant('admin.file_deleted_success.message'), {
+                                type: "success"
+                            });
+                        } else {
+                            ngNotify.set($translate.instant('admin.file_deleted_error.message'), {
+                                type: "error"
+                            });
+                        }
                     });
-
                     // update the form model
                     let del = _.where($scope.post[0].attachment, {
                         name: file.name
@@ -117,7 +125,7 @@ class EditPostController {
             $scope.post[0].slug = helperService.createSlug($scope.post[0].title);
             $scope.post[0].is_draft = isDraft;
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
-                .then(result => {
+                .then((result) => {
                     //todo flash alert
                     $state.go('admin.posts')
                         .then(function () {
@@ -132,11 +140,11 @@ class EditPostController {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
-            // let promises = [];
-
-            if (!_.isUndefined(post[0].attachment)) {
+            // delete files
+            if (post[0].attachment.length !== 0) {
                 let fileNames = _.pluck(post[0].attachment, 'name');
                 let params = [];
+                // pass an array of filenames to aws sdk to delete
                 fileNames.map((filename) => {
                     params.push({
                         'Key': filename
@@ -144,18 +152,19 @@ class EditPostController {
                 });
                 PostService.deleteFile(params)
                     .then((result) => {
-                        console.log(result);
+                        console.log("deletion", result);
                     })
             }
+            // delete post
             PostService.deletePost(post[0]._id)
-                .then(function () {
+                .then(() => {
                     $state.go('admin.posts')
                         .then(function () {
                             ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
                                 type: "success"
                             });
                         });
-                }, function (error) {
+                }, error => {
                     console.log(error);
                 });
         };

@@ -9,6 +9,7 @@
   "admin.drag_and_drop.message": "Drag and Drop files here or Click to Upload",
   "admin.file_added_success.message": "File Added Successfully",
   "admin.file_deleted_success.message": "File Deleted Successfully",
+  "admin.file_deleted_error.message": "There was an error deleting the file",
   "admin.save_publish_post.button": "Save and Publish",
   "admin.save_as_draft.button": "Save as Draft",
   "admin.unmark_draft.button": "Unmark Draft",

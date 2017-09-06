@@ -1,7 +1,7 @@
 import FormlyDataService from "../../../shared/utils/formlydata.service";
 import HelperService from "../../../shared/utils/helper.service";
-import _ from "underscore";
 import previewTemplate from '../dropzone/dropzone-preview.html';
+import _ from "underscore";
 
 class CreatePostController {
     constructor($scope,
@@ -79,14 +79,18 @@ class CreatePostController {
                     this.removeFile(file);
                 },
                 removedfile: function (file) {
-                    PostService.deleteFile({
-                        file: file.name
-                    }).then((result) => {
-                        ngNotify.set($translate.instant('admin.file_deleted_success.message'), {
-                            type: "success"
-                        });
-                    }, (error) => {
-                        // todo: flash alert
+                    // api call to delete from s3
+                    let params = [{'Key': file.name}];
+                    PostService.deleteFile(params).then(function (result) {
+                        if (result.status === 200) {
+                            ngNotify.set($translate.instant('admin.file_deleted_success.message'), {
+                                type: "success"
+                            });
+                        } else {
+                            ngNotify.set($translate.instant('admin.file_deleted_error.message'), {
+                                type: "error"
+                            });
+                        }
                     });
 
                     // update the form model
