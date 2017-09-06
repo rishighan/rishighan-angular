@@ -1,4 +1,3 @@
-// import angular from 'angular';
 import Navbar from './navbar/navbar';
 import FormlyDataService from './utils/formlydata.service';
 import AnalyticsService from './analytics/analytics.service';

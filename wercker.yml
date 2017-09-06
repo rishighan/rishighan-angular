@@ -51,7 +51,7 @@ deploy:
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "8080"
-      cmd: "/bin/bash -c \"cd /pipeline/source && pm2 start --no-daemon --env production rgapp-pm2.json\""
+      cmd: '/bin/bash -c "cd /pipeline/source && AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY pm2 start --no-daemon --env production rgapp-pm2.json"'
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
