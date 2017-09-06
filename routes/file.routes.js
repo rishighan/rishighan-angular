@@ -17,7 +17,7 @@ let s3 = new aws.S3();
 const upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'rishighan',
+        bucket: process.env.S3_BUCKET_NAME,
         metadata: (req, file, cb) => {
             cb(null, Object.assign({}, req.body));
         },
@@ -29,19 +29,19 @@ const upload = multer({
 
 router.post('/api/files/upload', upload.single('attachedFile'), (req, res) => {
     res.send({
-        status: 'file uploaded successfully',
+        status: 'File uploaded successfully',
         file: req.file
     });
 });
 
 // Delete File
 router.post('/api/files/delete', (req, res, next) => {
-    fs.unlink(`${__dirname }/../assets/images/${ req.body.file}`, (error) => {
-        res.json({
-            error_details: error
-        });
+    s3.deleteObject({
+        Bucket: 'rishighan',
+        Key: req.body.file
+    }, (err, data) => {
+        winston.log('info', 'File deleted successfully', {details: data});
     });
-    winston.log('info', 'File deleted successfully', {details: req.body.file});
 });
 
 module.exports = router;

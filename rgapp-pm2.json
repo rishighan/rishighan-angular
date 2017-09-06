@@ -5,7 +5,8 @@
       "script": "npm",
       "args" : "start",
       "env_production": {
-        "REDIS_HOST": "165.227.188.69"
+        "REDIS_HOST": "165.227.188.69",
+        "S3_BUCKET_NAME": "rishighan"
       }
     }
   ]

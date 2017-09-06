@@ -1,5 +1,5 @@
-"use strict";
-describe('FriendlyUrlService Service Tests', function() {
+'use strict';
+describe('HelperService Tests', function() {
     var testTitle, underTest, singleWordTitle, preHyphenatedTitle, crazyTitle;
     testTitle = 'The Day The Earth Stood Still';
     singleWordTitle = 'Fargo';
@@ -9,11 +9,12 @@ describe('FriendlyUrlService Service Tests', function() {
     beforeEach(function(){
         module('app.shared');
     });
-    beforeEach(inject(function(_FriendlyUrlService_) {
-        underTest = _FriendlyUrlService_;
+    beforeEach(inject(function(_HelperService_) {
+        underTest = _HelperService_;
     }));
 
     it('Given a space delimited string then it should return a hyphenated slug', function() {
+        console.log(underTest)
         var expected = 'the-day-the-earth-stood-still';
         expect(underTest.createSlug(testTitle)).toEqual(expected);
     });

@@ -11,8 +11,6 @@ class EditPostController {
                 $timeout,
                 $stateParams,
                 PostService,
-                FriendlyUrlService,
-                DomHelperService,
                 $translate,
                 ngNotify) {
 
@@ -59,6 +57,9 @@ class EditPostController {
                                 };
                                 _dropzoneInstance.options.addedfile.call(_dropzoneInstance, mockFile);
                                 _dropzoneInstance.createThumbnailFromUrl(mockFile, postData[0].attachment[index].url, null, 'anonymous');
+                                // this is required when you mark/un-mark an image as hero
+                                let checkBoxElement = mockFile.previewTemplate.querySelector('.hero-checkbox');
+                                checkBoxElement.setAttribute('data-filename', mockFile.name);
                                 $compile($(mockFile.previewTemplate))($scope);
                                 if (postData[0].attachment[index].isHero) {
                                     let heroCheckbox = mockFile.previewTemplate.querySelector('.hero-checkbox');
@@ -73,11 +74,12 @@ class EditPostController {
                 success: function (file, response) {
                     $compile($(file.previewTemplate))($scope);
                     // update the form model with the correct filename
-                    file.customData.fileName = response.file.originalname;
                     let fileNameElement = file.previewTemplate.querySelector('.dz-filename');
-                    fileNameElement.innerHTML = file.customData.fileName;
+                    fileNameElement.innerHTML = response.file.originalname;
+                    let checkBoxElement = file.previewTemplate.querySelector('.hero-checkbox');
+                    checkBoxElement.setAttribute('data-filename', response.file.originalname);
                     let fileObj = {
-                        name: file.customData.fileName,
+                        name: response.file.originalname,
                         url: response.file.location,
                         size: file.size,
                         date_created: Date.now(),
@@ -91,12 +93,8 @@ class EditPostController {
                 },
                 removedfile: function (file) {
                     // find what to delete
-                    let fileToDelete = '';
-                    if (!_.isUndefined(file.customData)) {
-                        fileToDelete = file.customData.fileName;
-                    } else {
-                        fileToDelete = file.name;
-                    }
+                    console.log(file)
+                    let fileToDelete = file.name;
                     // api call to delete from fs
                     PostService.deleteFile({
                         file: fileToDelete
@@ -116,23 +114,8 @@ class EditPostController {
             }
         };
         $scope.makeHero = function (event) {
-            // todo: find a reliable way to get .dz-filename
-            let anchorElement = DomHelperService.findParentBySelector(event.target, '#preview-container');
-            let fileName = anchorElement.querySelector('div.dz-filename').innerText;
-            if (event.target.checked) {
-                _.each($scope.post[0].attachment, function (fileObject, index) {
-                    console.log(index)
-                    if (fileName === fileObject.name) {
-                        $scope.post[0].attachment[index].isHero = true;
-                    }
-                });
-            } else {
-                _.each($scope.post[0].attachment, function (fileObject, index) {
-                    if (fileObject.name === fileName) {
-                        $scope.post[0].attachment[index].isHero = false;
-                    }
-                });
-            }
+            let markedPost = _.where($scope.post[0].attachment, {name: event.target.dataset.filename})[0];
+            markedPost.isHero = !!event.target.checked;
         };
 
         // update post
@@ -140,7 +123,7 @@ class EditPostController {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
-            $scope.post[0].slug = FriendlyUrlService.createSlug($scope.post[0].title);
+            $scope.post[0].slug = helperService.createSlug($scope.post[0].title);
             $scope.post[0].is_draft = isDraft;
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
                 .then(function (result) {
@@ -184,7 +167,7 @@ class EditPostController {
         let timeout = null;
         let saveUpdates = function () {
             // call to save/upsert as draft
-            $scope.post[0].slug = FriendlyUrlService.createSlug($scope.post[0].title);
+            $scope.post[0].slug = helperService.createSlug($scope.post[0].title);
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
                 .then(function (result) {
                     $scope.autosaveStatus = 'Saved';
@@ -212,6 +195,4 @@ class EditPostController {
 
 }
 
-export
-default
-EditPostController;
+export default EditPostController;
