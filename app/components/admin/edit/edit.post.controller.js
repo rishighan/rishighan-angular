@@ -42,10 +42,6 @@ class EditPostController {
                 maxFiles: 5,
                 thumbnailWidth: "150",
                 addRemoveLinks: true,
-                accept: function (file, done) {
-                    file.customData = {};
-                    return done();
-                },
                 init: function (file, done) {
                     let _dropzoneInstance = this;
                     $scope.postDataPromise.then((postData) => {
@@ -93,9 +89,8 @@ class EditPostController {
                 },
                 removedfile: function (file) {
                     // find what to delete
-                    console.log(file)
                     let fileToDelete = file.name;
-                    // api call to delete from fs
+                    // api call to delete from s3
                     PostService.deleteFile({
                         file: fileToDelete
                     }).then(function (result) {
@@ -141,15 +136,16 @@ class EditPostController {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
-            let promises = [];
+            // let promises = [];
             if (!_.isUndefined(post[0].attachment)) {
                 _.each(post[0].attachment, function (file) {
-                    let promise = PostService.deleteFile({file: file.name});
-                    promises.push(promise);
+                    console.log(file.name)
+                     PostService.deleteFile({file: file.name});
+                    // promises.push(promise);
                 });
             }
 
-            $q.all(promises).then(function () {
+            // $q.all(promises).then(function () {
                 PostService.deletePost(post[0]._id)
                     .then(function () {
                         $state.go('admin.posts')
@@ -161,7 +157,7 @@ class EditPostController {
                     }, function (error) {
                         console.log(error);
                     });
-            });
+            // });
         };
         // autosave
         let timeout = null;

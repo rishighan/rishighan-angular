@@ -7,7 +7,6 @@ const multerS3 = require('multer-s3');
 const winston = require('winston');
 require('winston-loggly-bulk');
 
-
 aws.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -28,6 +27,7 @@ const upload = multer({
 });
 
 router.post('/api/files/upload', upload.single('attachedFile'), (req, res) => {
+    console.log(res);
     res.send({
         status: 'File uploaded successfully',
         file: req.file
@@ -36,11 +36,16 @@ router.post('/api/files/upload', upload.single('attachedFile'), (req, res) => {
 
 // Delete File
 router.post('/api/files/delete', (req, res, next) => {
+    console.log(req.body.file);
     s3.deleteObject({
         Bucket: 'rishighan',
         Key: req.body.file
     }, (err, data) => {
-        winston.log('info', 'File deleted successfully', {details: data});
+        if (err) {
+            winston.log('error', 'There was an error deleting the file', {errorDetails: err});
+        } else {
+            winston.log('info', 'File deleted successfully', {details: data});
+        }
     });
 });
 
