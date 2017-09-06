@@ -15,7 +15,7 @@ let sharedModule = angular.module('app.shared', [
     .directive('sparkline', sparklineComponent)
     .service('AnalyticsService', AnalyticsService)
     .service('FormlyDataService', FormlyDataService)
-    .service('HelperService', HelperService)
-    .factory('FormlyDataService.formlyDataFactory', FormlyDataService);
+    .service('HelperService', HelperService);
 
 export default sharedModule;
+

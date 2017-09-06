@@ -148,12 +148,12 @@ class EditPostController {
                 fileNames.map((filename) => {
                     params.push({
                         'Key': filename
-                    })
+                    });
                 });
                 PostService.deleteFile(params)
                     .then((result) => {
                         console.log("deletion", result);
-                    })
+                    });
             }
             // delete post
             PostService.deletePost(post[0]._id)

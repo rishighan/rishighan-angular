@@ -28,14 +28,17 @@ describe('HelperService Tests', function () {
         var expected = 'the-day-the-earth-stood-still';
         expect(underTest.createSlug(testTitle)).toEqual(expected);
     });
+
     it('Given a single word then it should return the word lowercased', function () {
         var expected = 'fargo';
         expect(underTest.createSlug(singleWordTitle)).toEqual(expected);
     });
+
     it('Given a sentence that is already hyphenated then it returns the sentence hyphenated and lowercased', function () {
         var expected = 'rumble-in-the-bronx';
         expect(underTest.createSlug(preHyphenatedTitle)).toEqual(expected);
     });
+
     it('Given a sentence with a combination of special characters then it returns a correctly formatted slug', function () {
         var expected = 'a-series-of-unfortunate-events';
         expect(underTest.createSlug(crazyTitle)).toEqual(expected);
@@ -49,6 +52,7 @@ describe('HelperService Tests', function () {
         };
         expect(underTest.isTag(tagList, tag.id)).toBe(false);
     });
+
     it('Given an array of tags, it returns true if input tag is found', function () {
         var tag = {
             id: "hero",
