@@ -71,4 +71,4 @@ deploy:
         code: ssh root@$DIGITALOCEAN_HOST docker rmi -f $DOCKER_USERNAME/$DOCKER_IMAGE:latest || echo "failed to remove image behind stopped container"
     - script:
         name: run new container
-        code: ssh root@$DIGITALOCEAN_HOST docker run -d -p 80:8080 -v /usr/local/share:/creds --env-file ./creds/aws.env --name rgapp $DOCKER_USERNAME/$DOCKER_IMAGE:latest
+        code: ssh root@$DIGITALOCEAN_HOST docker run -d -p 80:8080 -v /usr/local/share/creds:/creds --env-file /creds/aws.env --name rgapp $DOCKER_USERNAME/$DOCKER_IMAGE:latest
