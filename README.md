@@ -11,6 +11,7 @@ _Personal website built with AngularJS and MongoDB_
 + Make sure you have MongoDB installed and running on port 27017
 + This project looks up configuration information from Redis.
 + In the terminal, run `REDIS_HOST=<redis host> node server` to start the backend.
++ Provide AWS credentials for S3 in a credentials file.
 + Run `npm run frontend` to start the frontend; Webpack will watch the files for changes.
 + Access `http://localhost:8080` in the browser.
 
