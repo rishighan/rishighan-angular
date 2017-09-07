@@ -7,7 +7,7 @@ import jsonld from './json-ld/jsonld.component';
 import markdown from './markdown/markdown.component';
 
 let sharedModule = angular.module('app.shared', [
-  Navbar.name,
+    Navbar.name
 ])
     .directive('jsonld', jsonld)
     .directive('markdown', markdown)

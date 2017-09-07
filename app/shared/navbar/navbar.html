@@ -10,6 +10,14 @@
            analytics-event="Navigate to {{item.displayName}}"
            analytics-category="whatever">{{item.displayName}}</a>
     </li>
+    <li>
+        <a ng-if="nv.isLoggedIn()"
+           class="nav-items"
+           ng-click="nv.backupData()">
+            <span ng-if="!nv.backupRunning">{{'admin.database_backup.button' | translate }}</span>
+            <span ng-if="nv.backupRunning">{{'admin.backup_in_progress.message' | translate }}</span>
+        </a>
+    </li>
     <li ng-if="nv.isLoggedIn()" class="nav-items">
         <span>
             <small>{{'admin.logged_in_as.status' | translate}} {{details.data.user}}</small>

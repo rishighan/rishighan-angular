@@ -31,6 +31,10 @@
   "admin.register_success.message": "Created a New User",
   "admin.user_logged_in.status": "Logged In As",
   "admin.user_logged_out.status": "Logged Out",
+  "admin.database_backup.button": "Backup Database",
+  "admin.backup_in_progress.message": "Backup Running...",
+  "admin.database_backup_successful.message": "Database was successfully backed up",
+  "admin.database_backup_error.message": "There was an error backing up the database",
 
   "main.donate_patreon.message": "Please consider supporting me on Patreon",
 
@@ -52,5 +56,5 @@
   "footer.copyright_message.fragment": "All content is copyright of Rishi Ghan",
 
   "illustrations.order_prints.button": "Order Prints",
-  "illustrations.contact_for_prints.button": "Contact Me for Prints"
+  "illustrations.contact_for_prints.button": "Contact me for prints"
 }

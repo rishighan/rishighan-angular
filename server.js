@@ -31,6 +31,7 @@ const postRoutes = require('./routes/post.routes');
 const fileRoutes = require('./routes/file.routes');
 const authenticationRoutes = require('./routes/authentication.routes');
 const analyticsRoutes = require('./routes/analytics.routes');
+const mongoBackupRoutes = require('./routes/dbbackup.routes');
 let app = express();
 
 // connect to db
@@ -75,6 +76,7 @@ app.use('/', fileRoutes);
 app.use('/db', postRoutes);
 app.use('/user', authenticationRoutes);
 app.use('/', analyticsRoutes);
+app.use('/', mongoBackupRoutes);
 
 let publicPath = path.resolve(__dirname, 'public');
 app.use('/bower', express.static(path.resolve(__dirname, 'bower_components')));

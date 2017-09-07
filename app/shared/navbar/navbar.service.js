@@ -1,5 +1,6 @@
 class NavbarService {
     constructor($http) {
+        this._$http = $http;
         this.navItems = [
             {
                 displayName: "Home",
@@ -34,11 +35,6 @@ class NavbarService {
             {
                 displayName: "Browse",
                 stateReference: 'admin.posts'
-            },
-            {
-                displayName: "Export Data",
-                stateReference: 'admin.export'
-
             }];
     }
 
@@ -49,6 +45,15 @@ class NavbarService {
         else if (!_.isEmpty(this.adminNavItems) && type.toLowerCase() === 'admin') {
             return this.adminNavItems;
         }
+    }
+
+    backupData() {
+        return this._$http.get('/backup')
+            .then((response) => {
+                return response;
+            }, (error) => {
+                return error;
+            });
     }
 }
 

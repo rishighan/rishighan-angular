@@ -26,7 +26,7 @@ const upload = multer({
 });
 
 router.post('/api/files/upload', upload.single('attachedFile'), (req, res) => {
-    // todo: winston
+    winston.log('info', 'File successfully uploaded to S3');
     res.send({
         status: 'File uploaded successfully',
         file: req.file
@@ -44,11 +44,11 @@ router.post('/api/files/delete', (req, res, next) => {
     };
     s3.deleteObjects(params, (err, data) => {
         if (err) {
-            winston.log('error', 'There was an error deleting the file', { errorDetails: err });
-            res.send({ status: err });
+            winston.log('error', 'There was an error deleting the file', {errorDetails: err});
+            res.send({status: err});
         } else {
-            winston.log('info', 'File deleted successfully', { details: data });
-            res.send({ data: data });
+            winston.log('info', 'File deleted successfully', {details: data});
+            res.send({data: data});
         }
     });
 });
