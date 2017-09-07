@@ -18,4 +18,4 @@ COPY . /usr/src/rishighan
 EXPOSE 8080
 
 # This starts the app
-CMD pm2 start --no-daemon rgapp-pm2.json
+CMD pm2 start --no-daemon --env production rgapp-pm2.json
