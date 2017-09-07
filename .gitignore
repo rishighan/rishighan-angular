@@ -4,7 +4,7 @@ npm-debug.log
 .tmp
 .idea
 rishighan-angular.iml
-aws.env
+rgapp.env
 *.iml
 .DS_Store
 *.pem
@@ -13,9 +13,6 @@ aws.env
 *.docx
 dist/*.svg
 dist/*.ttf
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
 
 
 
