@@ -15,10 +15,9 @@ module.exports = {
             }
         };
         let MONGO_DB, MONGO_REMOTE_HOST;
-        redis.get('mongohost', (err, response) => {
+        redis.client.get('mongohost', (err, response) => {
             MONGO_REMOTE_HOST = response;
             MONGO_DB = `mongodb://${MONGO_REMOTE_HOST}:${DB_PORT}/${DB_NAME}` || `mongodb://localhost:${DB_PORT}/${DB_NAME}`;
-
             mongoose.connect(MONGO_DB, { useMongoClient: true });
 
             let db = mongoose.connection;
