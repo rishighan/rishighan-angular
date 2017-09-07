@@ -46,6 +46,13 @@ $sourceCodeProRegular: 'Source Code Pro';
 }
 
 @font-face {
+  font-family: $proximaSemiBold;
+  src: url('../assets/fonts/proximanova-semibold-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: $proximaLightRegular;
   src: url('../assets/fonts/proximanova-light-webfont.ttf') format('truetype');
   font-weight: normal;
@@ -206,6 +213,11 @@ textarea {
   .post-container {
     margin: 490px 0 0 0;
   }
+  @media only screen and (min-width: 320px) and (max-width: 992px) {
+    .post-container {
+      margin: 250px auto;
+    }
+  }
   .post {
     margin: 0 0 40px 0;
     color: $bodyCopyLight;
@@ -345,6 +357,10 @@ textarea {
     }
   }
 
+  // ui-select tag close icon override
+  .ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+    line-height: 0.96;
+  }
   textarea {
     border: 1px solid $lightBackground;
     border-radius: 3px;
@@ -379,7 +395,7 @@ textarea {
   }
 
   .dz-filename {
-    pre{
+    pre {
       margin: 0;
       padding: 0;
       overflow: hidden;
@@ -387,14 +403,14 @@ textarea {
   }
 
   // sparkline graph and pageview total
-  .sparkline-graph{
+  .sparkline-graph {
     display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: baseline;
 
-    .sparkline-item{
+    .sparkline-item {
       margin: 0 10px 0 0;
       flex: 0 0 auto;
     }

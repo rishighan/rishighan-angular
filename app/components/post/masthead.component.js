@@ -7,7 +7,8 @@ let mastheadComponent = function () {
         restrict: 'AE',
         scope: {
             mastheadImage: '@',
-            mastheadTitle: '@'
+            mastheadTitle: '@',
+            illustrationSlug: '@'
         },
         template,
         link: function (scope, element, attributes, controller) {

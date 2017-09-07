@@ -19,7 +19,6 @@ class AnalyticsService {
     }
 
     formatData(analyticsData) {
-        // Todo: refactor this garbage fire
         // In a nutshell, it gets data from GA in this form:
         // ["20170719", "Foo Bar", "1"], ["20170720", "Foo Bar", "3"] and so on.
         // We de-dupe on page title in the following manner:

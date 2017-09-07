@@ -1,20 +1,38 @@
 // post styles
-.masthead {
-  position: absolute;
-  z-index: -9;
-  left: 0;
-  top: 0;
-  height: 500px;
-  background-size: cover;
-  width: 100%;
-  overflow: hidden;
+.masthead-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+
+  .masthead {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -9;
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    overflow: hidden;
+  }
 
   .title {
-    top: 90%;
     position: relative;
+    top: 450px;
+    align-self: flex-end;
+    z-index: 99;
     color: #CCC;
     font-style: italic;
     font-size: 0.8em;
+  }
+
+  @media only screen and (min-width: 320px) and (max-width: 992px) {
+    .title {
+      position: relative;
+      align-self: flex-end;
+      z-index: 99;
+      top: 210px;
+    }
   }
 }
 
@@ -22,6 +40,6 @@
   margin: 530px 0 0 0;
 }
 
-.post-no-offset{
+.post-no-offset {
   margin: 0 0 0 0;
 }

@@ -1,7 +1,7 @@
 class HelperService {
     /*@ngInject*/
     constructor() {
-
+        this.special_char_regex = /[\W_]/g;
     }
 
     isTag(tags, tagname) {
@@ -10,7 +10,18 @@ class HelperService {
         }), true);
     }
 
-    static helperFactory(){
+    createSlug(title) {
+        if (title) {
+            // !@#$%##$%a()*&series(&*(*of*!@#$!@unfortunate(!@#events!@#!@ ->
+            // a-series-of-unfortunate-events
+            let sanitizedTitle = _.filter(title.split(this.special_char_regex), function (char) {
+                return char !== "";
+            });
+            return sanitizedTitle.length > 1 ? sanitizedTitle.join("-").toLowerCase() : sanitizedTitle.join("").toLowerCase();
+        }
+    }
+
+    static helperFactory() {
         return new HelperService();
     }
 }

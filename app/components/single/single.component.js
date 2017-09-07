@@ -1,4 +1,3 @@
-import Post from '../post/post.component';
 import template from './single.html';
 import controller from './single.controller';
 

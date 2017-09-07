@@ -23,7 +23,6 @@ class HomeController {
                 $scope.heroPost = post.data.docs;
                 $scope.mastheadImage = _.where($scope.heroPost[0].attachment, {isHero: true});
             });
-
         $scope.postPromise = PostService.getPostsByTagName('Blog', pagerDefaults.page, pagerDefaults.pageSize)
             .then((posts) => {
                 //init littlefoot footnotes

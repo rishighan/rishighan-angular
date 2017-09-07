@@ -1,30 +1,27 @@
 import FormlyDataService from "../../../shared/utils/formlydata.service";
+import HelperService from "../../../shared/utils/helper.service";
 import previewTemplate from "../dropzone/dropzone-preview.html";
 import _ from "underscore";
 
 class EditPostController {
     constructor($scope,
-                $q,
                 $compile,
                 $state,
                 $timeout,
                 $stateParams,
                 PostService,
-                FriendlyUrlService,
-                DomHelperService,
                 $translate,
                 ngNotify) {
 
-        const ASSETS_FOLDER = '/assets/images/';
-
         // form model
         $scope.post = {};
-        $scope.formlyDataService = FormlyDataService.formlyDataFactory();
+        let formlyDataService = FormlyDataService.formlyDataFactory();
+        let helperService = HelperService.helperFactory();
 
         $scope.postDataPromise = PostService.getPost($stateParams.id).then((post) => {
             $scope.post = post.data;
             // Form Fields, pass in the tags model
-            $scope.postFormFields = $scope.formlyDataService.getFormlyDataModel($scope.post[0].tags);
+            $scope.postFormFields = formlyDataService.getFormlyDataModel($scope.post[0].tags);
             return post.data;
         });
 
@@ -34,7 +31,9 @@ class EditPostController {
                 url: "/api/files/upload",
                 previewTemplate: previewTemplate,
                 maxFilesize: 9000000,
-                paramName: "attachedFile",
+                paramName: () => {
+                    return "attachedFile";
+                },
                 maxThumbnailFilesize: 5,
                 autoProcessQueue: true,
                 uploadMultiple: true,
@@ -42,10 +41,6 @@ class EditPostController {
                 maxFiles: 5,
                 thumbnailWidth: "150",
                 addRemoveLinks: true,
-                accept: function (file, done) {
-                    file.customData = {};
-                    return done();
-                },
                 init: function (file, done) {
                     let _dropzoneInstance = this;
                     $scope.postDataPromise.then((postData) => {
@@ -56,7 +51,10 @@ class EditPostController {
                                     size: postData[0].attachment[index].size
                                 };
                                 _dropzoneInstance.options.addedfile.call(_dropzoneInstance, mockFile);
-                                _dropzoneInstance.createThumbnailFromUrl(mockFile, ASSETS_FOLDER + mockFile.name);
+                                _dropzoneInstance.createThumbnailFromUrl(mockFile, postData[0].attachment[index].url, null, 'anonymous');
+                                // this is required when you mark/un-mark an image as hero
+                                let checkBoxElement = mockFile.previewTemplate.querySelector('.hero-checkbox');
+                                checkBoxElement.setAttribute('data-filename', mockFile.name);
                                 $compile($(mockFile.previewTemplate))($scope);
                                 if (postData[0].attachment[index].isHero) {
                                     let heroCheckbox = mockFile.previewTemplate.querySelector('.hero-checkbox');
@@ -68,24 +66,21 @@ class EditPostController {
                 }
             },
             eventHandlers: {
-                sending: function (file, xhr, formData) {
-                    // renaming the file before sending
-                    let newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
-                    formData.append("newFileName", newFileName);
-                },
-                success: function (file, response) {
+                success: (file, response) => {
                     $compile($(file.previewTemplate))($scope);
                     // update the form model with the correct filename
-                    file.customData.fileName = response.files[0].filename;
                     let fileNameElement = file.previewTemplate.querySelector('.dz-filename');
-                    fileNameElement.innerHTML = file.customData.fileName;
+                    fileNameElement.innerHTML = response.file.originalname;
+                    // mark an image as a hero
+                    let checkBoxElement = file.previewTemplate.querySelector('.hero-checkbox');
+                    checkBoxElement.setAttribute('data-filename', response.file.originalname);
                     let fileObj = {
-                        name: file.customData.fileName,
+                        name: response.file.originalname,
+                        url: response.file.location,
                         size: file.size,
                         date_created: Date.now(),
                         date_modified: Date.now()
                     };
-
                     $scope.post[0].attachment.push(fileObj);
                     $scope.$digest();
                 },
@@ -93,24 +88,22 @@ class EditPostController {
                     this.removeFile(file);
                 },
                 removedfile: function (file) {
-                    // find what to delete
-                    let fileToDelete = '';
-                    if (!_.isUndefined(file.customData)) {
-                        fileToDelete = file.customData.fileName;
-                    } else {
-                        fileToDelete = file.name;
-                    }
-                    // api call to delete from fs
-                    PostService.deleteFile({
-                        file: fileToDelete
-                    }).then(function (result) {
-                        //todo: winston logging
-                        console.log(result);
+                    // api call to delete from s3
+                    let params = [{'Key': file.name}];
+                    PostService.deleteFile(params).then(function (result) {
+                        if (result.status === 200) {
+                            ngNotify.set($translate.instant('admin.file_deleted_success.message'), {
+                                type: "success"
+                            });
+                        } else {
+                            ngNotify.set($translate.instant('admin.file_deleted_error.message'), {
+                                type: "error"
+                            });
+                        }
                     });
-
                     // update the form model
                     let del = _.where($scope.post[0].attachment, {
-                        name: fileToDelete
+                        name: file.name
                     });
                     $scope.post[0].attachment = _.without($scope.post[0].attachment, del[0]);
                     $scope.$digest();
@@ -119,34 +112,20 @@ class EditPostController {
                 }
             }
         };
-        $scope.makeHero = function (event) {
-            // todo: find a reliable way to get .dz-filename
-            let anchorElement = DomHelperService.findParentBySelector(event.target, '#preview-container');
-            let fileName = anchorElement.querySelector('div.dz-filename').innerText;
-            if (event.target.checked) {
-                _.each($scope.post[0].attachment, function (fileObject, index) {
-                    if (fileObject.name === fileName) {
-                        $scope.post[0].attachment[index].isHero = true;
-                    }
-                });
-            } else {
-                _.each($scope.post[0].attachment, function (fileObject, index) {
-                    if (fileObject.name === fileName) {
-                        $scope.post[0].attachment[index].isHero = false;
-                    }
-                });
-            }
+        $scope.makeHero = event => {
+            let markedPost = _.where($scope.post[0].attachment, {name: event.target.dataset.filename})[0];
+            markedPost.isHero = !!event.target.checked;
         };
 
         // update post
-        $scope.updatePost = function (data, isDraft) {
+        $scope.updatePost = (data, isDraft) => {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
-            $scope.post[0].slug = FriendlyUrlService.createSlug($scope.post[0].title);
+            $scope.post[0].slug = helperService.createSlug($scope.post[0].title);
             $scope.post[0].is_draft = isDraft;
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
-                .then(function (result) {
+                .then((result) => {
                     //todo flash alert
                     $state.go('admin.posts')
                         .then(function () {
@@ -157,37 +136,43 @@ class EditPostController {
                 });
         };
 
-        $scope.deletePost = function (post) {
+        $scope.deletePost = post => {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
-            let promises = [];
-            if(!_.isUndefined(post[0].attachment)) {
-                _.each(post[0].attachment, function (file) {
-                    let promise = PostService.deleteFile({file: file.name});
-                    promises.push(promise);
-                });
-            }
-
-            $q.all(promises).then(function () {
-                PostService.deletePost(post[0]._id)
-                    .then(function () {
-                        $state.go('admin.posts')
-                            .then(function () {
-                                ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
-                                    type: "success"
-                                });
-                            });
-                    }, function (error) {
-                        console.log(error);
+            // delete files
+            if (post[0].attachment.length !== 0) {
+                let fileNames = _.pluck(post[0].attachment, 'name');
+                let params = [];
+                // pass an array of filenames to aws sdk to delete
+                fileNames.map((filename) => {
+                    params.push({
+                        'Key': filename
                     });
-            });
+                });
+                PostService.deleteFile(params)
+                    .then((result) => {
+                        console.log("deletion", result);
+                    });
+            }
+            // delete post
+            PostService.deletePost(post[0]._id)
+                .then(() => {
+                    $state.go('admin.posts')
+                        .then(function () {
+                            ngNotify.set($translate.instant('admin.post_deleted_success.message'), {
+                                type: "success"
+                            });
+                        });
+                }, error => {
+                    console.log(error);
+                });
         };
         // autosave
         let timeout = null;
         let saveUpdates = function () {
             // call to save/upsert as draft
-            $scope.post[0].slug = FriendlyUrlService.createSlug($scope.post[0].title);
+            $scope.post[0].slug = helperService.createSlug($scope.post[0].title);
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
                 .then(function (result) {
                     $scope.autosaveStatus = 'Saved';
@@ -215,6 +200,4 @@ class EditPostController {
 
 }
 
-export
-default
-EditPostController;
+export default EditPostController;

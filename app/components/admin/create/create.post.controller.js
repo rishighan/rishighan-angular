@@ -1,6 +1,7 @@
 import FormlyDataService from "../../../shared/utils/formlydata.service";
-import _ from "underscore";
+import HelperService from "../../../shared/utils/helper.service";
 import previewTemplate from '../dropzone/dropzone-preview.html';
+import _ from "underscore";
 
 class CreatePostController {
     constructor($scope,
@@ -9,11 +10,11 @@ class CreatePostController {
                 $translate,
                 PostService,
                 formlyValidationMessages,
-                FriendlyUrlService,
-                DomHelperService,
                 ngNotify) {
 
         let formlyDataService = FormlyDataService.formlyDataFactory();
+        let helperService = HelperService.helperFactory();
+
         $scope.postFormModel = {
             attachedFile: []
         };
@@ -45,35 +46,29 @@ class CreatePostController {
                 url: FILE_UPLOAD_URL,
                 previewTemplate: previewTemplate,
                 maxFilesize: 9000000,
-                paramName: "attachedFile",
+                paramName: () => {
+                    return "attachedFile";
+                },
                 maxThumbnailFilesize: 5,
                 autoProcessQueue: true,
                 uploadMultiple: true,
                 parallelUploads: 1,
                 maxFiles: 5,
-                addRemoveLinks: true,
-                accept: function (file, done) {
-                    file.customData = {};
-                    return done();
-                }
+                addRemoveLinks: true
             },
             eventHandlers: {
-                sending: function (file, xhr, formData) {
-                    // renaming the file before sending
-                    let newFileName = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[file.name.split('.').length - 1];
-                    formData.append("newFileName", newFileName);
-                },
                 success: function (file, response) {
                     $compile($(file.previewTemplate))($scope);
                     // update the form model with the correct filename
-                    file.customData.fileName = response.files[0].filename;
                     let fileNameElement = document.createElement('div');
                     fileNameElement.className = 'dz-metadata';
-                    fileNameElement.appendChild(document.createTextNode(file.customData.fileName));
-                    file.previewTemplate.appendChild(fileNameElement);
+                    fileNameElement.appendChild(document.createTextNode(response.file.originalname));
+                    let checkBoxElement = file.previewTemplate.querySelector('.hero-checkbox');
+                    checkBoxElement.setAttribute('data-filename', response.file.originalname);
                     let fileObj = {
-                        name: file.customData.fileName,
+                        name: response.file.originalname,
                         size: file.size,
+                        url: response.file.location,
                         date_created: Date.now(),
                         date_modified: Date.now()
                     };
@@ -84,19 +79,23 @@ class CreatePostController {
                     this.removeFile(file);
                 },
                 removedfile: function (file) {
-                    PostService.deleteFile({
-                        file: file.customData.fileName
-                    }).then((result) => {
-                        ngNotify.set($translate.instant('admin.file_deleted_success.message'), {
-                            type: "success"
-                        });
-                    }, (error) => {
-                        // todo: flash alert
+                    // api call to delete from s3
+                    let params = [{'Key': file.name}];
+                    PostService.deleteFile(params).then(function (result) {
+                        if (result.status === 200) {
+                            ngNotify.set($translate.instant('admin.file_deleted_success.message'), {
+                                type: "success"
+                            });
+                        } else {
+                            ngNotify.set($translate.instant('admin.file_deleted_error.message'), {
+                                type: "error"
+                            });
+                        }
                     });
 
                     // update the form model
                     let del = _.where($scope.postFormModel.attachedFile, {
-                        name: file.customData.fileName
+                        name: file.name
                     });
                     $scope.postFormModel.attachedFile = _.without($scope.postFormModel.attachedFile, del[0]);
                     $scope.$digest();
@@ -106,29 +105,15 @@ class CreatePostController {
             }
         };
         $scope.makeHero = function (event) {
-            // todo: find a reliable way to get .dz-filename
-            let anchorElement = DomHelperService.findParentBySelector(event.target, '#preview-container');
-            let fileName = anchorElement.querySelector('div.dz-metadata').innerText;
-            if (event.target.checked) {
-                _.each($scope.postFormModel.attachedFile, function (fileObject, index) {
-                    if (fileObject.name === fileName) {
-                        $scope.postFormModel.attachedFile[index].isHero = true;
-                    }
-                });
-            } else {
-                _.each($scope.postFormModel.attachedFile, function (fileObject, index) {
-                    if (fileObject.name === fileName) {
-                        $scope.postFormModel.attachedFile[index].isHero = false;
-                    }
-                });
-            }
+            let markedPost = _.where($scope.postFormModel.attachedFile, {name: event.target.dataset.filename})[0];
+            markedPost.isHero = !!event.target.checked;
         };
 
         $scope.createPost = function (isDraft) {
             if (isDraft) {
                 $scope.postFormModel.isDraft = isDraft;
             }
-            $scope.postFormModel.slug = FriendlyUrlService.createSlug($scope.postFormModel.title);
+            $scope.postFormModel.slug = helperService.createSlug($scope.postFormModel.title);
             PostService.createPost($scope.postFormModel).then(function () {
                 $state.go('admin.posts').then(function () {
                     if ($scope.postFormModel.isDraft) {
@@ -162,5 +147,4 @@ class CreatePostController {
     }
 }
 
-export
-default CreatePostController;
+export default CreatePostController;
