@@ -5,9 +5,15 @@
         </header>
         <section class="row">
             <!--Posts -->
-            <div class="col-md-8">
+            <div class="col-sm-7">
                 <input placeholder="{{'admin.search_posts.placeholder' | translate }}" ng-model="searchTerm"
                        ng-change="search(pagerDefaults.page, pagerDefaults.pageSize)" class="col-md-8"/>
+            </div>
+            <div class="col-md-4">
+                <p>
+                    21 total posts<br/>
+                    14 drafts
+                </p>
             </div>
             <div paging
                  class="small col-md-12"
