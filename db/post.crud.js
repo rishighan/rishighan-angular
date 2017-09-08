@@ -185,11 +185,14 @@ PostSchema.statics.getStats = function () {
         },
         {
             $group: {
-                _id: {
-                    'tags.id': '$tags.id',
-                    'is_draft': '$is_draft'
-                },
-                count: {$sum: 1}
+                _id: '$tags.id',
+                count: {$sum: 1},
+                'drafts': {
+                    $push: {
+                        'is_draft': '$is_draft',
+                        count: {$sum: 1}
+                    }
+                }
             }
         },
 
