@@ -97,6 +97,14 @@ class PostService {
                 return result;
             });
     }
+
+    getStats() {
+        return this._$http.get('/db/getstats')
+            .then((data) => {
+                console.log(data);
+                return data;
+            })
+    }
 }
 
 export
