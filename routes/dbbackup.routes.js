@@ -9,7 +9,7 @@ router.get('/backup/', (req, res, next) => {
     redis.client.get('mongohost', (err, mongoHost) => {
         backup({
             uri: `mongodb://${ mongoHost }:27017/rishighan`,
-            root: './db_backup',
+            root: '../../../db_backup',
             tar: 'rgbackup.tar',
             callback: function (err) {
                 if (err) {
