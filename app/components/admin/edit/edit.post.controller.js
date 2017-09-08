@@ -141,6 +141,7 @@ class EditPostController {
                 $timeout.cancel(timeout);
             }
             // delete files
+            // todo: refactor this to be synchronous
             if (post[0].attachment.length !== 0) {
                 let fileNames = _.pluck(post[0].attachment, 'name');
                 let params = [];
