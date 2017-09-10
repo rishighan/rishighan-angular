@@ -7,13 +7,17 @@
             <!--Posts -->
             <div class="col-sm-7">
                 <input placeholder="{{'admin.search_posts.placeholder' | translate }}" ng-model="searchTerm"
-                       ng-change="search(pagerDefaults.page, pagerDefaults.pageSize)" class="col-md-8"/>
+                       ng-change="search(pagerDefaults.page, pagerDefaults.pageSize)" class="col-md-9"/>
             </div>
-            <div class="col-md-4">
-                <p>
-                    21 total posts<br/>
-                    14 drafts
-                </p>
+            <div class="col-md-4" cg-busy="{promise:statsPromise,message:'Fetching stats...'}">
+                <h4>
+                    <ng-pluralize count="stats.total"
+                                  when="{'0': 'No posts found.', 'one': '{{stats.total}} post', 'other':'{{stats.total}} total posts'}"></ng-pluralize>
+                </h4>
+                <ng-pluralize count="stats.blogPosts"
+                              when="{'0': 'No blog posts found.', 'one': '{{stats.blogPosts}} blog post', 'other': '{{stats.blogPosts}} blog posts'}"></ng-pluralize>,
+                <ng-pluralize count="stats.drafts"
+                              when="{'0': 'No drafts found.', 'one': '{{stats.drafts}} draft', 'other': '{{stats.drafts}} drafts'}"></ng-pluralize>
             </div>
             <div paging
                  class="small col-md-12"
@@ -22,7 +26,7 @@
                  total="posts.total"
                  paging-action="getMore(page, pageSize)">
             </div>
-            <ul class="col-md-7">
+            <ul class="col-md-7" cg-busy="{promise:postsPromise,message:'Fetching posts...'}">
                 <li ng-repeat="post in posts.docs track by $index">
                     <h3><a ui-sref="admin.edit({id: post._id})">{{post.title}}</a></h3>
                     <h4>{{post.excerpt}}</h4>

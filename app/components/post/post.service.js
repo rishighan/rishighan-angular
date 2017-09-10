@@ -101,11 +101,11 @@ class PostService {
     getStats() {
         return this._$http.get('/db/getstats')
             .then((data) => {
-                console.log(data);
                 return data;
-            })
+            }, (error) => {
+                return error;
+            });
     }
 }
 
-export
-default PostService;
+export default PostService;

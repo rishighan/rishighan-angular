@@ -170,39 +170,23 @@ PostSchema.statics.deletePost = function (id) {
 
 // stats
 PostSchema.statics.getStats = function () {
-    let deferred = Q.defer();
-    this.aggregate(
-        {
-            $match: {'tags.id': {$in: ['Blog']}}
-        },
-        {
-            $unwind: '$tags'
-        },
-        {
-            $match: {
-                'tags.id': {$in: ['Blog']}
-            }
-        },
-        {
-            $group: {
-                _id: '$tags.id',
-                count: {$sum: 1},
-                'drafts': {
-                    $push: {
-                        'is_draft': '$is_draft',
-                        count: {$sum: 1}
-                    }
-                }
-            }
-        },
-
-        (error, data) => {
-            if (error) {
-                return deferred.reject(error);
-            }
-            return deferred.resolve(data);
+    let drafts = this.find({'is_draft': true}).count().exec();
+    let total = this.find({}).count().exec();
+    let blogPosts = this.find({'tags': {$elemMatch: {id: 'Blog'}}}).count().exec();
+    return Q.all([total, drafts, blogPosts])
+        .then((data) => {
+            return {
+                total: data[0],
+                drafts: data[1],
+                blogPosts: data[2]
+            };
+        })
+        .catch((err) => {
+            return err;
+        })
+        .finally((res) => {
+            return res;
         });
-    return deferred.promise;
 };
 
 let Post = mongoose.model('Post', PostSchema);

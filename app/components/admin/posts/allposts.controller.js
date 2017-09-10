@@ -13,6 +13,7 @@ class AllPostsController {
             'filter': 'ga:pagePath=~/post/*',
         };
         $scope.trendingPosts = [];
+        $scope.stats = {};
         $scope.navItems = NavbarService.getNavItems('admin');
         $scope.pagerDefaults = {
             page: 1,
@@ -20,11 +21,15 @@ class AllPostsController {
         };
 
         $scope.searchTerm = '';
-        PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
+        $scope.postsPromise = PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then((posts) => {
                 $scope.posts = posts.data;
             });
-
+        $scope.statsPromise = PostService.getStats()
+            .then((stats) =>{
+            console.log(stats.data);
+                $scope.stats = stats.data;
+            });
         $scope.trendingPostsPromise = AnalyticsService.getAnalytics(analyticsQuery)
             .then((data) => {
                 let formattedResult = AnalyticsService.formatData(data.data.rows);
