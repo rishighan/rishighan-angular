@@ -3,6 +3,7 @@ import homeComponent from './home.component';
 import singleComponent from '../single/single.component';
 import trampolineComponent from '../trampoline/trampoline.component';
 import illustrationsComponent from '../illustrations/illustrations.component';
+import colophonComponent from '../colophon/colophon.component';
 
 let homeModule = angular.module('home', [
     'cgBusy',
@@ -50,7 +51,7 @@ let homeModule = angular.module('home', [
         })
         .state('main.colophon', {
             url: '/colophon',
-            template: '<div></div>',
+            template: '<colophon></colophon>',
             access: {restricted: false}
         });
 })
@@ -58,6 +59,7 @@ let homeModule = angular.module('home', [
 .directive('home', homeComponent)
 .directive('single', singleComponent)
 .directive('trampoline', trampolineComponent)
-.directive('illustrations', illustrationsComponent);
+.directive('illustrations', illustrationsComponent)
+.directive('colophon', colophonComponent);
 
 export default homeModule;
