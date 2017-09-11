@@ -27,7 +27,6 @@ class AllPostsController {
             });
         $scope.statsPromise = PostService.getStats()
             .then((stats) =>{
-            console.log(stats.data);
                 $scope.stats = stats.data;
             });
         $scope.trendingPostsPromise = AnalyticsService.getAnalytics(analyticsQuery)
