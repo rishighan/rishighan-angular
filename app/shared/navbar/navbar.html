@@ -7,8 +7,8 @@
            class="nav-items"
            ui-sref="{{item.stateReference}}"
            analytics-on="click"
-           analytics-event="Navigate to {{item.displayName}}"
-           analytics-category="whatever">{{item.displayName}}</a>
+           analytics-event="Navigated to {{item.displayName}}"
+           analytics-category="Navigation">{{item.displayName}}</a>
     </li>
     <li>
         <a ng-if="nv.isLoggedIn()" ng-click="nv.backupData()" class="nav-items">

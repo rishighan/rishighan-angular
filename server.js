@@ -1,3 +1,6 @@
+// new relic monitoring
+require('newrelic');
+
 // Server config
 let path = require('path');
 const express = require('express');
@@ -9,9 +12,6 @@ let bodyParser = require('body-parser');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const User = require('./db/user.schema');
-
-// new relic monitoring
-require('newrelic');
 
 // redis
 let redis = require('./config/redis.config');
