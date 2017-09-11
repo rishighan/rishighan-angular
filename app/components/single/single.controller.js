@@ -23,7 +23,6 @@ function SingleController($scope,
                 }
             };
             $scope.heroImage = _.where($scope.post.data[0].attachment, {isHero: true});
-
         }, function (error) {
             $scope.heroImage = {};
         });

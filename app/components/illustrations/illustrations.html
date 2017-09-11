@@ -1,7 +1,7 @@
 <section class="col-md-8 post" cg-busy="{promise: illustrationsPromise, message: 'Loading...', backdrop: true}">
     <div ng-repeat="post in posts track by $index" class="illustrations-container">
         <span ng-repeat="illustration in post.attachment track by $index">
-            <img ng-if="illustration.isHero" ng-src="/assets/images/{{illustration.name}}" class="illustrations"/>
+            <img ng-if="illustration.isHero" ng-src="{{::illustration.url}}" class="illustrations img-responsive"/>
         </span>
         <div class="artist-statement">
             <h2>{{::post.title}}</h2>

@@ -187,8 +187,9 @@ textarea {
   .patreon-message {
     color: $lightGray;
     border: 1px solid $lightGray;
+    @include setPointSize($caption);
+    display: inline-flex;
     padding: 3px;
-    margin: 0 0 0 10px;
     clear: both;
   }
   .featured-posts {
@@ -205,10 +206,6 @@ textarea {
   // illustrations
   .illustrations-container {
     margin: 0 0 30px 0;
-
-    .illustration {
-
-    }
   }
   .post-container {
     margin: 490px 0 0 0;
@@ -227,6 +224,21 @@ textarea {
 
     .header-region {
       margin: 10px 0 10px 0;
+
+      .post-details{
+        display: flex;
+        justify-content: flex-start;
+        flex-flow: wrap;
+      }
+      .date-updated {
+        margin-right: 10px;
+        flex: initial;
+      }
+      .patreon-message{
+        flex: none;
+      }
+
+
     }
     .published-date {
       color: #CCC;
@@ -256,6 +268,8 @@ textarea {
     small {
       display: block;
       margin: 5px 0 10px 0;
+      line-height: 1.3em;
+      letter-spacing: 0.02em;
     }
     h2 {
       margin: 0 0 5px 0;

@@ -1,6 +1,6 @@
 <jsonld data-json="jsonLd"></jsonld>
 <div ng-if="heroImage[0].name!== ''">
-    <masthead masthead-image="{{heroImage[0].name}}"></masthead>
+    <masthead masthead-image="{{heroImage[0].url}}"></masthead>
 </div>
 <div class="col-md-9" ng-class="heroImage.length !== 0 ? 'post-offset' : 'post-no-offset'">
     <post post-data="post.data" kind="single"></post>

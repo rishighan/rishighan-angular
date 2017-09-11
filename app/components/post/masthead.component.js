@@ -14,9 +14,10 @@ let mastheadComponent = function () {
         link: function (scope, element, attributes, controller) {
             let masthead = element[0].getElementsByClassName('masthead');
             scope.$watch('mastheadImage', function (newValue, oldValue) {
+                console.log(newValue);
                 if (newValue !== '' && newValue !== oldValue) {
-                    _.each(masthead, function(item){
-                        item.style.backgroundImage = 'url(' + ASSET_FOLDER + encodeURIComponent(scope.mastheadImage) + ')';
+                    _.each(masthead, function (item) {
+                        item.style.backgroundImage = 'url(' + newValue + ')';
                     });
                 }
             });
