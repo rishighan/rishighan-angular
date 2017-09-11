@@ -35,6 +35,7 @@
   "admin.backup_in_progress.message": "Backup Running...",
   "admin.database_backup_successful.message": "Database was successfully backed up",
   "admin.database_backup_error.message": "There was an error backing up the database",
+  "admin.analytics_zero_state.message": "There is no analytics data available yet. This could be because Google Analytics needs time to gather it, or your GA account is misconfigured. Please verify that you entered the correct Account UID in <code>index.html</code> on this line: <code>ga('create', 'UA-account_id-X', 'auto') </code>",
 
   "main.donate_patreon.message": "Please consider supporting me on Patreon",
 

@@ -44,7 +44,6 @@ class AllPostsController {
                     $scope.trendingPosts.push(post[_.keys(post)]);
                 });
             });
-
         // pagination and searching
         $scope.getMore = function (page, pageOffset) {
             PostService.getPosts(page, pageOffset)
