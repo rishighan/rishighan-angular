@@ -253,6 +253,10 @@ textarea {
       }
     }
 
+    small {
+      display: block;
+      margin: 5px 0 10px 0;
+    }
     h2 {
       margin: 0 0 5px 0;
       color: #8D898A;
@@ -266,10 +270,6 @@ textarea {
     h4 {
       font-family: $proximaLightRegular;
       @include setPointSize($subheading2);
-    }
-    .caption {
-      @include setPointSize($caption);
-      font-style: italic;
     }
     pre {
       code {
@@ -297,7 +297,7 @@ textarea {
       @include setPointSize($caption);
     }
 
-    // littlefoot footnote style overrides
+    // littlefoot footnote CSS overrides
     .littlefoot-footnote {
       border-radius: .2em;
       box-shadow: none;
@@ -321,6 +321,14 @@ textarea {
       background: $lighterGray;
       box-shadow: none;
       border: 1px solid $darkerGray;
+    }
+    @media (max-width: 720px) {
+      .littlefoot-footnote .littlefoot-footnote__wrapper {
+        margin: 0 0 0 0%;
+        max-width: 100% !important;
+        transform: none;
+        width: 100%;
+      }
     }
   }
 
