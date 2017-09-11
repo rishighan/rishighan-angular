@@ -10,6 +10,9 @@ const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const User = require('./db/user.schema');
 
+// new relic monitoring
+require('newrelic');
+
 // redis
 let redis = require('./config/redis.config');
 redis.connect();
