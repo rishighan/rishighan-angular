@@ -26,7 +26,6 @@ redis.client.get('logglyconfig', (err, response) => {
 });
 
 // db
-let mongoose = require('mongoose');
 let db = require('./config/database.connection.js');
 
 // routes
