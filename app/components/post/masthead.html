@@ -1,5 +1,11 @@
 <div class="masthead-container">
     <div class="masthead"></div>
     <span class="title col-md-2">
-        <a ui-sref="main.illustration({slug: illustrationSlug})">{{mastheadTitle}}</a></span>
+        <a ui-sref="main.illustration({slug: illustrationSlug})"
+           analytics-on="click"
+           analytics-event="Clicked on {{mastHeadTitle}}"
+           analytics-category="Navigation">
+            {{mastheadTitle}}
+        </a>
+    </span>
 </div>

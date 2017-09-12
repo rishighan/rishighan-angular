@@ -37,6 +37,9 @@ const analyticsRoutes = require('./routes/analytics.routes');
 const mongoBackupRoutes = require('./routes/dbbackup.routes');
 let app = express();
 
+// prerender.io init
+app.use(require('prerender-node').set('prerenderToken', 'ZZzC85AnvsIFUablFyCd'));
+
 // connect to db
 db.connect();
 
