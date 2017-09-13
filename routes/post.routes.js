@@ -112,9 +112,9 @@ router.get('/getarchivedposts', (req, res, next) => {
         res.send(data);
     })
         .catch((err) => {
-            winston.log('error', 'Error fetching archived posts', {errorDetails: err});
+            winston.log('error', 'Error fetching archived posts', { errorDetails: err });
         })
         .done();
-})
+});
 module.exports = router;
 

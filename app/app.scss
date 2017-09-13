@@ -337,9 +337,16 @@ textarea {
       border: 1px solid $darkerGray;
     }
     @media (max-width: 720px) {
+      .littlefoot-footnote{
+        border-radius: 0;
+        border: 0 none;
+      }
       .littlefoot-footnote .littlefoot-footnote__wrapper {
-        margin: 0 0 0 0%;
-        max-width: 100% !important;
+        margin: 0 0 0 0;
+        max-width: 100%;
+        border-radius: 0;
+        border-top: 1px solid $darkerGray;
+        padding: 0;
         transform: none;
         width: 100%;
       }
