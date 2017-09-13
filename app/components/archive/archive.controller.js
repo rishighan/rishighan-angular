@@ -13,8 +13,8 @@ class ArchiveController {
         this.$_PostService.getArchivedPosts()
             .then((posts) => {
                 let data = this.$_filter(posts.data, '_id.year');
-                for(let key in data) {
-                    data[key] = this.$_filter(data[key], '_id.month');
+                for(let year in data) {
+                    data[year] = this.$_filter(data[year], '_id.month');
                 }
                 this.setArchivedPosts(data);
             });

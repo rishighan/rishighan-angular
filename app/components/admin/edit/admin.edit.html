@@ -28,7 +28,7 @@
                                 {{'admin.archive_post.button' | translate }}
                             </button>
                             <button class="btn btn-default" type="submit"
-                                    ng-click="updatePost(post, {isArchived: true})"
+                                    ng-click="updatePost(post, {isArchived: false})"
                                     ng-if="post[0].is_archived"
                                     ng-disabled="form.$invalid">
                                 {{'admin.unarchive_post.button' | translate }}
