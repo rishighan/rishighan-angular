@@ -195,23 +195,10 @@ PostSchema.statics.getStats = function () {
 PostSchema.statics.getArchivedPosts = function () {
     let deferred = Q.defer();
     this.aggregate(
-        {
-            $match: {'is_archived': true }
-        },
-        {
-            $group: {
-                _id: {
-                    id: '$_id',
-                    title: '$title',
-                    publishedDate: '$date_created'
-                }
-            }
-        },
-        {
-            $sort: {
-                date_created: -1
-            }
-        },
+        {$match: {'is_archived': true}},
+        {$project: {day: {$substr: ['$date_created', 0, 10]}}},
+        {$group: {_id: "$day", number: {$sum: 1}}},
+        {$sort: {_id: 1}},
         (err, data) => {
             if (err) {
                 deferred.reject(err);
