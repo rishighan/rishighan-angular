@@ -191,6 +191,35 @@ PostSchema.statics.getStats = function () {
         });
 };
 
+// get archived posts
+PostSchema.statics.getArchivedPosts = function () {
+    let deferred = Q.defer();
+    this.aggregate(
+        {
+            $match: {'is_archived': true }
+        },
+        {
+            $group: {
+                _id: {
+                    id: '$_id',
+                    title: '$title',
+                    publishedDate: '$date_created'
+                }
+            }
+        },
+        {
+            $sort: {
+                date_created: -1
+            }
+        },
+        (err, data) => {
+            if (err) {
+                deferred.reject(err);
+            }
+            deferred.resolve(data);
+        });
+    return deferred.promise;
+};
 let Post = mongoose.model('Post', PostSchema);
 
 module.exports = Post;

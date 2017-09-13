@@ -105,5 +105,16 @@ router.get('/getstats', (req, res, next) => {
         })
         .done();
 });
+
+router.get('/getarchivedposts', (req, res, next) => {
+    let promise = Post.getArchivedPosts();
+    promise.then((data) => {
+        res.send(data);
+    })
+        .catch((err) => {
+            winston.log('error', 'Error fetching archived posts', {errorDetails: err});
+        })
+        .done();
+})
 module.exports = router;
 
