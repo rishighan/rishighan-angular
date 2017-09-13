@@ -15,8 +15,7 @@
                                   when="{'0': 'No posts found.', 'one': '{{stats.total}} post', 'other':'{{stats.total}} total posts'}"></ng-pluralize>
                 </h4>
                 <ng-pluralize count="stats.blogPosts"
-                              when="{'0': 'No blog posts found.', 'one': '{{stats.blogPosts}} blog post', 'other': '{{stats.blogPosts}} blog posts'}"></ng-pluralize>
-                ,
+                              when="{'0': 'No blog posts found.', 'one': '{{stats.blogPosts}} blog post', 'other': '{{stats.blogPosts}} blog posts'}"></ng-pluralize>,
                 <ng-pluralize count="stats.drafts"
                               when="{'0': 'No drafts found.', 'one': '{{stats.drafts}} draft', 'other': '{{stats.drafts}} drafts'}"></ng-pluralize>
             </div>
@@ -34,10 +33,11 @@
                     <div>
                         <small>{{post.date_created | date: "dd MMMM, yyyy" }}</small>
                     </div>
-                    <span class="label label-default" ng-if="post.is_draft">Draft</span>
+                    <span class="label label-warning" ng-if="post.is_archived">{{ 'admin.archived.label' | translate }}</span>
+                    <span class="label label-default" ng-if="post.is_draft">{{ 'admin.draft.label' | translate }}</span>
                     <span ng-repeat="tag in post.tags track by $index">
-                            <span class="label label-info">{{tag.id}}</span>
-                        </span>
+                        <span class="label label-info">{{tag.id}}</span>
+                    </span>
                 </li>
             </ul>
 

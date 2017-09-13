@@ -16,22 +16,45 @@
                                 ng-disabled="form.$invalid">
                             {{'admin.delete_post.button' | translate }}
                         </button>
-                        <button class="btn btn-primary pull-right" type="submit" ng-click="updatePost(post)"
-                                ng-disabled="form.$invalid || form.$pristine">{{'admin.save_changes.button' |translate}}
-                        </button>
-                        <button class="btn btn-default" type="submit" ng-click="updatePost(post, true)"
-                                ng-if="!post[0].is_draft" ng-disabled="form.$invalid">
-                            {{'admin.save_as_draft.button' | translate }}
-                        </button>
-                        <button class="btn btn-default" type="submit" ng-click="updatePost(post, false)"
-                                ng-if="post[0].is_draft" ng-disabled="form.$invalid">
-                            {{'admin.unmark_draft.button' | translate }}
-                        </button>
+                        <div class="btn-group pull-right">
+                            <!-- archive -->
+                            <button class="btn btn-default" type="submit"
+                                    ng-click="updatePost(post, {isArchived: true})"
+                                    ng-if="!post[0].is_archived"
+                                    ng-disabled="form.$invalid">
+                                {{'admin.archive_post.button' | translate }}
+                            </button>
+                            <button class="btn btn-default" type="submit"
+                                    ng-click="updatePost(post, {isArchived: true})"
+                                    ng-if="post[0].is_archived"
+                                    ng-disabled="form.$invalid">
+                                {{'admin.unarchive_post.button' | translate }}
+                            </button>
+                            <!-- draft -->
+                            <button class="btn btn-default" type="submit"
+                                    ng-click="updatePost(post, {isDraft: true})"
+                                    ng-if="!post[0].is_draft"
+                                    ng-disabled="form.$invalid">
+                                {{'admin.save_as_draft.button' | translate }}
+                            </button>
+                            <button class="btn btn-default" type="submit"
+                                    ng-click="updatePost(post, {isDraft: false})"
+                                    ng-if="post[0].is_draft"
+                                    ng-disabled="form.$invalid">
+                                {{'admin.unmark_draft.button' | translate }}
+                            </button>
+                            <!-- save changes -->
+                            <button class="btn btn-primary" type="submit"
+                                    ng-click="updatePost(post)"
+                                    ng-disabled="form.$invalid || form.$pristine">
+                                {{'admin.save_changes.button' |translate}}
+                            </button>
+                        </div>
                     </div>
                 </formly-form>
             </form>
-            <pre>{{post | json}}</pre>
-            <script type="text/ng-template" id="ui-select-multiple.html">
+            <pre class="margin20">{{post | json}}</pre>
+                <script type="text/ng-template" id="ui-select-multiple.html">
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <ui-select multiple tagging="to.tagTransform" tagging-tokens=";|,|/"
@@ -50,6 +73,7 @@
                     </div>
                 </div>
             </script>
+
             <script type="text/ng-template" id="error-messages.html">
                 <formly-transclude></formly-transclude>
                 <div class="my-messages" ng-messages="fc.$error" ng-if="fc.$touched">

@@ -8,7 +8,7 @@
                 <div dropzone="dropzoneConfig" class="well clearfix margin20">
                     <span class="clearfix"><h5>{{'admin.drag_and_drop.message' | translate }}</h5></span>
                 </div>
-                <div class="margin20">
+                <div class="btn-group margin20">
                     <button class="btn btn-primary" type="submit" ng-click="createPost()"
                             ng-disabled="form.$invalid">{{ 'admin.save_publish_post.button' | translate }}
                     </button>
@@ -18,9 +18,7 @@
                 </div>
             </formly-form>
         </form>
-        <p>
-        <pre>{{postFormModel | json}}</pre>
-        </p>
+        <pre class="margin20">{{postFormModel | json}}</pre>
         <script type="text/ng-template" id="ui-select-multiple.html">
             <div class="row">
                 <div class="col-md-6 form-group">

@@ -18,6 +18,7 @@ PostSchema.statics.createPost = function (data) {
         attachment: data.attachedFile,
         is_draft: data.isDraft,
         is_sticky: data.isSticky, // <- TODO
+        is_archived: data.isArchived,
         content: data.content,
         excerpt: data.excerpt,
     }, (error, data) => {
@@ -58,7 +59,7 @@ PostSchema.statics.getPostsByTagName = function (tagName, pageOffset, pageLimit)
         page: parseInt(pageOffset, 10) || 1,
         limit: parseInt(pageLimit, 10) || 5
     };
-    let query = {tags: {$elemMatch: {id: tagName}}, is_draft: false};
+    let query = {tags: {$elemMatch: {id: tagName}}, is_draft: false, is_archived: false};
     this.paginate(query, options,
         (error, data) => {
             if (error) {
@@ -140,6 +141,7 @@ PostSchema.statics.updatePost = function (id, data, upsertValue) {
                 date_updated: new Date(),
                 attachment: updates.attachment,
                 is_draft: updates.is_draft,
+                is_archived: updates.is_archived,
                 content: updates.content,
                 excerpt: updates.excerpt
             }

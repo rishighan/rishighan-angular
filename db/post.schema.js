@@ -19,6 +19,8 @@ let PostSchema = new Schema({
         date_updated: Date
 
     }],
+    is_sticky: Boolean,
+    is_archived: Boolean,
     is_draft: Boolean,
     content: String,
     excerpt: String,

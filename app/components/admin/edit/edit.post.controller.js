@@ -118,12 +118,13 @@ class EditPostController {
         };
 
         // update post
-        $scope.updatePost = (data, isDraft) => {
+        $scope.updatePost = (data, statusData) => {
             if (timeout) {
                 $timeout.cancel(timeout);
             }
             $scope.post[0].slug = helperService.createSlug($scope.post[0].title);
-            $scope.post[0].is_draft = isDraft;
+            $scope.post[0].is_draft = statusData.isDraft || false;
+            $scope.post[0].is_archived = statusData.isArchived || false;
             PostService.updatePost($scope.post[0]._id, $scope.post[0], true)
                 .then((result) => {
                     //todo flash alert
