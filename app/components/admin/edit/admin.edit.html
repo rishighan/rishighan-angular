@@ -1,8 +1,11 @@
 <div class="row">
     <div class="col-md-10">
         <header>
+            <div class="post-details">
+                <h2>{{'admin.edit_posts.header' | translate}} {{post[0].title}}</h2>
+                <small>{{ 'admin.post_updated.message' | translate }}: {{post[0].date_updated | date: "dd MMMM, yyyy h:mm a" }}</small>
+            </div>
             <div ng-if="autosaveStatus" class="full-circle"></div>
-            <h2 class="pull-left">{{'admin.edit_posts.header' | translate}} {{post[0].title}}</h2>
         </header>
 
         <section>

@@ -4,6 +4,8 @@
   "admin.posts.header": "Posts",
   "admin.drafts.header": "Drafts",
   "admin.edit_posts.header": "Editing",
+  "admin.post_published.message": "Published",
+  "admin.post_updated.message": "Updated",
   "admin.add_new_posts.header": "Write Something",
   "admin.search_posts.placeholder": "Search Posts",
   "admin.drag_and_drop.message": "Drag and Drop files here or Click to Upload",
@@ -55,6 +57,8 @@
   "colophon.current_employer.fragment": "Yodle, Inc.",
   "colophon.author_name.fragment": "Rishi Ghan",
   "colophon.website.fragment": "http://rishighan.com",
+
+  "archive.section.header": "Archived Posts",
 
   "work.selected_work.header": "Selected Work",
 

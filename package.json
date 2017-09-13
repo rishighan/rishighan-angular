@@ -73,6 +73,7 @@
     "winston-loggly-bulk": "^2.0.0"
   },
   "dependencies": {
+    "angular-filter": "^0.5.16",
     "aws-sdk": "^2.108.0",
     "ejs": "^2.4.1",
     "eslint": "^3.12.2",

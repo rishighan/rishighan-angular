@@ -44,7 +44,6 @@ class HomeController {
             "alternateName": "Ninth Muse",
             "url": "http://rishighan.com"
         };
-
     }
 }
 

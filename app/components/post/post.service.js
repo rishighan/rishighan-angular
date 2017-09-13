@@ -98,6 +98,15 @@ class PostService {
             });
     }
 
+    getArchivedPosts() {
+        return this._$http.get('/db/getarchivedposts')
+            .then((data) => {
+                return data;
+            }, (error) => {
+                return error;
+            });
+    }
+
     getStats() {
         return this._$http.get('/db/getstats')
             .then((data) => {
