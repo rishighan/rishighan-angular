@@ -1,5 +1,3 @@
-var OFF = 0, WARN = 1, ERROR = 2;
-
 module.exports = exports = {
     "env": {
         "es6": true,
@@ -102,6 +100,9 @@ module.exports = exports = {
         // Strict Mode - for ES6, never use strict.
         "strict": [ERROR, "never"],
 
+        "parserOptions": {
+            "sourceType": "module"
+        },
         // Variables
         "init-declarations": [ERROR, "always"],
         "no-catch-shadow": WARN,
