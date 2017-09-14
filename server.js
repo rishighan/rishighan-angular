@@ -59,19 +59,11 @@ app.use(session({
     saveUninitialized: true
 }));
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-// catch-all
-app.all('/', (req, res) => {
-    res.sendFile('index.html', {
-        root: path.join(__dirname, './app')
-    });
-});
 
 // mount routes
 app.use('/', fileRoutes);
@@ -80,11 +72,17 @@ app.use('/user', authenticationRoutes);
 app.use('/', analyticsRoutes);
 app.use('/', mongoBackupRoutes);
 
-let publicPath = path.resolve(__dirname, 'public');
-app.use('/bower', express.static(path.resolve(__dirname, 'bower_components')));
-app.use('/dist', express.static(path.resolve(__dirname, 'dist')));
-app.use('/', express.static(path.resolve(__dirname, 'app')));
-app.use('/assets', express.static(path.resolve(__dirname, 'assets')));
+// static routes
+app.use('/bower', express.static(`${__dirname }/bower_components`));
+app.use('/dist', express.static(`${__dirname }/dist`));
+app.use('/assets', express.static(`${__dirname }/assets`));
+app.use('/', express.static(`${__dirname }/app`));
+
+// catch-all
+app.all('/*', (req, res) => {
+    // Just send the index.html for other files to support HTML5Mode
+    res.sendFile('index.html', { root: `${__dirname }/app` });
+});
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');

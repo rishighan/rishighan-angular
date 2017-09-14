@@ -50,7 +50,6 @@
     "angular-paging": "^2.2.2"
   },
   "resolutions": {
-    "d3": "3.5.17",
     "angular": "1.5.8",
     "angular-formly": "8.4.0"
   },

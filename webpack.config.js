@@ -100,7 +100,6 @@ module.exports = {
             'highlightjs': `${BOWER_COMPONENTS_PATH }/highlightjs/highlight.pack.min.js`,
             'github.css': `${BOWER_COMPONENTS_PATH }/highlightjs/styles/atelier-sulphurpool-light.css`,
             'ng-paging': `${BOWER_COMPONENTS_PATH }/angular-paging/dist/paging.min.js`,
-            'd3': `${BOWER_COMPONENTS_PATH}/d3/d3.min.js`
         },
         modules: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
@@ -121,8 +120,7 @@ module.exports = {
             '$': 'jquery',
             'jQuery': 'jquery',
             'window.jQuery': 'jquery',
-            '_': 'underscore',
-            'nvd3': 'nvd3'
+            '_': 'underscore'
         })
     ]
 };

@@ -6,7 +6,7 @@
         <div class="col-md-8" ng-repeat="(year, value) in arc.archivedPosts">
             <h3>{{year}}</h3>
             <div ng-repeat="(month, value2) in value">
-                <h4>{{month}}</h4>
+                <h4>{{month }}</h4>
                 <div ng-repeat="data in value2">
                     <h4 ng-repeat="post in data.archivedPosts">
                         <a ui-sref="main.single({slug: post.slug})">{{post.title}}</a>
