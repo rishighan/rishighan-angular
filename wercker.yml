@@ -24,11 +24,8 @@ deploy:
   steps:
     - npm-install
     - script:
-        name: "install pm2 and webpack"
-        code: "npm i pm2 webpack -g"
-    - script: 
-        name: 'build distribution'
-        code: cd /pipeline/source && webpack --config webpack.config.js
+        name: "install pm2"
+        code: "npm i pm2 -g"
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD

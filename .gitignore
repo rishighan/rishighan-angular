@@ -11,6 +11,7 @@ rgapp.env
 *.p12
 *.aes
 *.docx
+dist
 dist/*.svg
 dist/*.ttf
 
