@@ -17,7 +17,6 @@ class EditPostController {
         $scope.post = {};
         let formlyDataService = FormlyDataService.formlyDataFactory();
         let helperService = HelperService.helperFactory();
-
         $scope.postDataPromise = PostService.getPost($stateParams.id).then((post) => {
             $scope.post = post.data;
             // Form Fields, pass in the tags model

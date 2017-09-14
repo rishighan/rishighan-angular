@@ -8,7 +8,6 @@
     "dist/rgapp.js",
     "tests/unit/**/*.js"
   ],
-  "test_file": "tests/unit-tests.html",
   "debug": true,
   "launch_in_dev": ["PhantomJS", "Chrome"],
   "launch_in_ci": ["PhantomJS"]
