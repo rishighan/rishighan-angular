@@ -17,14 +17,13 @@ describe('HelperService Tests', function () {
     ];
 
     beforeEach(function () {
-        module('app.shared');
+        angular.mock.module('app.shared');
     });
     beforeEach(inject(function (_HelperService_) {
         underTest = _HelperService_;
     }));
 
     it('Given a space delimited string then it should return a hyphenated slug', function () {
-        console.log(underTest);
         var expected = 'the-day-the-earth-stood-still';
         expect(underTest.createSlug(testTitle)).toEqual(expected);
     });
