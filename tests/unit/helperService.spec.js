@@ -17,7 +17,7 @@ describe('HelperService Tests', function () {
     ];
 
     beforeEach(function () {
-        angular.mock.module('app.shared');
+        module('app.shared');
     });
     beforeEach(inject(function (_HelperService_) {
         underTest = _HelperService_;
