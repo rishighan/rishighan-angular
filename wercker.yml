@@ -1,25 +1,8 @@
-# This references the default nodejs container from
-# the Docker Hub: https://registry.hub.docker.com/_/node/
-# If you want Nodesource's container you would reference nodesource/node
-# Read more about containers on our dev center
-# http://devcenter.wercker.com/docs/containers/index.html
 box: 
   id: frishi/docker-node
   username: $DOCKER_USERNAME
   password: $DOCKER_PASSWORD
   tag: 4.2.0
-# This is the build pipeline. Pipelines are the core of wercker
-# Read more about pipelines on our dev center
-# http://devcenter.wercker.com/docs/pipelines/index.html
-
-# You can also use services such as databases. Read more on our dev center:
-# http://devcenter.wercker.com/docs/services/index.html
-# services:
-    # - postgres
-    # http://devcenter.wercker.com/docs/services/postgresql.html
-
-    # - mongo
-    # http://devcenter.wercker.com/docs/services/mongodb.html
 build:
   steps:
     - script:
@@ -35,7 +18,7 @@ build:
           npm i -g bower
           bower i --config.interactive=false --allow-root
     # run tests
-    - npm-test
+    #- npm-test
     - script: 
         name: 'build distribution'
         code: webpack --config webpack.config.js
@@ -45,7 +28,6 @@ deploy:
     - script:
         name: "install pm2"
         code: "npm i pm2 -g"
-   
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
