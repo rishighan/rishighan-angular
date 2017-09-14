@@ -19,12 +19,13 @@ build:
           bower i --config.interactive=false --allow-root
     # run tests
     #- npm-test
-    - script: 
-        name: 'build distribution'
-        code: webpack --config webpack.config.js
+    
 deploy:
   steps:
     - npm-install
+    - script: 
+        name: 'build distribution'
+        code: cd /pipeline/source && webpack --config webpack.config.js
     - script:
         name: "install pm2"
         code: "npm i pm2 -g"
