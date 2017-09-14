@@ -3,7 +3,11 @@
 # If you want Nodesource's container you would reference nodesource/node
 # Read more about containers on our dev center
 # http://devcenter.wercker.com/docs/containers/index.html
-box: frishi/docker-node:4.2.0 
+box: 
+  id: frishi/docker-node
+  username: $DOCKER_USERNAME
+  password: $DOCKER_PASSWORD
+  tag: 4.2.0
 # This is the build pipeline. Pipelines are the core of wercker
 # Read more about pipelines on our dev center
 # http://devcenter.wercker.com/docs/pipelines/index.html
@@ -30,8 +34,6 @@ build:
         code: |
           npm i -g bower
           bower i --config.interactive=false --allow-root
-    #install phantomjs
-    - aussiegeek/install-phantomjs@0.0.4
     # run tests
     - npm-test
     - script: 
