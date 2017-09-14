@@ -1,4 +1,3 @@
-import PostService from '../post/post.service';
 class TrampolineController {
     constructor($scope,
                 PostService) {

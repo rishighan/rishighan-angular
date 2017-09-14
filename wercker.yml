@@ -18,20 +18,20 @@ build:
           npm i -g bower
           bower i --config.interactive=false --allow-root
     # run tests
-    #- npm-test
+    - npm-test
     
 deploy:
   steps:
     - npm-install
     - script:
         name: "install pm2"
-        code: "npm i pm2 -g"
+        code: "npm i pm2 webpack -g"
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "8080"
-      cmd: '/bin/bash -c "cd /pipeline/source && pm2 start --no-daemon --env production rgapp-pm2.json"'
+      cmd: '/bin/bash -c "cd /pipeline/source && webpack --config webpack.config.js && pm2 start --no-daemon --env production rgapp-pm2.json"'
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
