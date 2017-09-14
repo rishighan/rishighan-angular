@@ -32,7 +32,7 @@ build:
           bower i --config.interactive=false --allow-root
     - script:
        name: "install phantomjs globally"
-       code: "npm i phantomjs -g"
+       code: "sudo npm i phantomjs -g"
     # run tests
     - npm-test
     - script: 
