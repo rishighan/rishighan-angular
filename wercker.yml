@@ -21,7 +21,7 @@ build:
     #- npm-test
     - script: 
         name: 'build distribution'
-        code: which webpack --config webpack.config.js
+        code: webpack --config webpack.config.js
 deploy:
   steps:
     - npm-install
