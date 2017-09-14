@@ -17,35 +17,34 @@ box: node
     # - mongo
     # http://devcenter.wercker.com/docs/services/mongodb.html
 build:
-  # The steps that will be executed on build
-  # Steps make up the actions in your pipeline
-  # Read more about steps on our dev center:
-  # http://devcenter.wercker.com/docs/steps/index.html
   steps:
-    # A step that executes `npm install` command
+    - script:
+        name: echo nodejs information
+        code: |
+          echo "node version $(node -v) running"
+          echo "npm version $(npm -v) running"
+    # install deps
     - npm-install
     - script:
         name: bower install
         code: |
           npm i -g bower
           bower i --config.interactive=false --allow-root
-    # A step that executes `npm test` command
-    - npm-test
-
-    # A custom script step, name value is used in the UI
-    # and the code value contains the command that get executed
     - script:
-        name: echo nodejs information
-        code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
-
+       name: "install phantomjs globally"
+       code: "npm i phantomjs -g"
+    # run tests
+    - npm-test
+    - script: 
+        name: 'build distribution'
+        code: webpack --config webpack.config.js
 deploy:
   steps:
     - npm-install
     - script:
         name: "install pm2"
-        code: "npm i -g pm2"
+        code: "npm i pm2 -g"
+   
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD

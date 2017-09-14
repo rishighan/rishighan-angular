@@ -56,7 +56,7 @@
     "ng-annotate-loader": "0.0.10",
     "node-sass": "^3.3.3",
     "passport-http": "^0.3.0",
-    "phantomjs": "^2.1",
+    "phantomjs": "^2.1.1",
     "polyfill-function-prototype-bind": "0.0.1",
     "protractor": "2.x",
     "q": "^1.4.1",
