@@ -16,7 +16,8 @@
       },
       "env_production": {
         "REDIS_HOST": "165.227.188.69",
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "S3_BUCKET_NAME": "rishighan"
       }
     }
   ]
