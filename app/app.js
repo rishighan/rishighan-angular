@@ -20,7 +20,8 @@ module.exports = angular.module('rgApp', [
         },
         'preferredLocale': 'en_US'
     })
-    .config(function ($translateProvider, $analyticsProvider) {
+    .config(function ($translateProvider, $analyticsProvider, $locationProvider) {
+        $locationProvider.hashPrefix('!');
         $translateProvider.useStaticFilesLoader({
             prefix: '/locale/locale-',
             suffix: '.json'
