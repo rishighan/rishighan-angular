@@ -15,8 +15,11 @@ build:
     - script:
         name: bower install
         code: |
-          npm i -g bower
+          npm i -g bower webpack
           bower i --config.interactive=false --allow-root
+    - script:
+        name: "build distribution"
+        code: cd /pipeline/source && $(which webpack) --config webpack.config.json
     # run tests
     - npm-test
     
