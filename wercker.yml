@@ -26,7 +26,7 @@ deploy:
     - script:
         name: "install pm2"
         code: "npm i pm2 webpack -g"
-    - script
+    - script:
         name: "build distribution"
         code: cd /pipeline/source && $(which webpack) --config webpack.config.json
     - internal/docker-push:
