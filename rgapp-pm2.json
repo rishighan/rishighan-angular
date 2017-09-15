@@ -4,6 +4,10 @@
       "name": "rgapp",
       "script": "npm",
       "args" : "start",
+      "env_development":{
+        "S3_BUCKET_NAME": "rishighan",
+        "REDIS_HOST": "165.227.188.69"
+      },
       "env_production": {
         "REDIS_HOST": "165.227.188.69"
       }

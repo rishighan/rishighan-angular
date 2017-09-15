@@ -56,7 +56,7 @@ app.use(cookieParser());
 // session manangement
 app.use(session({
     secret: 'mungidhekunbhaat',
-    store: new redisStore({host: process.env.REDIS_HOST, port:6380, prefix:'chs-sess'}),
+    store: new redisStore({client: redis.client, logErrors: true, ttl: 900}),
     resave: true,
     saveUninitialized: true
 }));
