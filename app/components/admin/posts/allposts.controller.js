@@ -19,7 +19,6 @@ class AllPostsController {
             page: 1,
             pageSize: 5
         };
-
         $scope.searchTerm = '';
         $scope.postsPromise = PostService.getPosts($scope.pagerDefaults.page, $scope.pagerDefaults.pageSize)
             .then((posts) => {

@@ -11,7 +11,7 @@ _Personal website built with AngularJS and MongoDB_
 + Make sure you have MongoDB installed and running on port 27017
 + This project looks up configuration information from Redis.
 + In the terminal, run `REDIS_HOST=<redis host> node server` to start the backend.
-+ Provide AWS credentials for S3 in a credentials file.
++ Provide AWS credentials for S3 in a credentials file, and provide the path to it in `<your-app>-pm2.json`.
 + Run `npm run frontend` to start the frontend; Webpack will watch the files for changes.
 + Access `http://localhost:8080` in the browser.
 
@@ -45,6 +45,7 @@ This project is basically a blog with a homegrown CMS that integrates with Googl
 MongoDB and Redis are deployed independently as Docker containers via Wercker as well.
 The related repos are found here:
 
++ [docker-node](https://github.com/rishighan/docker-node-4.2.3)
 + [mongo-docker](https://github.com/rishighan/mongo-docker)
 + [docker-redis](https://github.com/rishighan/docker-redis)
 

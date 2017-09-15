@@ -6,6 +6,11 @@
       "args" : "start",
       "env_production": {
         "REDIS_HOST": "165.227.188.69"
+      },
+      "env_development": {
+        "AWS_CREDENTIALS_FILE": "/.aws.creds",
+        "MONGO_HOST": "localhost",
+        "REDIS_HOST": "165.227.188.69" 
       }
     }
   ]
