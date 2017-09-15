@@ -19,7 +19,7 @@ build:
           bower i --config.interactive=false --allow-root
     - script:
         name: "build distribution"
-        code: pwd
+        code: webpack --config webpack.config.json
     # run tests
     - npm-test
     
