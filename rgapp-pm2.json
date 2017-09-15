@@ -4,16 +4,6 @@
       "name": "rgapp",
       "script": "npm",
       "args" : "start",
-      "env": {
-        "watch": true,
-        "ignore_watch" : ["node_modules", "assets", "bower_components"],
-        "watch_options": {
-          "followSymlinks": false
-        },
-        "NODE_ENV": "development",
-        "S3_BUCKET_NAME": "rishighan",
-        "REDIS_HOST": "165.227.188.69"
-      },
       "env_production": {
         "REDIS_HOST": "165.227.188.69",
         "NODE_ENV": "production",
