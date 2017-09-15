@@ -26,12 +26,15 @@ deploy:
     - script:
         name: "install pm2"
         code: "npm i pm2 webpack -g"
+    - script
+        name: "build distribution"
+        code: cd /pipeline/source && $(which webpack) --config webpack.config.json
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "8080"
-      cmd: '/bin/bash -c "cd /pipeline/source && webpack --config webpack.config.js && pm2 start --no-daemon --env production rgapp-pm2.json"'
+      cmd: '/bin/bash -c "cd /pipeline/source && pm2 start --no-daemon --env production rgapp-pm2.json"'
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
