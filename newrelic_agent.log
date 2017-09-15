@@ -198,3 +198,7 @@
 {"v":0,"level":30,"name":"newrelic","hostname":"iMac.local","pid":29155,"time":"2017-09-14T22:56:41.687Z","msg":"Starting New Relic for Node.js connection process."}
 {"v":0,"level":30,"name":"newrelic","hostname":"iMac.local","pid":29155,"time":"2017-09-14T22:56:44.545Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/119162/applications/69899394","component":"new_relic_response"}
 {"v":0,"level":30,"name":"newrelic","hostname":"iMac.local","pid":29155,"time":"2017-09-14T22:56:44.546Z","msg":"Connected to collector-217.newrelic.com:443 with agent run ID 300300060766029996.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"Rishis-iMac.local","pid":6968,"time":"2017-09-15T01:41:48.981Z","msg":"Using New Relic for Node.js. Agent version: 2.2.1; Node version: v7.10.1."}
+{"v":0,"level":30,"name":"newrelic","hostname":"Rishis-iMac.local","pid":6968,"time":"2017-09-15T01:41:49.460Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"Rishis-iMac.local","pid":6968,"time":"2017-09-15T01:41:52.060Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/119162/applications/69899394","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"Rishis-iMac.local","pid":6968,"time":"2017-09-15T01:41:52.060Z","msg":"Connected to collector-217.newrelic.com:443 with agent run ID 300915297652075573.","component":"collector_api"}

@@ -19,7 +19,7 @@ build:
           bower i --config.interactive=false --allow-root
     - script:
         name: "build distribution"
-        code: webpack
+        code: webpack --devtool eval
     # run tests
     - npm-test
     
@@ -29,9 +29,6 @@ deploy:
     - script:
         name: "install pm2"
         code: "npm i pm2 webpack -g"
-    - script:
-        name: "build distribution"
-        code: cd /pipeline/source && $(which webpack) --config webpack.config.json
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
