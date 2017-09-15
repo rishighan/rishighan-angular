@@ -9,13 +9,14 @@ _Personal website built with AngularJS and MongoDB_
 + Make sure your node version is at least 7 `nvm i 7` and `nvm use 7`
 + Install dependencies with `npm i` and `bower i`
 + Make sure you have MongoDB installed and running on port 27017
-+ This project looks up configuration information from Redis.
-+ In the terminal, run `REDIS_HOST=<redis host> node server` to start the backend.
-+ Provide AWS credentials for S3 in a credentials file, and provide the path to it in `<your-app>-pm2.json`.
-+ Run `npm run frontend` to start the frontend; Webpack will watch the files for changes.
++ This project looks up configuration information from Redis, you can spin one locally using this [image](https://github.com/rishighan/docker-redis)
++ Define the following keys in your Redis store:
+  + `mongohost` Mongo host IP
+  + `logglyconfig` Loggly JSON configuration 
+  + `googleapi` Google API JSON configuration
++ Provide AWS credentials in `~/.aws/credentials`
++ Start the backend using `pm2 start rgapp-pm2.json --env development`
 + Access `http://localhost:8080` in the browser.
-
-You can also run `REDIS_HOST=<redis host> npm start` to start both the frontend and the backend simultaneously.
 
 ### Unit Tests
 + `npm test` or `testem ci`
