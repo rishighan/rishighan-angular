@@ -6,6 +6,7 @@ let path = require('path');
 const express = require('express');
 let compression = require('compression');
 let session = require('express-session');
+let redisStore = require('connect-redis')(session);
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 
@@ -54,7 +55,8 @@ app.use(cookieParser());
 
 // session manangement
 app.use(session({
-    secret: 'signal',
+    secret: 'mungidhekunbhaat',
+    store: new redisStore({host: process.env.REDIS_HOST,port:6380,prefix:'chs-sess'}),
     resave: true,
     saveUninitialized: true
 }));

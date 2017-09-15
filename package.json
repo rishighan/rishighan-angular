@@ -73,6 +73,7 @@
   "dependencies": {
     "angular-filter": "^0.5.16",
     "aws-sdk": "^2.108.0",
+    "connect-redis": "^3.3.0",
     "eslint": "^3.12.2",
     "googleapis": "^2.1.6",
     "jasmine": "^2.8.0",
