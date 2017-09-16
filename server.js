@@ -1,9 +1,12 @@
 // new relic monitoring
 require('newrelic');
 
+const express = require('express');
+let app = express();
+app.use(require('prerender-node').set('prerenderToken', 'qYb7OMfuxI6i8pQTqJQy').set('prerenderServiceUrl', 'http://prerender.io/'));
+
 // Server config
 let path = require('path');
-const express = require('express');
 let compression = require('compression');
 let session = require('express-session');
 let redisStore = require('connect-redis')(session);
@@ -35,7 +38,6 @@ const fileRoutes = require('./routes/file.routes');
 const authenticationRoutes = require('./routes/authentication.routes');
 const analyticsRoutes = require('./routes/analytics.routes');
 const mongoBackupRoutes = require('./routes/dbbackup.routes');
-let app = express();
 
 // connect to db
 db.connect();
