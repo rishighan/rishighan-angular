@@ -1,0 +1,10 @@
+{
+    "typeAcquisition": {
+        "include": [
+            "underscore",
+            "moment",
+            "highcharts",
+            "express"
+        ]
+    }
+}
