@@ -3,7 +3,7 @@ require('newrelic');
 
 const express = require('express');
 let app = express();
-app.use(require('prerender-node').set('prerenderToken', 'qYb7OMfuxI6i8pQTqJQy').set('prerenderServiceUrl', 'http://prerender.io/'));
+app.use(require('prerender-node').set('prerenderToken', 'qYb7OMfuxI6i8pQTqJQy'));
 
 // Server config
 let path = require('path');
