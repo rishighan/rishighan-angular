@@ -20,5 +20,4 @@ class ArchiveController {
             });
     }
 }
-
 export default ArchiveController;
