@@ -158,7 +158,6 @@ textarea {
   text-align: left;
 }
 
-// POST
 .container {
   .body {
     @include font-smoothing(off);
@@ -175,7 +174,7 @@ textarea {
         text-decoration: none;
       }
     }
-  }
+  } // work
   .project {
     margin: 10px 0 20px 0;
     font-family: $proximaLightRegular;
@@ -185,7 +184,7 @@ textarea {
     border: 1px solid $lightGray;
     @include setPointSize($caption);
     padding: 3px;
-  }
+  } // homepage 
   .featured-posts {
     margin: 0 0 30px 0;
     padding: 0;
@@ -199,13 +198,14 @@ textarea {
     margin: 0 0 30px 0;
   }
   .post-container {
-    margin: 490px 0 0 0;
-  }
+    margin: 500px 0 0 0;
+  } 
   @media only screen and (min-width: 320px) and (max-width: 992px) {
     .post-container {
       margin: 250px auto;
     }
   }
+  // a post
   .post {
     margin: 0 0 40px 0;
     color: $bodyCopyLight;
