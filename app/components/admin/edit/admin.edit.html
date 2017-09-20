@@ -48,7 +48,7 @@
                             </button>
                             <!-- save changes -->
                             <button class="btn btn-primary" type="submit"
-                                    ng-click="updatePost(post)"
+                                    ng-click="updatePost(post, {isDraft: post[0].is_draft, isArchived: post[0].is_archived})"
                                     ng-disabled="form.$invalid || form.$pristine">
                                 {{'admin.save_changes.button' |translate}}
                             </button>

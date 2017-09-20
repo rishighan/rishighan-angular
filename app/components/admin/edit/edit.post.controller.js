@@ -23,7 +23,7 @@ class EditPostController {
             $scope.postFormFields = formlyDataService.getFormlyDataModel($scope.post[0].tags);
             return post.data;
         });
-
+        
         // dropzone config
         $scope.dropzoneConfig = {
             options: {
