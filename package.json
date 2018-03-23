@@ -83,7 +83,6 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "prerender-node": "^2.7.2",
-    "redis": "^2.8.0",
-    "webpack-cli": "^2.0.13"
+    "redis": "^2.8.0"
   }
 }
