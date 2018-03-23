@@ -19,7 +19,7 @@ build:
           bower i --config.interactive=false --allow-root
     - script:
         name: "build distribution"
-        code: webpack --devtool eval
+        code: webpack-cli --devtool eval
     # run tests
     - npm-test
     
