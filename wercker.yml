@@ -15,7 +15,7 @@ build:
     - script:
         name: bower install
         code: |
-          npm i -g bower webpack-cli -D
+          npm i -g bower webpack webpack-cli -D
           bower i --config.interactive=false --allow-root
     - script:
         name: "build distribution"
