@@ -10,8 +10,9 @@ let BUILD = path.resolve(`${__dirname }/dist/`);
 let BOWER_COMPONENTS_PATH = path.resolve(`${__dirname }/bower_components/`);
 let NODE_MODULES_PATH = path.resolve(`${__dirname}/node_modules`);
 
-module.exports = {
+const config = {
     context: APP,
+    mode: 'production',
     entry: {
         rgapp: './core/bootstrap.js'
     },
@@ -22,55 +23,75 @@ module.exports = {
     module: {
         // devtool
         // devtool: 'source-map',
-        rules: [
-            {
+        rules: [{
                 test: /\.js$/,
                 enforce: 'pre',
                 exclude: /node_modules|tests|bower_components/,
-                use: 'jshint-loader'
+                use: [{
+                    loader: "jshint-loader",
+                    options: {
+                        camelcase: true,
+                        emitErrors: false,
+                        failOnHint: false
+                    }
+                }]
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                use: [{ loader: 'style-loader' },
+                    { loader: 'css-loader' }
+                ]
             }, {
                 test: /\.(png|woff|ttf|eot|woff2|svg)$/,
                 use: [{
-                    loader: 'url-loader',
+                    loader: 'file-loader',
                     options: {
                         limit: 8192,
-                        name: '../dist/fonts/[hash].[ext]'
+                        name: '[hash].[ext]',
+                        outputPath: '../dist/fonts/'
                     }
                 }]
             }, {
                 test: /\.scss$/,
-                use: ['style-loader',
-                    'css-loader',
-                    'resolve-url-loader',
-                    `sass-loader?includePaths[]=${ BUILD }/assets/css/`
+                use: [{ loader: 'style-loader' },
+                    { loader: 'css-loader' },
+                    { loader: 'resolve-url-loader' },
+                    {
+                        loader: 'sass-loader',
+                        options: { includePaths: [`${ BUILD }/assets/css/`] }
+                    }
                 ]
-            }, {
+            },
+            {
                 test: /\.js$/,
                 use: [
-                    'ng-annotate-loader',
-                    'jshint-loader',
-                    'babel-loader'],
+                    { loader: 'ng-annotate-loader' },
+                    { loader: 'jshint-loader' },
+                    { loader: 'babel-loader' }
+                ],
                 exclude: /(node_modules|test|bower_components|\.spec\.js)/
-            }, {
+            },
+            {
                 test: /\.html$/,
-                use: 'html-loader'
-            }, {
+                use: { loader: 'html-loader' }
+            },
+            {
                 include: require.resolve(`${BOWER_COMPONENTS_PATH }/ui-select/dist/select.min.js`),
                 use: 'exports-loader?"ui.select"'
-            }, {
+            },
+            {
                 include: require.resolve(`${BOWER_COMPONENTS_PATH }/ng-notify/dist/ng-notify.min.js`),
                 use: 'exports-loader?"ngNotify"'
-            }, {
+            },
+            {
                 include: require.resolve(`${BOWER_COMPONENTS_PATH }/angulartics/dist/angulartics.min.js`),
                 use: 'exports-loader?angulartics'
-            }, {
+            },
+            {
                 include: require.resolve(`${BOWER_COMPONENTS_PATH }/angulartics-google-analytics/dist/angulartics-ga.min.js`),
                 use: 'exports-loader?"angulartics.google.analytics"'
-            }]
+            }
+        ]
     },
     resolve: {
         extensions: ['.js', '.jsx', '.node'],
@@ -103,11 +124,10 @@ module.exports = {
         },
         modules: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
+    optimization: {
+        minimize: true
+    },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            minimize: true,
-            compress: {warnings: true}
-        }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new CompressionPlugin({
             asset: "[path].gz[query]",
@@ -124,3 +144,5 @@ module.exports = {
         })
     ]
 };
+
+module.exports = config;
