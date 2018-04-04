@@ -19,7 +19,7 @@ build:
           bower i --config.interactive=false --allow-root
     - script:
         name: "build distribution"
-        code: webpack-cli --config webpack.config.js
+        code: webpack --mode production
     # run tests
     #- npm-test
     
