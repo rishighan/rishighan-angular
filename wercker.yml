@@ -21,7 +21,7 @@ build:
         name: "build distribution"
         code: webpack --devtool eval
     # run tests
-    - npm-test
+    #- npm-test
     
 deploy:
   steps:
