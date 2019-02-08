@@ -2,7 +2,7 @@ box:
   id: frishi/docker-node
   username: $DOCKER_USERNAME
   password: $DOCKER_PASSWORD
-  tag: 4.2.0
+  tag: latest 
 build:
   steps:
     - script:
