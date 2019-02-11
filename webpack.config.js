@@ -28,15 +28,12 @@ module.exports = {
         // devtool
         // devtool: 'source-map',
         rules: [
-            {
-                test: /\.js$/,
-                enforce: 'pre',
-                exclude: /node_modules|tests|bower_components/,
-                use: 'jshint-loader'
-            },
+            
             {
                 test: /\.css$/,
-                use: ['style-loader', miniCSSExtractPlugin.loader, 'css-loader']
+                use: ['style-loader', 
+                    miniCSSExtractPlugin.loader, 
+                    'css-loader']
             }, {
                 test: /\.(png|woff|ttf|eot|woff2|svg)$/,
                 use: [{
@@ -48,17 +45,30 @@ module.exports = {
                 }]
             }, {
                 test: /\.scss$/,
-                use: ['style-loader',
-                    miniCSSExtractPlugin.loader,
-                    'css-loader',
-                    'resolve-url-loader',
-                    `sass-loader?includePaths[]=${ BUILD }/assets/css/`
+                use: [
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: miniCSSExtractPlugin.loader 
+                    },
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "resolve-url-loader" 
+                    },
+                    { 
+                        loader: "sass-loader",
+                        options: {
+                            includePaths: [`${ BUILD }/assets/css`]
+                        } 
+                    }
                 ]
             }, {
                 test: /\.js$/,
                 use: [
                     'ng-annotate-loader',
-                    'jshint-loader',
                     'babel-loader'],
                 exclude: /(node_modules|test|bower_components|\.spec\.js)/
             }, {
