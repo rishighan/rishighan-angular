@@ -4,6 +4,8 @@
 let webpack = require('webpack');
 let CompressionPlugin = require('compression-webpack-plugin');
 let path = require('path');
+const nodeExternals = require("webpack-node-externals");
+const miniCSSExtractPlugin = require("mini-css-extract-plugin");
 
 let APP = path.resolve(`${__dirname }/app/`);
 let BUILD = path.resolve(`${__dirname }/dist/`);
@@ -12,6 +14,7 @@ let NODE_MODULES_PATH = path.resolve(`${__dirname}/node_modules`);
 
 module.exports = {
     context: APP,
+    mode: "production",
     entry: {
         rgapp: './core/bootstrap.js'
     },
@@ -19,6 +22,8 @@ module.exports = {
         path: BUILD,
         filename: '[name].js'
     },
+    target: 'node',
+    externals: [nodeExternals()],
     module: {
         // devtool
         // devtool: 'source-map',
@@ -31,7 +36,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                use: ['style-loader', miniCSSExtractPlugin.loader, 'css-loader']
             }, {
                 test: /\.(png|woff|ttf|eot|woff2|svg)$/,
                 use: [{
@@ -44,6 +49,7 @@ module.exports = {
             }, {
                 test: /\.scss$/,
                 use: ['style-loader',
+                    miniCSSExtractPlugin.loader,
                     'css-loader',
                     'resolve-url-loader',
                     `sass-loader?includePaths[]=${ BUILD }/assets/css/`
@@ -104,9 +110,8 @@ module.exports = {
         modules: ['assets', 'node_modules', BOWER_COMPONENTS_PATH]
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            minimize: true,
-            compress: {warnings: true}
+        new miniCSSExtractPlugin({
+            filename: 'style.css'
         }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new CompressionPlugin({
