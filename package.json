@@ -71,13 +71,13 @@
     "aws-sdk": "^2.108.0",
     "connect-redis": "^3.3.0",
     "eslint": "^3.12.2",
-    "googleapis": "^2.1.6",
+    "googleapis": "^16.0.0",
     "jasmine": "^2.8.0",
     "multer-s3": "^2.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
-    "prerender-node": "^2.7.2",
+    "prerender-node": "^3.0.0",
     "redis": "^2.8.0"
   }
 }
