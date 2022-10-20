@@ -45,7 +45,7 @@
     "littlefoot": "^1.0.0-alpha.14",
     "mini-css-extract-plugin": "^0.5.0",
     "mongodb-backup": "^1.6.9",
-    "mongoose": "^4.1.9",
+    "mongoose": "^4.13.21",
     "mongoose-paginate": "^5.0.3",
     "multer": "^1.4.1",
     "newrelic": "^5.11.0",
