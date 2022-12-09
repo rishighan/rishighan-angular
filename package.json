@@ -37,7 +37,7 @@
     "cookie-parser": "^1.4.1",
     "css-loader": "^2.1.0",
     "exports-loader": "^0.6.2",
-    "express": "^4.13.3",
+    "express": "^4.17.3",
     "express-session": "^1.13.0",
     "file-loader": "^3.0.1",
     "highcharts": "^7.1.3",
